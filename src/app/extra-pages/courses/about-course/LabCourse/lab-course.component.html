@@ -1,0 +1,163 @@
+
+
+<!-- course-details-area-start -->
+<section class="content course-detalis-area pb-90">
+  <app-breadcrumb breadcrumbTitle="Course details" breadcrumbSubTitle1="courses" breadcrumbSubTitle2="lab course "
+                  breadcrumbImage='url(assets/img/course/jupiter.png)'></app-breadcrumb>
+  <div class="container">
+    <div class="row">
+      <div class=" col-xxl-12 col-xl-12">
+        <div class="course-detalis-wrapper mb-30">
+          <div class="course-heading mb-20">
+            <h2>High Performance Computing Fundamentals</h2>
+            <div class="course-star">
+              <ul>
+                <li><i class="fas fa-star"></i></li>
+              </ul>
+              <ul>
+                <li><i class="fas fa-star"></i></li>
+              </ul>
+              <ul>
+                <li><i class="fas fa-star"></i></li>
+              </ul>
+              <ul>
+                <li><i class="fas fa-star"></i></li>
+              </ul>
+              <ul>
+                <li><i class="fal fa-star"></i></li>
+              </ul>
+              <span>(254 reviews)</span>
+            </div>
+          </div>
+          <div class="course-detelis-meta">
+            <div class="course-meta-wrapper border-line-meta">
+              <div class="course-meta-img">
+                <a [routerLink]="['/instructor-profile']"><img src="assets/img/teacher/saber2.png"
+                                                               alt="course-meta"></a>
+              </div>
+              <div class="course-meta-text">
+                <span>Created by</span>
+                <h6><a [routerLink]="['/instructor-profile']">Dr Saber Feki</a></h6>
+              </div>
+            </div>
+            <div class="course-Enroll border-line-meta">
+              <p>Total Enrolled</p>
+              <span>5,420</span>
+            </div>
+            <div class="course-update border-line-meta">
+              <p>Last Update</p>
+              <span>01 January 2022 </span>
+            </div>
+            <div class="course-category">
+              <p>01 January 2022 </p>
+              <span><a [routerLink]="['/course']">HPC</a></span>
+            </div>
+          </div>
+          <div class="course-description pt-45 pb-30">
+            <div class="course-Description">
+              <h4>Description</h4>
+            </div>
+            <p>The HPC Fundamentals course is an introduction to High Performance Computing (HPC) and its various components. It covers the fundamental concepts of HPC, the architecture of modern CPUs, memory, and networks, as well as the architecture of HPC systems and the applications they are used for.
+
+              The second part of the course focuses on HPC programming, including multi-core programming with OpenMP, programming for distributed systems with MPI, and programming accelerators with OpenACC. These topics will be covered through lectures and lab/demo sessions. The course is designed to provide students with hands-on experience in developing high-performance, parallel applications..</p>
+          </div>
+          <div class="course-learn-wrapper">
+            <div class="course-learn">
+              <div class="course-leranm-tittle">
+                <h4 class="mb-15">Start the course now</h4>
+              </div>
+              <div class="row info-cart-text ">
+                <div class="col-xl-10">
+                  <ul>
+                    <li><i class="fas fa-check"></i>Wait 5-10 minutes for the GPU workstation to launch</li>
+                    <li><i class="fas fa-check"></i>Once the jupiter instance open up, you are now ready to start the lab course</li>
+                    <li><i class="fas fa-check"></i>Please note that you are entitled to a total of 4 sessions, each lasting 1 hour</li>
+                  </ul>
+                </div>
+                <div class=" col-xl-2">
+                  <a  href="javascript:void(0)"><i class="fas fa-play"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="course-requirements pt-45">
+            <h4>Requirements</h4>
+            <div class="course-requirements-text pb-30">
+              <ul>
+                <li>• Basic programming knowledge.</li>
+                <li>• Understanding of computer architecture.</li>
+                <li>• Access to a suitable computer.</li>
+              </ul>
+            </div>
+          </div>
+<!--          instructions-->
+<!--          <div class="course-curriculum pt-40 pb-50">-->
+<!--            <div class="course-curriculam">-->
+<!--              <h4>Instructions</h4>-->
+<!--            </div>-->
+<!--            <ul>-->
+<!--              <li>• Click the "Start" button on the top right of the block above.</li>-->
+<!--              <li>• Wait 5-10 minutes for the GPU workstation to launch</li>-->
+<!--              <li>• Once the jupiter instance open up, you are now ready to start the lab course.</li>-->
+<!--              <li>• Follow the instructions provided within the lab course to complete the tasks and exercises</li>-->
+<!--              <li>• If you encounter any difficulties or issues, please don't hesitate to reach out for support.</li>-->
+
+
+<!--            </ul>-->
+<!--          </div>-->
+          <app-courseinstructor></app-courseinstructor>
+          <app-coursereview></app-coursereview>
+          <div class="col-xl-12">
+            <div class="course-review-btn pb-5">
+              <a id="show-review-box" class="edu-btn " href="javascript:void(0)" (click)=writeReview()>Write a
+                Review</a>
+
+              <div id="review-box" class="review-comment mt-45" [class.d-block]="writeReviewActive">
+                <div class="comment-title mb-20">
+                  <p>Your email address will not be published. Required fields are marked *
+                  </p>
+                </div>
+                <div class="comment-rating mb-20">
+                  <span>Overall ratings</span>
+                  <ul>
+                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                    <li><a href="#"><i class="fas fa-star"></i></a></li>
+                    <li><a href="#"><i class="fal fa-star"></i></a></li>
+                  </ul>
+                </div>
+                <div class="comment-input-box mb-15">
+                  <form action="#">
+                    <div class="row">
+                      <div class="col-xxl-12">
+                                                <textarea placeholder="Your review"
+                                                          class="comment-input comment-textarea mb-20"></textarea>
+                      </div>
+                      <div class="col-xxl-6">
+                        <div class="comment-input mb-20">
+                          <input type="text" placeholder="Your Name">
+                        </div>
+                      </div>
+                      <div class="col-xxl-6">
+                        <div class="comment-input mb-20">
+                          <input type="email" placeholder="Your Email">
+                        </div>
+                      </div>
+                      <div class="col-xxl-12 ">
+                        <div class="comment-submit">
+                          <button type="submit" class="edu-btn">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

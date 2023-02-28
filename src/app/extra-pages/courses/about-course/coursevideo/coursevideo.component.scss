@@ -1,0 +1,47 @@
+//course video style
+@import 'src/assets/scss/custom-palettes.scss';
+
+.course-video-popup {
+    .modal-header {
+        padding: 0;
+        border: 0px;
+    }
+    iframe {
+        width: 100%;
+        height: 450px;
+        @media #{$md,$sm,$xs} {
+           height: 100%;
+           min-height: 300px;
+        }
+    }
+    .modal-dialog {
+        max-width: 700px;
+        @media #{$md} {
+            max-width: 500px;
+         }
+         @media #{$sm} {
+            max-width: 450px;
+         }
+         @media #{$xs} {
+            max-width: 100%;
+         }
+    }
+    .modal-body {
+        padding: 0px;
+    }
+    .modal-content {
+        background-color: transparent;
+        border: none;
+    }
+    .modal-header .btn-close {
+        margin: 0;
+        background-color: #fff;
+        margin-left: auto;
+        margin-right: -32px;
+        margin-bottom: -32px;
+        @media #{$xs} {
+            margin-right: 0px;
+            margin-bottom: 0px;
+         }
+    }
+}

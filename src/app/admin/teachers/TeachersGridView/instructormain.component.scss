@@ -1,0 +1,129 @@
+// merber-area
+@import 'src/assets/scss/custom-palettes.scss';
+
+.member-social {
+	ul {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		li {
+			display: inline-block;
+			a {
+				display: inline-block;
+				width: 36px;
+				height: 36px;
+				line-height: 36px;
+				font-size: 13px;
+				text-align: center;
+				border: 1px solid $border;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+				color: #a6b9cc;
+				@include transform(0.3s);
+				&:hover {
+					background: $theme-color;
+					border-color: $theme-color;
+					color: $white;
+				}
+			}
+		}
+	}
+}
+.member-main-wrapper {
+	box-shadow: 0px 10px 40px rgba(28, 51, 84, 0.08);
+	background-color: white;
+	border-radius: 8px;
+	border: 1px solid $border;
+}
+.member-item .member-thumb {
+	margin-bottom: 20px;
+	width: 150px;
+	height: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+	border-radius: 50%;
+}
+.member-thumb {
+	img {
+		transition: all 1.5s cubic-bezier(0, 0, 0.2, 1);
+	}
+}
+.member-item:hover .member-thumb img {
+	transform: scale3d(1.1, 1.1, 1.1);
+}
+.member-content {
+	span {
+		margin-bottom: 0px;
+		display: block;
+		font-weight: 400;
+	}
+	h4 {
+		font-size: 22px;
+		font-weight: 700;
+		margin-bottom: 5px;
+	}
+}
+.member-body {
+	border-bottom: 1px solid $border;
+}
+.member-item {
+	padding: 30px 30px 30px 30px;
+	@media #{$xl} {
+		padding: 30px 20px 30px 20px;
+	}
+}
+.member-meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 30px;
+	@media #{$xl} {
+		padding: 10px 15px;
+		flex-wrap: wrap;
+	}
+}
+.member-reating {
+	i {
+		margin-right: 6px;
+		color: $theme-color-2;
+		font-size: 13px;
+	}
+}
+.member-course {
+	i {
+		margin-right: 10px;
+		font-size: 15px;
+	}
+}
+
+.course-drop-inner {
+  position: relative;
+  &:after {
+    position: absolute;
+    content: '';
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    transform: rotate(45deg);
+    width: 10px;
+    height: 15px;
+    right: 20px;
+    top: 15px;
+  }
+  select {
+    color: #575757;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    width: 180px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 0px 20px;
+    border-radius: 4px;
+    outline: 0;
+    display: inline-block;
+    font-size: 14px;
+  }
+}

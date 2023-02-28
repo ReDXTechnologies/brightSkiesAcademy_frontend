@@ -1,0 +1,101 @@
+<section class="content">
+  <app-breadcrumb breadcrumbImage='url(assets/img/bg/settings.avif)' breadcrumbTitle="Settings" breadcrumbSubTitle1="admin" breadcrumbSubTitle2="account settings">
+  </app-breadcrumb>
+  <div class="content-block">
+    <div class="card">
+      <div class="header">
+        <h2>Security Settings</h2>
+      </div>
+      <div class="body">
+        <div class="example-container">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Current Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>          </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Confirm new Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary">Save</button>
+      </div>
+    </div>
+<!--    <div class="card">-->
+<!--      <div class="header">-->
+<!--        <h2>Account Settings</h2>-->
+<!--      </div>-->
+<!--      <div class="body">-->
+<!--        <div class="row clearfix">-->
+<!--          <div class="col-lg-6 col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>First Name</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-6 col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Last Name</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-4 col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>City</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-4 col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Email</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-lg-4 col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Country</mat-label>-->
+<!--                <input matInput>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-12">-->
+<!--            <div class="form-group">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Address</mat-label>-->
+<!--                <textarea matInput></textarea>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-12">-->
+<!--            <button mat-raised-button color="primary">Save Changes</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</section>

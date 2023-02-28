@@ -1,0 +1,949 @@
+<!-- portfolio main area start  -->
+<section class="content ">
+  <app-breadcrumb breadcrumbImage='url(assets/images/user/courses.jpg)' breadcrumbSubTitle1="teacher" breadcrumbSubTitle2="courses"
+                  breadcrumbTitle="My Courses"></app-breadcrumb>
+
+  <div class="container course-area p-relative pt-40 pb-90">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="portfolio-button ">
+          <mat-tab-group [@.disabled]="true">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <button class="active">View All</button>
+              </ng-template>
+              <div class="portfolio-course-body mt-5">
+                <div class="row grid course-main-items">
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-2">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-1"><a [routerLink]="['/shared/course-details']">Development</a></span>
+                            <a [routerLink]="['/shared/course-details']">
+                              <h3>WordPress Development Course for Plugins &amp;
+                                Themes</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>Knowledge is power. Information is liberating. Education is the premise of
+                                progress, in every society, in every family</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i>Scratch to HTML</li>
+                                <li><i class="fas fa-check"></i>Learn how to code in Python</li>
+                                <li><i class="fas fa-check"></i>Unlimited backend database creation</li>
+                                <li><i class="fas fa-check"></i>Adobe XD Tutorials</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/academi-course-2.jpg"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-1">Development</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/course-details']">WordPress Development Course for Plugins
+                            &amp; Themes</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">$47.00 </span>
+                            <del class="price-old">$75.50</del>
+                          </div>
+                          <div class="eduman-course-tutor"><img alt="image not found"
+                                                                src="assets/img/portfilo/course-tutor-01.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Danial</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboar09" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_01"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-3">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-3"><a
+                              [routerLink]="['/course']">Business</a></span>
+                            <a [routerLink]="['/shared/course-details']">
+                              <h3>Write Better Emails: Tactics for Smarter Team
+                                Communication</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>Knowledge is power. Information is liberating. Education is the premise of
+                                progress, in every society, in every family</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i>Scratch to HTML</li>
+                                <li><i class="fas fa-check"></i>Learn how to code in Python</li>
+                                <li><i class="fas fa-check"></i>Unlimited backend database creation</li>
+                                <li><i class="fas fa-check"></i>Adobe XD Tutorials</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/academi-course-3.jpg"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">Business</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/course-details']">Write Better Emails: Tactics for Smarter Team
+                            Communication</a></h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/portfilo/course-tutor-03.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Junior Lucy</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing fundamentals</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                              src="assets/img/course/HPC.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-5">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing
+                            fundamentals</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-13" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_000"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">5 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/Lab-course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-2">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing OpenMP</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                              src="assets/img/course/openMP.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing OpenMP</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/Lab-course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-4">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing OpenACC</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/openACC.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing OpenACC</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/Lab-course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-3">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing MPI</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a class="c-share-btn"><i
+                                class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/mpi.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing MPI</a></h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/Lab-course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <button>Labs<span class="port-red">[01]</span></button>
+              </ng-template>
+              <div class="portfolio-course-body mt-5">
+                <div class="row grid course-main-items">
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing fundamentals</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                              src="assets/img/course/HPC.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-5">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing
+                            fundamentals</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-13" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_000"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">5 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/Lab-course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-2">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing OpenMP</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                              src="assets/img/course/openMP.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing OpenMP</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-4">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing OpenACC</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/openACC.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing OpenACC</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-3">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a [routerLink]="['/course']">HPC</a></span>
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                              <h3>High performance computing MPI</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>This course offers valuable skills and knowledge in the field of High Performance
+                                Computing, unlocking the potential to tackle complex problems and drive innovation.</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i> Fundamental Concepts</li>
+                                <li><i class="fas fa-check"></i> Modern CPU, Memory, Networks Architectures</li>
+                                <li><i class="fas fa-check"></i>U HPC and AI Systems Architecture</li>
+                                <li><i class="fas fa-check"></i>HPC and AI Applications</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/mpi.png"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">HPC</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/Lab-course-details']">High performance computing MPI</a></h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/teacher/saber.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <button>Tutorials<span class="port-red">[03]</span></button>
+              </ng-template>
+              <div class="portfolio-course-body mt-5">
+                <div class="row grid course-main-items">
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-2">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-1"><a [routerLink]="['/shared/course-details']">Development</a></span>
+                            <a [routerLink]="['/shared/course-details']">
+                              <h3>WordPress Development Course for Plugins &amp;
+                                Themes</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>Knowledge is power. Information is liberating. Education is the premise of
+                                progress, in every society, in every family</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="fas fa-check"></i>Scratch to HTML</li>
+                                <li><i class="far fa-check"></i>Learn how to code in Python</li>
+                                <li><i class="far fa-check"></i>Unlimited backend database creation</li>
+                                <li><i class="far fa-check"></i>Adobe XD Tutorials</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-detailss']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/academi-course-2.jpg"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-1">Development</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/course-details']">WordPress Development Course for Plugins
+                            &amp; Themes</a>
+                          </h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">$47.00 </span>
+                            <del class="price-old">$75.50</del>
+                          </div>
+                          <div class="eduman-course-tutor"><img alt="image not found"
+                                                                src="assets/img/portfilo/course-tutor-01.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Danial</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboar09" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_01"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-3">
+                    <div class="eduman-course-main-wrapper mb-30">
+                      <div class="course-cart">
+                        <div class="course-info-wrapper">
+                          <div class="cart-info-body">
+                            <span class="category-color category-color-3"><a
+                              [routerLink]="['/course']">Business</a></span>
+                            <a [routerLink]="['/shared/course-details']">
+                              <h3>Write Better Emails: Tactics for Smarter Team
+                                Communication</h3>
+                            </a>
+                            <div class="cart-lavel">
+                              <h5>Level : <span>Beginner</span></h5>
+                              <p>Knowledge is power. Information is liberating. Education is the premise of
+                                progress, in every society, in every family</p>
+                            </div>
+                            <div class="info-cart-text">
+                              <ul>
+                                <li><i class="far fa-check"></i>Scratch to HTML</li>
+                                <li><i class="far fa-check"></i>Learn how to code in Python</li>
+                                <li><i class="far fa-check"></i>Unlimited backend database creation</li>
+                                <li><i class="far fa-check"></i>Adobe XD Tutorials</li>
+                              </ul>
+                            </div>
+                            <div class="course-action">
+                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
+                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
+                                class="fas fa-edit"></i></button>
+                              <a  class="c-share-btn"><i class="fas fa-trash-alt"></i>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-thumb w-img">
+                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
+                                                                          src="assets/img/course/academi-course-3.jpg"></a>
+                      </div>
+                      <div class="eduman-course-wraper">
+                        <div class="eduman-course-heading">
+                          <a [routerLink]="['/course']" class="course-link-color-3">Business</a>
+                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
+                        </div>
+                        <div class="eduman-course-text">
+                          <h3><a [routerLink]="['/shared/course-details']">Write Better Emails: Tactics for Smarter Team
+                            Communication</a></h3>
+                        </div>
+                        <div class="eduman-course-meta">
+                          <div class="eduman-course-price">
+                            <span class="price-now">FREE </span>
+                          </div>
+                          <div class="eduman-course-tutor">
+                            <img alt="image not found" src="assets/img/portfilo/course-tutor-03.png">
+                            <a [routerLink]="['/instructor-profile']"><span>Junior Lucy</span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="eduman-course-footer">
+                        <div class="course-lessson-svg">
+                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <g id="blackboard-11" transform="translate(-0.008)">
+                              <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z" data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_00001"/>
+                            </g>
+                          </svg>
+                          <span class="ms-2">12 Lessons</span>
+                        </div>
+                        <div class="course-deteals-btn">
+                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
+                            class="far fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- portfolio main area end -->
