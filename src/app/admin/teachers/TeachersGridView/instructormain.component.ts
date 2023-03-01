@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {TeacherService} from "../../../core/service/teacher.service";
+import {Teacher} from "../../../core/models/teacher";
 
 @Component({
   selector: 'app-instructormain',
@@ -8,9 +10,18 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class InstructormainComponent implements OnInit {
 
-  constructor() { }
+  teachers: Teacher[] = [];
+
+  constructor(private teacherService: TeacherService) {}
 
   ngOnInit(): void {
+    this.teacherService.getTeachers().subscribe(
+      (teachers: Teacher[]) => {
+        this.teachers = teachers;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
-
 }

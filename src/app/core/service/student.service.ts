@@ -16,6 +16,10 @@ export class StudentService {
     return this.http.get<Student[]>(this.apiUrl);
   }
 
+  launchSession(studentId: string, courseId: number): Observable<any> {
+    const url = `${this.apiUrl}/course/${courseId}/student/${studentId}/launch-session`;
+    return this.http.post<any>(url,{});
+  }
   getStudent(id: number): Observable<Student> {
     const url = `${this.apiUrl}${id}/`;
     return this.http.get<Student>(url);

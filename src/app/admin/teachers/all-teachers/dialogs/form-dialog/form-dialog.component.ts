@@ -1,14 +1,14 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
-import { TeachersService } from '../../teachers.service';
 import {
   UntypedFormControl,
   Validators,
   UntypedFormGroup,
   UntypedFormBuilder,
 } from '@angular/forms';
-import { Teachers } from '../../teachers.model';
 import { formatDate } from '@angular/common';
+import {Teacher} from "../../../../../core/models/teacher";
+import {TeacherService} from "../../../../../core/service/teacher.service";
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -18,11 +18,11 @@ export class FormDialogComponent {
   action: string;
   dialogTitle: string;
   proForm: UntypedFormGroup;
-  teachers: Teachers;
+  teachers: Teacher;
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public teachersService: TeachersService,
+    public teachersService: TeacherService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
@@ -32,7 +32,7 @@ export class FormDialogComponent {
       this.teachers = data.teachers;
     } else {
       this.dialogTitle = 'New Teachers';
-      this.teachers = new Teachers({});
+      this.teachers = new Teacher();
     }
     this.proForm = this.createContactForm();
   }
@@ -50,18 +50,15 @@ export class FormDialogComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.teachers.id],
-      img: [this.teachers.img],
-      name: [this.teachers.name],
+      img: [this.teachers.image],
+      name: [this.teachers.firstName],
       email: [
         this.teachers.email,
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-      date: [
-        formatDate(this.teachers.date, 'yyyy-MM-dd', 'en'),
-        [Validators.required],
-      ],
+
       gender: [this.teachers.gender],
-      mobile: [this.teachers.mobile],
+      mobile: [this.teachers.mobile_phone],
       department: [this.teachers.department],
       degree: [this.teachers.degree],
       uploadFile: [''],
@@ -74,6 +71,6 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.teachersService.addTeachers(this.proForm.getRawValue());
+    // this.teachersService.addTeachers(this.proForm.getRawValue());
   }
 }

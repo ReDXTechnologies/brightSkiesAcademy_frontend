@@ -1,57 +1,61 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { StaffService } from './staff.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Staff } from './staff.model';
-import { DataSource } from '@angular/cdk/collections';
-import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
-import { DeleteDialogComponent } from './dialog/delete/delete.component';
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { CourseDetailsComponent } from './form/course-details.component';
+import { DeleteComponent } from './delete/delete.component';
+import {TeacherService} from "../../../core/service/teacher.service";
+import {Course} from "../../../core/models/course";
+import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
+import {Teacher} from "../../../core/models/teacher";
+import {CourseService} from "../../../core/service/course.service";
 
 @Component({
-  selector: 'app-all-staff',
-  templateUrl: './all-staff.component.html',
-  styleUrls: ['./all-staff.component.sass'],
+  selector: 'app-pending-courses',
+  templateUrl: './pending-courses.component.html',
+  styleUrls: ['./pending-courses.component.sass'],
 })
-export class AllstaffComponent
+export class PendingCoursesComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  filterToggle = false;
   displayedColumns = [
     'select',
-    'img',
-    'name',
-    'designation',
-    'mobile',
-    'email',
-    'date',
-    'address',
+    'image',
+    'title',
+    'speciality',
+    'workload',
+    'nbr_of_lessons',
+    'level',
+    'vm_characteristics',
+    'creation_date',
     'actions',
   ];
-  exampleDatabase: StaffService | null;
+  exampleDatabase: CourseService | null;
   dataSource: ExampleDataSource | null;
-  selection = new SelectionModel<Staff>(true, []);
+  selection = new SelectionModel<Course>(true, []);
   id: number;
-  staff: Staff | null;
-  isLoading = true;
+  courses: Course | null;
+
   breadscrums = [
     {
-      title: 'All Staff',
-      items: ['Staff'],
-      active: 'All Staff',
+      title: 'Courses',
+      items: [],
+      active: 'pending courses',
     },
   ];
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public staffService: StaffService,
+    public courseService: CourseService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -69,38 +73,58 @@ export class AllstaffComponent
   refresh() {
     this.loadData();
   }
-  addNew() {
+
+  detailsCall(row) {
     let tempDirection;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(FormDialogComponent, {
+    this.dialog.open(CourseDetailsComponent, {
       data: {
-        staff: this.staff,
-        action: 'add',
+        courses: row,
+        action: 'details',
       },
       direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.exampleDatabase.dataChange.value.unshift(
-          this.staffService.getDialogData()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
-        );
-      }
+      height: '70%',
+      width: '35%',
     });
   }
-  editCall(row) {
+  toggleStar(row) {
+    console.log(row);
+  }
+
+  // reject(row) {
+  //   this.id = row.id;
+  //   let tempDirection;
+  //   if (localStorage.getItem('isRtl') === 'true') {
+  //     tempDirection = 'rtl';
+  //   } else {
+  //     tempDirection = 'ltr';
+  //   }
+  //   const dialogRef = this.dialog.open(DeleteComponent, {
+  //     data: row,
+  //     direction: tempDirection,
+  //   });
+  //   this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+  //     console.log(result)
+  //       const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+  //         (x) => x.id === this.id
+  //       );
+  //       // for delete we use splice in order to remove single object from DataService
+  //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+  //       this.refreshTable();
+  //       this.showNotification(
+  //         'snackbar-danger',
+  //         'Delete Record Successfully...!!!',
+  //         'bottom',
+  //         'center'
+  //       );
+  //
+  //   });
+  // }
+  reject(row) {
     this.id = row.id;
     let tempDirection;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -108,47 +132,49 @@ export class AllstaffComponent
     } else {
       tempDirection = 'ltr';
     }
-    const dialogRef = this.dialog.open(FormDialogComponent, {
-      data: {
-        staff: row,
-        action: 'edit',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        this.exampleDatabase.dataChange.value[foundIndex] =
-          this.staffService.getDialogData();
-        // And lastly refresh table
-        this.refreshTable();
-        this.showNotification(
-          'black',
-          'Edit Record Successfully...!!!',
-          'bottom',
-          'center'
-        );
-      }
-    });
-  }
-  deleteItem(row) {
-    this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       data: row,
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
+        this.courseService.rejectCourse(this.id).subscribe(
+          data => {
+            console.log('Course rejected successfully');
+            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+              (x) => x.id === this.id
+            );
+            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+            this.refreshTable();
+            this.showNotification(
+              'snackbar-danger',
+              'Delete Record Successfully...!!!',
+              'bottom',
+              'center'
+            );
+          },
+          error => {
+            console.error('Error rejecting course:', error);
+            // show error message
+          }
+        );
+      } else {
+        console.log('User clicked "Cancel"');
+      }
+    });
+  }
+
+  approve(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+
+    this.subs.sink = this.courseService.approveCourse(this.id).subscribe((result) => {
+
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.id === this.id
         );
@@ -156,12 +182,12 @@ export class AllstaffComponent
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
         this.showNotification(
-          'snackbar-danger',
-          'Delete Record Successfully...!!!',
-          'bottom',
+          'snackbar-success',
+          'course approved Successfully...!!!',
+          'center',
           'center'
         );
-      }
+
     });
   }
   private refreshTable() {
@@ -191,7 +217,7 @@ export class AllstaffComponent
       // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
-      this.selection = new SelectionModel<Staff>(true, []);
+      this.selection = new SelectionModel<Course>(true, []);
     });
     this.showNotification(
       'snackbar-danger',
@@ -201,7 +227,7 @@ export class AllstaffComponent
     );
   }
   public loadData() {
-    this.exampleDatabase = new StaffService(this.httpClient);
+    this.exampleDatabase = new CourseService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -224,17 +250,8 @@ export class AllstaffComponent
       panelClass: colorName,
     });
   }
-  // context menu
-  onContextMenu(event: MouseEvent, item: Staff) {
-    event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenu.menuData = { item: item };
-    this.contextMenu.menu.focusFirstItem('mouse');
-    this.contextMenu.openMenu();
-  }
 }
-export class ExampleDataSource extends DataSource<Staff> {
+export class ExampleDataSource extends DataSource<Course> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -242,10 +259,10 @@ export class ExampleDataSource extends DataSource<Staff> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Staff[] = [];
-  renderedData: Staff[] = [];
+  filteredData: Course[] = [];
+  renderedData: Course[] = [];
   constructor(
-    public exampleDatabase: StaffService,
+    public exampleDatabase: CourseService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -254,28 +271,25 @@ export class ExampleDataSource extends DataSource<Staff> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Staff[]> {
-    // Listen for any changes in the base data, sorting, filtering, or pagination
+
+  disconnect() {}
+
+  connect(): Observable<Course[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllStaffs();
+    this.exampleDatabase.getPendingCourses();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((staff: Staff) => {
+          .filter((teachers: Course) => {
             const searchStr = (
-              staff.name +
-              staff.designation +
-              staff.email +
-              staff.mobile +
-              staff.date +
-              staff.address
+              teachers.title
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -291,9 +305,8 @@ export class ExampleDataSource extends DataSource<Staff> {
       })
     );
   }
-  disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: Staff[]): Staff[] {
+  sortData(data: Course[]): Course[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -301,24 +314,16 @@ export class ExampleDataSource extends DataSource<Staff> {
       let propertyA: number | string = '';
       let propertyB: number | string = '';
       switch (this._sort.active) {
-        case 'id':
-          [propertyA, propertyB] = [a.id, b.id];
+        case 'title':
+          [propertyA, propertyB] = [a.title, b.title];
           break;
-        case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+        case 'level':
+          [propertyA, propertyB] = [a.level, b.level];
           break;
-        case 'email':
-          [propertyA, propertyB] = [a.email, b.email];
+        case 'speciality':
+          [propertyA, propertyB] = [a.speciality, b.speciality];
           break;
-        case 'date':
-          [propertyA, propertyB] = [a.date, b.date];
-          break;
-        case 'address':
-          [propertyA, propertyB] = [a.address, b.address];
-          break;
-        case 'mobile':
-          [propertyA, propertyB] = [a.mobile, b.mobile];
-          break;
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

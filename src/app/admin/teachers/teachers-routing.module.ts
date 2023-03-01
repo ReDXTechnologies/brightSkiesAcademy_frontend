@@ -20,7 +20,7 @@ const routes: Routes = [
     component: EditTeacherComponent,
   },
   {
-    path: 'about-teacher',
+    path: 'about-teacher/:id',
     component: InstructorpromainComponent,
   },
 ];

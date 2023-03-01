@@ -1,18 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormDialogComponent } from './form-dialog.component';
-describe('FormDialogComponent', () => {
-  let component: FormDialogComponent;
-  let fixture: ComponentFixture<FormDialogComponent>;
+
+import { ContactsComponent } from './pending-courses.component';
+
+describe('ContactsComponent', () => {
+  let component: ContactsComponent;
+  let fixture: ComponentFixture<ContactsComponent>;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FormDialogComponent]
-    }).compileComponents();
+      declarations: [ ContactsComponent ]
+    })
+    .compileComponents();
   }));
+
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormDialogComponent);
+    fixture = TestBed.createComponent(ContactsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

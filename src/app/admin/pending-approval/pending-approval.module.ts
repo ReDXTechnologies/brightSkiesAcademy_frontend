@@ -17,26 +17,26 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
-import { StaffRoutingModule } from './staff-routing.module';
-import { AllstaffComponent } from './all-staff/all-staff.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormDialogComponent } from './all-staff/dialog/form-dialog/form-dialog.component';
-import { DeleteDialogComponent } from './all-staff/dialog/delete/delete.component';
-import { AddStaffComponent } from './add-staff/add-staff.component';
-import { EditStaffComponent } from './edit-staff/edit-staff.component';
-import { AboutStaffComponent } from './about-staff/about-staff.component';
-import { StaffService } from './all-staff/staff.service';
+import { PendingApprovalRoutingModule } from './pending-approval-routing.module';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ComponentsModule } from 'src/app/shared/components/components.module';
-import { SharedModule } from 'src/app/shared/shared.module';
+
+import {DeleteDialogComponent} from "./delete/delete.component";
+import {PendingAccountsComponent} from "./pending-accounts/pending-accounts.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {SharedModule} from "../../shared/shared.module";
+import {ComponentsModule} from "../../shared/components/components.module";
+import {PendingCoursesComponent} from "./contacts/pending-courses.component";
+import {CourseDetailsComponent} from "./contacts/form/course-details.component";
+import {MatCardModule} from "@angular/material/card";
+import {DeleteComponent} from "./contacts/delete/delete.component";
 @NgModule({
   declarations: [
-    AllstaffComponent,
-    FormDialogComponent,
     DeleteDialogComponent,
-    AddStaffComponent,
-    EditStaffComponent,
-    AboutStaffComponent,
+    PendingAccountsComponent,
+    PendingCoursesComponent,
+    CourseDetailsComponent,
+    DeleteComponent
   ],
   imports: [
     CommonModule,
@@ -59,11 +59,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatTabsModule,
     MatTooltipModule,
     MatTableExporterModule,
-    StaffRoutingModule,
+    PendingApprovalRoutingModule,
     MatProgressSpinnerModule,
     ComponentsModule,
     SharedModule,
+    MatCardModule,
   ],
-  providers: [StaffService],
+  providers: [],
 })
-export class StaffModule {}
+export class PendingApprovalModule {}

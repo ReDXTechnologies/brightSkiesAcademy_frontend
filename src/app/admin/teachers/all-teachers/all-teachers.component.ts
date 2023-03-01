@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { TeachersService } from './teachers.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Teachers } from './teachers.model';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
@@ -14,6 +12,8 @@ import { DeleteDialogComponent } from './dialogs/delete/delete.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Teacher} from "../../../core/models/teacher";
+import {TeacherService} from "../../../core/service/teacher.service";
 
 @Component({
   selector: 'app-all-teachers',
@@ -26,32 +26,25 @@ export class AllTeachersComponent
 {
   displayedColumns = [
     'select',
-    'img',
-    'name',
+    'image',
+    'firstName',
+    'lastName',
+    'email',
     'department',
     'gender',
     'degree',
     'mobile',
-    'email',
-    'date',
     'actions',
   ];
-  exampleDatabase: TeachersService | null;
+  exampleDatabase: TeacherService | null;
   dataSource: ExampleDataSource | null;
-  selection = new SelectionModel<Teachers>(true, []);
+  selection = new SelectionModel<Teacher>(true, []);
   id: number;
-  teachers: Teachers | null;
-  breadscrums = [
-    {
-      title: 'All Teacher',
-      items: ['Teacher'],
-      active: 'All Teacher',
-    },
-  ];
+  teachers: Teacher | null;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public teachersService: TeachersService,
+    public teachersService: TeacherService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -191,7 +184,7 @@ export class AllTeachersComponent
       // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
-      this.selection = new SelectionModel<Teachers>(true, []);
+      this.selection = new SelectionModel<Teacher>(true, []);
     });
     this.showNotification(
       'snackbar-danger',
@@ -201,7 +194,7 @@ export class AllTeachersComponent
     );
   }
   public loadData() {
-    this.exampleDatabase = new TeachersService(this.httpClient);
+    this.exampleDatabase = new TeacherService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -225,7 +218,7 @@ export class AllTeachersComponent
     });
   }
   // context menu
-  onContextMenu(event: MouseEvent, item: Teachers) {
+  onContextMenu(event: MouseEvent, item: Teacher) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
@@ -234,7 +227,7 @@ export class AllTeachersComponent
     this.contextMenu.openMenu();
   }
 }
-export class ExampleDataSource extends DataSource<Teachers> {
+export class ExampleDataSource extends DataSource<Teacher> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -242,10 +235,10 @@ export class ExampleDataSource extends DataSource<Teachers> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Teachers[] = [];
-  renderedData: Teachers[] = [];
+  filteredData: Teacher[] = [];
+  renderedData: Teacher[] = [];
   constructor(
-    public exampleDatabase: TeachersService,
+    public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -254,7 +247,7 @@ export class ExampleDataSource extends DataSource<Teachers> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Teachers[]> {
+  connect(): Observable<Teacher[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -268,14 +261,15 @@ export class ExampleDataSource extends DataSource<Teachers> {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((teachers: Teachers) => {
+          .filter((teachers: Teacher) => {
             const searchStr = (
-              teachers.name +
+              teachers.firstName +
+              teachers.lastName +
               teachers.department +
               teachers.gender +
               teachers.degree +
               teachers.email +
-              teachers.mobile
+              teachers.mobile_phone
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -293,7 +287,7 @@ export class ExampleDataSource extends DataSource<Teachers> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: Teachers[]): Teachers[] {
+  sortData(data: Teacher[]): Teacher[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -304,21 +298,19 @@ export class ExampleDataSource extends DataSource<Teachers> {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+        case 'firstName':
+          [propertyA, propertyB] = [a.firstName, b.firstName];
+          break;
+        case 'lastName':
+          [propertyA, propertyB] = [a.lastName, b.lastName];
           break;
         case 'email':
           [propertyA, propertyB] = [a.email, b.email];
           break;
-        case 'date':
-          [propertyA, propertyB] = [a.date, b.date];
-          break;
-        case 'time':
+        case 'department':
           [propertyA, propertyB] = [a.department, b.department];
           break;
-        case 'mobile':
-          [propertyA, propertyB] = [a.mobile, b.mobile];
-          break;
+
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;

@@ -69,13 +69,19 @@
               <div class="row info-cart-text ">
                 <div class="col-xl-10">
                   <ul>
-                    <li><i class="fas fa-check"></i>Wait 5-10 minutes for the GPU workstation to launch</li>
+                    <li><i class="fas fa-check"></i>Wait <b>3-4 minutes</b> for the GPU workstation to launch</li>
                     <li><i class="fas fa-check"></i>Once the jupiter instance open up, you are now ready to start the lab course</li>
                     <li><i class="fas fa-check"></i>Please note that you are entitled to a total of 4 sessions, each lasting 1 hour</li>
                   </ul>
                 </div>
-                <div class=" col-xl-2">
-                  <a  href="javascript:void(0)"><i class="fas fa-play"></i></a>
+<!--                <div class=" col-xl-2">-->
+<!--                  <a  href="javascript:void(0)" (click)="startSession()"><i class="fas fa-play"></i></a>-->
+<!--                </div>-->
+                <div class="col-xl-2">
+                  <a  href="javascript:void(0)" (click)="startSession()">
+                    <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>
+                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>
+                  </a>
                 </div>
               </div>
             </div>

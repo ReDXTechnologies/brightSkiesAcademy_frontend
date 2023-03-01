@@ -6,11 +6,12 @@ import { AuthService } from './service/auth.service';
 import { DynamicScriptLoaderService } from './service/dynamic-script-loader.service';
 import { DirectionService } from './service/direction.service';
 import { throwIfAlreadyLoaded } from './guard/module-import.guard';
-import {TeacherService} from "./service/teacher.service";
 import {DepartmentService} from "./service/department.service";
-import {CourseService} from "./service/course.service";
+import {TeacherService} from "./service/teacher.service";
 import {ReviewService} from "./service/review.service";
 import {StudentService} from "./service/student.service";
+import {AdminService} from "./service/admin.service";
+import {CourseService} from "./service/course.service";
 
 @NgModule({
   declarations: [],
@@ -24,9 +25,11 @@ import {StudentService} from "./service/student.service";
     DirectionService,
     TeacherService,
     DepartmentService,
-    CourseService,
+    TeacherService,
     ReviewService,
-    StudentService
+    StudentService,
+    AdminService,
+    CourseService
   ],
 })
 export class CoreModule {

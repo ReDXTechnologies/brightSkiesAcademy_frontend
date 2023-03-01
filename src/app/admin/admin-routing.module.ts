@@ -25,9 +25,9 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'staff',
+    path: 'pending',
     loadChildren: () =>
-      import('./staff/staff.module').then((m) => m.StaffModule),
+      import('./pending-approval/pending-approval.module').then((m) => m.PendingApprovalModule),
   },
   {
     path: 'fees',

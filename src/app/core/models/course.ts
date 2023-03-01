@@ -6,8 +6,8 @@ export class Course {
   title: string;
   // students: Student[];
   // teachers: Teacher[];
-  time_length: number; // camelCase naming convention
-  nbrOfLessons: number;
+  workload: number; // camelCase naming convention
+  nbr_of_lessons: number;
   total_enrolled: number;
   creation_date: Date;
   last_update_date: Date;
@@ -17,7 +17,7 @@ export class Course {
   description: string;
   requirements: string;
   rate: number;
-  field: string;
+  speciality: string;
   level: string;
   certificate: boolean;
   vm_characteristics: string; // camelCase naming convention

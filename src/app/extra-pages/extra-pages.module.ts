@@ -34,6 +34,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCardModule} from "@angular/material/card";
 import {FileUploadModule} from "ng2-file-upload";
 import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -75,6 +76,7 @@ import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
     MatProgressBarModule,
     MatCardModule,
     FileUploadModule,
+    MatSnackBarModule
   ],
 })
 export class ExtraPagesModule {}

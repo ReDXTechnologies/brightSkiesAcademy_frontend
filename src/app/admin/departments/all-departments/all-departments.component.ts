@@ -14,7 +14,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from './../../../shared/UnsubscribeOnDestroyAdapter';
 import {Department} from "../../../core/models/department";
 import {DepartmentService} from "../../../core/service/department.service";
-import {TeachersService} from "../../teachers/all-teachers/teachers.service";
 
 @Component({
   selector: 'app-all-departments',

@@ -44,11 +44,11 @@ export class TeacherProfileComponent implements OnInit {
       }
     };
 
-    this.teacherService.updateTeacher(this.user_id, teacherData)
-      .subscribe(response => {
-        console.log(response);
-        // Add any additional logic or actions here after the teacher has been updated
-      });
+    // this.teacherService.updateTeacher(this.user_id, teacherData)
+    //   .subscribe(response => {
+    //     console.log(response);
+    //     // Add any additional logic or actions here after the teacher has been updated
+    //   });
   }
 
 

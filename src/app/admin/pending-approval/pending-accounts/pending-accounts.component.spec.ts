@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { EditStaffComponent } from './edit-staff.component';
-describe('EditStaffComponent', () => {
-  let component: EditStaffComponent;
-  let fixture: ComponentFixture<EditStaffComponent>;
+import { PendingAccountsComponent } from './pending-accounts.component';
+describe('AllstaffComponent', () => {
+  let component: PendingAccountsComponent;
+  let fixture: ComponentFixture<PendingAccountsComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [EditStaffComponent]
+      declarations: [PendingAccountsComponent]
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditStaffComponent);
+    fixture = TestBed.createComponent(PendingAccountsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

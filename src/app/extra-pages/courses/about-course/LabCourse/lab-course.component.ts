@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {StudentService} from "../../../../core/service/student.service";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-about-course',
@@ -15,7 +17,25 @@ export class LabCourseComponent implements OnInit {
       this.writeReviewActive=false;
     }
   }
-  constructor() {}
+  user_id: string;
+  isLoading = false;
 
-  ngOnInit(): void {}
+  constructor(private studentService: StudentService ,private spinner: NgxSpinnerService) {}
+
+  ngOnInit(): void {
+    this.user_id = localStorage.getItem('id');
+
+  }
+
+  startSession() {
+    this.isLoading = true;
+    this.spinner.show();
+
+    this.studentService.launchSession(this.user_id,2).subscribe(response => {
+      this.isLoading = false;
+      this.spinner.hide();
+      window.open(response.instance_url, '_blank');
+    });
+  }
+
 }

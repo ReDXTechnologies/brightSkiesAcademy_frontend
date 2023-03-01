@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CourseService} from "../../../core/service/course.service";
+import {Course} from "../../../core/models/course";
 
 @Component({
   selector: 'app-all-course',
@@ -13,7 +15,19 @@ export class AllCourseComponent implements OnInit {
       active: 'All Course',
     },
   ];
-  constructor() {}
+  courses: Course[];
 
-  ngOnInit(): void {}
+  constructor(private courseService: CourseService) {}
+
+  ngOnInit(): void {
+    this.courseService.getApprovedCourses().subscribe(
+      (data) => {
+        console.log(data)
+        this.courses = data;
+      },
+      (error) => {
+        console.log('Error getting approved courses:', error);
+      }
+    );
+  }
 }

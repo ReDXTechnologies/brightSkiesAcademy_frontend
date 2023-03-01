@@ -26,11 +26,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { TeachersService } from './all-teachers/teachers.service';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {InstructormainComponent} from "./TeachersGridView/instructormain.component";
 import {InstructorpromainComponent} from "./teacherProfile/instructorpromain.component";
+import {TeacherService} from "../../core/service/teacher.service";
 @NgModule({
   declarations: [
     AllTeachersComponent,
@@ -68,6 +68,6 @@ import {InstructorpromainComponent} from "./teacherProfile/instructorpromain.com
     ComponentsModule,
     SharedModule,
   ],
-  providers: [TeachersService],
+  providers: [TeacherService],
 })
 export class TeachersModule {}
