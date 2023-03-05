@@ -179,6 +179,8 @@ export class AllStudentsComponent
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
+      this.studentService.deleteStudent(item.user.id).subscribe(res=>{
+        console.log(res)})
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
       );
