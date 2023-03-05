@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import { Course } from '../models/course';
-import { Review } from '../models/review';
+import {Course} from '../models/course';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
@@ -26,7 +25,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   getTeachers(): Observable<Teacher[]> {
-    const url = `${this.baseUrl}/teachers`;
+    const url = `${this.baseUrl}/teachers/active`;
 
     return this.httpClient.get<Teacher[]>(url);
   }
@@ -43,9 +42,9 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
-  getAllInactiveTeacherss(): void {
+  getAllInactiveTeachers(): void {
     const url = `${this.baseUrl}/teachers/inactive`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+     this.httpClient.get<Teacher[]>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -62,13 +61,34 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.get<Teacher>(url);
   }
+
+  updateTeacher(teacher_id: number, teacher: { degree: any;user: { firstName: any; lastName: any; gender: any; mobile_phone: any; email: any } }, department_name: string): Observable<Teacher> {
+    // Set the dialogData property to the new object
+    this.dialogData = {
+      teacher,
+      department_name
+    };
+
+    const url = `${this.baseUrl}/teacher/${teacher_id}?department_name=${department_name}`;
+
+    return this.httpClient.put<Teacher>(url,teacher);
+  }
+  deleteTeacher(teacher_id: number): Observable<Teacher> {
+
+    const url = `${this.baseUrl}/teacher/${teacher_id}`;
+
+    return this.httpClient.delete<Teacher>(url);
+  }
   getTeacherCourses(teacher_id:number): Observable<Course[]>{
     const url = `${this.baseUrl}/teacher/${teacher_id}/courses`;
     console.log(url)
     return this.httpClient.get<Course[]>(url);
   }
 
-  deleteTeacher(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/teacher/${id}`);
+  rejectTeacherAccount(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/teacher/${id}/reject-account`);
+  }
+  approveTeacherAccount(teacherId: number,departmentId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/teacher/${teacherId}/approve-account/${departmentId}`,{});
   }
 }

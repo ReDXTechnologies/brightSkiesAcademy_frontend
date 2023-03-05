@@ -14,10 +14,11 @@ export class AddDepartmentComponent {
   departmentForm: UntypedFormGroup;
   loading = false;
   submitted = false;
+
   constructor(private fb: UntypedFormBuilder,
               private router: Router,
               private _snackBar: MatSnackBar,
-              private departmentService: DepartmentService,private datePipe: DatePipe) {
+              private departmentService: DepartmentService, private datePipe: DatePipe) {
     this.departmentForm = this.fb.group({
       name: ['', [Validators.required]],
       head_of_department: ['', [Validators.required]],
@@ -29,6 +30,7 @@ export class AddDepartmentComponent {
 
     });
   }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this._snackBar.open(text, 'close', {
       duration: 5000,
@@ -37,6 +39,7 @@ export class AddDepartmentComponent {
       panelClass: colorName,
     });
   }
+
   onSubmit() {
     this.submitted = true;
     this.loading = true;

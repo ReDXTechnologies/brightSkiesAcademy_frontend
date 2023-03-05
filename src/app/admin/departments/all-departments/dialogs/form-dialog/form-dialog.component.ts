@@ -9,6 +9,7 @@ import {
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {Department} from "../../../../../core/models/department";
 import {DepartmentService} from "../../../../../core/service/department.service";
+import {DatePipe} from "@angular/common";
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -24,12 +25,13 @@ export class FormDialogComponent {
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public departmentService: DepartmentService,
+    private datePipe: DatePipe,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle = "Edit "+data.department.dName;
+      this.dialogTitle = "Edit "+data.department.name;
       this.department = data.department;
     } else {
       this.dialogTitle = 'Add new Department';
@@ -68,6 +70,12 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.departmentService.updateDepartment(this.departmentForm.getRawValue(),this.departmentForm.value.id);
+    const data = {
+      "name": this.departmentForm.value.name,
+      "head_of_department": this.departmentForm.value.head_of_department,
+      "email": this.departmentForm.value.email,
+      "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
+    }
+    this.departmentService.updateDepartment(data,this.departmentForm.value.id);
   }
 }

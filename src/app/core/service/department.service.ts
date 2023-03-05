@@ -34,6 +34,11 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
       }
     );
   }
+  getDepartments(): Observable<Department[]> {
+    const url = `${this.baseUrl}/departments`;
+
+     return this.http.get<Department[]>(url);
+  }
 
   getById(id: number): Observable<Department> {
     return this.http.get<Department>(`${this.baseUrl}${id}/`);
@@ -50,7 +55,7 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
     return this.dataChange.value;
   }
 
-  updateDepartment(department: Department,id:string): void {
+  updateDepartment(department: { name: string; department_start_date: string; head_of_department: any; email: any }, id: string): void {
     this.dialogData = department;
     this.http.put(`${this.baseUrl}/departments/${id}`,department).subscribe(data => {
     })

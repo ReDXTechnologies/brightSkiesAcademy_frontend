@@ -1,20 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
-import { CourseDetailsComponent } from './form/course-details.component';
-import { DeleteComponent } from './delete/delete.component';
-import {TeacherService} from "../../../core/service/teacher.service";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog} from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {DataSource, SelectionModel} from '@angular/cdk/collections';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {BehaviorSubject, fromEvent, merge, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {CourseDetailsComponent} from './form/course-details.component';
+import {DeleteComponent} from './delete/delete.component';
 import {Course} from "../../../core/models/course";
 import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
-import {Teacher} from "../../../core/models/teacher";
 import {CourseService} from "../../../core/service/course.service";
 
 @Component({
@@ -24,8 +21,7 @@ import {CourseService} from "../../../core/service/course.service";
 })
 export class PendingCoursesComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   filterToggle = false;
   displayedColumns = [
     'select',
@@ -52,6 +48,7 @@ export class PendingCoursesComponent
       active: 'pending courses',
     },
   ];
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -60,16 +57,18 @@ export class PendingCoursesComponent
   ) {
     super();
   }
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: true }) filter: ElementRef;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild('filter', {static: true}) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
-  contextMenuPosition = { x: '0px', y: '0px' };
+  contextMenuPosition = {x: '0px', y: '0px'};
 
   ngOnInit() {
     this.loadData();
   }
+
   refresh() {
     this.loadData();
   }
@@ -91,39 +90,11 @@ export class PendingCoursesComponent
       width: '35%',
     });
   }
+
   toggleStar(row) {
     console.log(row);
   }
 
-  // reject(row) {
-  //   this.id = row.id;
-  //   let tempDirection;
-  //   if (localStorage.getItem('isRtl') === 'true') {
-  //     tempDirection = 'rtl';
-  //   } else {
-  //     tempDirection = 'ltr';
-  //   }
-  //   const dialogRef = this.dialog.open(DeleteComponent, {
-  //     data: row,
-  //     direction: tempDirection,
-  //   });
-  //   this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(result)
-  //       const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-  //         (x) => x.id === this.id
-  //       );
-  //       // for delete we use splice in order to remove single object from DataService
-  //       this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-  //       this.refreshTable();
-  //       this.showNotification(
-  //         'snackbar-danger',
-  //         'Delete Record Successfully...!!!',
-  //         'bottom',
-  //         'center'
-  //       );
-  //
-  //   });
-  // }
   reject(row) {
     this.id = row.id;
     let tempDirection;
@@ -138,26 +109,22 @@ export class PendingCoursesComponent
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        this.courseService.rejectCourse(this.id).subscribe(
-          data => {
-            console.log('Course rejected successfully');
-            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-              (x) => x.id === this.id
-            );
-            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-            this.refreshTable();
-            this.showNotification(
-              'snackbar-danger',
-              'Delete Record Successfully...!!!',
-              'bottom',
-              'center'
-            );
-          },
-          error => {
-            console.error('Error rejecting course:', error);
-            // show error message
-          }
+        console.log('Course rejected successfully');
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
         );
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        this.showNotification(
+          'snackbar-danger',
+          'Delete Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+        error => {
+          console.error('Error rejecting course:', error);
+          // show error message
+        }
       } else {
         console.log('User clicked "Cancel"');
       }
@@ -175,24 +142,26 @@ export class PendingCoursesComponent
 
     this.subs.sink = this.courseService.approveCourse(this.id).subscribe((result) => {
 
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'course approved Successfully...!!!',
-          'center',
-          'center'
-        );
+      const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+        (x) => x.id === this.id
+      );
+      // for delete we use splice in order to remove single object from DataService
+      this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+      this.refreshTable();
+      this.showNotification(
+        'snackbar-success',
+        'course approved Successfully...!!!',
+        'center',
+        'center'
+      );
 
     });
   }
+
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -205,9 +174,10 @@ export class PendingCoursesComponent
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.renderedData.forEach((row) =>
-          this.selection.select(row)
-        );
+        this.selection.select(row)
+      );
   }
+
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
@@ -226,6 +196,7 @@ export class PendingCoursesComponent
       'center'
     );
   }
+
   public loadData() {
     this.exampleDatabase = new CourseService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -242,6 +213,7 @@ export class PendingCoursesComponent
       }
     );
   }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
       duration: 2000,
@@ -251,16 +223,21 @@ export class PendingCoursesComponent
     });
   }
 }
+
 export class ExampleDataSource extends DataSource<Course> {
   filterChange = new BehaviorSubject('');
+
   get filter(): string {
     return this.filterChange.value;
   }
+
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
+
   filteredData: Course[] = [];
   renderedData: Course[] = [];
+
   constructor(
     public exampleDatabase: CourseService,
     public paginator: MatPaginator,
@@ -270,9 +247,11 @@ export class ExampleDataSource extends DataSource<Course> {
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
+
   /** Connect function called by the table to retrieve one stream containing the data to render. */
 
-  disconnect() {}
+  disconnect() {
+  }
 
   connect(): Observable<Course[]> {
     const displayDataChanges = [
@@ -305,6 +284,7 @@ export class ExampleDataSource extends DataSource<Course> {
       })
     );
   }
+
   /** Returns a sorted copy of the database data. */
   sortData(data: Course[]): Course[] {
     if (!this._sort.active || this._sort.direction === '') {

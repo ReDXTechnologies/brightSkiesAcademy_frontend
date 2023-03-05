@@ -30,35 +30,34 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="col-4">
-                    <ul class="tbl-export-btn">
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="XLSX">
-                          <img src="assets/images/icons/xlsx.png" alt=""
-                            (click)="exporter.exportTable('xlsx', {fileName:'assets-list', sheet: 'sheet1'})" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="CSV">
-                          <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="JSON">
-                          <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="TXT">
-                          <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
+<!--                  <div class="col-4">-->
+<!--                    <ul class="tbl-export-btn">-->
+<!--                      <li>-->
+<!--                        <div class="export-button m-l-10" matTooltip="XLSX">-->
+<!--                          <img src="assets/images/icons/xlsx.png" alt=""-->
+<!--                            (click)="exporter.exportTable('xlsx', {fileName:'assets-list', sheet: 'sheet1'})" />-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="export-button m-l-10" matTooltip="CSV">-->
+<!--                          <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="export-button m-l-10" matTooltip="JSON">-->
+<!--                          <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="export-button m-l-10" matTooltip="TXT">-->
+<!--                          <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+<!--                  </div>-->
                 </div>
               </div>
-              <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
-                #exporter="matTableExporter">
+              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                   <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
@@ -74,17 +73,13 @@
                   </mat-cell>
                 </ng-container>
                 <!-- ID Column -->
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
-                </ng-container>
                 <ng-container matColumnDef="firstName">
-                  <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'"> First Name
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> First Name
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" >{{row.user.firstName}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="lastName">
-                  <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'"> Last Name
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> Last Name
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" >
                     {{row.user.lastName}}</mat-cell>
@@ -116,47 +111,25 @@
 
                 <!-- actions -->
                 <ng-container matColumnDef="actions">
-                  <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                  <mat-header-cell class="pr-0" *matHeaderCellDef>Actions
+                  </mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-icon-button (click)="$event.stopPropagation()"
-                      class="tbl-action-btn">
-                      <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+
+                    <button mat-icon-button aria-label="Example icon-button with a heart icon"
+                            class="btn btn-circle bg-green msr-2 small"  (click)="affect(row)"  (click)="$event.stopPropagation()">
+                      <mat-icon>thumb_up</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="reject(row)"
-                      class="tbl-action-btn">
-                      <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                    <button mat-icon-button aria-label="Example icon-button with a heart icon"
+                            class="btn btn-circle bg-red small" (click)="$event.stopPropagation()" (click)="reject(row)">
+                      <mat-icon>thumb_down</mat-icon>
                     </button>
+
                   </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-<!--              &lt;!&ndash; Loading spinner &ndash;&gt;-->
-<!--              <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">-->
-<!--                <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">-->
-<!--                </mat-progress-spinner>-->
-<!--              </div>-->
               <!-- context menu start -->
-              <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
-              </div>
-              <mat-menu #contextMenu="matMenu">
-                <ng-template matMenuContent let-item="item">
-                  <button mat-menu-item (click)="deleteItem(item)">
-                    <mat-icon>delete</mat-icon>
-                    <span>Delete Record</span>
-                  </button>
-                  <button mat-menu-item (click)="refresh()">
-                    <mat-icon>refresh</mat-icon>
-                    <span>Refresh Record</span>
-                  </button>
-                  <button mat-menu-item disabled>
-                    <mat-icon>no_encryption</mat-icon>
-                    <span>Disable</span>
-                  </button>
-
-                </ng-template>
-              </mat-menu>
               <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                 <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                 </mat-progress-spinner>

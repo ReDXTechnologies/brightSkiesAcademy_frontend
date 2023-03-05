@@ -1,0 +1,43 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          To approve {{teacher}} account , please affect him a department
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="content">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3" >
+      <mat-select placeholder="Select department"
+                  matInput
+                  [(ngModel)]="department"
+      >
+        <div>
+          <mat-option *ngFor="let department of departments" [value]="department">
+            {{department.name}}
+          </mat-option>
+        </div>
+      </mat-select>
+
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
+      <div class="example-button-row align-center">
+        <button
+          mat-stroked-button
+          color="warn"
+          (click)="onSubmit()"
+        >
+          affect department
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

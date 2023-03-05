@@ -18,6 +18,7 @@ export class InstructormainComponent implements OnInit {
     this.teacherService.getTeachers().subscribe(
       (teachers: Teacher[]) => {
         this.teachers = teachers;
+        console.log(this.teachers)
       },
       (error) => {
         console.error(error);

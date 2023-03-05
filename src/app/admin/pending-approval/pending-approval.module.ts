@@ -21,22 +21,24 @@ import { PendingApprovalRoutingModule } from './pending-approval-routing.module'
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import {DeleteDialogComponent} from "./delete/delete.component";
+import {DeleteDialogComponent} from "./pending-accounts/delete/delete.component";
 import {PendingAccountsComponent} from "./pending-accounts/pending-accounts.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {SharedModule} from "../../shared/shared.module";
 import {ComponentsModule} from "../../shared/components/components.module";
-import {PendingCoursesComponent} from "./contacts/pending-courses.component";
-import {CourseDetailsComponent} from "./contacts/form/course-details.component";
+import {PendingCoursesComponent} from "./pending-courses/pending-courses.component";
+import {CourseDetailsComponent} from "./pending-courses/form/course-details.component";
 import {MatCardModule} from "@angular/material/card";
-import {DeleteComponent} from "./contacts/delete/delete.component";
+import {DeleteComponent} from "./pending-courses/delete/delete.component";
+import {SelectDepartmentComponent} from "./pending-accounts/affect-Department/select-department.component";
 @NgModule({
   declarations: [
     DeleteDialogComponent,
     PendingAccountsComponent,
     PendingCoursesComponent,
     CourseDetailsComponent,
-    DeleteComponent
+    DeleteComponent,
+    SelectDepartmentComponent
   ],
   imports: [
     CommonModule,

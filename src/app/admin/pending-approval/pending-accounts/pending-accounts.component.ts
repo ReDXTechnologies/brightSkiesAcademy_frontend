@@ -1,28 +1,30 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog} from '@angular/material/dialog';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {DataSource, SelectionModel} from '@angular/cdk/collections';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatMenuTrigger} from '@angular/material/menu';
 import {TeacherService} from "../../../core/service/teacher.service";
-import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../../../core/models/teacher";
-import {DeleteDialogComponent} from "../delete/delete.component";
+import {DeleteDialogComponent} from "./delete/delete.component";
+import {MatTableDataSource} from "@angular/material/table";
+import {BehaviorSubject, fromEvent, merge, Observable, Subject} from "rxjs";
+import {Course} from "../../../core/models/course";
+import {CourseService} from "../../../core/service/course.service";
+import {map} from "rxjs/operators";
+import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
+import {SelectDepartmentComponent} from "./affect-Department/select-department.component";
 
 @Component({
   selector: 'app-pending-accounts',
   templateUrl: './pending-accounts.component.html',
   styleUrls: ['./pending-accounts.component.sass'],
 })
-export class PendingAccountsComponent
-  extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
+
+  implements OnInit {
   filterToggle = false;
   displayedColumns = [
     'select',
@@ -34,7 +36,7 @@ export class PendingAccountsComponent
     'actions',
   ];
   exampleDatabase: TeacherService | null;
-  dataSource: ExampleDataSource | null;
+  dataSource: ExampleDataSource  | null;
   selection = new SelectionModel<Teacher>(true, []);
   id: number;
   Teachers: Teacher | null;
@@ -46,6 +48,10 @@ export class PendingAccountsComponent
       active: 'pending Teachers',
     },
   ];
+  isTblLoading = true;
+  public refresher: Subject<any> = new Subject();
+
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -54,27 +60,38 @@ export class PendingAccountsComponent
   ) {
     super();
   }
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: true }) filter: ElementRef;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild('filter', {static: true}) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
-  contextMenuPosition = { x: '0px', y: '0px' };
+  contextMenuPosition = {x: '0px', y: '0px'};
 
   ngOnInit() {
     this.loadData();
   }
+
   refresh() {
     this.loadData();
   }
-
+  public loadData() {
+    this.exampleDatabase = new TeacherService(this.httpClient);
+    this.dataSource = new ExampleDataSource(
+      this.exampleDatabase,
+      this.paginator,
+    );
+  }
+  private refreshTable() {
+    this.paginator._changePageSize(this.paginator.pageSize);
+  }
 
   toggleStar(row) {
     console.log(row);
   }
 
   reject(row) {
-    this.id = row.id;
+    this.id = row.user.id;
     let tempDirection;
     if (localStorage.getItem('isRtl') === 'true') {
       tempDirection = 'rtl';
@@ -85,59 +102,63 @@ export class PendingAccountsComponent
       data: row,
       direction: tempDirection,
     });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
-      const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-        (x) => x.id === this.id
-      );
-      // for delete we use splice in order to remove single object from DataService
-      this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-      this.refreshTable();
-      this.showNotification(
-        'snackbar-danger',
-        'Delete Record Successfully...!!!',
-        'bottom',
-        'center'
-      );
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.user.id === this.id
+        );
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        console.log('teacher rejected successfully');
+        this.showNotification(
+          'snackbar-danger',
+          'Reject account Successfully...!!!',
+          'bottom',
+          'center'
+        );
+      }
+      error => {
+        console.error('Error rejecting course:', error);
+        // show error message
+      }
 
     });
   }
-  // approve(row) {
-  //   this.id = row.id;
-  //   let tempDirection;
-  //   if (localStorage.getItem('isRtl') === 'true') {
-  //     tempDirection = 'rtl';
-  //   } else {
-  //     tempDirection = 'ltr';
-  //   }
-  //
-  //   this.subs.sink = this.teacherService.approveTeacher(this.id).subscribe((result) => {
-  //
-  //     const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-  //       (x) => x.id === this.id
-  //     );
-  //     // for delete we use splice in order to remove single object from DataService
-  //     this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-  //     this.refreshTable();
-  //     this.showNotification(
-  //       'snackbar-success',
-  //       'Teacher approved Successfully...!!!',
-  //       'center',
-  //       'center'
-  //     );
-  //
-  //   });
-  // }
-  private refreshTable() {
-    this.paginator._changePageSize(this.paginator.pageSize);
+  affect(teacher: Teacher): void {
+    const dialogRef = this.dialog.open(SelectDepartmentComponent, {
+      width: '350px',
+      data: {payload: teacher.user.firstName+' '+teacher.user.lastName},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.teacherService.approveTeacherAccount(teacher.user.id, result.data.id).subscribe(res => {
+          const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+            (x) => x.user.id === this.id
+          );
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+          console.log('teacher account approved successfully');
+          this.showNotification(
+            'snackbar-success',
+            'Reject account Successfully...!!!',
+            'bottom',
+            'center'
+          );
+        },
+        error => {
+          console.error('Error rejecting course:', error);
+          // show error message
+        })
+      }
+    });
+
   }
-  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.renderedData.length;
     return numSelected === numRows;
   }
-
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected()
@@ -149,6 +170,8 @@ export class PendingAccountsComponent
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
+      this.teacherService.rejectTeacherAccount(item.user.id).subscribe(res=>{
+        console.log(res)})
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
       );
@@ -159,26 +182,10 @@ export class PendingAccountsComponent
     });
     this.showNotification(
       'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
+      totalSelect + ' account rejected Successfully...!!!',
       'bottom',
       'center'
     );
-  }
-  public loadData() {
-    this.exampleDatabase = new TeacherService(this.httpClient);
-    this.dataSource = new ExampleDataSource(
-      this.exampleDatabase,
-      this.paginator,
-      this.sort
-    );
-    // this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
-    //   () => {
-    //     if (!this.dataSource) {
-    //       return;
-    //     }
-    //     this.dataSource.filter = this.filter.nativeElement.value;
-    //   }
-    // );
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
@@ -190,58 +197,53 @@ export class PendingAccountsComponent
   }
 }
 export class ExampleDataSource extends DataSource<Teacher> {
+
+  renderedData: Teacher[] = [];
   filterChange = new BehaviorSubject('');
+
   get filter(): string {
     return this.filterChange.value;
   }
+
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Teacher[] = [];
-  renderedData: Teacher[] = [];
+
+  filteredData: Course[] = [];
   constructor(
     public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
-    public _sort: MatSort
   ) {
     super();
-    // Reset to the first page when the user changes the filter.
-    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+
   }
+
   /** Connect function called by the table to retrieve one stream containing the data to render. */
 
-  disconnect() {}
+  disconnect() {
+  }
 
   connect(): Observable<Teacher[]> {
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
-      this._sort.sortChange,
-      this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllInactiveTeacherss();
+
+    this.exampleDatabase.getAllInactiveTeachers();
+
     return merge(...displayDataChanges).pipe(
       map(() => {
-        // Filter data
-        this.filteredData = this.exampleDatabase.data
-          .slice()
-          .filter((teachers: Teacher) => {
-            const searchStr = (
-              teachers.firstName
-            ).toLowerCase();
-            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          });
-        // Sort filtered data
-        // const sortedData = this.sortData(this.filteredData.slice());
-        // Grab the page's slice of the filtered sorted data.
+        // Grab the page's slice of the filtered data.
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-        // this.renderedData = sortedData.splice(
-        //   startIndex,
-        //   this.paginator.pageSize
-        // );
+        this.renderedData = this.exampleDatabase.data.slice(
+          startIndex,
+          startIndex + this.paginator.pageSize
+        );
         return this.renderedData;
       })
     );
   }
-  /** Returns a sorted copy of the database data. */
+
+
+
 }

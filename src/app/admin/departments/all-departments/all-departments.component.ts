@@ -174,6 +174,8 @@ export class AllDepartmentsComponent
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
+      this.departmentService.deleteDepartment(item.id);
+
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
       );
