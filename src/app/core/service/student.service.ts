@@ -1,19 +1,39 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { Student } from '../models/student';
 import {environment} from "../../../environments/environment";
+import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StudentService {
-  private apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) { }
-
-  getStudents(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.apiUrl);
+@Injectable()
+export class StudentService extends UnsubscribeOnDestroyAdapter {
+  private readonly apiUrl = environment.apiUrl;
+  isTblLoading = true;
+  dataChange: BehaviorSubject<Student[]> = new BehaviorSubject<Student[]>([]);
+  // Temporarily stores data from dialogs
+  dialogData: any;
+  constructor(private http: HttpClient) {
+    super();
+  }
+  get data(): Student[] {
+    return this.dataChange.value;
+  }
+  getDialogData() {
+    return this.dialogData;
+  }
+  /** CRUD METHODS */
+  getAllStudents(): void {
+    const url = `${this.apiUrl}/students`;
+    this.subs.sink = this.http.get<Student[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
   }
 
   launchSession(studentId: string, courseId: number): Observable<any> {
@@ -29,13 +49,14 @@ export class StudentService {
     return this.http.post<Student>(this.apiUrl, student);
   }
 
-  updateStudent(student: Student): Observable<Student> {
-    const url = `${this.apiUrl}${student.id}/`;
+  updateStudent(student_id:number,student: Student): Observable<Student> {
+    this.dialogData =student;
+    const url = `${this.apiUrl}/student/${student_id}`;
     return this.http.put<Student>(url, student);
   }
 
   deleteStudent(id: number): Observable<Student> {
-    const url = `${this.apiUrl}${id}/`;
+    const url = `${this.apiUrl}/student/${id}`;
     return this.http.delete<Student>(url);
   }
 }

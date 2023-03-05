@@ -28,13 +28,6 @@
                                   aria-label="Search box">
                               </li>
                               <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="ADD">
-                                  <button mat-mini-fab color="primary" (click)="addNew()">
-                                    <mat-icon class="col-white">add</mat-icon>
-                                  </button>
-                                </div>
-                              </li>
-                              <li class="tbl-header-btn">
                                 <div class="m-l-10" matTooltip="REFRESH">
                                   <button mat-mini-fab color="primary" (click)="refresh()">
                                     <mat-icon class="col-white">refresh</mat-icon>
@@ -97,28 +90,24 @@
                           </mat-cell>
                         </ng-container>
                         <!-- ID Column -->
-                        <ng-container matColumnDef="id">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Id
-                          </mat-header-cell>
-                          <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="img">
+
+                        <ng-container matColumnDef="image">
                           <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'"> Image
                           </mat-header-cell>
                           <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-6"> <img
-                              [src]="row.img" />
+                              [src]="row.user.image" />
                           </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="name">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Name
+                        <ng-container matColumnDef="firstName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>first Name
                           </mat-header-cell>
-                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.name}}
+                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.user.firstName}}
                           </mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="department">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>Department
+                        <ng-container matColumnDef="lastName">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>last Name
                           </mat-header-cell>
-                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.department}}
+                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.user.lastName}}
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="speciality">
@@ -131,29 +120,25 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Email
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                            {{row.email}}</mat-cell>
+                            {{row.user.email}}</mat-cell>
                         </ng-container>
-                        <ng-container matColumnDef="mobile">
+                        <ng-container matColumnDef="mobile_phone">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Mobile
                           </mat-header-cell>
-                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.mobile}}
+                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.user.mobile_phone}}
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="gender">
                           <mat-header-cell *matHeaderCellDef mat-sort-header> Gender
                           </mat-header-cell>
                           <mat-cell mat-cell *matCellDef="let row">
-                            <div *ngIf="row.gender=='male'">
+                            <div *ngIf="row.user.gender=='male'">
                               <span class="badge badge-solid-green">
-                                {{row.gender}}</span>
+                                {{row.user.gender}}</span>
                             </div>
-                            <div *ngIf="row.gender=='female'">
+                            <div *ngIf="row.user.gender=='female'">
                               <span class="badge badge-solid-purple">
-                                {{row.gender}}</span>
-                            </div>
-                            <div *ngIf="row.gender=='other'">
-                              <span class="badge badge-solid-orange">
-                                {{row.gender}}</span>
+                                {{row.user.gender}}</span>
                             </div>
                           </mat-cell>
                         </ng-container>

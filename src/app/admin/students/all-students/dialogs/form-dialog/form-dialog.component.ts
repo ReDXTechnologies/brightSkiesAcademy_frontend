@@ -1,14 +1,14 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
-import { StudentsService } from '../../students.service';
 import {
   UntypedFormControl,
   Validators,
   UntypedFormGroup,
   UntypedFormBuilder
 } from '@angular/forms';
-import { Students } from '../../students.model';
 import { formatDate } from '@angular/common';
+import {Student} from "../../../../../core/models/student";
+import {StudentService} from "../../../../../core/service/student.service";
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
@@ -18,11 +18,11 @@ export class FormDialogComponent {
   action: string;
   dialogTitle: string;
   stdForm: UntypedFormGroup;
-  students: Students;
+  students: Student;
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public studentsService: StudentsService,
+    public studentsService: StudentService,
     private fb: UntypedFormBuilder
   ) {
     // Set the defaults
@@ -32,7 +32,7 @@ export class FormDialogComponent {
       this.students = data.students;
     } else {
       this.dialogTitle = 'New Students';
-      this.students = new Students({});
+      this.students = new Student();
     }
     this.stdForm = this.createContactForm();
   }
@@ -50,20 +50,16 @@ export class FormDialogComponent {
   createContactForm(): UntypedFormGroup {
     return this.fb.group({
       id: [this.students.id],
-      img: [this.students.img],
-      name: [this.students.name],
+      image: [this.students.user.image],
+      firstName: [this.students.user.firstName],
+      lastName: [this.students.user.lastName],
       email: [
-        this.students.email,
+        this.students.user.email,
         [Validators.required, Validators.email, Validators.minLength(5)]
       ],
-      date: [
-        formatDate(this.students.date, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
-      ],
-      gender: [this.students.gender],
-      mobile: [this.students.mobile],
-      department: [this.students.department],
-      rollNo: [this.students.rollNo]
+      gender: [this.students.user.gender],
+      mobile_phone: [this.students.user.mobile_phone],
+      speciality: [this.students.speciality],
     });
   }
   submit() {
@@ -73,6 +69,20 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.studentsService.addStudents(this.stdForm.getRawValue());
-  }
+    const user = {
+      "firstName": this.stdForm.value.firstName,
+      "lastName": this.stdForm.value.lastName,
+      "gender": this.stdForm.value.gender,
+      "email": this.stdForm.value.email,
+      "mobile_phone": this.stdForm.value.mobile_phone
+    }
+
+    const updateObject = {
+      user,
+      "speciality": this.stdForm.value.speciality,
+    };
+
+    // Inside a method in FormComponent that updates teacher data
+
+    this.dialogRef.close(updateObject);  }
 }

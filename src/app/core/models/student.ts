@@ -6,5 +6,6 @@ export class Student extends User{
   speciality: string;
   grades: JSON;
   is_teacher_request_pending: boolean;
+  user: User;
 
 }

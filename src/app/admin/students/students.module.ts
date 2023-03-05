@@ -21,21 +21,14 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { StudentsRoutingModule } from './students-routing.module';
-import { AboutStudentComponent } from './about-student/about-student.component';
-import { AddStudentComponent } from './add-student/add-student.component';
-import { EditStudentComponent } from './edit-student/edit-student.component';
 import { AllStudentsComponent } from './all-students/all-students.component';
 import { DeleteDialogComponent } from './all-students/dialogs/delete/delete.component';
 import { FormDialogComponent } from './all-students/dialogs/form-dialog/form-dialog.component';
-import { StudentsService } from './all-students/students.service';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    AboutStudentComponent,
-    AddStudentComponent,
-    EditStudentComponent,
     AllStudentsComponent,
     DeleteDialogComponent,
     FormDialogComponent,
@@ -66,6 +59,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ComponentsModule,
     SharedModule,
   ],
-  providers: [StudentsService],
+  providers: [],
 })
 export class StudentsModule {}

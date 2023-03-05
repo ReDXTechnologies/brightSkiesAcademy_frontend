@@ -1,10 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { StudentsService } from './students.service';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Students } from './students.model';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
@@ -14,6 +12,8 @@ import { DeleteDialogComponent } from './dialogs/delete/delete.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {Student} from "../../../core/models/student";
+import {StudentService} from "../../../core/service/student.service";
 
 @Component({
   selector: 'app-all-students',
@@ -26,24 +26,24 @@ export class AllStudentsComponent
 {
   displayedColumns = [
     'select',
-    'img',
-    'name',
+    'image',
+    'firstName',
+    'lastName',
     'gender',
-    'mobile',
+    'mobile_phone',
     'email',
-    'department',
     'speciality',
     'actions',
   ];
-  exampleDatabase: StudentsService | null;
+  exampleDatabase: StudentService | null;
   dataSource: ExampleDataSource | null;
-  selection = new SelectionModel<Students>(true, []);
+  selection = new SelectionModel<Student>(true, []);
   id: number;
-  students: Students | null;
+  students: Student | null;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
-    public studentsService: StudentsService,
+    public studentService: StudentService,
     private snackBar: MatSnackBar
   ) {
     super();
@@ -80,7 +80,7 @@ export class AllStudentsComponent
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataServicex
         this.exampleDatabase.dataChange.value.unshift(
-          this.studentsService.getDialogData()
+          this.studentService.getDialogData()
         );
         this.refreshTable();
         this.showNotification(
@@ -108,14 +108,16 @@ export class AllStudentsComponent
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
+      if (result ) {
+        this.studentService.updateStudent(row.user.id, result)
+          .subscribe((res) => {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.id === this.id
         );
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] =
-          this.studentsService.getDialogData();
+          this.studentService.getDialogData();
         // And lastly refresh table
         this.refreshTable();
         this.showNotification(
@@ -124,8 +126,8 @@ export class AllStudentsComponent
           'bottom',
           'center'
         );
-      }
-    });
+      })
+    }})
   }
   deleteItem(row) {
     this.id = row.id;
@@ -183,7 +185,7 @@ export class AllStudentsComponent
       // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
-      this.selection = new SelectionModel<Students>(true, []);
+      this.selection = new SelectionModel<Student>(true, []);
     });
     this.showNotification(
       'snackbar-danger',
@@ -193,7 +195,7 @@ export class AllStudentsComponent
     );
   }
   public loadData() {
-    this.exampleDatabase = new StudentsService(this.httpClient);
+    this.exampleDatabase = new StudentService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
@@ -217,7 +219,7 @@ export class AllStudentsComponent
     });
   }
   // context menu
-  onContextMenu(event: MouseEvent, item: Students) {
+  onContextMenu(event: MouseEvent, item: Student) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
@@ -226,7 +228,7 @@ export class AllStudentsComponent
     this.contextMenu.openMenu();
   }
 }
-export class ExampleDataSource extends DataSource<Students> {
+export class ExampleDataSource extends DataSource<Student> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -234,10 +236,10 @@ export class ExampleDataSource extends DataSource<Students> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-  filteredData: Students[] = [];
-  renderedData: Students[] = [];
+  filteredData: Student[] = [];
+  renderedData: Student[] = [];
   constructor(
-    public exampleDatabase: StudentsService,
+    public exampleDatabase: StudentService,
     public paginator: MatPaginator,
     public _sort: MatSort
   ) {
@@ -246,7 +248,7 @@ export class ExampleDataSource extends DataSource<Students> {
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
   /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<Students[]> {
+  connect(): Observable<Student[]> {
     // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
@@ -254,18 +256,18 @@ export class ExampleDataSource extends DataSource<Students> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllStudentss();
+    this.exampleDatabase.getAllStudents();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
         this.filteredData = this.exampleDatabase.data
           .slice()
-          .filter((students: Students) => {
+          .filter((student: Student) => {
             const searchStr = (
-              students.id +
-              students.name +
-              students.email +
-              students.mobile
+              student.user.firstName +
+              student.user.lastName +
+              student.user.email +
+              student.user.mobile_phone
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -283,7 +285,7 @@ export class ExampleDataSource extends DataSource<Students> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: Students[]): Students[] {
+  sortData(data: Student[]): Student[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -294,20 +296,14 @@ export class ExampleDataSource extends DataSource<Students> {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'name':
-          [propertyA, propertyB] = [a.name, b.name];
+        case 'firstName':
+          [propertyA, propertyB] = [a.firstName, b.firstName];
           break;
         case 'email':
           [propertyA, propertyB] = [a.email, b.email];
           break;
-        case 'date':
-          [propertyA, propertyB] = [a.date, b.date];
-          break;
-        case 'time':
-          [propertyA, propertyB] = [a.department, b.department];
-          break;
-        case 'mobile':
-          [propertyA, propertyB] = [a.mobile, b.mobile];
+        case 'mobile_phone':
+          [propertyA, propertyB] = [a.mobile_phone, b.mobile_phone];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
