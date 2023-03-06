@@ -1,0 +1,50 @@
+
+<section class="content ">
+  <app-breadcrumb breadcrumbImage='url(assets/images/pending.jpeg)' breadcrumbSubTitle1="admin"
+                  breadcrumbSubTitle2="aprove or reject adding course requests"
+                  breadcrumbTitle="Pending Courses"></app-breadcrumb>
+
+<!-- course-content-start -->
+<div class="course-content-area pb-90 mt-45">
+    <div class="container">
+       <div class="row mb-10">
+          <div class="col-xl-12 col-lg-12 col-md-12">
+             <div class="row ">
+                <div class="col-xl-4 col-lg-4 col-md-6 " *ngFor="let course of courses">
+                   <div class="academic-box mb-30">
+                      <div class="academic-thumb">
+                         <img src="assets/img/course/academi-course-2.jpg" alt="image not found">
+                      </div>
+                      <div class="academic-content">
+                         <div class="academic-content-header">
+                            <a [routerLink]="['/shared/Lab-course-details']">
+                               <h3>{{course.title}}</h3>
+                            </a>
+                         </div>
+                         <div class="academic-body">
+                            <div class="academic-tutor d-flex align-items-center">
+                               <img src="assets/img/course/academic-tutor-1.png" alt="image not found">
+                               <a [routerLink]="['/admin/teachers/about-teacher']">Professor </a>
+                            </div>
+                            <p>{{course.requirements}}</p>
+                         </div>
+
+                        <div class="course-action">
+                          <a [routerLink]="['/shared/Lab-course-details']" class="view-details-btn">View Details</a>
+                          <button class="wishlist-btn" (click)="approve(course.id)"><i
+                            class="fas fa-check"></i></button>
+                          <a class="c-share-btn" (click)="reject(course.id)"><i class="fas fa-times"></i></a>
+
+                        </div>
+                      </div>
+                   </div>
+                </div>
+
+
+             </div>
+
+          </div>
+       </div>
+    </div>
+ </div>
+</section>

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ContactsComponent } from './pending-courses.component';
+import { ContactsComponent } from './pending-courses-fees.component';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;

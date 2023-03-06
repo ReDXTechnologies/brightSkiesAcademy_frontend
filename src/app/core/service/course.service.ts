@@ -29,19 +29,9 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   //
   //   return this.http.get<Course[]>(url);
   // }
-  getPendingCourses(): void {
+  getPendingCourses(): Observable<Course[]> {
     const url = `${this.baseUrl}/pending-courses`;
-    this.subs.sink = this.httpClient.get<Course[]>(url).subscribe(
-      (data) => {
-        console.log(data)
-        this.isTblLoading = false;
-        this.dataChange.next(data);
-      },
-      (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
-      }
-    );
+   return this.httpClient.get<Course[]>(url);
   }
   getApprovedCourses(): Observable<Course[]> {
     const url = `${this.baseUrl}/approved-courses`;

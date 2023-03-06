@@ -16,10 +16,10 @@ import {CourseService} from "../../../core/service/course.service";
 
 @Component({
   selector: 'app-pending-courses',
-  templateUrl: './pending-courses.component.html',
-  styleUrls: ['./pending-courses.component.sass'],
+  templateUrl: './pending-courses-fees.component.html',
+  styleUrls: ['./pending-courses-fees.component.sass'],
 })
-export class PendingCoursesComponent
+export class PendingCoursesFeesComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit {
   filterToggle = false;

@@ -26,19 +26,21 @@ import {PendingAccountsComponent} from "./pending-accounts/pending-accounts.comp
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {SharedModule} from "../../shared/shared.module";
 import {ComponentsModule} from "../../shared/components/components.module";
-import {PendingCoursesComponent} from "./pending-courses/pending-courses.component";
+import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees.component";
 import {CourseDetailsComponent} from "./pending-courses/form/course-details.component";
 import {MatCardModule} from "@angular/material/card";
 import {DeleteComponent} from "./pending-courses/delete/delete.component";
 import {SelectDepartmentComponent} from "./pending-accounts/affect-Department/select-department.component";
+import {PendingCoursesComponent} from "./pending-courses/coursefourmain/pending-courses.component";
 @NgModule({
   declarations: [
     DeleteDialogComponent,
     PendingAccountsComponent,
-    PendingCoursesComponent,
+    PendingCoursesFeesComponent,
     CourseDetailsComponent,
     DeleteComponent,
-    SelectDepartmentComponent
+    SelectDepartmentComponent,
+    PendingCoursesComponent
   ],
   imports: [
     CommonModule,

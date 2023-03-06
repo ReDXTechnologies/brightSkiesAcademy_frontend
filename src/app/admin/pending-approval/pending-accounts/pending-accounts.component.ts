@@ -141,7 +141,7 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
           console.log('teacher account approved successfully');
           this.showNotification(
             'snackbar-success',
-            'Reject account Successfully...!!!',
+            'Approve account Successfully...!!!',
             'bottom',
             'center'
           );
