@@ -18,8 +18,8 @@
               <!--                  <i class="material-icons">phone</i>264-625-2583</span>-->
               <!--              </div>-->
               <div class="profile-header">
-                <div class="user-name">Sarra smith</div>
-                <div class="name-center">3rd year student engineer</div>
+                <div class="user-name">{{this.student.user.firstName}} {{this.student.user.lastName}}</div>
+                <div class="name-center">{{this.student.speciality}}</div>
               </div>
 
             </div>
@@ -101,26 +101,22 @@
               <div class="col-lg-12 col-md-12 col-sm-12 p-5">
                 <div class="course-detelies-wrapper">
                   <div class="course-detiles-tittle mb-30">
-                    <h3>Sarra Smith</h3>
-                    <span>3rd year student engineer</span>
+                    <h3>{{this.student.user.firstName}} {{this.student.user.lastName}}</h3>
+                    <span>{{this.student.speciality}}</span>
                   </div>
                   <div class="course-detiles-meta">
 
                     <div class="">
-                      <h5>Department</h5>
-                      <span>HPC</span>
-                    </div>
-                    <div class="">
                       <h5>Email</h5>
-                      <span>imen.chaari@enis.tn</span>
+                      <span>{{this.student.user.email}}</span>
                     </div>
                     <div class="">
                       <h5>Phone</h5>
-                      <span> 50 586 370</span>
+                      <span>{{this.student.user.mobile_phone}}</span>
                     </div>
                     <div class="">
                       <h5>Lectures</h5>
-                      <span>3</span>
+                      <span></span>
                     </div>
                   </div>
 

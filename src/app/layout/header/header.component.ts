@@ -14,6 +14,7 @@ import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
 import { Role } from 'src/app/core/models/role';
 import { LanguageService } from 'src/app/core/service/language.service';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {AdminService} from "../../core/service/admin.service";
 const document: any = window.document;
 
 @Component({
@@ -33,6 +34,8 @@ export class HeaderComponent
   countryName;
   langStoreValue: string;
   defaultFlag: string;
+  userFullName: string;
+
   isOpenSidebar: boolean;
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -41,6 +44,8 @@ export class HeaderComponent
     private rightSidebarService: RightSidebarService,
     private configService: ConfigService,
     private authService: AuthService,
+    private adminService: AdminService,
+
     private router: Router,
     public languageService: LanguageService
   ) {
@@ -103,6 +108,8 @@ export class HeaderComponent
     },
   ];
   ngOnInit() {
+    this.getUser(localStorage.getItem('id'));
+
     this.config = this.configService.configData;
 
     const userRole = this.authService.currentUserValue.role[0];
@@ -128,6 +135,11 @@ export class HeaderComponent
     } else {
       this.flagvalue = val.map((element) => element.flag);
     }
+  }
+  getUser(id: string) {
+    this.adminService.getUser(id).subscribe((user: any) => {
+      this.userFullName = user.firstName + " "+user.lastName
+    });
   }
   ngAfterViewInit() {
     // set theme on startup

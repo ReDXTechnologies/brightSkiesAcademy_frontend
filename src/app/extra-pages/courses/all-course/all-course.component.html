@@ -38,7 +38,7 @@
                                   </ul>
                                 </div>
                                 <div class="course-action">
-                                  <a (click)="viewDetails(course)" class="view-details-btn align-center">View Details</a>
+                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View Details</button>
                                   <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"
                                           *ngIf="(role === 'Teacher')"><i
                                     class="fas fa-edit"></i></button>

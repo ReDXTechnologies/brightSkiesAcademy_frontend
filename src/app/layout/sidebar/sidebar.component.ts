@@ -12,6 +12,9 @@ import {
 import { ROUTES } from './sidebar-items';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
+import {HttpClient} from "@angular/common/http";
+import {AdminService} from "../../core/service/admin.service";
+import {User} from "../../core/models/user";
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -29,13 +32,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   headerHeight = 60;
   currentRoute: string;
   routerObj = null;
+  user: User;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
     private authService: AuthService,
-    private router: Router
+    private adminService: AdminService,
+    private router: Router,
   ) {
+    console.log(localStorage.getItem('id'))
+
     const body = this.elementRef.nativeElement.closest('body');
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -70,10 +78,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.authService.currentUserValue) {
       const userRole = this.authService.currentUserValue.role[0];
-      this.userFullName =
-        this.authService.currentUserValue.firstName +
-        ' ' +
-        this.authService.currentUserValue.lastName;
+      this.getUser(localStorage.getItem('id'));
       this.userImg = this.authService.currentUserValue.image;
 
       this.sidebarItems = ROUTES.filter(
@@ -93,8 +98,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }
     }
 
+
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
+  }
+
+  getUser(id: string) {
+    this.adminService.getUser(id).subscribe((user: any) => {
+      this.user = user;
+      this.userFullName = user.firstName + " "+user.lastName
+    });
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();

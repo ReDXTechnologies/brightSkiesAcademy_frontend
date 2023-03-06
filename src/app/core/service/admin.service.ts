@@ -26,6 +26,9 @@ export class AdminService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
 
+  getUser(id: string) {
+    return this.httpClient.get(`${this.baseUrl}/user/${id}`);
+  }
   /** CRUD METHODS */
   getAllTeacherss(): void {
     const url = `${this.baseUrl}/teachers/active`;

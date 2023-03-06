@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FileUploader} from "ng2-file-upload";
 import {UntypedFormControl, Validators} from "@angular/forms";
+import {User} from "../../core/models/user";
+import {StudentService} from "../../core/service/student.service";
+import {Student} from "../../core/models/student";
 @Component({
   selector: 'app-profile',
   templateUrl: './student-profile.component.html',
@@ -12,8 +15,18 @@ export class StudentProfileComponent implements OnInit {
   email = new UntypedFormControl('', [Validators.required, Validators.email]);
 
   hide = true;
-  constructor() {}
-  ngOnInit() {}
+  student : Student;
+  constructor(private studentService : StudentService) {}
+  ngOnInit() {
+    this.getStudentDetails(localStorage.getItem('id'))
+  }
+
+  getStudentDetails(studentId: string){
+    this.studentService.getStudent(studentId).subscribe(student=>{
+      this.student = student;
+      console.log("eeeeeeeeeeee",student)
+    })
+  }
 
   getErrorMessage() {
     return this.email.hasError('required')

@@ -91,7 +91,7 @@
           <button mat-button [matMenuTriggerFor]="profilemenu">
             <div class="chip dropdown-toggle" ngbDropdownToggle class="pt-0">
               <img src="{{userImg}}" class="user_img" width="32" height="32" alt="User">
-              <span>Ella Jones</span>
+              <span>{{this.userFullName }}</span>
             </div>
           </button>
           <mat-menu #profilemenu="matMenu" class="profile-menu">
@@ -101,12 +101,12 @@
                   <button mat-menu-item>
                     <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Account
                   </button>
-                  <button mat-menu-item>
-                    <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox
-                  </button>
-                  <button mat-menu-item>
-                    <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Settings
-                  </button>
+<!--                  <button mat-menu-item>-->
+<!--                    <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox-->
+<!--                  </button>-->
+<!--                  <button mat-menu-item>-->
+<!--                    <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Settings-->
+<!--                  </button>-->
                   <button mat-menu-item (click)="logout()">
                     <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Logout
                   </button>
