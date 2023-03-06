@@ -1,5 +1,6 @@
 import {Student} from "./student";
 import {Teacher} from "./teacher";
+import {Review} from "./review";
 
 export class Course {
   id: number;
@@ -24,6 +25,10 @@ export class Course {
   student_emails_file: File; // Use File type for file fields
   labFiles: File;
   image: File;
+  teachers: Teacher[]
+  teacherDetails: Teacher[]
+  students: Student[]
+  reviews: Review[]
   status: string;
 }
 

@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Teacher} from "../../../../core/models/teacher";
+import {Review} from "../../../../core/models/review";
 
 @Component({
   selector: 'app-coursereview',
@@ -7,6 +9,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class CoursereviewComponent implements OnInit {
+  @Input() reviews: Review[];
 
   constructor() { }
 

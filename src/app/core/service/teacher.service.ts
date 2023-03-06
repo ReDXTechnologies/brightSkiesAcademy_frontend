@@ -56,7 +56,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     );
   }
 
-  getTeacherById(teacher_id:number): Observable<Teacher> {
+  getTeacherById(teacher_id: any): Observable<Teacher> {
     const url = `${this.baseUrl}/teacher/${teacher_id}`;
 
     return this.httpClient.get<Teacher>(url);

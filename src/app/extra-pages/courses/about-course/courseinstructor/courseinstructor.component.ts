@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Teacher} from "../../../../core/models/teacher";
 
 @Component({
   selector: 'app-courseinstructor',
@@ -7,6 +8,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class CourseinstructorComponent implements OnInit {
+  @Input() teacher: Teacher;
 
   constructor() { }
 

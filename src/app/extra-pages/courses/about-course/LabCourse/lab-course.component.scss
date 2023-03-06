@@ -28,6 +28,25 @@
 .fa-play:hover {
   color: black;
 }
+.fa-user-plus {
+  margin-top: -10px;
+  font-size: 40px;
+  color: #2626a4;
+  text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+  animation: pulse 2s infinite;
+}
+
+.fa-user-plus::after {
+  content: "enroll";
+  font-size: 12px;
+  display: block;
+  text-align: center;
+  margin-top: 7px;
+}
+
+.fa-user-plus:hover {
+  color: #e58f0d;
+}
 
 @keyframes pulse {
   0% { transform: scale(1); }

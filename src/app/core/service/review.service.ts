@@ -16,8 +16,8 @@ export class ReviewService {
     return this.http.get<Review[]>(this.baseUrl);
   }
 
-  getById(id: number): Observable<Review> {
-    return this.http.get<Review>(`${this.baseUrl}${id}/`);
+  getCourseReviews(courseId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/courses/${courseId}/reviews`);
   }
 
   create(review: Review): Observable<Review> {

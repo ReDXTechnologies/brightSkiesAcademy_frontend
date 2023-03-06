@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {CourseService} from "../../../../core/service/course.service";
 import {Course} from "../../../../core/models/course";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from '@angular/router';
+import {Teacher} from "../../../../core/models/teacher";
+import {TeacherService} from "../../../../core/service/teacher.service";
+import {ReviewService} from "../../../../core/service/review.service";
 
 @Component({
   selector: 'app-coursefourmain',
@@ -10,15 +14,18 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class PendingCoursesComponent implements OnInit {
   courses: Course[];
+  teacher: Teacher;
 
-  constructor(public courseService: CourseService,    private snackBar: MatSnackBar
-
+  constructor(public courseService: CourseService,
+              private teacherService: TeacherService,
+              private router: Router, private snackBar: MatSnackBar
   ) {
   }
 
   ngOnInit(): void {
     this.getAllPendingCourses();
   }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
       duration: 2000,
@@ -27,6 +34,7 @@ export class PendingCoursesComponent implements OnInit {
       panelClass: colorName,
     });
   }
+
   getAllPendingCourses() {
     this.courseService.getPendingCourses().subscribe(
       (data) => {
@@ -38,6 +46,25 @@ export class PendingCoursesComponent implements OnInit {
       }
     );
 
+  }
+
+  viewDetails(course: Course) {
+    const courseJson = JSON.stringify(course);
+    const teacher_id = course.teachers[0]
+    this.teacherService.getTeacherById(teacher_id).subscribe(
+      (teacher: Teacher) => {
+        console.log('aaaaaaaaa',teacher)
+        this.teacher = teacher;
+        const teacherJson = JSON.stringify(teacher);
+
+        this.router.navigate(['/shared/Lab-course-details'],
+          { queryParams: { course: courseJson, teacher: teacherJson } });
+
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   approve(courseId: number) {
