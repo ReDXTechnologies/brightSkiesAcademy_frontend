@@ -53,7 +53,6 @@ export class SigninComponent
       this.subs.sink = this.authService
         .login(this.f.email.value, this.f.password.value).subscribe(res=>{
               if (res) {
-                setTimeout(() => {
                   const role = this.authService.currentUserValue.role[0];
                   console.log(role)
                   if (role === Role.Super_Admin || role === Role.Admin) {
@@ -66,7 +65,6 @@ export class SigninComponent
                     this.router.navigate(['/authentication/signin']);
                   }
                   this.loading = false;
-                }, 1000);
               } else {
                 this.error = 'Invalid Login';
               }

@@ -45,9 +45,9 @@ teacherId : number;
     })
   }
   getTeacherCourses() {
-    const id = +this.route.snapshot.paramMap.get('id'); // Get the id parameter from the route and convert it to a number using the + operator
-    this.teacherService.getTeacherCourses(id).subscribe(res => {
-      this.courses = res;
-    })
+    // const id = +this.route.snapshot.paramMap.get('id'); // Get the id parameter from the route and convert it to a number using the + operator
+    // this.teacherService.getApprovedCourses(id).subscribe(res => {
+    //   this.courses = res;
+    // })
   }
 }

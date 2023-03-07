@@ -79,8 +79,15 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.delete<Teacher>(url);
   }
-  getTeacherCourses(teacher_id:number): Observable<Course[]>{
-    const url = `${this.baseUrl}/teacher/${teacher_id}/courses`;
+
+  getPendingCourses(teacher_id: string): Observable<Course[]>{
+    const url = `${this.baseUrl}/teacher/${teacher_id}/pending-courses`;
+    console.log(url)
+    return this.httpClient.get<Course[]>(url);
+  }
+
+  getApprovedCourses(teacher_id: string): Observable<Course[]>{
+    const url = `${this.baseUrl}/teacher/${teacher_id}/approved-courses`;
     console.log(url)
     return this.httpClient.get<Course[]>(url);
   }

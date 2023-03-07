@@ -34,7 +34,6 @@ import { SharedModule } from '../shared/shared.module';
 import {TeacherProfileComponent} from "./teacher-profile/teacher-profile.component";
 import {MatTabsModule} from "@angular/material/tabs";
 import {FileUploadModule} from "ng2-file-upload";
-import {MyCourseComponent} from "./courses/all-course/my-course.component";
 import {MyStudentsComponent} from "./students/all-students/my-students.component";
 import {FormDialogComponent} from "./students/all-students/dialogs/form-dialog/form-dialog.component";
 import {DeleteDialogComponent} from "./students/all-students/dialogs/delete/delete.component";
@@ -55,7 +54,6 @@ import {LabCourseComponent} from "../extra-pages/courses/about-course/LabCourse/
   declarations: [
     SettingsComponent,
     TeacherProfileComponent,
-    MyCourseComponent,
     MyStudentsComponent,
     FormDialogComponent,
     DeleteDialogComponent,

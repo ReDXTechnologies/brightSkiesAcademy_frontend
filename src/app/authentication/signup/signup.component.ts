@@ -88,7 +88,7 @@ export class SignupComponent   extends UnsubscribeOnDestroyAdapter
       this.stdForm.value.gender,
       this.selectedValue
     ).subscribe(res => {
-      setTimeout(() => {
+
         this.showNotification(
           'snackbar-success',
           res.message,
@@ -96,7 +96,7 @@ export class SignupComponent   extends UnsubscribeOnDestroyAdapter
           'center'
         );
         this.loading = false;
-      }, 1000);
+
       // this.router.navigateByUrl('sessions/signin3');
 
     });  }

@@ -49,24 +49,22 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     console.log(url)
     return this.httpClient.delete(url);
   }
-  // getById(id: number): Observable<Course> {
-  //   return this.http.get<Course>(`${this.baseUrl}${id}/`);
-  // }
-  //
-  // create(course: Course): Observable<Course> {
-  //   return this.http.post<Course>(this.baseUrl, course);
-  // }
-  //
-  // update(id: number, course: Course): Observable<Course> {
-  //   return this.http.put<Course>(`${this.baseUrl}${id}/`, course);
-  // }
-  //
+  getCourseById(course_id:number): Observable<Course>{
+    const url = `${this.baseUrl}/courses/${course_id}`;
+    return this.httpClient.get<Course>(url);
+  }
+
   delete(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}${id}/`);
+    return this.httpClient.delete(`${this.baseUrl}/courses/${id}`);
   }
 
   createCourse(teacherId: string, formData: FormData, free: boolean, certified: boolean) : Observable<Course> {
     const url = `${this.baseUrl}/course/create/${teacherId}?free=${free}&certificate=${certified}`;
     return this.httpClient.post<Course>(url, formData);
+  }
+
+  updateCourse(courseId: number, teacherId: string, formData: FormData, free: boolean, certified: boolean) : Observable<Course> {
+    const url = `${this.baseUrl}/teacher/${teacherId}/course/${courseId}/update?free=${free}&certificate=${certified}`;
+    return this.httpClient.put<Course>(url, formData);
   }
 }

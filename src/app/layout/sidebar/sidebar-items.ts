@@ -315,7 +315,7 @@ export const ROUTES: RouteInfo[] = [
     role: ['Teacher'],
     submenu: [
       {
-        path: '/teacher/courses',
+        path: '/shared/courses',
         title: 'All courses',
         iconType: '',
         icon: '',
@@ -338,18 +338,18 @@ export const ROUTES: RouteInfo[] = [
         role: ['Admin','Super_Admin','Teacher'],
         submenu: [],
       },
-      {
-        path: '/shared/add-course',
-        title: 'Add tutorial course',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        role: ['Admin','Super_Admin','Teacher'],
-        submenu: [],
-      }
+      // {
+      //   path: '/shared/add-course',
+      //   title: 'Add tutorial course',
+      //   iconType: '',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   badge: '',
+      //   badgeClass: '',
+      //   role: ['Admin','Super_Admin','Teacher'],
+      //   submenu: [],
+      // }
     ],
   },
   //staff

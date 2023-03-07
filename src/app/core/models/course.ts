@@ -18,6 +18,7 @@ export class Course {
   description: string;
   requirements: string;
   rate: number;
+  nb_sessions: number;
   speciality: string;
   level: string;
   certificate: boolean;
@@ -30,6 +31,8 @@ export class Course {
   students: Student[]
   reviews: Review[]
   status: string;
+  what_you_will_learn: string
+  session_duration: string
 }
 
 

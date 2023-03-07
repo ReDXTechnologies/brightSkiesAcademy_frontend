@@ -8,8 +8,8 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="portfolio-button ">
-          <mat-tab-group [@.disabled]="true">
-            <mat-tab>
+          <mat-tab-group [@.disabled]="true" [selectedIndex]="selectedIndex" >
+            <mat-tab id="view_all">
               <ng-template mat-tab-label>
                 <button class="active">View All</button>
               </ng-template>
@@ -331,8 +331,204 @@
                 </div>
               </div>
             </mat-tab>
+            <mat-tab id="my_available_courses" *ngIf="( role === 'Teacher')">
+              <ng-template mat-tab-label>
+                <button class="active">My available courses</button>
+              </ng-template>
+              <div class="portfolio-course-body mt-5">
+                <div class="row grid course-main-items">
+                  <div class="portfolio-course-body mt-5">
+                    <div class="row grid course-main-items">
+                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of teacherApprovedCourses">
+                        <div class="eduman-course-main-wrapper mb-30">
+                          <div class="course-cart">
+                            <div class="course-info-wrapper">
+                              <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a
+                              [routerLink]="['/course']">{{course.speciality}}</a></span>
+                                <h3>{{course.title}}</h3>
+                                <div class="cart-lavel">
+                                  <h5>Level : <span>{{course.level}}</span></h5>
+                                </div>
+                                <div class="info-cart-text">
+                                  <ul>
+                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
+                                    <li><i class="fas fa-check"></i> Requirements :
+                                    </li>
+                                    <p>{{course.requirements}}</p>
 
-            <mat-tab>
+                                  </ul>
+                                </div>
+                                <div class="course-action">
+                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View Details</button>
+                                  <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"
+                                          *ngIf="(role === 'Teacher')"><i
+                                    class="fas fa-edit"></i></button>
+                                  <a class="c-share-btn"  (click)="deleteApprovedCourse(course)"><i class="fas fa-trash-alt"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="eduman-course-thumb w-img">
+                            <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                                  src="assets/img/course/HPC.png"></a>
+                          </div>
+                          <div class="eduman-course-wraper">
+                            <div class="eduman-course-heading">
+                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
+                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
+                                ({{course.total_enrolled}}
+                                )</span>
+                            </div>
+                            <div class="eduman-course-text">
+                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                              </h3>
+                            </div>
+                            <div class="eduman-course-meta">
+                              <div class="eduman-course-price">
+                      <span class="price-now">
+                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
+                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
+                      </span>
+                              </div>
+
+                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
+                                <img alt="image not found" src="assets/img/teacher/saber.png">
+                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
+                                <a
+                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="eduman-course-footer">
+                            <div class="course-lessson-svg">
+                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                                   xmlns="http://www.w3.org/2000/svg">
+                                <g id="blackboard-13" transform="translate(-0.008)">
+                                  <path
+                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
+                                    data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_000"/>
+                                </g>
+                              </svg>
+                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
+                            </div>
+                            <div class="course-deteals-btn">
+                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
+                                <i class="far fa-arrow-right"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab  *ngIf="( role === 'Teacher')">
+              <ng-template mat-tab-label>
+                <button class="active">My pending courses</button>
+              </ng-template>
+              <div class="portfolio-course-body mt-5">
+                <div class="row grid course-main-items">
+                  <div class="portfolio-course-body mt-5">
+                    <div class="row grid course-main-items">
+                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of teacherPendingCourses">
+                        <div class="eduman-course-main-wrapper mb-30">
+                          <div class="course-cart">
+                            <div class="course-info-wrapper">
+                              <div class="cart-info-body">
+                            <span class="category-color category-color-5"><a
+                              [routerLink]="['/course']">{{course.speciality}}</a></span>
+                                <h3>{{course.title}}</h3>
+                                <div class="cart-lavel">
+                                  <h5>Level : <span>{{course.level}}</span></h5>
+                                </div>
+                                <div class="info-cart-text">
+                                  <ul>
+                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
+                                    <li><i class="fas fa-check"></i> Requirements :
+                                    </li>
+                                    <p>{{course.requirements}}</p>
+
+                                  </ul>
+                                </div>
+                                <div class="course-action">
+                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View Details</button>
+                                  <button (click)="editCourse(course)" class="wishlist-btn"
+                                          *ngIf="(role === 'Teacher')"><i
+                                    class="fas fa-edit"></i></button>
+                                  <a class="c-share-btn" (click)="deletePendingCourse(course)"><i class="fas fa-trash-alt"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="eduman-course-thumb w-img">
+                            <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
+                                                                                  src="{{course.image}}"></a>
+                          </div>
+                          <div class="eduman-course-wraper">
+                            <div class="eduman-course-heading">
+                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
+                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
+                                ({{course.total_enrolled}}
+                                )</span>
+                            </div>
+                            <div class="eduman-course-text">
+                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                              </h3>
+                            </div>
+                            <div class="eduman-course-meta">
+                              <div class="eduman-course-price">
+                      <span class="price-now">
+                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
+                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
+                      </span>
+                              </div>
+
+                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
+                                <img alt="image not found" src="assets/img/teacher/saber.png">
+                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
+                                <a
+                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="eduman-course-footer">
+                            <div class="course-lessson-svg">
+                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                                   xmlns="http://www.w3.org/2000/svg">
+                                <g id="blackboard-13" transform="translate(-0.008)">
+                                  <path
+                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
+                                    data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_000"/>
+                                </g>
+                              </svg>
+                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
+                            </div>
+                            <div class="course-deteals-btn">
+                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
+                                <i class="far fa-arrow-right"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab id="lab_courses">
               <ng-template mat-tab-label>
                 <button>Labs<span class="port-red">[01]</span></button>
               </ng-template>
@@ -647,7 +843,7 @@
               </div>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab id="tutorial_courses">
               <ng-template mat-tab-label>
                 <button>Tutorials<span class="port-red">[03]</span></button>
               </ng-template>
@@ -820,4 +1016,3 @@
     </div>
   </div>
 </section>
-<!-- portfolio main area end -->

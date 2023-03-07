@@ -109,12 +109,14 @@
               <div class="row info-cart-text ">
                 <div class="col-xl-10">
                   <ul>
-                    <li><i class="fas fa-check"></i>Once you enroll you ll have this course registred in you</li>
+                    <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>wait for <b>3-4 minutes</b> until the instance opens up, and then you can test the content of the course.</li>
                     <li><i class="fas fa-check"></i>Once the jupiter instance open up, you are now ready to start the
                       lab course
                     </li>
-                    <li><i class="fas fa-check"></i>Please note that you are entitled to a total of 4 sessions, each
-                      lasting 1 hour
+                    <li><i class="fas fa-check"></i>Please note that you are entitled to a total of <b>{{course.nb_sessions}} sessions </b>, each
+                      lasting <b>{{course.session_duration}}</b>
+                    </li>
+                    <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>Note that approving the course will create a clone of the tested instance for each student to expedite VM launch.
                     </li>
                   </ul>
                 </div>

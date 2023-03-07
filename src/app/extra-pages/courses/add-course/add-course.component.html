@@ -1,5 +1,5 @@
 <section class="content">
-    <app-breadcrumb breadcrumbTitle="Add Lab course" breadcrumbSubTitle1="courses" breadcrumbSubTitle2="add new course"
+    <app-breadcrumb breadcrumbTitle="{{ editMode ? 'Edit Lab Course ' : 'Add Lab Course ' }}" breadcrumbSubTitle1="courses" breadcrumbSubTitle2="{{ editMode ? 'Edit Course ' : 'Add new Course ' }}"
     breadcrumbImage='url(assets/img/course/addCourse1.jpg'>
     </app-breadcrumb>
   <div class="content-block">
@@ -8,7 +8,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2>Add Course</h2>
+            <h2> {{ editMode ? 'Edit Course ' : 'Add Course ' }}</h2>
 
           </div>
           <div class="body">
@@ -103,35 +103,86 @@
                 </div>
               </div>
               <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Session duration</mat-label>
+                    <input matInput formControlName="session_duration" required>
+                    <mat-error *ngIf="courseForm.get('session_duration').hasError('required')">
+                      Session duration is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Course Details</mat-label>
-                    <textarea matInput formControlName="description" required></textarea>
+                    <mat-label>Number of sessions</mat-label>
+                    <input matInput formControlName="nb_sessions" required>
+                    <mat-error *ngIf="courseForm.get('nb_sessions').hasError('required')">
+                      Number of sessions is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+                <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>What you will learn</mat-label>
+                    <textarea matInput formControlName="what_you_will_learn" required></textarea>
+                    <mat-error *ngIf="courseForm.get('what_you_will_learn').hasError('required')">
+                      what you will learn is required
+                    </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Course Requirements</mat-label>
                     <textarea matInput formControlName="requirements" required></textarea>
+                    <mat-error *ngIf="courseForm.get('requirements').hasError('required')">
+                      Requirements is required
+                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
-                  <label>Upload photo for the course</label>
-                  <app-file-upload fileType="upload image" (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Course Details</mat-label>
+                    <textarea matInput formControlName="description" required></textarea>
+                    <mat-error *ngIf="courseForm.get('description').hasError('required')">
+                      Description is required
+                    </mat-error>
+                  </mat-form-field>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+
+
+              </div>
+
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
+                  <label>Upload photo for the course</label>
+                  <app-file-upload fileType="upload image"  (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
+<!--                  <mat-error *ngIf="courseForm.get('image').hasError('required')">-->
+<!--                    image is required-->
+<!--                  </mat-error>-->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
+                  <label>Upload the labs files</label>
+                  <app-file-upload fileType="upload lab files " (change)="onLabFilesSelected($event)" formControlName="labFiles"></app-file-upload>
+<!--                  <mat-error *ngIf="courseForm.get('labFiles').hasError('required')">-->
+<!--                   Lab files is required-->
+<!--                  </mat-error>-->
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
                   <label>Upload file containing all students emails to invite them</label>
                   <app-file-upload fileType="upload txt file" (change)="onStudentEmailsFileSelected($event)" formControlName="student_emails_file"></app-file-upload>
+<!--                  <mat-error *ngIf="courseForm.get('student_emails_file').hasError('required')">-->
+<!--                    student_emails_file is required-->
+<!--                  </mat-error>-->
                 </div>
               </div>
-                <div class="row">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
-                    <label>Upload the labs files</label>
-                    <app-file-upload fileType="upload lab files " (change)="onLabFilesSelected($event)" formControlName="labFiles"></app-file-upload>
-                  </div>
-                </div>
+
               <div class="row pb-3">
                   <mat-radio-group formControlName="plan">
                     <mat-radio-button value="free">Free</mat-radio-button>
@@ -159,9 +210,12 @@
               </div>
               <div class="row align-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button class="btn-space" [disabled]="!courseForm.valid " mat-raised-button
-                    color="primary" type="submit" [class.auth-spinner]="loading" [disabled]="loading">Submit</button>
-                  <button type="button" mat-raised-button color="warn">Cancel</button>
+                  <button class="btn-space" [disabled]="!isFormValid() || loading" mat-raised-button color="primary" type="submit" [class.auth-spinner]="loading">
+                    {{ editMode ? 'Update' : 'Add' }}
+                  </button>
+
+
+                  <button type="button" mat-raised-button color="warn" (click)="cancelSubmission()">Cancel</button>
                 </div>
               </div>
 
