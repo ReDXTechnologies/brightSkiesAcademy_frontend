@@ -8,24 +8,6 @@
         <div class="course-detalis-wrapper pb-30">
           <div class="course-heading mb-20">
             <h2>{{course.title}}</h2>
-            <!--            <div class="course-star">-->
-            <!--              <ul>-->
-            <!--                <li><i class="fas fa-star"></i></li>-->
-            <!--              </ul>-->
-            <!--              <ul>-->
-            <!--                <li><i class="fas fa-star"></i></li>-->
-            <!--              </ul>-->
-            <!--              <ul>-->
-            <!--                <li><i class="fas fa-star"></i></li>-->
-            <!--              </ul>-->
-            <!--              <ul>-->
-            <!--                <li><i class="fas fa-star"></i></li>-->
-            <!--              </ul>-->
-            <!--              <ul>-->
-            <!--                <li><i class="fal fa-star"></i></li>-->
-            <!--              </ul>-->
-            <!--              <span>(254 reviews)</span>-->
-            <!--            </div>-->
           </div>
           <div class="course-detelis-meta">
             <div class="course-meta-wrapper border-line-meta">
@@ -101,7 +83,34 @@
             </div>
           </div>
 
-          <div class="course-learn-wrapper"   *ngIf="(role === 'Student' && enrolled) || (role === 'Admin') ||(role === 'Super_Admin') || (role === 'Teacher')">
+
+
+          <div class="course-learn-wrapper" *ngIf="(role === 'Teacher' && this.userId !== teacher.user.id)">
+            <div class="course-learn">
+              <div class="course-leranm-tittle">
+                <h4 class="mb-15">In order to initiate this course, it is necessary to obtain student access by requesting a hybrid profile. </h4>
+              </div>
+              <div class="row info-cart-text ">
+                <div class="col-xl-10">
+                  <ul>
+                    <li><i class="fas fa-check"></i>Upon submitting your request, the administration will review and approve it, and you will receive a notification shortly thereafter.
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-xl-2">
+                  <a href="javascript:void(0)" (click)="enrollInCourse(course.id)">
+                    <span *ngIf="!isLoading"><i class="fas  fa-user-graduate"></i></span>
+                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="course-learn-wrapper"   *ngIf="(role === 'Student' && enrolled) || (role === 'Admin') ||(role === 'Super_Admin') || (role === 'Teacher' && this.userId === teacher.user.id)">
             <div class="course-learn">
               <div class="course-leranm-tittle">
                 <h4 class="mb-15">Start the course now</h4>

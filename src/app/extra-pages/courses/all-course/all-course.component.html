@@ -153,7 +153,7 @@
                                   <button (click)="viewDetails(course)" class="view-details-btn align-center">View
                                     Details
                                   </button>
-                                  <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"
+                                  <button (click)="editCourse(course)" class="wishlist-btn"
                                           *ngIf="(role === 'Teacher')"><i
                                     class="fas fa-edit"></i></button>
                                   <a class="c-share-btn" (click)="deleteApprovedCourse(course)"><i
@@ -188,8 +188,8 @@
                               </div>
 
                               <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img alt="image not found" src="assets/img/teacher/saber.png">
-                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
+                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                                     class="user-image" alt="">                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                                 <a
                                   [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
                               </div>
@@ -291,7 +291,7 @@
                               </div>
 
                               <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img alt="image not found" src="assets/img/teacher/saber.png">
+                                <img alt="image not found" src="{{teacher.user.image}}">
                                 <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                                 <a
                                   [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>

@@ -31,7 +31,7 @@ export class LabCourseComponent implements OnInit {
   reviews: Review[];
   role: any
   enrolled = false;
-
+userId : number;
   constructor(private studentService: StudentService,
               private route: ActivatedRoute,
               private teacherService: TeacherService,
@@ -45,6 +45,7 @@ export class LabCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
     const courseJson = this.route.snapshot.queryParamMap.get('course');
     const teacherJson = this.route.snapshot.queryParamMap.get('teacher');
     const reviewsJson = this.route.snapshot.queryParamMap.get('reviews');
@@ -55,6 +56,7 @@ export class LabCourseComponent implements OnInit {
 
     if (teacherJson) {
       this.teacher = JSON.parse(teacherJson);
+      console.log("************************************",typeof this.teacher.user.id ,typeof this.user_id )
     }
     if (reviewsJson) {
       this.reviews = JSON.parse(reviewsJson);
