@@ -73,6 +73,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.put<Teacher>(url,teacher);
   }
+  updateTeacherProfile(teacher_id: number, teacher: any): Observable<Teacher> {
+
+    const url = `${this.baseUrl}/teacher/${teacher_id}`;
+
+    return this.httpClient.put<Teacher>(url,teacher);
+  }
   deleteTeacher(teacher_id: number): Observable<Teacher> {
 
     const url = `${this.baseUrl}/teacher/${teacher_id}`;

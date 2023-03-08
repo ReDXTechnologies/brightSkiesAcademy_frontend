@@ -58,8 +58,9 @@
                 <div class="member-body text-center">
                    <div class="member-item">
                       <div class="member-thumb">
-                         <a [routerLink]="['/admin/teachers/about-teacher', teacher.user.id]"><img src="assets/images/user/teacher2.png"
-                               alt="member-img"></a>
+                         <a [routerLink]="['/admin/teachers/about-teacher', teacher.user.id]">
+                        <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" class="teacher-img" alt="">
+                         </a>
                       </div>
                       <div class="member-content">
                          <h4><a [routerLink]="['/admin/teachers/about-teacher']">{{teacher.user.firstName}} {{teacher.user.lastName}}</a></h4>

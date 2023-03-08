@@ -105,4 +105,8 @@ export class AdminService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<any>(url,{});
   }
 
+  updateProfilePicture(userId: number, image: FormData): Observable<any> {
+    return this.httpClient.put<any>(`${this.baseUrl}/update-profile-picture/${userId}`, image);
+  }
+
 }

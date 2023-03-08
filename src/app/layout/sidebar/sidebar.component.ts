@@ -106,7 +106,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   getUser(id: string) {
     this.adminService.getUser(id).subscribe((user: any) => {
       this.user = user;
+      console.log(user)
       this.userFullName = user.firstName + " "+user.lastName
+      this.userImg = user.image
     });
   }
   ngOnDestroy() {

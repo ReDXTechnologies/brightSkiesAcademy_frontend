@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import { Student } from '../models/student';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
+import {Course} from "../models/course";
 
 @Injectable()
 export class StudentService extends UnsubscribeOnDestroyAdapter {
@@ -53,12 +54,16 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.apiUrl}/student/${id}`;
     return this.http.get<Student>(url);
   }
+  getStudentCourses(id: string): Observable<Course[]> {
+    const url = `${this.apiUrl}/students/${id}/courses`;
+    return this.http.get<Course[]>(url);
+  }
 
   addStudent(student: Student): Observable<Student> {
     return this.http.post<Student>(this.apiUrl, student);
   }
 
-  updateStudent(student_id:number,student: Student): Observable<Student> {
+  updateStudent(student_id:number,student: any): Observable<Student> {
     this.dialogData =student;
     const url = `${this.apiUrl}/student/${student_id}`;
     return this.http.put<Student>(url, student);

@@ -74,6 +74,7 @@ export class AllCourseComponent implements OnInit {
       }
       else {
         this.selectedIndex = 0; // Set the index of the default tab
+        this.selectedIndex = 0; // Set the index of the default tab
       }
     });
     if (this.role === 'Teacher') {
@@ -89,7 +90,6 @@ export class AllCourseComponent implements OnInit {
   getAllApprovedCourses(item: string) {
     this.courseService.getApprovedCourses().subscribe(
       (data) => {
-        console.log(data)
         this.courses = data;
         this.courses.forEach(course => {
           this.getTeacherDetails(course.teachers).subscribe(
@@ -185,29 +185,37 @@ export class AllCourseComponent implements OnInit {
       panelClass: colorName,
     });
   }
+  navigateToCoursesTab(tabId: string) {
+    this.router.navigateByUrl('/shared/courses#'+tabId);
+  }
+
   deletePendingCourse(course: Course) {
     this.courseService.delete(course.id).subscribe(res=>{
       console.log(res);
-      this.getAllPendingCourses(localStorage.getItem('id'));
+      this.getAllTeacherApprovedCourses(localStorage.getItem('id'));
       this.showNotification(
         'snackbar-danger',
         'course deleted Successfully...!!!',
         'center',
         'center'
       );
+      this.navigateToCoursesTab('2');
+
     })
 
   }
   deleteApprovedCourse(course: Course) {
     this.courseService.delete(course.id).subscribe(res=>{
       console.log(res);
-      this.getAllApprovedCourses(localStorage.getItem('id'));
+      this.getAllTeacherApprovedCourses(localStorage.getItem('id'));
       this.showNotification(
         'snackbar-danger',
         'course deleted Successfully...!!!',
         'center',
         'center'
       );
+      this.navigateToCoursesTab('1');
+
     })
 
   }

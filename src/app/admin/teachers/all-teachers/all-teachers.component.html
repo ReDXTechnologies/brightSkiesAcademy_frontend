@@ -106,8 +106,10 @@
                         <ng-container matColumnDef="image">
                           <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'"> Image
                           </mat-header-cell>
-                          <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-6"> <img
-                              [src]="row.user.image" />
+                          <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-6">
+<!--                            <img [src]="row.user.image" />-->
+                            <img [src]="row.user.image ? row.user.image : 'assets/images/user/profile.jpg'" alt="">
+
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="firstName">

@@ -30,8 +30,8 @@
           <div class="course-detelis-meta">
             <div class="course-meta-wrapper border-line-meta">
               <div class="course-meta-img">
-                <a [routerLink]="['/instructor-profile']"><img src="assets/img/teacher/saber2.png"
-                                                               alt="course-meta"></a>
+                  <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
+
               </div>
               <div class="course-meta-text">
                 <span>Created by</span>
@@ -130,12 +130,18 @@
             </div>
           </div>
           <div class="course-requirements pt-45">
+            <h4>What you will learn : </h4>
+            <div class="course-requirements-text pb-30">
+              <ul>
+                <li>• {{course.what_you_will_learn}}.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="course-requirements pt-45">
             <h4>Requirements</h4>
             <div class="course-requirements-text pb-30">
               <ul>
                 <li>• {{course.requirements}}.</li>
-                <!--                <li>• Understanding of computer architecture.</li>-->
-                <!--                <li>• Access to a suitable computer.</li>-->
               </ul>
             </div>
           </div>

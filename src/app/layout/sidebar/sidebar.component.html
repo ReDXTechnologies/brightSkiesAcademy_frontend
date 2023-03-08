@@ -8,7 +8,7 @@
           <li class="sidebar-user-panel">
             <div class="user-panel">
               <div class=" image">
-                <img src="assets/images/user/admin.jpg" class="img-circle user-img-circle" alt="User Image" />
+                <img [src]="userType === 'Super_Admin' || userType === 'Admin' ? 'assets/images/user/admin.jpg' : (userImg ? userImg : 'assets/images/user/profile.jpg')" class="img-circle user-img-circle" alt="User Image" />
               </div>
             </div>
             <div class="profile-usertitle">

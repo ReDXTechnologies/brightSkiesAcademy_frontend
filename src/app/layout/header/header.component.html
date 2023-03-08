@@ -90,7 +90,8 @@
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">
             <div class="chip dropdown-toggle" ngbDropdownToggle class="pt-0">
-              <img src="{{userImg}}" class="user_img" width="32" height="32" alt="User">
+              <img [src]="userType === 'Super_Admin' || userType === 'Admin' ? 'assets/images/user/admin.jpg' : (userImg ? userImg : 'assets/images/user/profile.jpg')" class="user_img" width="32" height="32" alt="User" />
+
               <span>{{this.userFullName }}</span>
             </div>
           </button>

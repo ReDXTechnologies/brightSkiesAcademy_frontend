@@ -49,6 +49,7 @@ import {StudentfeedbackComponent} from "../extra-pages/courses/about-course/stud
 import {CoursereviewComponent} from "../extra-pages/courses/about-course/coursereview/coursereview.component";
 import {CoursevideoComponent} from "../extra-pages/courses/about-course/coursevideo/coursevideo.component";
 import {LabCourseComponent} from "../extra-pages/courses/about-course/LabCourse/lab-course.component";
+import {MatLegacyProgressBarModule} from "@angular/material/legacy-progress-bar";
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import {LabCourseComponent} from "../extra-pages/courses/about-course/LabCourse/
     SharedModule,
     MatTabsModule,
     FileUploadModule,
+    MatLegacyProgressBarModule,
   ],
   providers: [StudentsService],
 })

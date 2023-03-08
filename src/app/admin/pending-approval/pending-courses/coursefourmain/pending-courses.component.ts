@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {Teacher} from "../../../../core/models/teacher";
 import {TeacherService} from "../../../../core/service/teacher.service";
 import {ReviewService} from "../../../../core/service/review.service";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-coursefourmain',
@@ -34,12 +35,33 @@ export class PendingCoursesComponent implements OnInit {
       panelClass: colorName,
     });
   }
+  getTeacherDetails(teacherIds: any): Observable<any[]> {
+    const teachers = [];
 
+    teacherIds.forEach(id => {
+      this.teacherService.getTeacherById(id).subscribe(
+        (data) => {
+          teachers.push(data);
+        },
+        (error) => {
+          console.log(`Error fetching teacher details for teacher ID ${id}:`, error);
+        }
+      );
+    });
+
+    return of(teachers);
+  }
   getAllPendingCourses() {
     this.courseService.getPendingCourses().subscribe(
       (data) => {
-        console.log(data)
         this.courses = data;
+        this.courses.forEach(course => {
+          this.getTeacherDetails(course.teachers).subscribe(
+            (teachers) => {
+              course.teacherDetails = teachers;
+            }
+          );
+        });
       },
       (error) => {
         console.log('Error getting approved courses:', error);
@@ -53,7 +75,6 @@ export class PendingCoursesComponent implements OnInit {
     const teacher_id = course.teachers[0]
     this.teacherService.getTeacherById(teacher_id).subscribe(
       (teacher: Teacher) => {
-        console.log('aaaaaaaaa',teacher)
         this.teacher = teacher;
         const teacherJson = JSON.stringify(teacher);
 
@@ -66,7 +87,9 @@ export class PendingCoursesComponent implements OnInit {
       }
     );
   }
-
+  navigateToCoursesTab(tabId: string) {
+    this.router.navigateByUrl('/shared/courses#'+tabId);
+  }
   approve(courseId: number) {
     this.courseService.approveCourse(courseId)
       .subscribe((course) => {
@@ -79,6 +102,7 @@ export class PendingCoursesComponent implements OnInit {
           'center',
           'center'
         );
+        this.navigateToCoursesTab('0')
 
       });
   }
@@ -94,6 +118,8 @@ export class PendingCoursesComponent implements OnInit {
           'center',
           'center'
         );
+        this.navigateToCoursesTab('0')
+
         // do something after the course has been rejected
       });
   }

@@ -1,7 +1,7 @@
 import {Role} from "./role";
 import {User} from "./user";
 
-export class Student extends User{
+export class Student {
   skills: string;
   speciality: string;
   grades: JSON;

@@ -119,15 +119,10 @@ export class AllTeachersComponent
             const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
               (x) => x.user.id === this.id
             );
-
-            // Then you update that record using data from dialogData (values you enetered)
-            // / Update the teacher object with the new department value
             const updatedTeacher = Object.assign({}, this.teachersService.getDialogData().teacher);
             updatedTeacher.department = result.department;
-
-            // Update the teacher in the dataChange array
             this.exampleDatabase.dataChange.value[foundIndex] = updatedTeacher;
-            // And lastly refresh table
+            this.loadData();
             this.refreshTable();
             this.showNotification(
               'black',

@@ -35,6 +35,7 @@ export class HeaderComponent
   langStoreValue: string;
   defaultFlag: string;
   userFullName: string;
+  userType: string;
 
   isOpenSidebar: boolean;
   constructor(
@@ -50,6 +51,9 @@ export class HeaderComponent
     public languageService: LanguageService
   ) {
     super();
+    this.userType = this.authService.currentUserValue.role[0]
+
+
   }
   listLang = [
     { text: 'English', flag: 'assets/images/flags/us.svg', lang: 'en' },
@@ -113,7 +117,6 @@ export class HeaderComponent
     this.config = this.configService.configData;
 
     const userRole = this.authService.currentUserValue.role[0];
-    this.userImg = this.authService.currentUserValue.image;
 
     if (userRole === Role.Admin || userRole === Role.Super_Admin) {
       this.homePage = 'admin/dashboard/main';
@@ -139,6 +142,7 @@ export class HeaderComponent
   getUser(id: string) {
     this.adminService.getUser(id).subscribe((user: any) => {
       this.userFullName = user.firstName + " "+user.lastName
+      this.userImg = user.image
     });
   }
   ngAfterViewInit() {
