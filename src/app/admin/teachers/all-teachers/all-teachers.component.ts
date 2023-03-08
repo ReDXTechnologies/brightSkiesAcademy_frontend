@@ -64,38 +64,6 @@ export class AllTeachersComponent
     this.loadData();
   }
 
-  addNew() {
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(FormDialogComponent, {
-      data: {
-        teachers: this.teachers,
-        action: 'add',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataServicex
-        this.exampleDatabase.dataChange.value.unshift(
-          this.teachersService.getDialogData()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
-        );
-      }
-    });
-  }
-
   editCall(row) {
     this.id = row.user.id;
     let tempDirection;

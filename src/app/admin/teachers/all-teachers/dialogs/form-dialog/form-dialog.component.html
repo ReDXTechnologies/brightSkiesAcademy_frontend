@@ -96,7 +96,7 @@
                             [value]="teachers.department">{{ teachers.department }}
                 </mat-option>
                 <!-- Display the department options when the user clicks the select field -->
-                <div *ngIf="proForm.get('department').value !== teachers.department">
+                <div >
                   <mat-option *ngFor="let department of departments" [value]="department.name">
                     {{ department.name }}
                   </mat-option>

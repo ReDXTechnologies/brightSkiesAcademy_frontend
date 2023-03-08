@@ -106,8 +106,8 @@
 
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Session duration</mat-label>
-                    <input matInput formControlName="session_duration" required>
+                    <mat-label>Session duration (hours) </mat-label>
+                    <input matInput formControlName="session_duration" type="number" required>
                     <mat-error *ngIf="courseForm.get('session_duration').hasError('required')">
                       Session duration is required
                     </mat-error>
