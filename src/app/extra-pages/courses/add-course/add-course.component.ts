@@ -11,6 +11,7 @@ import {Course} from "../../../core/models/course";
   styleUrls: ['./add-course.component.sass'],
 })
 export class AddCourseComponent {
+  isLinear = false;
   courseForm: UntypedFormGroup;
   selectedPlan = 'free';
   price: number;
@@ -33,6 +34,7 @@ export class AddCourseComponent {
     this.courseForm = this.fb.group({
       title: ['', [Validators.required]],
       specialty: ['', [Validators.required]],
+      course_id: [''],
       nbr_of_lessons: ['', [Validators.required]],
       description: ['', [Validators.required]],
       what_you_will_learn: ['', [Validators.required]],

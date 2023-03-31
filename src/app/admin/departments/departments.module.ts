@@ -20,20 +20,23 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { DepartmentsRoutingModule } from './departments-routing.module';
-import { AddDepartmentComponent } from './add-department/add-department.component';
+import { AddSuperDepartmentComponent } from './add-super-department/add-super-department.component';
 import { AllDepartmentsComponent } from './all-departments/all-departments.component';
 import { DeleteDialogComponent } from './all-departments/dialogs/delete/delete.component';
 import { FormDialogComponent } from './all-departments/dialogs/form-dialog/form-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ComponentsModule } from './../../shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import {AddSubDepartmentComponent} from "./add-sub-department/add-sub-department.component";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
-    AddDepartmentComponent,
+    AddSuperDepartmentComponent,
     AllDepartmentsComponent,
     DeleteDialogComponent,
     FormDialogComponent,
+    AddSubDepartmentComponent
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatProgressSpinnerModule,
     ComponentsModule,
     SharedModule,
+    MatTabsModule,
   ],
   providers: [],
 })

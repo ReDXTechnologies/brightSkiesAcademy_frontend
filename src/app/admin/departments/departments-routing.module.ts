@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AllDepartmentsComponent } from './all-departments/all-departments.component';
-import { AddDepartmentComponent } from './add-department/add-department.component';
+import { AddSuperDepartmentComponent } from './add-super-department/add-super-department.component';
+import {AddSubDepartmentComponent} from "./add-sub-department/add-sub-department.component";
 
 const routes: Routes = [
   {
@@ -9,8 +10,12 @@ const routes: Routes = [
     component: AllDepartmentsComponent
   },
   {
-    path: 'add-department',
-    component: AddDepartmentComponent
+    path: 'add-sub-department',
+    component: AddSubDepartmentComponent
+  },
+  {
+    path: 'add-super-department',
+    component: AddSuperDepartmentComponent
   },
 ];
 

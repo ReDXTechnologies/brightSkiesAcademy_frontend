@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { AddDepartmentComponent } from './add-department.component';
+import { AddSubDepartmentComponent } from './add-sub-department.component';
 
 describe('AddDepartmentComponent', () => {
-  let component: AddDepartmentComponent;
-  let fixture: ComponentFixture<AddDepartmentComponent>;
+  let component: AddSubDepartmentComponent;
+  let fixture: ComponentFixture<AddSubDepartmentComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddDepartmentComponent ]
+      declarations: [ AddSubDepartmentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddDepartmentComponent);
+    fixture = TestBed.createComponent(AddSubDepartmentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

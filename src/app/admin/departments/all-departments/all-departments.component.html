@@ -4,173 +4,352 @@
       </app-breadcrumb>
 
     <div class="row content-block">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-          <div class="body">
-            <div class="responsive_table">
-<!--              export Data-->
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="material-icons-two-tone psr-3">list_alt</i>
+            All super departments
+          </ng-template>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-20" >
+            <div class="card">
+              <div class="body">
+                <div class="responsive_table">
+                  <!--              export Data-->
 
-              <div class="materialTableHeader pb-3">
-                <div class="row">
-                  <div class="col-8">
-                    <ul class="header-buttons-left ms-0">
-                      <li class="tbl-title">
-                        <h2>All Departments</h2>
-                      </li>
-                      <li class="tbl-search-box">
-                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                        <input placeholder="Search" type="text" #filter class="browser-default search-field"
-                          aria-label="Search box">
-                      </li>
-                      <li class="tbl-header-btn">
-                        <div class="m-l-10" matTooltip="ADD">
-                          <button mat-mini-fab color="primary" routerLink="/admin/departments/add-department">
-                            <mat-icon class="col-white">add</mat-icon>
-                          </button>
-                        </div>
-                      </li>
-                      <li class="tbl-header-btn">
-                        <div class="m-l-10" matTooltip="REFRESH">
-                          <button mat-mini-fab color="primary" (click)="refresh()">
-                            <mat-icon class="col-white">refresh</mat-icon>
-                          </button>
-                        </div>
-                      </li>
-                      <li class="tbl-header-btn">
-                        <div class="m-l-10" [hidden]=!selection.hasValue() matTooltip="DELETE">
-                          <button mat-mini-fab color="warn" (click)="removeSelectedRows()">
-                            <mat-icon class="col-white">delete
-                            </mat-icon>
-                          </button>
-                        </div>
-                      </li>
-                    </ul>
+                  <div class="materialTableHeader pb-3">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="tbl-title">
+                            <h2>Super Departments</h2>
+                          </li>
+                          <li class="tbl-search-box">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                                   aria-label="Search box">
+                          </li>
+                          <li class="tbl-header-btn" *ngIf="(role === 'Super_Admin')">
+                            <div class="m-l-10" matTooltip="ADD">
+                              <button mat-mini-fab color="primary" routerLink="/admin/departments/add-super-department" >
+                                <mat-icon class="col-white">add</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="tbl-header-btn">
+                            <div class="m-l-10" matTooltip="REFRESH">
+                              <button mat-mini-fab color="primary" (click)="refresh()" >
+                                <mat-icon class="col-white">refresh</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="tbl-header-btn">
+                            <div class="m-l-10" [hidden]=!selection.hasValue() matTooltip="DELETE">
+                              <button mat-mini-fab color="warn" (click)="removeSuperDepSelectedRows()">
+                                <mat-icon class="col-white">delete
+                                </mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-4">
+                        <ul class="tbl-export-btn">
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="XLSX">
+                              <img src="assets/images/icons/xlsx.png" alt=""
+                                   (click)="exporter.exportTable('xlsx', {fileName:'assets-list', sheet: 'sheet1'})" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="CSV">
+                              <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="JSON">
+                              <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="TXT">
+                              <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-4">
-                    <ul class="tbl-export-btn">
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="XLSX">
-                          <img src="assets/images/icons/xlsx.png" alt=""
-                            (click)="exporter.exportTable('xlsx', {fileName:'assets-list', sheet: 'sheet1'})" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="CSV">
-                          <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="JSON">
-                          <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
-                        </div>
-                      </li>
-                      <li>
-                        <div class="export-button m-l-10" matTooltip="TXT">
-                          <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
-                        </div>
-                      </li>
-                    </ul>
+
+                  <!--              dataSource-->
+                  <mat-table #table matTableExporter [dataSource]="superDepartments" matSort class="mat-cell"
+                             #exporter="matTableExporter">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                      <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                      [checked]="selection.hasValue() && isAllSelected()"
+                                      [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+                        </mat-checkbox>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                      [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                        </mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                      <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.name}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="head_of_department">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Head Of Department
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.head_of_super_department.firstName}} {{row.head_of_super_department.lastName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.email}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="department_start_date">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.department_start_date}}</mat-cell>
+                    </ng-container>
+
+
+
+                    <!-- actions -->
+
+                    <ng-container    matColumnDef="actions">
+                      <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i=index;" class="pr-0" >
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
+                                class="tbl-action-btn">
+                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'" ></app-feather-icons>
+                        </button>
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteSuperDep(row)"
+                                class="tbl-action-btn">
+                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="SuperDepDisplayedColumns"></mat-header-row>
+                    <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                    <mat-row *matRowDef="let row; columns: SuperDepDisplayedColumns;" (click)="editCall(row)"
+                             [style.cursor]="'pointer'" matRipple>
+                    </mat-row>
+                  </mat-table>
+                  <!--              actions-->
+
+                  <!-- context menu end -->
+                  <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                       [style.display]="superDepartments.renderedData.length == 0 ? '' : 'none'">
+                    No results
                   </div>
+                  <mat-paginator #paginator [length]="superDepartments.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                                 [pageSizeOptions]="[5, 10, 25, 100]">
+                  </mat-paginator>
                 </div>
               </div>
-
-<!--              dataSource-->
-              <mat-table #table matTableExporter [dataSource]="dataSource" matSort class="mat-cell"
-                #exporter="matTableExporter">
-                <!-- Checkbox Column -->
-                <ng-container matColumnDef="select">
-                  <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
-                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
-                    </mat-checkbox>
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
-                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
-                    </mat-checkbox>
-                  </mat-cell>
-                </ng-container>
-                <!-- ID Column -->
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                    {{row.name}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="head_of_department">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Head Of Department
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                    {{row.head_of_department}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="email">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                    {{row.email}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="department_start_date">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
-                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                    {{row.department_start_date}}</mat-cell>
-                </ng-container>
-
-
-
-                <!-- actions -->
-
-                <ng-container matColumnDef="actions">
-                  <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
-                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
-                      class="tbl-action-btn">
-                      <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-                    </button>
-                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteItem(row)"
-                      class="tbl-action-btn">
-                      <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                    </button>
-                  </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-                <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
-                  [style.cursor]="'pointer'" matRipple>
-                </mat-row>
-              </mat-table>
-<!--              actions-->
-              <mat-menu #contextMenu="matMenu">
-                <ng-template matMenuContent let-item="item">
-                  <button mat-menu-item routerLink="/admin/departments/add-department">
-                    <mat-icon>add_box</mat-icon>
-                    <span>Add Record</span>
-                  </button>
-                  <button mat-menu-item (click)="deleteItem(item)">
-                    <mat-icon>delete</mat-icon>
-                    <span>Delete Record</span>
-                  </button>
-                  <button mat-menu-item (click)="refresh()">
-                    <mat-icon>refresh</mat-icon>
-                    <span>Refresh Record</span>
-                  </button>
-                </ng-template>
-              </mat-menu>
-              <!-- context menu end -->
-              <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
-                [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
-                No results
-              </div>
-              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]">
-              </mat-paginator>
             </div>
           </div>
-        </div>
-      </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i class="material-icons-two-tone psr-3">grid_on</i>
+            All sub departments
+          </ng-template>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-20" >
+            <div class="card">
+              <div class="body">
+                <div class="responsive_table">
+                  <!--              export Data-->
+
+                  <div class="materialTableHeader pb-3">
+                    <div class="row">
+                      <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                          <li class="tbl-title">
+                            <h2>Sub Departments</h2>
+                          </li>
+                          <li class="tbl-search-box">
+                            <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                            <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                                   aria-label="Search box">
+                          </li>
+                          <li class="tbl-header-btn" *ngIf="(role === 'head_super_department' ||role === 'Super_Admin')">
+                            <div class="m-l-10" matTooltip="ADD">
+                              <button mat-mini-fab color="primary" routerLink="/admin/departments/add-sub-department">
+                                <mat-icon class="col-white">add</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="tbl-header-btn">
+                            <div class="m-l-10" matTooltip="REFRESH">
+                              <button mat-mini-fab color="primary" (click)="refresh()">
+                                <mat-icon class="col-white">refresh</mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                          <li class="tbl-header-btn">
+                            <div class="m-l-10" [hidden]=!selection.hasValue() matTooltip="DELETE">
+                              <button mat-mini-fab color="warn" (click)="removeSubDepSelectedRows()">
+                                <mat-icon class="col-white">delete
+                                </mat-icon>
+                              </button>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-4">
+                        <ul class="tbl-export-btn">
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="XLSX">
+                              <img src="assets/images/icons/xlsx.png" alt=""
+                                   (click)="exporter.exportTable('xlsx', {fileName:'assets-list', sheet: 'sheet1'})" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="CSV">
+                              <img src="assets/images/icons/csv.png" alt="" (click)="exporter.exportTable('csv')" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="JSON">
+                              <img src="assets/images/icons/json.png" alt="" (click)="exporter.exportTable('json')" />
+                            </div>
+                          </li>
+                          <li>
+                            <div class="export-button m-l-10" matTooltip="TXT">
+                              <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--              dataSource-->
+                  <mat-table #table matTableExporter [dataSource]="subDepartments" matSort class="mat-cell"
+                             #exporter="matTableExporter">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                      <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                      [checked]="selection.hasValue() && isAllSelected()"
+                                      [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+                        </mat-checkbox>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                      [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                        </mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                      <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.name}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="head_of_sub_department">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Head Of Sub Department
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.head_of_sub_department.firstName}} {{row.head_of_sub_department.lastName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="parent_department">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Department
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.super_department_name}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="head_of_super_department">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Head Of super Department
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.super_department_head_of_super_department_firstName}} {{row.super_department_head_of_super_department_lastName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.email}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="department_start_date">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.department_start_date}}</mat-cell>
+                    </ng-container>
+
+
+
+                    <!-- actions -->
+
+                    <ng-container matColumnDef="actions">
+                      <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i=index;" class="pr-0" >
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)" *ngIf="(this.userId === row.super_department_head_of_super_department || role === 'Super_Admin')"
+                                class="tbl-action-btn">
+                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        </button>
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteSubDep(row)" *ngIf="(this.userId === row.super_department_head_of_super_department || role === 'Super_Admin')"
+                                class="tbl-action-btn">
+                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="SubDepDisplayedColumns"></mat-header-row>
+                    <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                    <mat-row *matRowDef="let row; columns: SubDepDisplayedColumns;" (click)="editCall(row)"
+                             [style.cursor]="'pointer'" matRipple>
+                    </mat-row>
+                  </mat-table>
+                  <!--              actions-->
+                  <mat-menu #contextMenu="matMenu">
+                    <ng-template matMenuContent let-item="item">
+                      <button mat-menu-item routerLink="/admin/departments/add-sub-department">
+                        <mat-icon>add_box</mat-icon>
+                        <span>Add Record</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteSuperDep(item)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete Record</span>
+                      </button>
+                      <button mat-menu-item (click)="refresh()">
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh Record</span>
+                      </button>
+                    </ng-template>
+                  </mat-menu>
+                  <!-- context menu end -->
+                  <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
+                       [style.display]="superDepartments.renderedData.length == 0 ? '' : 'none'">
+                    No results
+                  </div>
+                  <mat-paginator #paginator [length]="superDepartments.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                                 [pageSizeOptions]="[5, 10, 25, 100]">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
     </div>
 
 </section>

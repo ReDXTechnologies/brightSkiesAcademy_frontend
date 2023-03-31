@@ -30,6 +30,7 @@ import {MatCardModule} from "@angular/material/card";
 import {FileUploadModule} from "ng2-file-upload";
 import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatStepperModule} from "@angular/material/stepper";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -45,28 +46,29 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     EditCourseComponent
 
   ],
-  imports: [
-    CommonModule,
-    ExtraPagesRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatTabsModule,
-    ComponentsModule,
-    MatOptionModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatCardModule,
-    FileUploadModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        CommonModule,
+        ExtraPagesRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatTabsModule,
+        ComponentsModule,
+        MatOptionModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatCardModule,
+        FileUploadModule,
+        MatSnackBarModule,
+        MatStepperModule
+    ],
 })
 export class ExtraPagesModule {}

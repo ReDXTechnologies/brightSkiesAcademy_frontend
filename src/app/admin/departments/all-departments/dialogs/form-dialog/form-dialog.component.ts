@@ -54,7 +54,7 @@ export class FormDialogComponent {
     return this.fb.group({
       id: [this.department.id],
       name: [this.department.name, [Validators.required]],
-      head_of_department: [this.department.head_of_department, [Validators.required]],
+      head_of_department: [this.department.head_of_super_department, [Validators.required]],
       email: [
         this.department.email,
         [Validators.required, Validators.email, Validators.minLength(5)]

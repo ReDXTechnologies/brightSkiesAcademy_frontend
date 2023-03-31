@@ -40,10 +40,16 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   }
 
   approveCourse(course_id:number): Observable<Course> {
-    const url = `${this.baseUrl}/courses/${course_id}/approve`;
+    const url = `${this.baseUrl}/course/${course_id}/approve`;
 
     return this.httpClient.post<Course>(url,{});
   }
+  createCustomAMI(course_id:number): Observable<Course> {
+    const url = `${this.baseUrl}/course/${course_id}/create_custom_ami`;
+
+    return this.httpClient.post<Course>(url,{});
+  }
+
   rejectCourse(course_id:number){
     const url = `${this.baseUrl}/courses/${course_id}/reject`;
     console.log(url)

@@ -24,6 +24,16 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   getDialogData() {
     return this.dialogData;
   }
+  getSuperDepTeachers(superDepartmentId: any): Observable<Teacher[]> {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
+
+    return this.httpClient.get<Teacher[]>(url);
+  }
+  getSubDepTeachers(subDepartmentId: any): Observable<Teacher[]> {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
+
+    return this.httpClient.get<Teacher[]>(url);
+  }
   getTeachers(): Observable<Teacher[]> {
     const url = `${this.baseUrl}/teachers/active`;
 
@@ -31,6 +41,32 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getAllTeacherss(): void {
     const url = `${this.baseUrl}/teachers/active`;
+    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSuperDepartmentTeachers(superDepartmentId: any):void  {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
+    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSubDepartmentTeachers(subDepartmentId: any):void  {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
     this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
@@ -55,7 +91,16 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  getSuperDepId(user_id: any){
+    const url = `${this.baseUrl}/user/${user_id}/super_department_id`;
 
+    return this.httpClient.get(url);
+  }
+  getSubDepId(user_id: any){
+    const url = `${this.baseUrl}/user/${user_id}/sub_department_id`;
+
+    return this.httpClient.get(url);
+  }
   getTeacherById(teacher_id: any): Observable<Teacher> {
     const url = `${this.baseUrl}/teacher/${teacher_id}`;
 

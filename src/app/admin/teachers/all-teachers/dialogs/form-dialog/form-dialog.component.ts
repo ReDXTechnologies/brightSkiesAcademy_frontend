@@ -75,7 +75,7 @@ export class FormDialogComponent implements OnInit {
   }
 
   private getDepatments() {
-    this.departmentService.getDepartments().subscribe(value => {
+    this.departmentService.getSubDepartments().subscribe(value => {
       if (!!value) {
         this.departments = value;
         console.log(this.departments)

@@ -33,7 +33,7 @@ export class SelectDepartmentComponent implements OnInit {
   }
 
   private getDepatments() {
-    this.departmentService.getDepartments().subscribe(value => {
+    this.departmentService.getSubDepartments().subscribe(value => {
       if (!!value) {
         this.departments = value;
       }

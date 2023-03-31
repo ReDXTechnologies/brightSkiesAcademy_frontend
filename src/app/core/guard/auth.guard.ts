@@ -18,6 +18,8 @@ export class AuthGuard implements CanActivate {
     if (this.authService.currentUserValue) {
       const userRole = this.authService.currentUserValue.role[0];
       if (route.data.role && route.data.role.indexOf(userRole) === -1) {
+        console.log(route.data.role)
+        console.log(route)
         this.router.navigate(['/authentication/signin']);
         return false;
       }

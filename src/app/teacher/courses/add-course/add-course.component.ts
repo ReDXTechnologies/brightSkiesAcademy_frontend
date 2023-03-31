@@ -14,6 +14,8 @@ export class AddCourseComponent {
   courseForm: UntypedFormGroup;
   selectedPlan = 'free';
   price: number;
+  isLinear = false;
+
   constructor(private fb: UntypedFormBuilder) {
     this.courseForm = this.fb.group({
       cName: ['', [Validators.required]],

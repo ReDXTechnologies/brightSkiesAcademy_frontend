@@ -1,20 +1,35 @@
 <div class="container">
     <h3 mat-dialog-title>Are you sure?</h3>
-    <div mat-dialog-content>
+    <div mat-dialog-content *ngIf="data.deleteSuperDep">
         <ul class="clearfix">
             <li>
-                <p><span class="font-weight-bold"> Department Name: </span>{{data.name}}</p>
+                <p><span class="font-weight-bold"> Department Name: </span>{{data.row.name}}</p>
             </li>
             <li>
-                <p><span class="font-weight-bold"> Head of department: </span>{{ data.head_of_department }}</p>
+                <p><span class="font-weight-bold"> Head of department: </span>{{ data.row.head_of_super_department.firstName }} {{ data.row.head_of_super_department.lastName }}</p>
             </li>
             <li>
                 <p>
-                    <span class="font-weight-bold">Email: </span>{{data.email}}
+                    <span class="font-weight-bold">Email: </span>{{data.row.email}}
                 </p>
             </li>
         </ul>
     </div>
+  <div mat-dialog-content *ngIf="!data.deleteSuperDep">
+    <ul class="clearfix">
+      <li>
+        <p><span class="font-weight-bold"> Department Name: </span>{{data.row.name}}</p>
+      </li>
+      <li>
+        <p><span class="font-weight-bold"> Head of department: </span>{{ data.row.head_of_sub_department.firstName }} {{ data.row.head_of_sub_department.lastName }}</p>
+      </li>
+      <li>
+        <p>
+          <span class="font-weight-bold">Email: </span>{{data.row.email}}
+        </p>
+      </li>
+    </ul>
+  </div>
 
   <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">

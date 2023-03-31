@@ -14,6 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { UnsubscribeOnDestroyAdapter } from './../../../shared/UnsubscribeOnDestroyAdapter';
 import {Department} from "../../../core/models/department";
 import {DepartmentService} from "../../../core/service/department.service";
+import {AuthService} from "../../../core/service/auth.service";
 
 @Component({
   selector: 'app-all-departments',
@@ -24,26 +25,49 @@ export class AllDepartmentsComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
-  displayedColumns = [
+  SuperDepDisplayedColumns = [
     'select',
     'name',
     'head_of_department',
     'email',
     'department_start_date',
-    'actions',
+  ];
+
+
+  SubDepDisplayedColumns = [
+    'select',
+    'name',
+    'head_of_sub_department',
+    'parent_department',
+    'head_of_super_department',
+    'email',
+    'department_start_date',
+    'actions'
   ];
   exampleDatabase: DepartmentService | null;
-  dataSource: ExampleDataSource | null;
+  superDepartments: superDepartmentsDatasource | null;
+  subDepartments: superDepartmentsDatasource | null;
   selection = new SelectionModel<Department>(true, []);
   id: number;
+  role: any
+  userId : number;
+  user_id: string;
   department: Department | null;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public departmentService: DepartmentService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+
   ) {
     super();
+    this.role = this.authService.currentUserValue.role[0];
+    if (this.role === 'Super_Admin') {
+      this.SuperDepDisplayedColumns.push('actions');
+    }
+    console.log(this.SuperDepDisplayedColumns)
+
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -53,41 +77,13 @@ export class AllDepartmentsComponent
   contextMenuPosition = { x: '0px', y: '0px' };
 
   ngOnInit() {
-    this.loadData();
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.superDeploadData();
+    this.subDeploadData();
   }
   refresh() {
-    this.loadData();
-  }
-  addNew() {
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
-    const dialogRef = this.dialog.open(FormDialogComponent, {
-      data: {
-        department: this.department,
-        action: 'add',
-      },
-      direction: tempDirection,
-    });
-    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
-        this.exampleDatabase.dataChange.value.unshift(
-          this.departmentService.getDialogData()
-        );
-        this.refreshTable();
-        this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
-        );
-      }
-    });
+    this.superDeploadData();
   }
   editCall(row) {
     this.id = row.id;
@@ -124,7 +120,7 @@ export class AllDepartmentsComponent
       }
     });
   }
-  deleteItem(row) {
+  deleteSuperDep(row) {
     this.id = row.id;
     let tempDirection;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -133,17 +129,16 @@ export class AllDepartmentsComponent
       tempDirection = 'ltr';
     }
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: row,
+      data:{
+        row,
+        deleteSuperDep: true
+
+      } ,
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
+        this.superDeploadData();
         this.showNotification(
           'snackbar-danger',
           'Delete Record Successfully...!!!',
@@ -159,7 +154,7 @@ export class AllDepartmentsComponent
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.renderedData.length;
+    const numRows = this.superDepartments.renderedData.length;
     return numSelected === numRows;
   }
 
@@ -167,16 +162,16 @@ export class AllDepartmentsComponent
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.renderedData.forEach((row) =>
+      : this.superDepartments.renderedData.forEach((row) =>
           this.selection.select(row)
         );
   }
-  removeSelectedRows() {
+  removeSuperDepSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
-      this.departmentService.deleteDepartment(item.id);
+      this.departmentService.deleteSuperDepartment(item.id);
 
-      const index: number = this.dataSource.renderedData.findIndex(
+      const index: number = this.superDepartments.renderedData.findIndex(
         (d) => d === item
       );
       // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
@@ -191,19 +186,19 @@ export class AllDepartmentsComponent
       'center'
     );
   }
-  public loadData() {
+  public superDeploadData() {
     this.exampleDatabase = new DepartmentService(this.httpClient);
-    this.dataSource = new ExampleDataSource(
+    this.superDepartments = new superDepartmentsDatasource(
       this.exampleDatabase,
       this.paginator,
       this.sort
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
-        if (!this.dataSource) {
+        if (!this.superDepartments) {
           return;
         }
-        this.dataSource.filter = this.filter.nativeElement.value;
+        this.superDepartments.filter = this.filter.nativeElement.value;
       }
     );
   }
@@ -224,8 +219,77 @@ export class AllDepartmentsComponent
     this.contextMenu.menu.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
+
+  //////////////////////////////////////////////////////////
+
+  public subDeploadData() {
+    this.exampleDatabase = new DepartmentService(this.httpClient);
+    this.subDepartments = new subDepartmentsDatasource(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
+      () => {
+        if (!this.subDepartments) {
+          return;
+        }
+        this.subDepartments.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
+  removeSubDepSelectedRows() {
+    const totalSelect = this.selection.selected.length;
+    this.selection.selected.forEach((item) => {
+      this.departmentService.deleteSubDepartment(item.id);
+
+      const index: number = this.subDepartments.renderedData.findIndex(
+        (d) => d === item
+      );
+      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      this.exampleDatabase.dataChange.value.splice(index, 1);
+      this.refreshTable();
+      this.selection = new SelectionModel<Department>(true, []);
+    });
+    this.showNotification(
+      'snackbar-danger',
+      totalSelect + ' Record Delete Successfully...!!!',
+      'bottom',
+      'center'
+    );
+  }
+  deleteSubDep(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data:{
+        row,
+        deleteSuperDep: false
+
+      } ,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        this.subDeploadData();
+        this.showNotification(
+          'snackbar-danger',
+          'Delete Record Successfully...!!!',
+          'bottom',
+          'center'
+        );
+      }
+    });
+  }
 }
-export class ExampleDataSource extends DataSource<Department> {
+
+
+export class superDepartmentsDatasource extends DataSource<Department> {
   filterChange = new BehaviorSubject('');
   get filter(): string {
     return this.filterChange.value;
@@ -253,7 +317,7 @@ export class ExampleDataSource extends DataSource<Department> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.departmentService.getAllDepartments();
+    this.departmentService.getAllSuperDepartments();
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
@@ -262,7 +326,7 @@ export class ExampleDataSource extends DataSource<Department> {
           .filter((department: Department) => {
             const searchStr = (
               department.name +
-              department.head_of_department +
+              department.head_of_super_department +
               department.email
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -296,7 +360,95 @@ export class ExampleDataSource extends DataSource<Department> {
           [propertyA, propertyB] = [a.name, b.name];
           break;
         case 'head_of_department':
-          [propertyA, propertyB] = [a.head_of_department, b.head_of_department];
+          [propertyA, propertyB] = [a.head_of_super_department, b.head_of_super_department];
+          break;
+        // case 'date': [propertyA, propertyB] = [a.date, b.date]; break;
+        case 'email':
+          [propertyA, propertyB] = [a.email, b.email];
+          break;
+      }
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+      return (
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+      );
+    });
+  }
+
+}
+
+export class subDepartmentsDatasource extends DataSource<Department> {
+  filterChange = new BehaviorSubject('');
+  get filter(): string {
+    return this.filterChange.value;
+  }
+  set filter(filter: string) {
+    this.filterChange.next(filter);
+  }
+  filteredData: Department[] = [];
+  renderedData: Department[] = [];
+  constructor(
+    public departmentService: DepartmentService,
+    public paginator: MatPaginator,
+    public _sort: MatSort
+  ) {
+    super();
+    // Reset to the first page when the user changes the filter.
+    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+  }
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<Department[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
+    const displayDataChanges = [
+      this.departmentService.dataChange,
+      this._sort.sortChange,
+      this.filterChange,
+      this.paginator.page,
+    ];
+    this.departmentService.getAllSubDepartments();
+    return merge(...displayDataChanges).pipe(
+      map(() => {
+        // Filter data
+        this.filteredData = this.departmentService.data
+          .slice()
+          .filter((department: Department) => {
+            const searchStr = (
+              department.name +
+              department.head_of_sub_department +
+              department.email
+            ).toLowerCase();
+            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+          });
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
+        // Grab the page's slice of the filtered sorted data.
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        this.renderedData = sortedData.splice(
+          startIndex,
+          this.paginator.pageSize
+        );
+        return this.renderedData;
+      })
+    );
+  }
+  disconnect() {}
+  /** Returns a sorted copy of the database data. */
+  sortData(data: Department[]): Department[] {
+    if (!this._sort.active || this._sort.direction === '') {
+      return data;
+    }
+    return data.sort((a, b) => {
+      let propertyA: number | string = '';
+      let propertyB: number | string = '';
+      switch (this._sort.active) {
+        case 'id':
+          [propertyA, propertyB] = [a.id, b.id];
+          break;
+        case 'name':
+          [propertyA, propertyB] = [a.name, b.name];
+          break;
+        case 'head_of_department':
+          [propertyA, propertyB] = [a.head_of_sub_department, b.head_of_sub_department];
           break;
         // case 'date': [propertyA, propertyB] = [a.date, b.date]; break;
         case 'email':

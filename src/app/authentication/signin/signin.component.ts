@@ -54,8 +54,9 @@ export class SigninComponent
         .login(this.f.email.value, this.f.password.value).subscribe(res=>{
               if (res) {
                   const role = this.authService.currentUserValue.role[0];
-                  console.log(role)
-                  if (role === Role.Super_Admin || role === Role.Admin) {
+                  console.log(role ,role === Role.head_sub_department)
+                  if (role === Role.Super_Admin || role === Role.Admin || role === Role.head_sub_department || role === Role.head_super_department) {
+                    console.log('here i am')
                     this.router.navigate(['/admin/dashboard/main']);
                   } else if (role === Role.Teacher) {
                     this.router.navigate(['/teacher/teacher-profile']);

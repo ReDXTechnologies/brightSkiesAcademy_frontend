@@ -1,0 +1,221 @@
+<section class="content">
+  <div class="content-block mt-100">
+
+    <div class="row clearfix">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add Head of super departments</h2>
+
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="HeadDepartmentForm" (ngSubmit)="addHeadOfSuperDepartment()">
+              <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>First Name</mat-label>
+                      <input matInput formControlName="firstName" required>
+                      <mat-icon matSuffix>face</mat-icon>
+                      <mat-error *ngIf="HeadDepartmentForm.get('firstName').hasError('required')">
+                        First Name is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Last Name</mat-label>
+                      <input matInput formControlName="lastName" required>
+                      <mat-icon matSuffix>face</mat-icon>
+                      <mat-error *ngIf="HeadDepartmentForm.get('lastName').hasError('required')">
+                        Last Name is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error *ngIf="HeadDepartmentForm.get('email').hasError('required') || HeadDepartmentForm.get('email').touched">
+                      Please enter a valid email address
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Mobile</mat-label>
+                    <input matInput formControlName="mobile_phone" >
+                    <mat-icon matSuffix>phone</mat-icon>
+                    <mat-error *ngIf="HeadDepartmentForm.get('mobile_phone').hasError('required')">
+                      Mobile is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <mat-form-field class="example-full-width " appearance="outline">
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender" required>
+                      <mat-option [value]="'male'">
+                        Male
+                      </mat-option>
+                      <mat-option [value]="'female'">
+                        Female
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="HeadDepartmentForm.get('gender').hasError('required')">
+                      Gender is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                    <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                       [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                    <mat-error *ngIf="HeadDepartmentForm.get('password').hasError('required')">
+                      Password is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password2">
+                    <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                       [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                    <mat-error *ngIf="HeadDepartmentForm.get('password2').hasError('required')">
+                      Password is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--              -->
+              <!--              <div class="row">-->
+              <!--                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">-->
+              <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
+              <!--                    <mat-label>Details</mat-label>-->
+              <!--                    <textarea matInput formControlName="details"></textarea>-->
+              <!--                  </mat-form-field>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <button class="btn-space" [disabled]="!HeadDepartmentForm.valid " [class.auth-spinner]="Head_loading"
+                          mat-raised-button
+                          color="primary">Submit</button>
+                  <button type="button" mat-raised-button color="warn">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Add super departments</h2>
+
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Name of department</mat-label>
+                    <input matInput formControlName="name" required>
+                    <mat-icon matSuffix>business</mat-icon>
+                    <mat-error *ngIf="departmentForm.get('name').hasError('required')">
+                      department name required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Head Of Department</mat-label>
+                    <mat-select placeholder="Select department" matInput formControlName="head_of_department">
+                      <!-- Display the current department value by default -->
+<!--                      <mat-option *ngIf="departmentForm.get('department').value === teachers.department"-->
+<!--                                  [value]="teachers.department">{{ teachers.department }}-->
+<!--                      </mat-option>-->
+                      <!-- Display the department options when the user clicks the select field -->
+                      <div >
+                        <mat-option *ngFor="let head of HeadSuperDepartments" [value]="head.id">
+                          {{ head.firstName }} {{ head.lastName }}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error *ngIf="departmentForm.get('head_of_department').hasError('required')">
+                      HOD name required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error
+                      *ngIf="departmentForm.get('email').hasError('required') || departmentForm.get('email').touched">
+                      Please enter a valid email address
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Department Start Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="department_start_date" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="departmentForm.get('department_start_date').hasError('required')">
+                      Please select date
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+<!--              -->
+<!--              <div class="row">-->
+<!--                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">-->
+<!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
+<!--                    <mat-label>Details</mat-label>-->
+<!--                    <textarea matInput formControlName="details"></textarea>-->
+<!--                  </mat-form-field>-->
+<!--                </div>-->
+<!--              </div>-->
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <button class="btn-space" [disabled]="!departmentForm.valid " [class.auth-spinner]="loading" [disabled]="loading" mat-raised-button
+                    color="primary">Submit</button>
+                  <button type="button" mat-raised-button color="warn">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

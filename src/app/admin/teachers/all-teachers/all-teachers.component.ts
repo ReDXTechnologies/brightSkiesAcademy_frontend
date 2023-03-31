@@ -13,6 +13,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {UnsubscribeOnDestroyAdapter} from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 import {Teacher} from "../../../core/models/teacher";
 import {TeacherService} from "../../../core/service/teacher.service";
+import {AuthService} from "../../../core/service/auth.service";
 
 @Component({
   selector: 'app-all-teachers',
@@ -40,11 +41,15 @@ export class AllTeachersComponent
   id: number;
   teachers: Teacher | null;
 
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public teachersService: TeacherService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+
+
   ) {
     super();
   }
@@ -57,6 +62,7 @@ export class AllTeachersComponent
   contextMenuPosition = {x: '0px', y: '0px'};
 
   ngOnInit() {
+
     this.loadData();
   }
 
@@ -174,10 +180,12 @@ export class AllTeachersComponent
 
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
+    this.authService = new AuthService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
-      this.sort
+      this.sort,
+      this.authService,
     );
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
@@ -222,15 +230,23 @@ export class ExampleDataSource extends DataSource<Teacher> {
 
   filteredData: Teacher[] = [];
   renderedData: Teacher[] = [];
-
+  userId : number;
+  user_id: string;
+  role: any
   constructor(
     public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
-    public _sort: MatSort
+    public _sort: MatSort,
+    private authService: AuthService,
+
   ) {
     super();
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.role = this.authService.currentUserValue.role[0];
+
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
@@ -242,7 +258,24 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.filterChange,
       this.paginator.page,
     ];
-    this.exampleDatabase.getAllTeacherss();
+    if (this.role === 'Super_Admin') {
+      this.exampleDatabase.getAllTeacherss();
+    }
+    else if (this.role === 'head_super_department') {
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        console.log("**************************************",res.valueOf())
+        this.exampleDatabase.getSuperDepartmentTeachers(res);
+
+      })
+
+    }else if (this.role === 'head_sub_department') {
+      this.exampleDatabase.getSubDepId(this.userId).subscribe(res=>{
+        console.log("**************************************",res.valueOf())
+        this.exampleDatabase.getSubDepartmentTeachers(res);
+
+      })
+
+    }
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
