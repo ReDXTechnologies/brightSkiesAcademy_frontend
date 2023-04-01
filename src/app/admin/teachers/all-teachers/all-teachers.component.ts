@@ -263,14 +263,12 @@ export class ExampleDataSource extends DataSource<Teacher> {
     }
     else if (this.role === 'head_super_department') {
       this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
-        console.log("**************************************",res.valueOf())
         this.exampleDatabase.getSuperDepartmentTeachers(res);
 
       })
 
     }else if (this.role === 'head_sub_department') {
       this.exampleDatabase.getSubDepId(this.userId).subscribe(res=>{
-        console.log("**************************************",res.valueOf())
         this.exampleDatabase.getSubDepartmentTeachers(res);
 
       })

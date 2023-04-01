@@ -69,7 +69,7 @@ export class AddSuperDepartmentComponent implements OnInit{
   }
 
   private getHeadsOfSuperDepartments() {
-    this.departmentService.getHeadsOfSuperDepartments().subscribe(value => {
+    this.departmentService.getNewlyCreatedHeadsOfSuperDepartments().subscribe(value => {
       if (!!value) {
         this.HeadSuperDepartments = value;
         console.log(this.HeadSuperDepartments)

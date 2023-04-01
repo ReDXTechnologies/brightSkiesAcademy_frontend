@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../core/models/user";
 import {AuthService} from "../../../core/service/auth.service";
+import {Department} from "../../../core/models/department";
 
 @Component({
   selector: 'app-add-sub-department',
@@ -16,17 +17,24 @@ export class AddSubDepartmentComponent implements OnInit{
   departmentForm: UntypedFormGroup;
   HeadDepartmentForm: UntypedFormGroup;
   HeadSubDepartments: User[];
+  superDep: Department[];
   loading = false;
   Head_loading = false;
   submitted = false;
   Head_submitted = false;
   hide = true;
+  role: any
+  userId : number;
+  user_id: string;
 
   constructor(private fb: UntypedFormBuilder,
               private router: Router,
               private _snackBar: MatSnackBar,
               private authService: AuthService,
               private departmentService: DepartmentService, private datePipe: DatePipe) {
+    this.role = this.authService.currentUserValue.role[0];
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
     this.departmentForm = this.fb.group({
       name: ['', [Validators.required]],
       head_of_department: ['', [Validators.required]],
@@ -35,6 +43,7 @@ export class AddSubDepartmentComponent implements OnInit{
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
       department_start_date: [''],
+      super_department: [''],
 
     });
 
@@ -53,7 +62,27 @@ export class AddSubDepartmentComponent implements OnInit{
 
     });
   }
+  private getSuperDepartments() {
+    if(this.role!=='Super_Admin'){
+      this.departmentService.getSuperDepByUserId(this.user_id).subscribe(value => {
+        if (!!value) {
+          this.superDep = value;
+          console.log(this.superDep)
+        }
+      })
+    }else{
+      this.departmentService.getSuperDepartments().subscribe(value => {
+        if (!!value) {
+          this.superDep = value;
+          console.log(this.superDep)
+        }
+      });
+    }
 
+  }
+  navigateToSubDEpTab(tabId: string) {
+    this.router.navigateByUrl('/admin/departments/all-departments#'+tabId);
+  }
   showNotification(colorName, text, placementFrom, placementAlign) {
     this._snackBar.open(text, 'close', {
       duration: 5000,
@@ -66,10 +95,11 @@ export class AddSubDepartmentComponent implements OnInit{
 
   ngOnInit(): void {
     this.getHeadsOfSubDepartments();
+    this.getSuperDepartments();
   }
 
   private getHeadsOfSubDepartments() {
-    this.departmentService.getHeadsOfSubDepartments().subscribe(value => {
+    this.departmentService.getNewlyCreatedHeadsOfSubDepartments().subscribe(value => {
       if (!!value) {
         this.HeadSubDepartments = value;
         console.log(this.HeadSubDepartments)
@@ -110,7 +140,7 @@ export class AddSubDepartmentComponent implements OnInit{
       "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
     }
     console.log("*****************",this.departmentForm.value.head_of_department)
-    this.departmentService.createSuperDepartment(data,this.departmentForm.value.head_of_department).subscribe(res => {
+    this.departmentService.createSubDepartment(data,this.departmentForm.value.head_of_department,this.departmentForm.value.super_department).subscribe(res => {
       console.log(res)
       this.showNotification(
         'snackbar-success',
@@ -118,7 +148,7 @@ export class AddSubDepartmentComponent implements OnInit{
         'bottom',
         'center'
       );
-      this.router.navigate(['/admin/departments/all-departments']);
+      this.navigateToSubDEpTab('sub_departments')
 
     })
   }

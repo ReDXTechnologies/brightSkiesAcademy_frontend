@@ -28,8 +28,18 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
 
     return this.http.get<User[]>(url);
   }
+  getNewlyCreatedHeadsOfSuperDepartments(): Observable<User[]> {
+    const url = `${this.baseUrl}/super-department-heads/newly_created`;
+
+    return this.http.get<User[]>(url);
+  }
   getHeadsOfSubDepartments(): Observable<User[]> {
     const url = `${this.baseUrl}/sub-department-heads`;
+
+    return this.http.get<User[]>(url);
+  }
+  getNewlyCreatedHeadsOfSubDepartments(): Observable<User[]> {
+    const url = `${this.baseUrl}/sub-department-heads/newly_created`;
 
     return this.http.get<User[]>(url);
   }
@@ -69,7 +79,11 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
      return this.http.get<Department[]>(url);
   }
 
+  getSuperDepByUserId(user_id: any):Observable<Department[]> {
+    const url = `${this.baseUrl}/user/${user_id}/super_department`;
 
+    return this.http.get<Department[]>(url);
+  }
   getSubDepartments(): Observable<Department[]> {
     const url = `${this.baseUrl}/sub-departments`;
 
@@ -83,8 +97,8 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
   createSuperDepartment(department: { name: string; department_start_date: string;  email: any;  }, head_id: string): Observable<Department> {
     return this.http.post<Department>(`${this.baseUrl}/super-departments/create/${head_id}`, department);
   }
-  createSubDepartment(department: { name: string; super_department:any; department_start_date: string;  email: any;  }, head_id: string): Observable<Department> {
-    return this.http.post<Department>(`${this.baseUrl}/sub-departments/create/${head_id}`, department);
+  createSubDepartment(department: any, head_id: string, super_dep_id :string): Observable<Department> {
+    return this.http.post<Department>(`${this.baseUrl}/sub-departments/create/${head_id}/super_dep/${super_dep_id}`, department);
   }
 
 
@@ -95,10 +109,13 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
     return this.dataChange.value;
   }
 
-  updateDepartment(department: { name: string; department_start_date: string; head_of_department: any; email: any }, id: string): void {
+  updateSuperDepartment(department: any, id: string , headId: string): Observable<Department> {
     this.dialogData = department;
-    this.http.put(`${this.baseUrl}/departments/${id}`,department).subscribe(data => {
-    })
+    return this.http.put<Department>(`${this.baseUrl}/super_department/${id}/head/${headId}`,department);
+  }
+  updateSubDepartment(department:any, id: string,headId: string):  Observable<any>{
+    this.dialogData = department;
+    return this.http.put<any>(`${this.baseUrl}/sub_department/${id}/head/${headId}`,department)
   }
   deleteSuperDepartment(id: number): void {
     console.log(id);

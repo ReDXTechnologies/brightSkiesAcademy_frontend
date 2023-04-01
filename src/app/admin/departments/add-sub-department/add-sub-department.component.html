@@ -147,7 +147,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Head Of Department</mat-label>
@@ -166,6 +166,26 @@
                     <mat-icon matSuffix>person</mat-icon>
                     <mat-error *ngIf="departmentForm.get('head_of_department').hasError('required')">
                       HOD name required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Super Department</mat-label>
+                    <mat-select placeholder="Select department" matInput formControlName="super_department">
+                      <!-- Display the current department value by default -->
+                      <!--                      <mat-option *ngIf="departmentForm.get('department').value === teachers.department"-->
+                      <!--                                  [value]="teachers.department">{{ teachers.department }}-->
+                      <!--                      </mat-option>-->
+                      <!-- Display the department options when the user clicks the select field -->
+                      <div >
+                        <mat-option *ngFor="let dep of superDep" [value]="dep.id">
+                          {{ dep.name }}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                    <mat-error *ngIf="departmentForm.get('super_department').hasError('required')">
+                      super department name required
                     </mat-error>
                   </mat-form-field>
                 </div>

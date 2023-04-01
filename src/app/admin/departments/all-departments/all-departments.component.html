@@ -4,8 +4,8 @@
       </app-breadcrumb>
 
     <div class="row content-block">
-      <mat-tab-group>
-        <mat-tab>
+      <mat-tab-group [selectedIndex]="selectedIndex">
+        <mat-tab id="super_departments">
           <ng-template mat-tab-label>
             <i class="material-icons-two-tone psr-3">list_alt</i>
             All super departments
@@ -131,7 +131,7 @@
                     <ng-container    matColumnDef="actions">
                       <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
                       <mat-cell *matCellDef="let row; let i=index;" class="pr-0" >
-                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editSuperDep(row)"
                                 class="tbl-action-btn">
                           <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'" ></app-feather-icons>
                         </button>
@@ -144,7 +144,7 @@
 
                     <mat-header-row *matHeaderRowDef="SuperDepDisplayedColumns"></mat-header-row>
                     <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-                    <mat-row *matRowDef="let row; columns: SuperDepDisplayedColumns;" (click)="editCall(row)"
+                    <mat-row *matRowDef="let row; columns: SuperDepDisplayedColumns;" (click)="editSuperDep(row)"
                              [style.cursor]="'pointer'" matRipple>
                     </mat-row>
                   </mat-table>
@@ -163,7 +163,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab>
+        <mat-tab id="sub_departments">
           <ng-template mat-tab-label>
             <i class="material-icons-two-tone psr-3">grid_on</i>
             All sub departments
@@ -183,7 +183,7 @@
                           </li>
                           <li class="tbl-search-box">
                             <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                            <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                            <input placeholder="Search" type="text" #filter1 class="browser-default search-field"
                                    aria-label="Search box">
                           </li>
                           <li class="tbl-header-btn" *ngIf="(role === 'head_super_department' ||role === 'Super_Admin')">
@@ -301,11 +301,11 @@
                     <ng-container matColumnDef="actions">
                       <mat-header-cell *matHeaderCellDef class="pr-0">Actions</mat-header-cell>
                       <mat-cell *matCellDef="let row; let i=index;" class="pr-0" >
-                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)" *ngIf="(this.userId === row.super_department_head_of_super_department || role === 'Super_Admin')"
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="editSubDep(row)" *ngIf="(this.user_id === row.super_department_head_of_super_department_id)"
                                 class="tbl-action-btn">
                           <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                         </button>
-                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteSubDep(row)" *ngIf="(this.userId === row.super_department_head_of_super_department || role === 'Super_Admin')"
+                        <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteSubDep(row)" *ngIf="(this.user_id === row.super_department_head_of_super_department_id)"
                                 class="tbl-action-btn">
                           <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                         </button>
@@ -314,7 +314,7 @@
 
                     <mat-header-row *matHeaderRowDef="SubDepDisplayedColumns"></mat-header-row>
                     <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-                    <mat-row *matRowDef="let row; columns: SubDepDisplayedColumns;" (click)="editCall(row)"
+                    <mat-row *matRowDef="let row; columns: SubDepDisplayedColumns;" (click)="editSubDep(row)"
                              [style.cursor]="'pointer'" matRipple>
                     </mat-row>
                   </mat-table>

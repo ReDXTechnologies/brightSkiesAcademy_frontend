@@ -147,6 +147,18 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: '',
         role: ['Admin','Super_Admin'],
         submenu: [],
+      },
+      {
+        path: '/admin/departments/add-sub-department',
+        title: 'Add Sub department',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        role: [''],
+        submenu: [],
       }
     ],
   },

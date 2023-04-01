@@ -15,6 +15,9 @@ import { UnsubscribeOnDestroyAdapter } from './../../../shared/UnsubscribeOnDest
 import {Department} from "../../../core/models/department";
 import {DepartmentService} from "../../../core/service/department.service";
 import {AuthService} from "../../../core/service/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {log} from "echarts/types/src/util/log";
+import {co} from "@fullcalendar/core/internal-common";
 
 @Component({
   selector: 'app-all-departments',
@@ -53,12 +56,16 @@ export class AllDepartmentsComponent
   userId : number;
   user_id: string;
   department: Department | null;
+  selectedIndex = 0;
+
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public departmentService: DepartmentService,
     private snackBar: MatSnackBar,
     private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
 
   ) {
     super();
@@ -72,6 +79,7 @@ export class AllDepartmentsComponent
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('filter', { static: true }) filter: ElementRef;
+  @ViewChild('filter1', { static: true }) filter1: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: '0px', y: '0px' };
@@ -79,13 +87,22 @@ export class AllDepartmentsComponent
   ngOnInit() {
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id)
+    this.route.fragment.subscribe(fragment => {
+      if (fragment === 'super_departments') {
+        this.selectedIndex = 1;
+      }
+      else
+      if (fragment === 'sub_departments') {
+        this.selectedIndex = 2;
+      }
+    });
     this.superDeploadData();
     this.subDeploadData();
   }
   refresh() {
     this.superDeploadData();
   }
-  editCall(row) {
+  editSuperDep(row) {
     this.id = row.id;
     let tempDirection;
     if (localStorage.getItem('isRtl') === 'true') {
@@ -97,23 +114,48 @@ export class AllDepartmentsComponent
       data: {
         department: row,
         action: 'edit',
+        editSuperDep: true
+
       },
       direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        this.exampleDatabase.dataChange.value[foundIndex] =
-          this.departmentService.getDialogData();
-        // And lastly refresh table
-        this.refreshTable();
+        this.superDeploadData();
+      if(result!== undefined) {
         this.showNotification(
           'black',
-          'Edit Record Successfully...!!!',
+          result,
+          'bottom',
+          'center'
+        );
+      }
+    });
+
+  }
+  editSubDep(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem('isRtl') === 'true') {
+      tempDirection = 'rtl';
+    } else {
+      tempDirection = 'ltr';
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        department: row,
+        action: 'edit',
+        editSuperDep: false
+
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+        this.subDeploadData();
+        this.refreshTable();
+      if(result!== undefined){
+        this.showNotification(
+          'black',
+          result,
           'bottom',
           'center'
         );
@@ -132,7 +174,6 @@ export class AllDepartmentsComponent
       data:{
         row,
         deleteSuperDep: true
-
       } ,
       direction: tempDirection,
     });
@@ -229,12 +270,12 @@ export class AllDepartmentsComponent
       this.paginator,
       this.sort
     );
-    this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
+    this.subs.sink = fromEvent(this.filter1.nativeElement, 'keyup').subscribe(
       () => {
         if (!this.subDepartments) {
           return;
         }
-        this.subDepartments.filter = this.filter.nativeElement.value;
+        this.subDepartments.filter = this.filter1.nativeElement.value;
       }
     );
   }
