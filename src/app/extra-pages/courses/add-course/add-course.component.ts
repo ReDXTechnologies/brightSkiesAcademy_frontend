@@ -26,6 +26,9 @@ AddCourseComponent implements OnInit{
   price: number;
   selectedStudentEmailsFile: File = null;
   selectedLabFiles: File = null;
+  selectedLibrariesRequirements: File = null;
+  selectedPackagesRequirements: File = null;
+  selectedSlides: File = null;
   selectedImage: File = null;
   loading = false;
   submitted = false;
@@ -136,8 +139,6 @@ AddCourseComponent implements OnInit{
     nav.open();
   }
 
-
-
   closeSlider(nav: MatSidenav) {
     nav.close();
   }
@@ -201,9 +202,9 @@ AddCourseComponent implements OnInit{
     return this.fb.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      session_duration: ['', [Validators.required]],
-      nb_sessions: ['', [Validators.required]],
-      vm_characteristics: ['', [Validators.required]],
+      session_duration: [''],
+      nb_sessions: [''],
+      vm_characteristics: [''],
       labFiles: [''],
       packages_requirements: ['', [Validators.required]],
       libraries_requirements: ['', [Validators.required]],
@@ -264,6 +265,15 @@ AddCourseComponent implements OnInit{
   onImageSelected(event) {
     this.selectedImage = <File>event.target.files[0];
   }
+  onSlidesSelected(event) {
+    this.selectedSlides = <File>event.target.files[0];
+  }
+  onLibrariesRequirementsSelected(event) {
+    this.selectedLibrariesRequirements = <File>event.target.files[0];
+  }
+  onPackagesRequirementsSelected(event) {
+    this.selectedPackagesRequirements = <File>event.target.files[0];
+  }
 
   selectFree() {
     this.selectedPlan = 'free';
@@ -296,16 +306,14 @@ AddCourseComponent implements OnInit{
     formData.append('what_you_will_learn', this.courseForm.get('what_you_will_learn').value);
     formData.append('requirements', this.courseForm.get('requirements').value);
     formData.append('level', this.courseForm.get('level').value);
-    formData.append('vm_characteristics', this.courseForm.get('vm_characteristics').value);
     formData.append('certificate', this.courseForm.get('certified').value);
     formData.append('workload', this.courseForm.get('workload').value);
-    formData.append('session_duration', this.courseForm.get('session_duration').value);
-    formData.append('nb_sessions', this.courseForm.get('nb_sessions').value);
-    if (this.selectedStudentEmailsFile ) {
-      formData.append('student_emails_file', this.selectedStudentEmailsFile);
-    }
-    if (this.selectedLabFiles ) {
-      formData.append('labFiles', this.selectedLabFiles, this.selectedLabFiles.name);
+
+    // if (this.selectedLabFiles ) {
+    //   formData.append('labFiles', this.selectedLabFiles, this.selectedLabFiles.name);
+    // }
+    if (this.selectedSlides ) {
+      formData.append('slides', this.selectedSlides, this.selectedSlides.name);
     }
     if (this.selectedImage ) {
       formData.append('image', this.selectedImage);
@@ -314,6 +322,51 @@ AddCourseComponent implements OnInit{
       this.loading = false;
       return;
     }
+    //   // Loop over the modules array and add each module's data to the FormData object
+      for (let i = 0; i < this.courseForm.value.modules.length; i++) {
+        const module = this.courseForm.value.modules[i];
+
+        // Add the module's name to the FormData object
+        formData.append(`modules[${i}][name]`, module.name);
+
+        // Loop over the videos array for this module and add each video's data to the FormData object
+        for (let j = 0; j < module.videos.length-1; j++) {
+          const video = module.videos[j];
+
+          // Add the video's name and duration to the FormData object
+          formData.append(`modules[${i}][videos][${j}][name]`, video.name);
+          formData.append(`modules[${i}][videos][${j}][duration]`, video.duration);
+          formData.append(`modules[${i}][videos][${j}][video_file]`, video.video_file);
+          // if (this. ) {
+          //   formData.append('image', this.selectedImage);
+          // }
+        }
+
+        // Loop over the labs array for this module and add each lab's data to the FormData object
+        for (let j = 0; j < module.labs.length; j++) {
+          const lab = module.labs[j];
+          if (lab.hosting_platform== 'aws') {
+          // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
+          formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'True');
+          formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
+          formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
+          formData.append(`modules[${i}][labs][${j}][session_duration]`, lab.session_duration);
+          formData.append(`modules[${i}][labs][${j}][nb_sessions]`, lab.nb_sessions);
+          formData.append(`modules[${i}][labs][${j}][vm_characteristics]`, lab.vm_characteristics);
+          formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
+          formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
+          formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
+        }else{
+            formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'False');
+            formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
+            formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
+            formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
+            formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
+            formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
+          }
+        }
+      }
+
     if (this.editMode) {
       if (this.courseForm.get('plan').value == 'free') {
         formData.append('price', '0');
@@ -421,60 +474,7 @@ AddCourseComponent implements OnInit{
       }
     }
   }
-  // onSubmit() {
-  //   const formData = new FormData();
-  //
-  //   // Add the form fields to the FormData object
-  //   formData.append('title', this.courseForm.value.title);
-  //   formData.append('workload', this.courseForm.value.workload);
-  //   formData.append('nbr_of_lessons', this.courseForm.value.nbr_of_lessons);
-  //   formData.append('total_enrolled', this.courseForm.value.total_enrolled);
-  //   formData.append('description', this.courseForm.value.description);
-  //   formData.append('requirements', this.courseForm.value.requirements);
-  //   formData.append('speciality', this.courseForm.value.speciality);
-  //   formData.append('level', this.courseForm.value.level);
-  //   formData.append('what_you_will_learn', this.courseForm.value.what_you_will_learn);
-  //
-  //   // Add the slides and image files to the FormData object
-  //   formData.append('slides', this.courseForm.value.slides);
-  //   formData.append('image', this.courseForm.value.image);
-  //
-  //   // Loop over the modules array and add each module's data to the FormData object
-  //   for (let i = 0; i < this.courseForm.value.modules.length; i++) {
-  //     const module = this.courseForm.value.modules[i];
-  //
-  //     // Add the module's name to the FormData object
-  //     formData.append(`modules[${i}][name]`, module.name);
-  //
-  //     // Loop over the videos array for this module and add each video's data to the FormData object
-  //     for (let j = 0; j < module.videos.length; j++) {
-  //       const video = module.videos[j];
-  //
-  //       // Add the video's name and duration to the FormData object
-  //       formData.append(`modules[${i}][videos][${j}][name]`, video.name);
-  //       formData.append(`modules[${i}][videos][${j}][duration]`, video.duration);
-  //     }
-  //
-  //     // Loop over the labs array for this module and add each lab's data to the FormData object
-  //     for (let j = 0; j < module.labs.length; j++) {
-  //       const lab = module.labs[j];
-  //
-  //       // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
-  //       formData.append(`modules[${i}][labs][${j}][session_duration]`, lab.session_duration);
-  //       formData.append(`modules[${i}][labs][${j}][nb_sessions]`, lab.nb_sessions);
-  //       formData.append(`modules[${i}][labs][${j}][vm_characteristics]`, lab.vm_characteristics);
-  //       formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
-  //       formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
-  //       formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
-  //     }
-  //   }
-  //
-  //   // Submit the form data to the server using an HTTP POST request
-  //   // this.http.post('/api/create-course', formData).subscribe(
-  //   //   response => console.log(response),
-  //   //   error => console.log(error)
-  //   // );
-  // }
+
 
 
 }
