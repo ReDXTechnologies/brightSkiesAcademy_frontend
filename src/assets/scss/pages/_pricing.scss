@@ -17,7 +17,7 @@ $color_green: #40c952;
   box-shadow: 0 0 10px #ababab;
   padding-bottom: 40px;
   border-radius: 10px;
-  color: #cad0de;
+  color: #5a5a60;
   transform: scale(1);
   transition: all 0.5s ease 0s;
   &:hover {
@@ -42,24 +42,25 @@ $color_green: #40c952;
     border-radius: 10px 10px 50% 50%;
     transition: all 0.5s ease 0s;
     i {
-      font-size: 50px;
-      color: #858c9a;
+      font-size: 30px;
+      color: #6c6e7a;
       margin-bottom: 10px;
       transition: all 0.5s ease 0s;
     }
   }
   .price-value {
-    font-size: 35px;
+    font-size: 18px;
+    font-weight: bold;
     color: #ff9624;
     transition: all 0.5s ease 0s;
   }
   .month {
     display: block;
-    font-size: 14px;
+    font-size: 10px;
     color: #cad0de;
   }
   .heading {
-    font-size: 24px;
+    font-size: 15px;
     color: #ff9624;
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -99,25 +100,6 @@ $color_green: #40c952;
       }
     }
   }
-  &.greenColor {
-    .price-value {
-      color: $color_green;
-    }
-    &:hover {
-      .pricingTable-header {
-        background: $color_green;
-      }
-      .price-value {
-        color: $white;
-      }
-    }
-    .pricingTable-signup a {
-      background: $color_green;
-      &:hover {
-        box-shadow: 0 0 10px $color_green;
-      }
-    }
-  }
   &.blueColor {
     &:hover {
       .pricingTable-header {
@@ -152,9 +134,6 @@ $color_green: #40c952;
     .heading {
       color: $color_red;
     }
-    .pricingTable-signup a {
-      background: $color_red;
-    }
   }
   .pricing-content ul {
     list-style: none;
@@ -162,33 +141,18 @@ $color_green: #40c952;
     margin-bottom: 30px;
     li {
       line-height: 30px;
-      color: #a7a8aa;
+      color: #727277;
     }
   }
-  .pricingTable-signup a {
-    display: inline-block;
-    font-size: 15px;
-    color: $white;
-    padding: 10px 35px;
-    border-radius: 20px;
-    background: $color_orange;
-    text-transform: uppercase;
-    transition: all 0.3s ease 0s;
-    &:hover {
-      box-shadow: 0 0 10px $color_orange;
-    }
   }
-  &.green .heading {
-    color: $color_green;
-  }
-}
+
 @media screen and (max-width: 990px) {
   .pricingTable {
     margin: 0 0 20px 0;
   }
 }
 .greenColor .heading {
-  font-size: 24px;
+  font-size: 15px;
   color: $color_green;
   margin-bottom: 20px;
   text-transform: uppercase;

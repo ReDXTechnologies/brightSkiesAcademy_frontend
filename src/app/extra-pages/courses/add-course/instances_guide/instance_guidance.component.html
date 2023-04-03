@@ -1,0 +1,100 @@
+<div>
+  <h2 mat-dialog-title>Make your choice</h2>
+  <div mat-dialog-content>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>High Performance computing </h2>
+          </div>
+          <div class="body">
+            <div class="demo">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 col-sm-6 pricingTable redColor" *ngFor="let data of hpcPricingTableData">
+                    <div class="pricingTable-header">
+                      <div class="price-value">{{ data.title }}</div>
+                    </div>
+                    <div class="pricing-content">
+                      <ul class="pricing-list">
+                        <li><b>vCPUs:</b> {{ data.vCPUs }}</li>
+                        <li><b>RAM:</b> {{ data.RAM }}</li>
+                        <li><b>Network Bandwith :</b> {{ data.network_bandwidth }}</li>
+                        <li><b>Price per hour:</b> {{ data.price_per_hour }}</li>
+                      </ul>
+                    </div>
+                    <span>{{ data.description }}</span>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Software Deployment</h2>
+          </div>
+          <div class="body">
+            <div class="demo">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 col-sm-6 pricingTable redColor" *ngFor="let data of SoftwareDeploymentPricingTableData">
+                    <div class="pricingTable-header">
+                      <div class="price-value">{{ data.title }}</div>
+                    </div>
+                    <div class="pricing-content">
+                      <ul class="pricing-list">
+                        <li><b>vCPUs:</b> {{ data.vCPUs }}</li>
+                        <li><b>RAM:</b> {{ data.RAM }}</li>
+                        <li><b>Network Bandwith :</b> {{ data.network_bandwidth }}</li>
+                        <li><b>Price per hour:</b> {{ data.price_per_hour }}</li>
+                      </ul>
+                    </div>
+                    <span>{{ data.description }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>CPU/GPU benchmarking</h2>
+          </div>
+          <div class="body">
+            <div class="demo">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 col-sm-6 pricingTable redColor" *ngFor="let data of BenchmarkingPricingTableData">
+                    <div class="pricingTable-header">
+                      <div class="price-value">{{ data.title }}</div>
+                    </div>
+                    <div class="pricing-content">
+                      <ul class="pricing-list">
+                        <li><b>vCPUs:</b> {{ data.vCPUs }}</li>
+                        <li><b>RAM:</b> {{ data.RAM }}</li>
+                        <li><b>Network Bandwith :</b> {{ data.network_bandwidth }}</li>
+                        <li><b>Price per hour:</b> {{ data.price_per_hour }}</li>
+                      </ul>
+                    </div>
+                    <span>{{ data.description }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

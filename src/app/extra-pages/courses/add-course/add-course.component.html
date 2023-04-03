@@ -1,7 +1,7 @@
 <section class="content">
-  <app-breadcrumb breadcrumbTitle="{{ editMode ? 'Edit Lab Course ' : 'Add Lab Course ' }}"
+  <app-breadcrumb breadcrumbTitle="{{ editMode ? 'Edit Course ' : 'Add Course ' }}"
                   breadcrumbSubTitle1="courses"
-                  breadcrumbSubTitle2="{{ editMode ? 'Edit Course ' : 'Add new Course ' }}"
+                  breadcrumbSubTitle2="{{ editMode ? 'Edit Course ' : 'Add Course ' }}"
                   breadcrumbImage='url(assets/img/course/addCourse1.jpg'>
   </app-breadcrumb>
   <div class="content-block">
@@ -14,232 +14,230 @@
             </h2>
           </div>
           <div class="body">
+            <form [formGroup]="courseForm!" (ngSubmit)="onSubmit()">
+
             <mat-vertical-stepper [linear]="isLinear" #stepper>
-                            <mat-step [stepControl]="courseForm!">
-                              <form [formGroup]="courseForm!">
-                                <ng-template matStepLabel>Add Course Overview </ng-template>
-                                <div class="row">
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course name</mat-label>
-                                      <input matInput formControlName="title" required>
-                                      <mat-error *ngIf="courseForm.get('title').hasError('required')">
-                                        Course name is required
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course specialty</mat-label>
-                                      <input matInput formControlName="specialty" required>
-                                      <mat-error *ngIf="courseForm.get('specialty').hasError('required')">
-                                        Course specialty is required
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
+              <mat-step [stepControl]="courseForm!">
+                <form [formGroup]="courseForm!">
+                  <ng-template matStepLabel>Add Course Overview</ng-template>
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course name</mat-label>
+                        <input matInput formControlName="title" required>
+                        <mat-error *ngIf="courseForm.get('title').hasError('required')">
+                          Course name is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course specialty</mat-label>
+                        <input matInput formControlName="specialty" required>
+                        <mat-error *ngIf="courseForm.get('specialty').hasError('required')">
+                          Course specialty is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-                                </div>
-                                <div class="row">
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course workload hours</mat-label>
-                                      <input matInput formControlName="workload" type="number">
-                                    </mat-form-field>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>course level</mat-label>
-                                      <mat-select formControlName="level" required>
-                                        <mat-option [value]="'entry'">
-                                          Entry
-                                        </mat-option>
-                                        <mat-option [value]="'intermediate'">
-                                          Intermediate
-                                        </mat-option>
-                                        <mat-option [value]="'advanced'">
-                                          Advanced
-                                        </mat-option>
-                                      </mat-select>
-                                      <mat-error *ngIf="courseForm.get('level').hasError('required')">
-                                        Select any level
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course ID</mat-label>
-                                      <mat-select formControlName="course_id" required>
-                                        <mat-option [value]="'4 cores'">
-                                          4 cores
-                                        </mat-option>
-                                        <mat-option [value]=" '8 cores'">
-                                          8 cores
-                                        </mat-option>
-                                        <!--                      <mat-option [value]="3">-->
-                                        <!--                        Advanced-->
-                                        <!--                      </mat-option>-->
-                                      </mat-select>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course workload hours</mat-label>
+                        <input matInput formControlName="workload" type="number">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>course level</mat-label>
+                        <mat-select formControlName="level" required>
+                          <mat-option [value]="'entry'">
+                            Entry
+                          </mat-option>
+                          <mat-option [value]="'intermediate'">
+                            Intermediate
+                          </mat-option>
+                          <mat-option [value]="'advanced'">
+                            Advanced
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="courseForm.get('level').hasError('required')">
+                          Select any level
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course ID</mat-label>
+                        <input matInput formControlName="course_id">
 
-                                    </mat-form-field>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Total number of lessons</mat-label>
-                                      <input matInput formControlName="nbr_of_lessons" type="number" required>
-                                    </mat-form-field>
-                                  </div>
-                                </div>
-                                <div class="row">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Total number of lessons</mat-label>
+                        <input matInput formControlName="nbr_of_lessons" type="number" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
 
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>What you will learn</mat-label>
-                                      <textarea matInput formControlName="what_you_will_learn" required></textarea>
-                                      <mat-error *ngIf="courseForm.get('what_you_will_learn').hasError('required')">
-                                        what you will learn is required
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
-                                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course Requirements</mat-label>
-                                      <textarea matInput formControlName="requirements" required></textarea>
-                                      <mat-error *ngIf="courseForm.get('requirements').hasError('required')">
-                                        Requirements is required
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Course Details</mat-label>
-                                      <textarea matInput formControlName="description" required></textarea>
-                                      <mat-error *ngIf="courseForm.get('description').hasError('required')">
-                                        Description is required
-                                      </mat-error>
-                                    </mat-form-field>
-                                  </div>
-                                </div>
-                                <div>
-                                  <button mat-raised-button matStepperNext color="primary"
-                                          >Next</button>
-                                </div>
-                              </form>
-                            </mat-step>
-              <form [formGroup]="courseForm!">
-
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>What you will learn</mat-label>
+                        <textarea matInput formControlName="what_you_will_learn" required></textarea>
+                        <mat-error *ngIf="courseForm.get('what_you_will_learn').hasError('required')">
+                          what you will learn is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course Requirements</mat-label>
+                        <textarea matInput formControlName="requirements" required></textarea>
+                        <mat-error *ngIf="courseForm.get('requirements').hasError('required')">
+                          Requirements is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Course Details</mat-label>
+                        <textarea matInput formControlName="description" required></textarea>
+                        <mat-error *ngIf="courseForm.get('description').hasError('required')">
+                          Description is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div>
+                    <button mat-raised-button matStepperNext color="primary"
+                    >Next
+                    </button>
+                  </div>
+                </form>
+              </mat-step>
                 <mat-step [stepControl]="courseForm!">
                   <ng-template matStepLabel>Add Course Curriculum</ng-template>
                   <div>
-
                     <mat-vertical-stepper #stepper formArrayName="modules">
                       <ng-container *ngFor="let module of modules.controls; let i = index">
-
                         <mat-step [stepControl]="module" [formGroupName]="i">
                           <ng-template matStepLabel>Add Course module {{ i + 1 }}</ng-template>
-
                           <mat-form-field>
                             <input matInput placeholder="Module Name" formControlName="name">
                           </mat-form-field>
                           <mat-vertical-stepper #stepper>
                             <mat-step [stepControl]="courseForm" formArrayName="videos">
                               <ng-template matStepLabel>Add tutorials</ng-template>
-                                  <div class="card-body">
-                                    <div class="task-module">
-                                      <div class="task-header">
-                                        <div class="task-title" >
-                                          <h2>Tutorials</h2>
-                                          <h5>{{getVideosControls(i).length -1}} Total tutorial</h5>
-                                        </div>
-                                        <div class="header-button">
-                                          <button mat-raised-button color="primary" (click)="addNewTask(sidenav, i)">Add video
-                                          </button>
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col-md-12 col-sm-12">
-                                          <mat-sidenav-container class="task-container"
-                                                                 >
-                                            <mat-sidenav #sidenav [mode]="mode.value" position="end"
-                                                         [formGroupName]="0">
-                                              <div class="header">
-                                                <h2 class="header-title">add video</h2>
-                                                <div class="header-close m-l-0">
-                                                  <button mat-icon-button *ngIf="!isNewEvent"
-                                                          (click)="deleteVideo(i,sidenav)"
-                                                          matTooltip="Delete Task">
-                                                    <mat-icon>delete</mat-icon>
-                                                  </button>
-                                                  <button mat-icon-button *ngIf="isNewEvent" (click)="add_video(i,selectedVideoIndex)"
-                                                          matTooltip="Save Task">
-                                                    <mat-icon>save</mat-icon>
-                                                  </button>
-                                                  <button mat-icon-button (click)="closeSlider(sidenav)">
-                                                    <mat-icon>close</mat-icon>
-                                                  </button>
-                                                </div>
-                                              </div>
-
-                                              <div class="row  m-4">
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                                  <mat-form-field class="example-full-width" appearance="outline">
-                                                    <mat-label>Name</mat-label>
-                                                    <input matInput formControlName="name">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
-                                                      turned_in_not
-                                                    </mat-icon>
-                                                  </mat-form-field>
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                                                  <mat-form-field class="example-full-width" appearance="outline">
-                                                    <mat-label>Duration</mat-label>
-                                                    <input matInput formControlName="duration">
-                                                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
-                                                      access_time
-
-                                                    </mat-icon>
-                                                  </mat-form-field>
-                                                </div>
-                                              </div>
-                                              <div class="row m-2">
-                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                  <label>Upload video </label>
-                                                  <app-file-upload fileType="upload video " formControlName="video_file"></app-file-upload>
-                                                </div>
-                                              </div>
-                                            </mat-sidenav>
-                                            <mat-sidenav-content>
-                                              <ng-scrollbar style="height: 330px" visibility="hover">
-                                                <div cdkDropList class="task-list" (cdkDropListDropped)="drop($event)">
-                                                  <div class="task-box" *ngFor="let video of videos[i]"
-                                                       (click)="taskClick(video, sidenav)" cdkDrag>
-                                                    <div>
-                                                      <div class="task-handle m-r-20" cdkDragHandle>
-                                                        <mat-icon aria-hidden="false">drag_indicator</mat-icon>
-                                                      </div>
-                                                    </div>
-                                                    <div class="task-custom-placeholder" *cdkDragPlaceholder></div>
-                                                    <div matTooltip="Title">
-                                                      {{video.name}}</div>
-                                                    <div class="task-date"
-                                                         matTooltip="Due Date">{{video.duration}}</div>
-                                                    <div class="task-date"
-                                                         matTooltip="Due Date">{{video.video_file.name}}</div>
-                                                  </div>
-                                                </div>
-                                              </ng-scrollbar>
-                                            </mat-sidenav-content>
-                                          </mat-sidenav-container>
-                                          <button mat-raised-button matStepperNext>Next</button>
-
-                                        </div>
-                                      </div>
+                              <div class="card-body">
+                                <div class="task-module">
+                                  <div class="task-header">
+                                    <div class="task-title">
+                                      <h2>Tutorials</h2>
+                                      <h5>{{getVideosControls(i).length - 1}} Total tutorial</h5>
+                                    </div>
+                                    <div class="header-button">
+                                      <a href="javascript:void(0)" (click)="addNewTask(sidenav, i)"><i class="fas  fa-file-video"></i></a>
                                     </div>
                                   </div>
+                                  <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                      <mat-sidenav-container class="task-container">
+                                        <mat-sidenav #sidenav [mode]="mode.value" position="end"
+                                                     [formGroupName]="0">
+                                          <div class="header">
+                                            <h2 class="header-title">add video</h2>
+                                            <div class="header-close m-l-0">
+                                              <button mat-icon-button *ngIf="!isNewEvent"
+                                                      (click)="deleteVideo(i,selectedVideoIndex)"
+                                                      matTooltip="Delete Task">
+                                                <mat-icon>delete</mat-icon>
+                                              </button>
+                                              <button mat-icon-button *ngIf="isNewEvent"
+                                                      (click)="add_video(i,selectedVideoIndex)"
+                                                      matTooltip="Save Task">
+                                                <mat-icon>save</mat-icon>
+                                              </button>
+                                              <button mat-icon-button *ngIf="!isNewEvent"
+                                                      (click)="edit_video(i,selectedVideoIndex)"
+                                                      matTooltip="edit Task">
+                                                <mat-icon>edit</mat-icon>
+                                              </button>
+                                              <button mat-icon-button (click)="closeSlider(sidenav)">
+                                                <mat-icon>close</mat-icon>
+                                              </button>
+                                            </div>
+                                          </div>
+
+                                          <div class="row  m-4">
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                                              <mat-form-field class="example-full-width" appearance="outline">
+                                                <mat-label>Name</mat-label>
+                                                <input matInput formControlName="name">
+                                                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
+                                                  turned_in_not
+                                                </mat-icon>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                                              <mat-form-field class="example-full-width" appearance="outline">
+                                                <mat-label>Duration</mat-label>
+                                                <input matInput formControlName="duration">
+                                                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
+                                                  access_time
+
+                                                </mat-icon>
+                                              </mat-form-field>
+                                            </div>
+                                          </div>
+                                          <div class="row m-2">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                              <label>Upload video </label>
+                                              <app-file-upload fileType="upload video "
+                                                               formControlName="video_file"></app-file-upload>
+                                            </div>
+                                          </div>
+                                        </mat-sidenav>
+                                        <mat-sidenav-content>
+                                          <ng-scrollbar style="height: 330px" visibility="hover">
+                                            <div cdkDropList class="task-list" (cdkDropListDropped)="drop($event)">
+                                              <div class="row mt-3" *ngFor="let video of videos[i]" cdkDrag>
+                                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12">
+                                                  <div class="task-handle m-r-20" cdkDragHandle>
+                                                    <mat-icon aria-hidden="false">drag_indicator</mat-icon>
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  class="task-custom-placeholder col-xl-4 col-lg-4 col-md-12 col-sm-12 "
+                                                  *cdkDragPlaceholder></div>
+                                                <div matTooltip="Title" class="task-name">
+                                                  {{video.name}}</div>
+                                                <div class="task-video-file col-xl-5 col-lg-5 col-md-12 col-sm-12 "
+                                                     matTooltip="Due Date">{{video.video_file.name}}</div>
+                                                <div class="task-duration col-xl-2 col-lg-2 col-md-12 col-sm-12 "
+                                                     matTooltip="Due Date">{{video.duration}} min
+                                                  <mat-icon class="duration-icon " aria-hidden="false">access_time
+                                                  </mat-icon>
+                                                </div>
+
+                                              </div>
+                                            </div>
+                                          </ng-scrollbar>
+                                        </mat-sidenav-content>
+                                      </mat-sidenav-container>
+                                      <button mat-raised-button matStepperNext color="primary">Next</button>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </mat-step>
                             <mat-step [stepControl]="courseForm" formArrayName="labs">
                               <ng-template matStepLabel>Add Labs</ng-template>
@@ -277,13 +275,15 @@
                                   </div>
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
                                     <label>Upload libraries requirements txt file</label>
-                                    <app-file-upload fileType="libraries" (change)="onLibrariesRequirementsSelected($event)"
+                                    <app-file-upload fileType="libraries"
+                                                     (change)="onLibrariesRequirementsSelected($event)"
                                                      formControlName="libraries_requirements"></app-file-upload>
                                   </div>
 
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
                                     <label>Upload packages requirements txt file</label>
-                                    <app-file-upload fileType="packages" (change)="onPackagesRequirementsSelected($event)"
+                                    <app-file-upload fileType="packages"
+                                                     (change)="onPackagesRequirementsSelected($event)"
                                                      formControlName="packages_requirements"></app-file-upload>
                                   </div>
                                 </div>
@@ -303,42 +303,29 @@
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
                                       <mat-label>VM characteristics</mat-label>
-                                      <mat-select formControlName="vm_characteristics" required>
-                                        <mat-option [value]="'t2.large'">t2.large</mat-option>
-                                        <mat-option [value]="'t3.micro'">t3.micro</mat-option>
-                                      </mat-select>
-                                      <mat-error
-                                        *ngIf="getLabsControls(i).controls[k].get('vm_characteristics').hasError('required')">
-                                        vm_characteristics is required
-                                      </mat-error>
+                                      <input matInput formControlName="vm_characteristics" >
                                     </mat-form-field>
                                   </div>
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
                                       <mat-label>Session duration (hours)</mat-label>
-                                      <input matInput formControlName="session_duration" type="number" required>
-                                      <mat-error
-                                        *ngIf="getLabsControls(i).controls[k].get('session_duration').hasError('required')">
-                                        session_duration is required
-                                      </mat-error>
+                                      <input matInput formControlName="session_duration" type="number" >
                                     </mat-form-field>
                                   </div>
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
                                       <mat-label>Number of sessions</mat-label>
-                                      <input matInput formControlName="nb_sessions" required>
-                                      <mat-error
-                                        *ngIf="getLabsControls(i).controls[k].get('nb_sessions').hasError('required')">
-                                        nb_sessions is required
-                                      </mat-error>
+                                      <input matInput formControlName="nb_sessions" >
                                     </mat-form-field>
                                   </div>
                                 </div>
 
                                 <div class="mt-5" *ngIf="getLabsControls(i).length === k + 1">
                                   <div class="button-container">
-                                    <a href="javascript:void(0)" (click)="addLab(i)"><i class="fas fa-plus"></i></a>
-                                    <a href="javascript:void(0)" (click)="removeLab(i)"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="javascript:void(0)" (click)="addLab(i)"><i
+                                      class="fas fa-plus add-lab-icon"></i></a>
+                                    <a href="javascript:void(0)" (click)="removeLab(i)"><i
+                                      class="fas fa-trash-alt delete-lab-icon"></i></a>
 
                                   </div>
 
@@ -348,29 +335,24 @@
                               </div>
                             </mat-step>
                           </mat-vertical-stepper>
+                          <div class="button-container mt-5">
+                            <a href="javascript:void(0)" (click)="addModule()"><i
+                              class="fas fa-plus add-module-icon"></i></a>
+                            <a href="javascript:void(0)" (click)="removeModule(i)"><i
+                              class="fas fa-trash-alt delete-module-icon"></i></a>
 
+                          </div>
                         </mat-step>
                       </ng-container>
-
-
                     </mat-vertical-stepper>
                     <div>
                       <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Back</button>
-
-                      <button mat-raised-button (click)="addModule()" color="suceess" class="msr-2">Add Another Module
-                      </button>
                       <button mat-raised-button matStepperNext color="primary">Next</button>
                     </div>
-
-
-                    <!--                    <button mat-raised-button matStepperNext color="primary"-->
-                    <!--                            [disabled]="!courseForm!.valid">Next</button>-->
                   </div>
 
                 </mat-step>
-              </form>
               <mat-step [stepControl]="courseForm!">
-                <form [formGroup]="courseForm!">
                   <ng-template matStepLabel>Add Course Resources</ng-template>
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
@@ -383,7 +365,7 @@
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
                       <label>Upload the course slides </label>
-                      <app-file-upload fileType="upload lab files " (change)="onSlidesSelected($event)"
+                      <app-file-upload fileType="upload slides" (change)="onSlidesSelected($event)"
                                        formControlName="slides"></app-file-upload>
                       <!--                  <mat-error *ngIf="courseForm.get('labFiles').hasError('required')">-->
                       <!--                   Lab files is required-->
@@ -394,13 +376,11 @@
                   <div>
                     <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Back</button>
                     <button mat-raised-button matStepperNext color="primary"
-                            >Next
+                    >Next
                     </button>
                   </div>
-                </form>
               </mat-step>
               <mat-step [stepControl]="courseForm!">
-                <form [formGroup]="courseForm!">
                   <ng-template matStepLabel>Course Pricing</ng-template>
                   <div class="row pb-3">
                     <mat-radio-group formControlName="plan">
@@ -435,237 +415,24 @@
                     >Next
                     </button>
                   </div>
-                </form>
               </mat-step>
               <mat-step [stepControl]="courseForm!">
-                <form [formGroup]="courseForm!">
                   <ng-template matStepLabel>Course Certification</ng-template>
-
-                </form>
               </mat-step>
-
               <mat-step>
                 <ng-template matStepLabel>Done</ng-template>
                 <p>You are now done.</p>
                 <div>
                   <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Back</button>
-                  <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button>
-                  <button mat-raised-button color="success" (click)="onSubmit()">Submit</button>
+                  <button mat-raised-button color="primary" class="msr-2" (click)="stepper.reset()">Reset</button>
+                  <button mat-flat-button style="color: #0b3a88" type="submit" [class.auth-spinner]="loading" >Submit</button>
                 </div>
               </mat-step>
             </mat-vertical-stepper>
+            </form>
           </div>
         </div>
       </div>
     </div>
-
-    <!--    <div class="row clearfix">-->
-    <!--      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">-->
-    <!--        <div class="card">-->
-    <!--          <div class="header">-->
-    <!--            <h2> {{ editMode ? 'Edit Course ' : 'Add Course ' }}</h2>-->
-
-    <!--          </div>-->
-    <!--          <div class="body">-->
-    <!--            <form class="m-4" [formGroup]="courseForm" (ngSubmit)="onSubmit()">-->
-    <!--              <div class="row">-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Course name</mat-label>-->
-    <!--                    <input matInput formControlName="title" required>-->
-    <!--                    <mat-error *ngIf="courseForm.get('title').hasError('required')">-->
-    <!--                      Course name is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Course specialty</mat-label>-->
-    <!--                    <input matInput formControlName="specialty" required>-->
-    <!--                    <mat-error *ngIf="courseForm.get('specialty').hasError('required')">-->
-    <!--                      Course specialty is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-
-    <!--              </div>-->
-    <!--              <div class="row">-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Course workload hours</mat-label>-->
-    <!--                    <input matInput formControlName="workload" type="number">-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>course level</mat-label>-->
-    <!--                    <mat-select formControlName="level" required>-->
-    <!--                      <mat-option [value]="'entry'">-->
-    <!--                        Entry-->
-    <!--                      </mat-option>-->
-    <!--                      <mat-option [value]="'intermediate'">-->
-    <!--                        Intermediate-->
-    <!--                      </mat-option>-->
-    <!--                      <mat-option [value]="'advanced'">-->
-    <!--                        Advanced-->
-    <!--                      </mat-option>-->
-    <!--                    </mat-select>-->
-    <!--                    <mat-error *ngIf="courseForm.get('level').hasError('required')">-->
-    <!--                      Select any level-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--              <div class="row">-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>VM characteristics</mat-label>-->
-    <!--                    <mat-select formControlName="vm_characteristics" required>-->
-    <!--                      <mat-option [value]="'4 cores'">-->
-    <!--                        4 cores-->
-    <!--                      </mat-option>-->
-    <!--                      <mat-option [value]=" '8 cores'">-->
-    <!--                        8 cores-->
-    <!--                      </mat-option>-->
-    <!--&lt;!&ndash;                      <mat-option [value]="3">&ndash;&gt;-->
-    <!--&lt;!&ndash;                        Advanced&ndash;&gt;-->
-    <!--&lt;!&ndash;                      </mat-option>&ndash;&gt;-->
-    <!--                    </mat-select>-->
-    <!--                    <mat-error *ngIf="courseForm.get('vm_characteristics').hasError('required')">-->
-    <!--                      Select any level-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Total number of lessons</mat-label>-->
-    <!--                    <input matInput formControlName="nbr_of_lessons" type="number" required>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--              <div class="row">-->
-
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Session duration (hours) </mat-label>-->
-    <!--                    <input matInput formControlName="session_duration" type="number" required>-->
-    <!--                    <mat-error *ngIf="courseForm.get('session_duration').hasError('required')">-->
-    <!--                      Session duration is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Number of sessions</mat-label>-->
-    <!--                    <input matInput formControlName="nb_sessions" required>-->
-    <!--                    <mat-error *ngIf="courseForm.get('nb_sessions').hasError('required')">-->
-    <!--                      Number of sessions is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--              </div>-->
-
-    <!--                <div class="row">-->
-
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>What you will learn</mat-label>-->
-    <!--                    <textarea matInput formControlName="what_you_will_learn" required></textarea>-->
-    <!--                    <mat-error *ngIf="courseForm.get('what_you_will_learn').hasError('required')">-->
-    <!--                      what you will learn is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Course Requirements</mat-label>-->
-    <!--                    <textarea matInput formControlName="requirements" required></textarea>-->
-    <!--                    <mat-error *ngIf="courseForm.get('requirements').hasError('required')">-->
-    <!--                      Requirements is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--              <div class="row">-->
-    <!--                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                    <mat-label>Course Details</mat-label>-->
-    <!--                    <textarea matInput formControlName="description" required></textarea>-->
-    <!--                    <mat-error *ngIf="courseForm.get('description').hasError('required')">-->
-    <!--                      Description is required-->
-    <!--                    </mat-error>-->
-    <!--                  </mat-form-field>-->
-    <!--                </div>-->
-
-
-    <!--              </div>-->
-
-    <!--              <div class="row">-->
-    <!--                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">-->
-    <!--                  <label>Upload photo for the course</label>-->
-    <!--                  <app-file-upload fileType="upload image"  (change)="onImageSelected($event)" formControlName="image"></app-file-upload>-->
-    <!--&lt;!&ndash;                  <mat-error *ngIf="courseForm.get('image').hasError('required')">&ndash;&gt;-->
-    <!--&lt;!&ndash;                    image is required&ndash;&gt;-->
-    <!--&lt;!&ndash;                  </mat-error>&ndash;&gt;-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">-->
-    <!--                  <label>Upload the labs files</label>-->
-    <!--                  <app-file-upload fileType="upload lab files " (change)="onLabFilesSelected($event)" formControlName="labFiles"></app-file-upload>-->
-    <!--&lt;!&ndash;                  <mat-error *ngIf="courseForm.get('labFiles').hasError('required')">&ndash;&gt;-->
-    <!--&lt;!&ndash;                   Lab files is required&ndash;&gt;-->
-    <!--&lt;!&ndash;                  </mat-error>&ndash;&gt;-->
-    <!--                </div>-->
-    <!--                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">-->
-    <!--                  <label>Upload file containing all students emails to invite them</label>-->
-    <!--                  <app-file-upload fileType="upload txt file" (change)="onStudentEmailsFileSelected($event)" formControlName="student_emails_file"></app-file-upload>-->
-    <!--&lt;!&ndash;                  <mat-error *ngIf="courseForm.get('student_emails_file').hasError('required')">&ndash;&gt;-->
-    <!--&lt;!&ndash;                    student_emails_file is required&ndash;&gt;-->
-    <!--&lt;!&ndash;                  </mat-error>&ndash;&gt;-->
-    <!--                </div>-->
-    <!--              </div>-->
-
-    <!--              <div class="row pb-3">-->
-    <!--                  <mat-radio-group formControlName="plan">-->
-    <!--                    <mat-radio-button value="free">Free</mat-radio-button>-->
-    <!--                    <mat-radio-button value="premium">Premium</mat-radio-button>-->
-    <!--                  </mat-radio-group>-->
-
-    <!--                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-3" *ngIf="courseForm.get('plan').value === 'premium'">-->
-    <!--                    <mat-form-field class="example-full-width mb-3" appearance="outline">-->
-    <!--                      <mat-label>Course Price</mat-label>-->
-    <!--                      <input matInput formControlName="price" type="number" placeholder="Price">-->
-    <!--                      <mat-icon matSuffix>euro_symbol</mat-icon>-->
-
-    <!--                    </mat-form-field>-->
-    <!--                  </div>-->
-    <!--                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-2" *ngIf="courseForm.get('plan').value === 'premium'">-->
-    <!--                  <h5> is it certified ?</h5>-->
-    <!--                  <mat-radio-group formControlName="certified">-->
-    <!--                    <mat-radio-button value="true">Yes</mat-radio-button>-->
-    <!--                    <mat-radio-button value="false">No</mat-radio-button>-->
-    <!--                  </mat-radio-group>-->
-
-    <!--                </div>-->
-
-
-    <!--              </div>-->
-    <!--              <div class="row align-center">-->
-    <!--                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">-->
-    <!--                  <button class="btn-space" [disabled]="!isFormValid() || loading" mat-raised-button color="primary" type="submit" [class.auth-spinner]="loading">-->
-    <!--                    {{ editMode ? 'Update' : 'Add' }}-->
-    <!--                  </button>-->
-
-
-    <!--                  <button type="button" mat-raised-button color="warn" (click)="cancelSubmission()">Cancel</button>-->
-    <!--                </div>-->
-    <!--              </div>-->
-
-
-    <!--            </form>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
   </div>
 </section>

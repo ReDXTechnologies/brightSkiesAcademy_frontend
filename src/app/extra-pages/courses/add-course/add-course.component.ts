@@ -119,19 +119,22 @@ AddCourseComponent implements OnInit{
 
   deleteVideo(moduleIndex: number, videoIndex: number): void {
     const moduleVideos = this.getVideosControls(moduleIndex);
-    moduleVideos.removeAt(videoIndex);
+    console.log('ererererererererere',moduleVideos.value)
+    moduleVideos.removeAt(videoIndex-1);
+    console.log('cvcvcvcvcvcvcv',moduleVideos.value)
+
   }
 
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.videos, event.previousIndex, event.currentIndex);
   }
-  taskClick(video: Video, nav: MatSidenav): void {
-    // this.selectedVideoIndex = this.videos.indexOf(video);
-    this.isNewEvent = false;
-    // this.dialogTitle = 'Edit Task';
-    nav.open();
-    // this.taskForm = this.createFormGroup(task);
-  }
+  // taskClick(video: Video, nav: MatSidenav) {
+  //   console.log(video)
+  //   this.isNewEvent = false;
+  //   this.createVideo(video)
+  //   nav.open()
+  //
+  // }
   addNewTask(nav: MatSidenav, moduleIndex: number) {
     const videos = this.getVideosControls(moduleIndex);
     this.selectedVideoIndex = videos.length - 1;
@@ -168,6 +171,24 @@ AddCourseComponent implements OnInit{
     console.log('super course form value',this.courseForm.value.modules[0].videos)
     console.log('super course form value',this.courseForm.value)
   }
+  // edit_video(moduleIndex: number,index: number): void {
+  //   console.log('*************************************')
+  //   console.log((this.modules.at(moduleIndex).get('videos') as FormArray).value)
+  //   console.log('*************************************')
+  //   const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
+  //   console.log('unitially',videos.value)
+  //   const video = ((this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray).at(index);
+  //   videos.push(this.createVideo(video.value));
+  //   console.log('after pushing',videos.value)
+  //   // this.videos.push(videos.value[0]);
+  //   if (!this.videos[moduleIndex]) {
+  //     this.videos[moduleIndex] = [];
+  //   }
+  //   this.videos[moduleIndex].push(videos.value[videos.length - 1]);
+  //   console.log('-------------------',this.videos[moduleIndex])
+  //   console.log('super course form value',this.courseForm.value.modules[0].videos)
+  //   console.log('super course form value',this.courseForm.value)
+  // }
   getLabsControls(moduleIndex: number): FormArray {
     return this.modules.at(moduleIndex).get('labs') as FormArray;
   }
@@ -220,10 +241,6 @@ AddCourseComponent implements OnInit{
     this.videos.push([]);
 
   }
-  // addVideo(moduleIndex: number): void {
-  //   const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
-  //   videos.push(this.createVideo(video.value));
-  // }
 
   addLab(moduleIndex: number): void {
     const labs = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('labs') as FormArray;
@@ -240,7 +257,6 @@ AddCourseComponent implements OnInit{
     const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
     videos.removeAt(index);
   }
-
   removeLab(moduleIndex: number, index: number) {
     const labs = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('labs') as FormArray;
     labs.removeAt(index);
@@ -253,11 +269,6 @@ AddCourseComponent implements OnInit{
       panelClass: colorName,
     });
   }
-
-  onStudentEmailsFileSelected(event) {
-    this.selectedStudentEmailsFile = <File>event.target.files[0];
-  }
-
   onLabFilesSelected(event) {
     this.selectedLabFiles = event.target.files[0];
   }
@@ -274,11 +285,9 @@ AddCourseComponent implements OnInit{
   onPackagesRequirementsSelected(event) {
     this.selectedPackagesRequirements = <File>event.target.files[0];
   }
-
   selectFree() {
     this.selectedPlan = 'free';
   }
-
   selectPremium() {
     this.selectedPlan = 'premium';
   }
@@ -291,7 +300,6 @@ AddCourseComponent implements OnInit{
   navigateToCoursesTab(tabId: string) {
     this.router.navigateByUrl('/shared/courses#'+tabId);
   }
-
 
   onSubmit() {
     this.submitted = true;
@@ -308,6 +316,7 @@ AddCourseComponent implements OnInit{
     formData.append('level', this.courseForm.get('level').value);
     formData.append('certificate', this.courseForm.get('certified').value);
     formData.append('workload', this.courseForm.get('workload').value);
+    formData.append('course_id ', this.courseForm.get('workload').value);
 
     // if (this.selectedLabFiles ) {
     //   formData.append('labFiles', this.selectedLabFiles, this.selectedLabFiles.name);
@@ -318,10 +327,10 @@ AddCourseComponent implements OnInit{
     if (this.selectedImage ) {
       formData.append('image', this.selectedImage);
     }
-    if (this.canceled) {
-      this.loading = false;
-      return;
-    }
+    // if (this.canceled) {
+    //   this.loading = false;
+    //   return;
+    // }
     //   // Loop over the modules array and add each module's data to the FormData object
       for (let i = 0; i < this.courseForm.value.modules.length; i++) {
         const module = this.courseForm.value.modules[i];
@@ -330,42 +339,41 @@ AddCourseComponent implements OnInit{
         formData.append(`modules[${i}][name]`, module.name);
 
         // Loop over the videos array for this module and add each video's data to the FormData object
-        for (let j = 0; j < module.videos.length-1; j++) {
+
+        for (let j = 1; j < module.videos.length; j++) {
           const video = module.videos[j];
 
           // Add the video's name and duration to the FormData object
           formData.append(`modules[${i}][videos][${j}][name]`, video.name);
           formData.append(`modules[${i}][videos][${j}][duration]`, video.duration);
           formData.append(`modules[${i}][videos][${j}][video_file]`, video.video_file);
-          // if (this. ) {
-          //   formData.append('image', this.selectedImage);
-          // }
         }
 
         // Loop over the labs array for this module and add each lab's data to the FormData object
-        for (let j = 0; j < module.labs.length; j++) {
-          const lab = module.labs[j];
-          if (lab.hosting_platform== 'aws') {
-          // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
-          formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'True');
-          formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
-          formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
-          formData.append(`modules[${i}][labs][${j}][session_duration]`, lab.session_duration);
-          formData.append(`modules[${i}][labs][${j}][nb_sessions]`, lab.nb_sessions);
-          formData.append(`modules[${i}][labs][${j}][vm_characteristics]`, lab.vm_characteristics);
-          formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
-          formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
-          formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
-        }else{
-            formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'False');
-            formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
-            formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
-            formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
-            formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
-            formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
+          for (let j = 0; j < module.labs.length; j++) {
+            const lab = module.labs[j];
+            if (lab.hosting_platform == 'aws') {
+              // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
+              formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'True');
+              formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
+              formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
+              formData.append(`modules[${i}][labs][${j}][session_duration]`, lab.session_duration);
+              formData.append(`modules[${i}][labs][${j}][nb_sessions]`, lab.nb_sessions);
+              formData.append(`modules[${i}][labs][${j}][vm_characteristics]`, lab.vm_characteristics);
+              formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
+              formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
+              formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
+            } else {
+              formData.append(`modules[${i}][labs][${j}][is_hosted_on_aws]`, 'False');
+              formData.append(`modules[${i}][labs][${j}][title]`, lab.title);
+              formData.append(`modules[${i}][labs][${j}][description]`, lab.description);
+              formData.append(`modules[${i}][labs][${j}][labFiles]`, lab.labFiles);
+              formData.append(`modules[${i}][labs][${j}][libraries_requirements]`, lab.libraries_requirements);
+              formData.append(`modules[${i}][labs][${j}][packages_requirements]`, lab.packages_requirements);
+            }
           }
         }
-      }
+
 
     if (this.editMode) {
       if (this.courseForm.get('plan').value == 'free') {
@@ -423,7 +431,6 @@ AddCourseComponent implements OnInit{
     } else {
       if (this.courseForm.get('plan').value == 'free') {
         formData.append('price', '0');
-
         this.courseService.createCourse(localStorage.getItem('id'), formData, true, this.courseForm.get('certified').value).subscribe(
           res => {
             console.log(res);
@@ -442,6 +449,12 @@ AddCourseComponent implements OnInit{
           },
           error => {
             this.loading = false;
+            this.showNotification(
+              'snackbar-danger',
+              error,
+              'bottom',
+              'center'
+            );
             console.log(error);
             // handle error response
           }
@@ -466,7 +479,12 @@ AddCourseComponent implements OnInit{
           },
           error => {
             this.loading = false;
-
+            this.showNotification(
+              'snackbar-danger',
+              error,
+              'bottom',
+              'center'
+            );
             console.log(error);
             // handle error response
           }
@@ -474,7 +492,5 @@ AddCourseComponent implements OnInit{
       }
     }
   }
-
-
 
 }

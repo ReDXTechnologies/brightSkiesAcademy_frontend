@@ -453,7 +453,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: '/shared/add-course',
-        title: 'Add Lab course',
+        title: 'Add course',
         iconType: '',
         icon: '',
         class: 'ml-menu',
