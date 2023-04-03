@@ -92,8 +92,8 @@
               <mat-label>Department</mat-label>
               <mat-select placeholder="Select department" matInput formControlName="department">
                 <!-- Display the current department value by default -->
-                <mat-option *ngIf="proForm.get('department').value === teachers.department"
-                            [value]="teachers.department">{{ teachers.department }}
+                <mat-option *ngIf="proForm.get('department').value === teachers.sub_department"
+                            [value]="teachers.sub_department">{{ teachers.sub_department }}
                 </mat-option>
                 <!-- Display the department options when the user clicks the select field -->
                 <div >

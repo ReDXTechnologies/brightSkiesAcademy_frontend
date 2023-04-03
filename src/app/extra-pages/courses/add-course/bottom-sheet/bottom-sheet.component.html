@@ -1,0 +1,38 @@
+
+    <div class="row" *ngIf="file">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+          <div class="header">
+            <h2 style="color:  #0a53be">Course materials Overview</h2>
+
+          </div>
+          <div class="card-body row" >
+            <span class="col-lg-10 col-md-10 col-sm-12 col-12"> Dear teacher, please upload <strong>two txt files</strong>. One file should contain the libraries installed with <strong>pip install</strong>, while the other file should contain packages that need to be installed with <strong>apt-get install </strong>. This will ensure the success of launching the lab and guarantee that all lab dependencies are met. Please ensure that the format of the files is correct. To learn more about the required format, please click on the button Open File.</span>
+
+            <div class="text-right col-lg-2 col-md-2 col-sm-12 col-12">
+              <button mat-raised-button class="custom-button" (click)="openBottomSheet()">Open file</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="!file">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+          <div class="header">
+            <h2 style="color:  #0a53be">Instance types guidance</h2>
+
+          </div>
+          <div class="card-body row" >
+            <span class="col-lg-10 col-md-10 col-sm-12 col-12"> To assist you in selecting the appropriate EC2 instance type for hosting your lab on the cloud, we have provided an overview to help guide your decision. For further informations , please visit the official site :
+              <a href="https://aws.amazon.com/ec2/instance-types" target="_blank"><strong style="text-decoration: underline; color: #ff9900;">https://aws.amazon.com/ec2/instance-types/</strong></a>
+</span>
+
+            <div class="text-right col-lg-2 col-md-2 col-sm-12 col-12">
+              <button mat-raised-button class="custom-button" (click)="openBottomSheet()">Guide</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+

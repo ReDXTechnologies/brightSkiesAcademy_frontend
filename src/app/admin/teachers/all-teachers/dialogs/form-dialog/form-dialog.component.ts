@@ -69,7 +69,7 @@ export class FormDialogComponent implements OnInit {
 
       gender: [this.teachers.user.gender],
       mobile_phone: [this.teachers.user.mobile_phone],
-      department: [this.teachers.department],
+      department: [this.teachers.sub_department],
       degree: [this.teachers.degree],
     });
   }

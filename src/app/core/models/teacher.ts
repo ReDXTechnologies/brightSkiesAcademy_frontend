@@ -8,7 +8,7 @@ export class Teacher {
   biography: string;
   nb_of_courses: number;
   is_student_request_pending: boolean;
-  department: Department
+  sub_department: Department
   user : User
   courses : Course[]
 

@@ -1,12 +1,11 @@
 import {Student} from "./student";
 import {Teacher} from "./teacher";
 import {Review} from "./review";
+import {Module} from "./Module";
 
 export class Course {
   id: number;
   title: string;
-  // students: Student[];
-  // teachers: Teacher[];
   workload: number; // camelCase naming convention
   nbr_of_lessons: number;
   total_enrolled: number;
@@ -33,6 +32,7 @@ export class Course {
   status: string;
   what_you_will_learn: string
   session_duration: string
+  modules : Module[]
 }
 
 

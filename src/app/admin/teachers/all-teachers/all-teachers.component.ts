@@ -283,7 +283,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
             const searchStr = (
               teachers.user.firstName +
               teachers.user.lastName +
-              teachers.department +
+              teachers.sub_department +
               teachers.user.gender +
               teachers.degree +
               teachers.user.email +
@@ -329,7 +329,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
           [propertyA, propertyB] = [a.user.email, b.user.email];
           break;
         case 'department':
-          [propertyA, propertyB] = [a.department.name, b.department.name];
+          [propertyA, propertyB] = [a.sub_department.name, b.sub_department.name];
           break;
 
       }

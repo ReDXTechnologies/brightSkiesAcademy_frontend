@@ -31,6 +31,15 @@ import {FileUploadModule} from "ng2-file-upload";
 import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatStepperModule} from "@angular/material/stepper";
+import {
+  BottomSheetComponent,
+  BottomSheetOverviewExampleSheetComponent
+} from "./courses/add-course/bottom-sheet/bottom-sheet.component";
+import {MatListModule} from "@angular/material/list";
+import { MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {NgScrollbarModule} from "ngx-scrollbar";
+import {CdkDrag, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -43,32 +52,44 @@ import {MatStepperModule} from "@angular/material/stepper";
     CoursevideoComponent,
     LabCourseComponent,
     AddCourseComponent,
-    EditCourseComponent
+    EditCourseComponent,
+    BottomSheetOverviewExampleSheetComponent,
+    BottomSheetComponent,
+
+
 
   ],
-    imports: [
-        CommonModule,
-        ExtraPagesRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatTabsModule,
-        ComponentsModule,
-        MatOptionModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatRadioModule,
-        MatMenuModule,
-        MatProgressBarModule,
-        MatCardModule,
-        FileUploadModule,
-        MatSnackBarModule,
-        MatStepperModule
-    ],
+  imports: [
+    CommonModule,
+    ExtraPagesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    ComponentsModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatCardModule,
+    FileUploadModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatListModule,
+    MatBottomSheetModule,
+    MatSidenavModule,
+    NgScrollbarModule,
+    CdkDropList,
+    CdkDragHandle,
+    CdkDrag,
+
+  ],
 })
 export class ExtraPagesModule {}
