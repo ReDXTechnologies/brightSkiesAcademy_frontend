@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Course} from "../../../../core/models/course";
 import {Module, Video} from "../../../../core/models/Module";
+import {DisplayCurriculumVideosComponent} from "../displayCurriculumVideos/displayCurriculumVideos.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-coursecurriculam',
@@ -12,7 +14,8 @@ export class CoursecurriculamComponent implements OnInit {
   modules: Module[]
   currentVideo: Video;
   currentVideoIndex: number;
-  constructor() { }
+  constructor(    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     console.log(this.course.slides)
@@ -21,9 +24,17 @@ export class CoursecurriculamComponent implements OnInit {
   }
 
 
-  displayVideo(video : Video ,index: number) {
+  displayVideo(video : Video ,index: number, module:any) {
     this.currentVideo = video;
     this.currentVideoIndex = index;
+    this.dialog.open(DisplayCurriculumVideosComponent, {
+      width: '70%',
+      data: { videoUrl: video.video_file ,
+        videos: module.videos,
+        currentIndex: index,
+        module : module
+      }
+    });
   }
 
   // nextVideo() {

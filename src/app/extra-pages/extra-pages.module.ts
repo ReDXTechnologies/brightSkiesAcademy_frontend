@@ -42,6 +42,9 @@ import {NgScrollbarModule} from "ngx-scrollbar";
 import {CdkDrag, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {Instance_guidanceComponent} from "./courses/add-course/instances_guide/instance_guidance.component";
 import {MatDialogModule} from "@angular/material/dialog";
+import {
+  DisplayCurriculumVideosComponent
+} from "./courses/about-course/displayCurriculumVideos/displayCurriculumVideos.component";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -57,7 +60,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     EditCourseComponent,
     BottomSheetOverviewExampleSheetComponent,
     BottomSheetComponent,
-    Instance_guidanceComponent
+    Instance_guidanceComponent,
+    DisplayCurriculumVideosComponent
 
 
   ],

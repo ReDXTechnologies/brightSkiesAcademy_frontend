@@ -1,0 +1,76 @@
+<!--<video #videoPlayer [src]="videoUrl" controls></video>-->
+<!--<div class="advanced-options">-->
+<!--  <button (click)="togglePlay()">Play/Pause</button>-->
+<!--  <button (click)="toggleMute()">Mute/Unmute</button>-->
+<!--  <input type="range" [(ngModel)]="volume" (ngModelChange)="setVolume()">-->
+<!--  <button (click)="toggleFullScreen()">Full Screen</button>-->
+<!--  <button (click)="changePlaybackSpeed()">Playback Speed</button>-->
+<!--</div>-->
+<!--<video width="100%" height="auto" controls>-->
+<!--  <source [src]="data.videoUrl" type="video/mp4">-->
+<!--  Your browser does not support the video tag.-->
+<!--</video>-->
+<section class="m-3 ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <video width="100%" height="auto" controls (ended)="getNextVideo()">
+          <source [src]="video_url" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-controls">
+          <button mat-icon-button (click)="getPreviousVideo()" [disabled]="data.currentIndex === 0">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+          <button mat-icon-button (click)="getNextVideo()" [disabled]="data.currentIndex === data.videos.length - 1">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-expansion-panel [expanded]=true>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             <span class="accordion-header">
+                        <span class="accordion-tittle">
+                            <span>{{data.module.name}}</span>
+                        </span>
+
+             </span>
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+<!--          <div id="collapseOne" class="accordion-collapse collapse show "-->
+<!--               aria-labelledby="headingOne" data-bs-parent="#accordionExample"-->
+<!--               *ngFor="let video of data.videos; let i = index" [ngClass]="{'active': data.currentIndex === i}">-->
+<!--            <div class="accordion-body" (click)="changeVideo(i)">-->
+<!--              <div-->
+<!--                class="course-curriculum-content d-sm-flex justify-content-between align-items-center">-->
+<!--                <div class="course-curriculum-info">-->
+<!--                  <i class="flaticon-youtube"></i>-->
+
+<!--                  <h4>{{video.name}}</h4>-->
+<!--                </div>-->
+<!--                <div class="course-curriculum-meta">-->
+<!--                  <span>{{video.duration}}</span>-->
+<!--                  <span class="time"> <i class="flaticon-lock"></i></span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        <div class="video-list">
+          <ul>
+            <li style="display: flex;  align-items: center;" *ngFor="let video of data.videos; let i = index" [ngClass]="{'active': data.currentIndex === i}" (click)="changeVideo(i)">
+              <input type="checkbox" [checked]="data.currentIndex === i">
+              <label style="  margin-left: 10px;">{{ video.name }}</label>
+            </li>
+          </ul>
+        </div>
+        </mat-expansion-panel>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+

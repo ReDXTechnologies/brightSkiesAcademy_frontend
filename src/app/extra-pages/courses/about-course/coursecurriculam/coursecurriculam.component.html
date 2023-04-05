@@ -20,7 +20,7 @@
           <div id="collapseOne" class="accordion-collapse collapse show "
                aria-labelledby="headingOne" data-bs-parent="#accordionExample"
                *ngFor="let video of module.videos; let j = index">
-            <div class="accordion-body" (click)="displayVideo(video,j)">
+            <div class="accordion-body" (click)="displayVideo(video,j,module)">
               <div
                 class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info">
@@ -35,6 +35,31 @@
               </div>
             </div>
           </div>
+<!--          <div id="collapseOne" class="accordion-collapse collapse show "-->
+<!--               aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
+<!--            <div class="accordion-body">-->
+<!--              <div class="course-curriculum">-->
+<!--                <div class="course-curriculum-list">-->
+<!--                  <app-coursevideo [videos]="module.videos" [selectedIndex]="0"></app-coursevideo>-->
+<!--                  <div class="course-curriculum-title">-->
+<!--                    <h4>{{module.name}}</h4>-->
+<!--                  </div>-->
+<!--                  <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center"-->
+<!--                       *ngFor="let video of module.videos; let j = index">-->
+<!--                    <div class="course-curriculum-info">-->
+<!--                      <i class="flaticon-youtube"></i>-->
+<!--                      <h4>{{video.name}}</h4>-->
+<!--                    </div>-->
+<!--                    <div class="course-curriculum-meta">-->
+<!--                      <span>{{video.duration}}</span>-->
+<!--                      <span class="time"> <i class="flaticon-lock"></i></span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
           <!--        <div *ngIf="currentVideo">-->
           <!--          <video [src]="currentVideo.video_file" controls></video>-->
           <!--&lt;!&ndash;          <button (click)="nextVideo()">Next Video</button>&ndash;&gt;-->
@@ -102,7 +127,6 @@
                             <span>Download Course resources</span>
                         </span>
                         <span class="accordion-tittle-inner">
-<!--                            <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs</span>-->
                         </span>
              </span>
             </mat-panel-title>
@@ -118,45 +142,6 @@
               <a href="{{course.slides}}" class="download-button"><i class="fas fa-download"></i></a>
             </div>
           </div>
-
-<!--          <mat-accordion>-->
-<!--            <ng-container *ngFor="let lab of module.labs">-->
-
-<!--              <mat-expansion-panel>-->
-<!--                <mat-expansion-panel-header>-->
-<!--                  <mat-panel-title>-->
-<!--                    <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">-->
-<!--                      <div class="course-curriculum-info">-->
-<!--                        <i class="fas fa-file-code"></i>-->
-<!--                        <h4>{{lab.title}}</h4>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </mat-panel-title>-->
-<!--                </mat-expansion-panel-header>-->
-<!--                <div class=" row">-->
-<!--                  <div class="col-xl-12 col-lg-12 col-md-11 col-sm-11"><b>Description-->
-<!--                    : </b><span>{{lab.description}}</span>.-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws">-->
-<!--                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please be aware that by clicking on the "Start" button,-->
-<!--                  the lab course will be hosted on AWS and it may take a minute to set up. Additionally,-->
-<!--                  you have a total of <b>{{lab.nb_sessions}}-->
-<!--                      trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .-->
-<!--                  So, make sure to use your time efficiently and take full advantage of the lab course. Best of luck!</span>.-->
-<!--                  </div>-->
-
-<!--                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">-->
-<!--                    <button class="play-button"><i class="fas fa-play"></i></button>-->
-<!--                    &lt;!&ndash;                  <span class="time"><i class="flaticon-lock"></i></span>&ndash;&gt;-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--              </mat-expansion-panel>-->
-<!--            </ng-container>-->
-
-<!--          </mat-accordion>-->
 
         </mat-expansion-panel>
       </ng-container>

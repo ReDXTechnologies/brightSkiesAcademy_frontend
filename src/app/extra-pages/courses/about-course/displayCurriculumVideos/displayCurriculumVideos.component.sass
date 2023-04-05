@@ -1,0 +1,53 @@
+.video-controls
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: 10px
+
+
+.video-list
+  margin-top: 20px
+  margin-bottom: 20px
+
+
+.video-list ul
+  list-style: none
+  padding: 0
+
+
+.video-list li
+  font-size: 18px
+  margin-bottom: 10px
+  padding: 10px
+  background-color: #f2f2f2
+  border-radius: 5px
+  cursor: pointer
+  transition: all 0.3s ease-in-out
+
+.video-list li:hover,
+.video-list li.active
+  background-color: #eee
+
+
+.video-list li a
+  color: #666
+  text-decoration: none
+
+
+.video-list li.active a
+  color: #000
+  font-weight: bold
+//text-decoration: underline
+
+.video-list li:hover
+  background-color: rgba(221, 221, 221, 0.88)
+
+.video-list li input[type="checkbox"]
+  display: none
+  color: black
+
+
+.video-list li.active input[type="checkbox"]
+  display: block
+  color: black
+
