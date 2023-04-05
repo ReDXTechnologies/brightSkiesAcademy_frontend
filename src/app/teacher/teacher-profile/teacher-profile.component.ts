@@ -42,7 +42,7 @@ export class TeacherProfileComponent implements OnInit {
     });
   }
   getAllTeacherApprovedCourses(teacherId: string) {
-    this.teacherService.getApprovedCourses(teacherId).subscribe(
+    this.teacherService.getTeacherApprovedCourses(teacherId).subscribe(
       (data) => {
         console.log(data)
         this.teacherApprovedCourses = data;

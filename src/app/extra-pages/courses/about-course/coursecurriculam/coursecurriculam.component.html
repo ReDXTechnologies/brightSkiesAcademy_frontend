@@ -1,252 +1,167 @@
 <div class="course-curriculam-accodion mt-30">
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <div class="accordion-body" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne" aria-expanded="true"
-                    aria-controls="collapseOne">
-                    <span class="accordion-header">
+  <div class="accordion" id="accordionExample">
+    <mat-accordion>
+      <ng-container *ngFor="let module of modules; let i = index;">
+
+        <mat-expansion-panel [expanded]="i === 0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             <span class="accordion-header">
                         <span class="accordion-tittle">
-                            <span>Welcome to the Course & Overview</span>
+                            <span>{{module.name}}</span>
                         </span>
                         <span class="accordion-tittle-inner">
-                            <span>8 lectures • 47m</span>
+                            <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs</span>
                         </span>
-                    </span>
-                </button>
-            </div>
-            <div id="collapseOne" class="accordion-collapse collapse show"
-                aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>5:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>7:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>3:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>8:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
+             </span>
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+          <div id="collapseOne" class="accordion-collapse collapse show "
+               aria-labelledby="headingOne" data-bs-parent="#accordionExample"
+               *ngFor="let video of module.videos; let j = index">
+            <div class="accordion-body" (click)="displayVideo(video,j)">
+              <div
+                class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+                <div class="course-curriculum-info">
+                  <i class="flaticon-youtube"></i>
+
+                  <h4>{{video.name}}</h4>
                 </div>
+                <div class="course-curriculum-meta">
+                  <span>{{video.duration}}</span>
+                  <span class="time"> <i class="flaticon-lock"></i></span>
+                </div>
+              </div>
             </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <span class="accordion-header">
+          </div>
+          <!--        <div *ngIf="currentVideo">-->
+          <!--          <video [src]="currentVideo.video_file" controls></video>-->
+          <!--&lt;!&ndash;          <button (click)="nextVideo()">Next Video</button>&ndash;&gt;-->
+          <!--        </div>-->
+
+          <mat-accordion>
+            <ng-container *ngFor="let lab of module.labs">
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+                      <div class="course-curriculum-info">
+                        <i class="fas fa-file-code"></i>
+                        <h4>{{lab.title}}</h4>
+                      </div>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class=" row">
+                  <div class="col-xl-12 col-lg-12 col-md-11 col-sm-11"><b>Description
+                    : </b><span>{{lab.description}}</span>.
+                  </div>
+                </div>
+
+                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws">
+                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please be aware that by clicking on the "Start" button,
+                  the lab course will be hosted on AWS and it may take a minute to set up. Additionally,
+                  you have a total of <b>{{lab.nb_sessions}}
+                      trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .
+                  So, make sure to use your time efficiently and take full advantage of the lab course. Best of luck!</span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
+                    <button class="play-button"><i class="fas fa-play"></i></button>
+                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                  </div>
+                </div>
+                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws">
+                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">By clicking on the "Download" button, you will be able to download the Docker image of the course.
+                  To run the course on your local machine, you just need to make sure that you have <b></b>  installed and
+                  To run the course on your local machine, you just need to make sure that you have <b>Docker</b>  installed and
+                    then run the container on port <b>8888 </b>. Best of luck!</span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
+                    <button class="download-button"><i class="fas fa-download"></i></button>
+                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </ng-container>
+
+          </mat-accordion>
+
+        </mat-expansion-panel>
+      </ng-container>
+      <ng-container >
+
+        <mat-expansion-panel >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             <span class="accordion-header">
                         <span class="accordion-tittle">
-                            <span>Python Application Engine</span>
+                            <span>Download Course resources</span>
                         </span>
                         <span class="accordion-tittle-inner">
-                            <span>2 lectures • 12m</span>
+<!--                            <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs</span>-->
                         </span>
-                    </span>
-                </button>
+             </span>
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+          <div class=" row mt-3" >
+            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please
+              download and review the course <b>slides </b>as they cover important tips and information that are presented throughout the course.
+              The slides will be particularly helpful to get reference, so don't miss out on this valuable resource. </span>.
             </div>
-            <div id="collapseTwo" class="accordion-collapse collapse"
-                aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Data Manipulation Tools</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>6:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>8:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
+              <a href="{{course.slides}}" class="download-button"><i class="fas fa-download"></i></a>
             </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                    aria-expanded="true" aria-controls="collapseThree">
-                    <span class="accordion-header">
-                        <span class="accordion-tittle">
-                            <span>Algorithm Comparison</span>
-                        </span>
-                        <span class="accordion-tittle-inner">
-                            <span>3 lectures • 13m</span>
-                        </span>
-                    </span>
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse"
-                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>3:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>5:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>7:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingFour">
-                <button class="accordion-button collapsed" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                    aria-expanded="true" aria-controls="collapseFour">
-                    <span class="accordion-header">
-                        <span class="accordion-tittle">
-                            <span>Data Manipulation Tools</span>
-                        </span>
-                        <span class="accordion-tittle-inner">
-                            <span>7 lectures • 35m</span>
-                        </span>
-                    </span>
-                </button>
-            </h2>
-            <div id="collapseFour" class="accordion-collapse collapse"
-                aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>2:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>4:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header" id="headingFive">
-                <button class="accordion-button collapsed" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapseFive"
-                    aria-expanded="true" aria-controls="collapseFive">
-                    <span class="accordion-header">
-                        <span class="accordion-tittle">
-                            <span>Sorting- the Bubble Sort Algorithm</span>
-                        </span>
-                        <span class="accordion-tittle-inner">
-                            <span>10 lectures • 55m</span>
-                        </span>
-                    </span>
-                </button>
-            </div>
-            <div id="collapseFive" class="accordion-collapse collapse"
-                aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>6:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                    <div
-                        class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                        <div class="course-curriculum-info">
-                            <i class="flaticon-youtube"></i>
-                            <h4>Importing the libraries</h4>
-                        </div>
-                        <div class="course-curriculum-meta">
-                            <span>8:30</span>
-                            <span class="time"> <i class="flaticon-lock"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+          </div>
+
+<!--          <mat-accordion>-->
+<!--            <ng-container *ngFor="let lab of module.labs">-->
+
+<!--              <mat-expansion-panel>-->
+<!--                <mat-expansion-panel-header>-->
+<!--                  <mat-panel-title>-->
+<!--                    <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">-->
+<!--                      <div class="course-curriculum-info">-->
+<!--                        <i class="fas fa-file-code"></i>-->
+<!--                        <h4>{{lab.title}}</h4>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </mat-panel-title>-->
+<!--                </mat-expansion-panel-header>-->
+<!--                <div class=" row">-->
+<!--                  <div class="col-xl-12 col-lg-12 col-md-11 col-sm-11"><b>Description-->
+<!--                    : </b><span>{{lab.description}}</span>.-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws">-->
+<!--                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please be aware that by clicking on the "Start" button,-->
+<!--                  the lab course will be hosted on AWS and it may take a minute to set up. Additionally,-->
+<!--                  you have a total of <b>{{lab.nb_sessions}}-->
+<!--                      trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .-->
+<!--                  So, make sure to use your time efficiently and take full advantage of the lab course. Best of luck!</span>.-->
+<!--                  </div>-->
+
+<!--                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">-->
+<!--                    <button class="play-button"><i class="fas fa-play"></i></button>-->
+<!--                    &lt;!&ndash;                  <span class="time"><i class="flaticon-lock"></i></span>&ndash;&gt;-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--              </mat-expansion-panel>-->
+<!--            </ng-container>-->
+
+<!--          </mat-accordion>-->
+
+        </mat-expansion-panel>
+      </ng-container>
+
+    </mat-accordion>
+
+  </div>
 </div>

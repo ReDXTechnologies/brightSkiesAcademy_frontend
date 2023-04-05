@@ -1,18 +1,37 @@
 <!-- course-details-area-start -->
-<section class="content course-detalis-area ">
-  <app-breadcrumb breadcrumbTitle="Course details" breadcrumbSubTitle1="courses" breadcrumbSubTitle2="lab course "
-                  breadcrumbImage='url(assets/img/course/jupiter.png)'></app-breadcrumb>
-  <div class="container ">
-    <div class="row ">
-      <div class=" col-xxl-12 col-xl-12 pb-30">
-        <div class="course-detalis-wrapper pb-30">
+<section class="content course-detalis-area pb-90">
+  <app-breadcrumb breadcrumbTitle="Course overview"
+                  breadcrumbSubTitle1="courses" breadcrumbSubTitle2="{{course.title}}"
+                  breadcrumbImage='url(assets/img/course/tuto.png)'></app-breadcrumb>
+  <div class="container">
+    <div class="row">
+      <div class=" col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="course-detalis-wrapper mb-30">
           <div class="course-heading mb-20">
             <h2>{{course.title}}</h2>
+<!--            <div class="course-star">-->
+<!--              <ul>-->
+<!--                <li><i class="fas fa-star"></i></li>-->
+<!--              </ul>-->
+<!--              <ul>-->
+<!--                <li><i class="fas fa-star"></i></li>-->
+<!--              </ul>-->
+<!--              <ul>-->
+<!--                <li><i class="fas fa-star"></i></li>-->
+<!--              </ul>-->
+<!--              <ul>-->
+<!--                <li><i class="fas fa-star"></i></li>-->
+<!--              </ul>-->
+<!--              <ul>-->
+<!--                <li><i class="fal fa-star"></i></li>-->
+<!--              </ul>-->
+<!--              <span>({{course.reviews.length}} reviews)</span>-->
+<!--            </div>-->
           </div>
           <div class="course-detelis-meta">
             <div class="course-meta-wrapper border-line-meta">
               <div class="course-meta-img">
-                  <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
+                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
 
               </div>
               <div class="course-meta-text">
@@ -22,20 +41,8 @@
               </div>
             </div>
             <div class="course-Enroll border-line-meta">
-              <p>Speciality</p>
-              <span>{{course.speciality}}</span>
-            </div>
-            <div class="course-Enroll border-line-meta">
-              <p>Workload</p>
-              <span>{{course.workload}} hours</span>
-            </div>
-            <div class="course-Enroll border-line-meta">
-              <p>lessons</p>
-              <span>{{course.nbr_of_lessons}}</span>
-            </div>
-            <div class="course-Enroll border-line-meta">
-              <p>VM characteristics</p>
-              <span>{{course.vm_characteristics}}</span>
+              <p>Total enrolled</p>
+              <span>{{course.total_enrolled}}</span>
             </div>
             <div class="course-Enroll border-line-meta">
               <p>Last Update</p>
@@ -51,110 +58,43 @@
               <h4>Description</h4>
             </div>
             <p>{{course.description}}</p>
-            <!--            <p>The HPC Fundamentals course is an introduction to High Performance Computing (HPC) and its-->
-            <!--              various components. It covers the fundamental concepts of HPC, the architecture of modern CPUs,-->
-            <!--              memory, and networks, as well as the architecture of HPC systems and the applications they are used for.-->
-
-            <!--              The second part of the course focuses on HPC programming, including multi-core programming with OpenMP,-->
-            <!--              programming for distributed systems with MPI, and programming accelerators with OpenACC. These topics will-->
-            <!--              be covered through lectures and lab/demo sessions. The course is designed to provide students with-->
-            <!--              hands-on experience in developing high-performance, parallel applications..</p>-->
           </div>
-          <div class="course-learn-wrapper" *ngIf="(role === 'Student') && !enrolled">
+          <div class="course-learn-wrapper">
             <div class="course-learn">
               <div class="course-leranm-tittle">
-                <h4 class="mb-15">To be able to start this course please enroll now </h4>
+                <h4 class="mb-15">What you'll learn</h4>
               </div>
               <div class="row info-cart-text ">
-                <div class="col-xl-10">
+                <div class="col-xl-12">
                   <ul>
-                    <li><i class="fas fa-check"></i>Once you enroll you will have this course registred in your profile
-                      and you can track your progress
-                    </li>
+                    <li><i class="fas fa-check"></i>{{course.what_you_will_learn}}</li>
+
                   </ul>
                 </div>
-                <div class="col-xl-2">
-                  <a href="javascript:void(0)" (click)="enrollInCourse(course.id)">
-                    <span *ngIf="!isLoading"><i class="fas  fa-user-plus"></i></span>
-                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>
-                  </a>
-                </div>
+
               </div>
-            </div>
-          </div>
-
-
-
-          <div class="course-learn-wrapper" *ngIf="(role === 'Teacher' && this.userId !== teacher.user.id)">
-            <div class="course-learn">
-              <div class="course-leranm-tittle">
-                <h4 class="mb-15">In order to initiate this course, it is necessary to obtain student access by requesting a hybrid profile. </h4>
-              </div>
-              <div class="row info-cart-text ">
-                <div class="col-xl-10">
-                  <ul>
-                    <li><i class="fas fa-check"></i>Upon submitting your request, the administration will review and approve it, and you will receive a notification shortly thereafter.
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-xl-2">
-                  <a href="javascript:void(0)" (click)="enrollInCourse(course.id)">
-                    <span *ngIf="!isLoading"><i class="fas  fa-user-graduate"></i></span>
-                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
-
-          <div class="course-learn-wrapper"   *ngIf="(role === 'Student' && enrolled) || (role === 'Admin') ||(role === 'Super_Admin') || (role === 'Teacher' && this.userId === teacher.user.id)">
-            <div class="course-learn">
-              <div class="course-leranm-tittle">
-                <h4 class="mb-15">Start the course now</h4>
-              </div>
-              <div class="row info-cart-text ">
-                <div class="col-xl-10">
-                  <ul>
-                    <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>wait for <b>3-4 minutes</b> until the instance opens up, and then you can test the content of the course.</li>
-                    <li><i class="fas fa-check"></i>Once the jupiter instance open up, you are now ready to start the
-                      lab course
-                    </li>
-                    <li><i class="fas fa-check"></i>Please note that you are entitled to a total of <b>{{course.nb_sessions}} sessions </b>, each
-                      lasting <b>{{course.session_duration}} hours</b>
-                    </li>
-                    <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>Note that approving the course will create a clone of the tested instance for each student to expedite VM launch.
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-xl-2">
-                  <a href="javascript:void(0)" (click)="startSession(course.id)">
-                    <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>
-                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="course-requirements pt-45">
-            <h4>What you will learn : </h4>
-            <div class="course-requirements-text pb-30">
-              <ul>
-                <li>• {{course.what_you_will_learn}}.</li>
-              </ul>
             </div>
           </div>
           <div class="course-requirements pt-45">
             <h4>Requirements</h4>
-            <div class="course-requirements-text pb-30">
+            <div class="course-requirements-text">
               <ul>
-                <li>• {{course.requirements}}.</li>
+                <li>• {{course.requirements}}</li>
+
               </ul>
             </div>
           </div>
-
+          <div class="course-curriculum pt-40 pb-50">
+            <div class="course-curriculam">
+              <h4>Curriculum</h4>
+            </div>
+            <ul>
+              <li>{{course.modules.length}} modules • {{course.workload}} h total length</li>
+            </ul>
+            <app-coursecurriculam [course]="course"></app-coursecurriculam>
+          </div>
+          <!--          <app-courseinstructor></app-courseinstructor>-->
+          <!--          <app-studentfeedback></app-studentfeedback>-->
           <app-courseinstructor [teacher]="teacher"></app-courseinstructor>
           <ng-container *ngIf="course.status !== 'pending'">
             <app-coursereview [reviews]="reviews"></app-coursereview>
@@ -208,9 +148,92 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
+      <div class=" col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <app-coursevideo [course]="course"></app-coursevideo>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!--<div class="course-learn-wrapper" *ngIf="(role === 'Student') && !enrolled">-->
+<!--  <div class="course-learn">-->
+<!--    <div class="course-leranm-tittle">-->
+<!--      <h4 class="mb-15">To be able to start this course please enroll now </h4>-->
+<!--    </div>-->
+<!--    <div class="row info-cart-text ">-->
+<!--      <div class="col-xl-10">-->
+<!--        <ul>-->
+<!--          <li><i class="fas fa-check"></i>Once you enroll you will have this course registred in your profile-->
+<!--            and you can track your progress-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="col-xl-2">-->
+<!--        <a href="javascript:void(0)" (click)="enrollInCourse(course.id)">-->
+<!--          <span *ngIf="!isLoading"><i class="fas  fa-user-plus"></i></span>-->
+<!--          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<!--<div class="course-learn-wrapper" *ngIf="(role === 'Teacher' && this.userId !== teacher.user.id)">-->
+<!--  <div class="course-learn">-->
+<!--    <div class="course-leranm-tittle">-->
+<!--      <h4 class="mb-15">In order to initiate this course, it is necessary to obtain student access by requesting a hybrid profile. </h4>-->
+<!--    </div>-->
+<!--    <div class="row info-cart-text ">-->
+<!--      <div class="col-xl-10">-->
+<!--        <ul>-->
+<!--          <li><i class="fas fa-check"></i>Upon submitting your request, the administration will review and approve it, and you will receive a notification shortly thereafter.-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="col-xl-2">-->
+<!--        <a href="javascript:void(0)" (click)="enrollInCourse(course.id)">-->
+<!--          <span *ngIf="!isLoading"><i class="fas  fa-user-graduate"></i></span>-->
+<!--          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+
+<!--<div class="course-learn-wrapper"   *ngIf="(role === 'Student' && enrolled) || (role === 'Admin') ||(role === 'Super_Admin') || (role === 'Teacher' && this.userId === teacher.user.id)">-->
+<!--  <div class="course-learn">-->
+<!--    <div class="course-leranm-tittle">-->
+<!--      <h4 class="mb-15">Start the course now</h4>-->
+<!--    </div>-->
+<!--    <div class="row info-cart-text ">-->
+<!--      <div class="col-xl-10">-->
+<!--        <ul>-->
+<!--          <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>wait for <b>3-4 minutes</b> until the instance opens up, and then you can test the content of the course.</li>-->
+<!--          <li><i class="fas fa-check"></i>Once the jupiter instance open up, you are now ready to start the-->
+<!--            lab course-->
+<!--          </li>-->
+<!--          <li><i class="fas fa-check"></i>Please note that you are entitled to a total of <b>{{course.nb_sessions}} sessions </b>, each-->
+<!--            lasting <b>{{course.session_duration}} hours</b>-->
+<!--          </li>-->
+<!--          <li *ngIf="( role === 'Admin') ||(role === 'Super_Admin')"><i class="fas fa-check"></i>Note that approving the course will create a clone of the tested instance for each student to expedite VM launch.-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="col-xl-2">-->
+<!--        <a href="javascript:void(0)" (click)="startSession(course.id)">-->
+<!--          <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>-->
+<!--          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

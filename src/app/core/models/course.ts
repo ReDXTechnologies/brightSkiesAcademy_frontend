@@ -25,6 +25,7 @@ export class Course {
   student_emails_file: File; // Use File type for file fields
   labFiles: File;
   image: File;
+  slides: File;
   teachers: Teacher[]
   teacherDetails: Teacher[]
   students: Student[]

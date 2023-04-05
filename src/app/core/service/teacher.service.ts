@@ -137,8 +137,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<Course[]>(url);
   }
 
-  getApprovedCourses(teacher_id: string): Observable<Course[]>{
+  getTeacherApprovedCourses(teacher_id: string): Observable<Course[]>{
     const url = `${this.baseUrl}/teacher/${teacher_id}/approved-courses`;
+    console.log(url)
+    return this.httpClient.get<Course[]>(url);
+  }
+  getApprovedCourses(): Observable<Course[]>{
+    const url = `${this.baseUrl}/approved-courses`;
     console.log(url)
     return this.httpClient.get<Course[]>(url);
   }

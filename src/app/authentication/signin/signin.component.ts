@@ -53,6 +53,7 @@ export class SigninComponent
       this.subs.sink = this.authService
         .login(this.f.email.value, this.f.password.value).subscribe(res=>{
               if (res) {
+                console.log("role",this.authService.currentUserValue.role)
                   const role = this.authService.currentUserValue.role[0];
                   console.log(role ,role === Role.head_sub_department)
                   if (role === Role.Super_Admin || role === Role.Admin || role === Role.head_sub_department || role === Role.head_super_department) {

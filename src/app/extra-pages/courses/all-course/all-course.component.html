@@ -3,615 +3,721 @@
   <app-breadcrumb breadcrumbImage='url(assets/images/user/courses.jpg)' breadcrumbSubTitle1="teacher"
                   breadcrumbSubTitle2="courses"
                   breadcrumbTitle="All Courses"></app-breadcrumb>
+  <!-- course-barup-area -->
+  <div class="course-bar-up-area pt-50">
+    <div class="pl-20">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="course-main-wrapper mb-30">
+            <div class="bar-filter">
+              <i class="flaticon-filter"></i>
+              <span>Filter</span>
+              <span>(4)</span>
+            </div>
+            <!--              <div class="corse-bar-wrapper">-->
+            <!--                <div class="bar-search mt-4">-->
+            <!--                    <div class="bar-secrch-icon position-relative">-->
+            <!--                      <input type="text" placeholder="Search keyword..." (keyup)="onSearch($event.target.value)">-->
+            <!--                      <button type="submit"><i class="fas fa-search"></i></button>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <div class="course-sidebar-tab">
+              <div class="course-sidebar-wrapper">
+                <div class="bar-search p-10">
+                  <div class="bar-secrch-icon position-relative">
+                    <input type="text" placeholder="Search keyword..." (keyup)="onSearch($event.target.value)">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+                <div class="course-results m-r-120">
+                  Showing <span
+                  class="course-result-number">{{courses?.length}}</span> results
+                </div>
 
-  <div class="container course-area p-relative pt-40 pb-90">
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="portfolio-button ">
-          <mat-tab-group [@.disabled]="true" [selectedIndex]="selectedIndex">
-            <mat-tab id="view_all">
-              <ng-template mat-tab-label>
-                <button class="active">View All</button>
-              </ng-template>
-              <div class="portfolio-course-body mt-5">
-                <div class="row grid course-main-items">
-                  <div class="portfolio-course-body mt-3">
-                    <div class="row grid course-main-items">
-                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">
-                        <div class="eduman-course-main-wrapper mb-80">
-                          <div class="course-cart">
-                            <div class="course-info-wrapper">
-                              <div class="cart-info-body">
-                            <span class="category-color category-color-5"><a
-                              [routerLink]="['/course']">{{course.speciality}}</a></span>
-                                <h3>{{course.title}}</h3>
-                                <div class="academic-body">
-                                  <div class="eduman-course-heading cart-lavel">
-                                    <h5>Level : <span>{{course.level}}</span></h5>
-                                    <div class="eduman-course-price">
-                                      <span class="price-now">
-                                        {{course.total_enrolled}} enrolled
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                    <img
-                                      [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                      class="user-image" alt="">
-                                    <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                    <a
-                                      [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                                  </div>
-                                </div>
-                                <div class="info-cart-text">
-                                  <ul>
-                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
-                                    <li><i class="fas fa-check"></i> Requirements :
-                                    </li>
-                                    <p>{{course.requirements}}</p>
+                <div class="couse-dropdown" *ngIf="role=='Teacher'">
+                  <div class="course-drop-inner pt-3 mr-20">
+                    <mat-form-field appearance="outline">
+                      <mat-label>My courses</mat-label>
 
-                                  </ul>
-                                </div>
-                                <div class="course-action">
-                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View
-                                    Details
-                                  </button>
-                                  <a class="c-share-btn" *ngIf="(role === 'Super_Admin' )"><i
-                                    class="fas fa-trash-alt"></i>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-thumb w-img">
-                            <a [routerLink]="['/shared/Lab-course-details']"><img src="{{course.image}}" alt=""></a>
-                          </div>
-                          <div class="eduman-course-wraper">
-                            <div class="eduman-course-heading">
-                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
-                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
-                                ({{course.total_enrolled}} enrolled
-                                )</span>
-                            </div>
-                            <div class="eduman-course-text">
-                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
-                              </h3>
-                            </div>
-                            <div class="eduman-course-meta">
-                              <div class="eduman-course-price">
-                      <span class="price-now">
-                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
-                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
-                      </span>
-                              </div>
+                      <mat-select (selectionChange)="onCourseSelect($event.value)">
+                        <mat-option value="pending">my pending courses</mat-option>
+                        <mat-option value="available">my available courses</mat-option>
 
-                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                     class="user-image" alt="">
-                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                <a
-                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-footer">
-                            <div class="course-lessson-svg">
-                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                                   xmlns="http://www.w3.org/2000/svg">
-                                <g id="blackboard-13" transform="translate(-0.008)">
-                                  <path
-                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                    data-name="Path 101"
-                                    fill="#575757"
-                                    id="Path_000"/>
-                                </g>
-                              </svg>
-                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
-                            </div>
-                            <div class="course-deteals-btn">
-                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
-                                <i class="far fa-arrow-right"></i></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </div>
-            </mat-tab>
-            <mat-tab id="my_available_courses" *ngIf="( role === 'Teacher')">
-              <ng-template mat-tab-label>
-                <button class="active">My available courses</button>
-              </ng-template>
-              <div class="portfolio-course-body mt-5">
-                <div class="row grid course-main-items">
-                  <div class="portfolio-course-body mt-5">
-                    <div class="row grid course-main-items">
-                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1"
-                           *ngFor="let course of teacherApprovedCourses">
-                        <div class="eduman-course-main-wrapper mb-30">
-                          <div class="course-cart">
-                            <div class="course-info-wrapper">
-                              <div class="cart-info-body">
-                            <span class="category-color category-color-5"><a
-                              [routerLink]="['/course']">{{course.speciality}}</a></span>
-                                <h3>{{course.title}}</h3>
-                                <div class="cart-lavel">
-                                  <h5>Level : <span>{{course.level}}</span></h5>
-                                </div>
-                                <div class="info-cart-text">
-                                  <ul>
-                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
-                                    <li><i class="fas fa-check"></i> Requirements :
-                                    </li>
-                                    <p>{{course.requirements}}</p>
-
-                                  </ul>
-                                </div>
-                                <div class="course-action">
-                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View
-                                    Details
-                                  </button>
-                                  <button (click)="editCourse(course)" class="wishlist-btn"
-                                          *ngIf="(role === 'Teacher')"><i
-                                    class="fas fa-edit"></i></button>
-                                  <a class="c-share-btn" (click)="deleteApprovedCourse(course)"><i
-                                    class="fas fa-trash-alt"></i>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-thumb w-img">
-                            <a [routerLink]="['/shared/Lab-course-details']">
-                              <img alt="course-img" src="{{course.image}}">
-                            </a>
-                          </div>
-                          <div class="eduman-course-wraper">
-                            <div class="eduman-course-heading">
-                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
-                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
-                                ({{course.total_enrolled}}
-                                )</span>
-                            </div>
-                            <div class="eduman-course-text">
-                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
-                              </h3>
-                            </div>
-                            <div class="eduman-course-meta">
-                              <div class="eduman-course-price">
-                      <span class="price-now">
-                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
-                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
-                      </span>
-                              </div>
-
-                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                     class="user-image" alt="">                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                <a
-                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-footer">
-                            <div class="course-lessson-svg">
-                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                                   xmlns="http://www.w3.org/2000/svg">
-                                <g id="blackboard-13" transform="translate(-0.008)">
-                                  <path
-                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                    data-name="Path 101"
-                                    fill="#575757"
-                                    id="Path_000"/>
-                                </g>
-                              </svg>
-                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
-                            </div>
-                            <div class="course-deteals-btn">
-                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
-                                <i class="far fa-arrow-right"></i></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-              </div>
-            </mat-tab>
-            <mat-tab *ngIf="( role === 'Teacher')">
-              <ng-template mat-tab-label>
-                <button class="active">My pending courses</button>
-              </ng-template>
-              <div class="portfolio-course-body mt-5">
-                <div class="row grid course-main-items">
-                  <div class="portfolio-course-body mt-5">
-                    <div class="row grid course-main-items">
-                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1"
-                           *ngFor="let course of teacherPendingCourses">
-                        <div class="eduman-course-main-wrapper mb-30">
-                          <div class="course-cart">
-                            <div class="course-info-wrapper">
-                              <div class="cart-info-body">
-                            <span class="category-color category-color-5"><a
-                              [routerLink]="['/course']">{{course.speciality}}</a></span>
-                                <h3>{{course.title}}</h3>
-                                <div class="cart-lavel">
-                                  <h5>Level : <span>{{course.level}}</span></h5>
-                                </div>
-                                <div class="info-cart-text">
-                                  <ul>
-                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
-                                    <li><i class="fas fa-check"></i> Requirements :
-                                    </li>
-                                    <p>{{course.requirements}}</p>
-
-                                  </ul>
-                                </div>
-                                <div class="course-action">
-                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View
-                                    Details
-                                  </button>
-                                  <button (click)="editCourse(course)" class="wishlist-btn"
-                                          *ngIf="(role === 'Teacher')"><i
-                                    class="fas fa-edit"></i></button>
-                                  <a class="c-share-btn" (click)="deletePendingCourse(course)"
-                                     *ngIf="(role === 'Teacher' ||role === 'Super_Admin' )"><i
-                                    class="fas fa-trash-alt"></i>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-thumb w-img">
-                            <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"
-                                                                                  src="{{course.image}}"></a>
-                          </div>
-                          <div class="eduman-course-wraper">
-                            <div class="eduman-course-heading">
-                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
-                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
-                                ({{course.total_enrolled}}
-                                )</span>
-                            </div>
-                            <div class="eduman-course-text">
-                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
-                              </h3>
-                            </div>
-                            <div class="eduman-course-meta">
-                              <div class="eduman-course-price">
-                      <span class="price-now">
-                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
-                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
-                      </span>
-                              </div>
-
-                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img alt="image not found" src="{{teacher.user.image}}">
-                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                <a
-                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-footer">
-                            <div class="course-lessson-svg">
-                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                                   xmlns="http://www.w3.org/2000/svg">
-                                <g id="blackboard-13" transform="translate(-0.008)">
-                                  <path
-                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                    data-name="Path 101"
-                                    fill="#575757"
-                                    id="Path_000"/>
-                                </g>
-                              </svg>
-                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
-                            </div>
-                            <div class="course-deteals-btn">
-                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
-                                <i class="far fa-arrow-right"></i></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-              </div>
-            </mat-tab>
-
-            <mat-tab id="lab_courses">
-              <ng-template mat-tab-label>
-                <button>Labs<span class="port-red">[01]</span></button>
-              </ng-template>
-              <div class="portfolio-course-body mt-5">
-                <div class="row grid course-main-items">
-                  <div class="portfolio-course-body mt-3">
-                    <div class="row grid course-main-items">
-                      <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">
-                        <div class="eduman-course-main-wrapper mb-mb-80">
-                          <div class="course-cart">
-                            <div class="course-info-wrapper">
-                              <div class="cart-info-body">
-                            <span class="category-color category-color-5"><a
-                              [routerLink]="['/course']">{{course.speciality}}</a></span>
-                                <h3>{{course.title}}</h3>
-                                <div class="academic-body">
-                                  <div class="eduman-course-heading cart-lavel">
-                                    <h5>Level : <span>{{course.level}}</span></h5>
-                                    <div class="eduman-course-price">
-                                      <span class="price-now">
-                                        {{course.total_enrolled}} enrolled
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                    <img
-                                      [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                      class="user-image" alt="">
-                                    <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                    <a
-                                      [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                                  </div>
-                                </div>
-                                <div class="info-cart-text">
-                                  <ul>
-                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
-                                    <li><i class="fas fa-check"></i> Requirements :
-                                    </li>
-                                    <p>{{course.requirements}}</p>
-
-                                  </ul>
-                                </div>
-                                <div class="course-action">
-                                  <button (click)="viewDetails(course)" class="view-details-btn align-center">View
-                                    Details
-                                  </button>
-                                  <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"
-                                          *ngIf="(role === 'Teacher')"><i
-                                    class="fas fa-edit"></i></button>
-                                  <a class="c-share-btn" *ngIf="(role === 'Teacher' ||role === 'Super_Admin' )"><i
-                                    class="fas fa-trash-alt"></i>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-thumb w-img">
-                            <a [routerLink]="['/shared/Lab-course-details']"><img src="{{course.image}}" alt=""></a>
-                          </div>
-                          <div class="eduman-course-wraper">
-                            <div class="eduman-course-heading">
-                              <a [routerLink]="['/course']" class="course-link-color-5">{{course.speciality}}</a>
-                              <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}
-                                ({{course.total_enrolled}} enrolled
-                                )</span>
-                            </div>
-                            <div class="eduman-course-text">
-                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
-                              </h3>
-                            </div>
-                            <div class="eduman-course-meta">
-                              <div class="eduman-course-price">
-                      <span class="price-now">
-                         <ng-container *ngIf="course.free; else premium">FREE</ng-container>
-                        <ng-template #premium>Premium: {{ course.price }} $</ng-template>
-                      </span>
-                              </div>
-
-                              <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                     class="user-image" alt="">
-                                <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
-                                <a
-                                  [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="eduman-course-footer">
-                            <div class="course-lessson-svg">
-                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                                   xmlns="http://www.w3.org/2000/svg">
-                                <g id="blackboard-13" transform="translate(-0.008)">
-                                  <path
-                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                    data-name="Path 101"
-                                    fill="#575757"
-                                    id="Path_000"/>
-                                </g>
-                              </svg>
-                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
-                            </div>
-                            <div class="course-deteals-btn">
-                              <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
-                                <i class="far fa-arrow-right"></i></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-tab>
-
-            <mat-tab id="tutorial_courses">
-              <ng-template mat-tab-label>
-                <button>Tutorials<span class="port-red">[03]</span></button>
-              </ng-template>
-              <div class="portfolio-course-body mt-5">
-                <div class="row grid course-main-items">
-                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-2">
-                    <div class="eduman-course-main-wrapper mb-30">
-                      <div class="course-cart">
-                        <div class="course-info-wrapper">
-                          <div class="cart-info-body">
-                            <span class="category-color category-color-1"><a [routerLink]="['/shared/course-details']">Development</a></span>
-                            <a [routerLink]="['/shared/course-details']">
-                              <h3>WordPress Development Course for Plugins &amp;
-                                Themes</h3>
-                            </a>
-                            <div class="cart-lavel">
-                              <h5>Level : <span>Beginner</span></h5>
-                              <p>Knowledge is power. Information is liberating. Education is the premise of
-                                progress, in every society, in every family</p>
-                            </div>
-                            <div class="info-cart-text">
-                              <ul>
-                                <li><i class="fas fa-check"></i>Scratch to HTML</li>
-                                <li><i class="far fa-check"></i>Learn how to code in Python</li>
-                                <li><i class="far fa-check"></i>Unlimited backend database creation</li>
-                                <li><i class="far fa-check"></i>Adobe XD Tutorials</li>
-                              </ul>
-                            </div>
-                            <div class="course-action">
-                              <a [routerLink]="['/shared/course-detailss']" class="view-details-btn">View Details</a>
-                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
-                                class="fas fa-edit"></i></button>
-                              <a class="c-share-btn"><i class="fas fa-trash-alt"></i>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="eduman-course-thumb w-img">
-                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
-                                                                          src="assets/img/course/academi-course-2.jpg"></a>
-                      </div>
-                      <div class="eduman-course-wraper">
-                        <div class="eduman-course-heading">
-                          <a [routerLink]="['/course']" class="course-link-color-1">Development</a>
-                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                        </div>
-                        <div class="eduman-course-text">
-                          <h3><a [routerLink]="['/shared/course-details']">WordPress Development Course for Plugins
-                            &amp; Themes</a>
-                          </h3>
-                        </div>
-                        <div class="eduman-course-meta">
-                          <div class="eduman-course-price">
-                            <span class="price-now">$47.00 </span>
-                            <del class="price-old">$75.50</del>
-                          </div>
-                          <div class="eduman-course-tutor"><img alt="image not found"
-                                                                src="assets/img/portfilo/course-tutor-01.png">
-                            <a [routerLink]="['/instructor-profile']"><span>Danial</span></a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="eduman-course-footer">
-                        <div class="course-lessson-svg">
-                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <g id="blackboar09" transform="translate(-0.008)">
-                              <path
-                                d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                data-name="Path 101"
-                                fill="#575757"
-                                id="Path_01"/>
-                            </g>
-                          </svg>
-                          <span class="ms-2">12 Lessons</span>
-                        </div>
-                        <div class="course-deteals-btn">
-                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
-                            class="far fa-arrow-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-3">
-                    <div class="eduman-course-main-wrapper mb-30">
-                      <div class="course-cart">
-                        <div class="course-info-wrapper">
-                          <div class="cart-info-body">
-                            <span class="category-color category-color-3"><a
-                              [routerLink]="['/course']">Business</a></span>
-                            <a [routerLink]="['/shared/course-details']">
-                              <h3>Write Better Emails: Tactics for Smarter Team
-                                Communication</h3>
-                            </a>
-                            <div class="cart-lavel">
-                              <h5>Level : <span>Beginner</span></h5>
-                              <p>Knowledge is power. Information is liberating. Education is the premise of
-                                progress, in every society, in every family</p>
-                            </div>
-                            <div class="info-cart-text">
-                              <ul>
-                                <li><i class="far fa-check"></i>Scratch to HTML</li>
-                                <li><i class="far fa-check"></i>Learn how to code in Python</li>
-                                <li><i class="far fa-check"></i>Unlimited backend database creation</li>
-                                <li><i class="far fa-check"></i>Adobe XD Tutorials</li>
-                              </ul>
-                            </div>
-                            <div class="course-action">
-                              <a [routerLink]="['/shared/course-details']" class="view-details-btn">View Details</a>
-                              <button [routerLink]="['/shared/edit-course']" class="wishlist-btn"><i
-                                class="fas fa-edit"></i></button>
-                              <a class="c-share-btn"><i class="fas fa-trash-alt"></i>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="eduman-course-thumb w-img">
-                        <a [routerLink]="['/shared/course-details']"><img alt="course-img"
-                                                                          src="assets/img/course/academi-course-3.jpg"></a>
-                      </div>
-                      <div class="eduman-course-wraper">
-                        <div class="eduman-course-heading">
-                          <a [routerLink]="['/course']" class="course-link-color-3">Business</a>
-                          <span class="couse-star"><i class="fas fa-star"></i>4.9 (25)</span>
-                        </div>
-                        <div class="eduman-course-text">
-                          <h3><a [routerLink]="['/shared/course-details']">Write Better Emails: Tactics for Smarter Team
-                            Communication</a></h3>
-                        </div>
-                        <div class="eduman-course-meta">
-                          <div class="eduman-course-price">
-                            <span class="price-now">FREE </span>
-                          </div>
-                          <div class="eduman-course-tutor">
-                            <img alt="image not found" src="assets/img/portfilo/course-tutor-03.png">
-                            <a [routerLink]="['/instructor-profile']"><span>Junior Lucy</span></a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="eduman-course-footer">
-                        <div class="course-lessson-svg">
-                          <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <g id="blackboard-11" transform="translate(-0.008)">
-                              <path
-                                d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
-                                data-name="Path 101"
-                                fill="#575757"
-                                id="Path_00001"/>
-                            </g>
-                          </svg>
-                          <span class="ms-2">12 Lessons</span>
-                        </div>
-                        <div class="course-deteals-btn">
-                          <a [routerLink]="['/shared/course-details']"><span class="me-2">View Details</span><i
-                            class="far fa-arrow-right"></i></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-tab>
-
-          </mat-tab-group>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
+  <!-- course-barup-area-end -->
+
+  <div class="pl-20">
+    <div class="row mb-10" style="display: flex;">
+      <div class="col" style="flex-grow: 2.2;">
+        <div class="course-sidebar-widget mb-20">
+          <div class="course-sidebar-info" [class.content-hidden]="shopCatActive">
+            <h3 class="drop-btn" (click)="shopCat()"><span class="title">Departments </span><i
+              class=" fas fa-angle-down "></i></h3>
+            <ul>
+              <li *ngFor="let department of departments">
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="{{department.id}}"
+                         (change)="onSubDepartmentChange($event, department.name)">
+                  <label class="edu-check-label" for="{{department.id}}">{{department.name}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="course-sidebar-widget mb-20">
+          <div class="course-sidebar-info" [class.content-hidden]="shopLevelActive">
+            <h3 class="drop-btn" (click)="shopLevel()"><span class="title">Level</span><i
+              class=" fas fa-angle-down "></i></h3>
+            <ul>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="e-entry" (click)="onLevelClick('entry')"
+                         [checked]="level === 'entry'">
+                  <label class="edu-check-label" for="e-entry">Entry</label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="e-intermediate"
+                         (click)="onLevelClick('intermediate')" [checked]="level === 'intermediate'">
+                  <label class="edu-check-label" for="e-intermediate">Intermediate</label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="e-advanced" (click)="onLevelClick('advanced')"
+                         [checked]="level === 'advanced'">
+                  <label class="edu-check-label" for="e-advanced">Advanced</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="course-sidebar-widget mb-20">
+          <div class="course-sidebar-info" [class.content-hidden]="shopDurationActive">
+            <h3 class="drop-btn" (click)="shopDuration()"><span class="title">Workload</span><i
+              class=" fas fa-angle-down "></i></h3>
+            <ul>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="w-1-2" (click)="onWorkloadClick('1-2')"
+                         [checked]="workload === '1-2'">
+                  <label class="edu-check-label" for="w-1-2">1-2 Hours</label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="w-2-5" (click)="onWorkloadClick('2-5')"
+                         [checked]="workload === '2-5'">
+                  <label class="edu-check-label" for="w-2-5">2-5 Hours </label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="w-5-10" (click)="onWorkloadClick('5-10')"
+                         [checked]="workload === '5-10'">
+                  <label class="edu-check-label" for="w-5-10">5-10 Hours </label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="w-10-20" (click)="onWorkloadClick('10-20')"
+                         [checked]="workload === '10-20'">
+                  <label class="edu-check-label" for="w-10-20">10-20 Hours </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col" style="flex-grow: 9.8;">
+        <div class=" course-area  pb-20 pl-10">
+          <div class="portfolio-button ">
+
+            <div class="portfolio-course-body">
+              <div class="row grid course-main-items">
+                <div class="portfolio-course-body mt-3">
+                  <div class="row grid course-main-items">
+                    <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">
+                      <div class="eduman-course-main-wrapper mb-80">
+                        <div class="course-cart">
+                          <div class="course-info-wrapper">
+                            <div class="cart-info-body">
+                              <span class="category-color category-color-5">{{course.speciality}}</span>
+                              <h3>{{course.title}}</h3>
+                              <div class="academic-body">
+                                <div class="eduman-course-heading cart-lavel">
+                                  <h5>Level : <span>{{course.level}}</span></h5>
+                                  <div class="eduman-course-price">
+                                              <span class="price-now">
+                                                {{course.total_enrolled}} enrolled
+                                              </span>
+                                  </div>
+                                </div>
+                                <div class="eduman-course-tutor"
+                                     *ngFor="let teacher of course.teacherDetails">
+                                  <img
+                                    [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                                    class="user-image" alt="">
+                                  <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
+                                  <a
+                                    [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                                </div>
+                              </div>
+                              <div class="info-cart-text">
+                                <ul>
+                                  <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
+                                  <li><i class="fas fa-check"></i> Requirements :
+                                  </li>
+                                  <p>{{course.requirements}}</p>
+
+                                </ul>
+                              </div>
+                              <div class="course-action">
+                                <button (click)="viewDetails(course)" class="view-details-btn align-center">
+                                  View
+                                  Details
+                                </button>
+                                <button (click)="editCourse(course)" class="wishlist-btn"
+                                        *ngIf="(role === 'Teacher' && course.teachers[0] ===userId)"><i
+                                  class="fas fa-edit"></i></button>
+                                <a class="c-share-btn" (click)="deletePendingCourse(course)"
+                                   *ngIf="(role === 'Teacher' && course.teachers[0] ===userId)"><i
+                                  class="fas fa-trash-alt"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="eduman-course-thumb w-img">
+                          <a [routerLink]="['/shared/Lab-course-details']"><img src="{{course.image}}" alt=""></a>
+                        </div>
+                        <div class="eduman-course-wraper">
+                          <div class="eduman-course-heading">
+                            <a class="course-link-color-5">{{course.speciality}}</a>
+                            <!--                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}-->
+                            <!--                                        ({{course.total_enrolled}} enrolled-->
+                            <!--                                        )</span>-->
+                          </div>
+                          <div class="eduman-course-text">
+                            <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                            </h3>
+                          </div>
+                          <div class="eduman-course-meta">
+                            <div class="eduman-course-price">
+                              <span class="price-now">
+                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>
+                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>
+                              </span>
+                            </div>
+
+                            <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
+                              <img
+                                [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                                class="user-image" alt="">
+                              <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
+                              <a
+                                [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="eduman-course-footer">
+                          <div class="course-lessson-svg">
+                            <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                                 xmlns="http://www.w3.org/2000/svg">
+                              <g id="blackboard-13" transform="translate(-0.008)">
+                                <path
+                                  d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
+                                  data-name="Path 101"
+                                  fill="#575757"
+                                  id="Path_000"/>
+                              </g>
+                            </svg>
+                            <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
+                          </div>
+                          <div class="course-deteals-btn">
+                            <a (click)="viewDetails(course)"><span class="me-2">View Details</span>
+                              <i class="fas fa-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--                    <mat-tab id="my_available_courses" *ngIf="( role === 'Teacher')">-->
+            <!--                      <ng-template mat-tab-label>-->
+            <!--                        <button class="active">My available courses</button>-->
+            <!--                      </ng-template>-->
+            <!--                      <div class="portfolio-course-body mt-5">-->
+            <!--                        <div class="row grid course-main-items">-->
+            <!--                          <div class="portfolio-course-body mt-5">-->
+            <!--                            <div class="row grid course-main-items">-->
+            <!--                              <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1"-->
+            <!--                                   *ngFor="let course of teacherApprovedCourses">-->
+            <!--                                <div class="eduman-course-main-wrapper mb-30">-->
+            <!--                                  <div class="course-cart">-->
+            <!--                                    <div class="course-info-wrapper">-->
+            <!--                                      <div class="cart-info-body">-->
+            <!--                                    <span class="category-color category-color-5">{{course.speciality}}/span>-->
+            <!--                                        <h3>{{course.title}}</h3>-->
+            <!--                                        <div class="cart-lavel">-->
+            <!--                                          <h5>Level : <span>{{course.level}}</span></h5>-->
+            <!--                                        </div>-->
+            <!--                                        <div class="info-cart-text">-->
+            <!--                                          <ul>-->
+            <!--                                            <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>-->
+            <!--                                            <li><i class="fas fa-check"></i> Requirements :-->
+            <!--                                            </li>-->
+            <!--                                            <p>{{course.requirements}}</p>-->
+
+            <!--                                          </ul>-->
+            <!--                                        </div>-->
+            <!--                                        <div class="course-action">-->
+            <!--                                          <button (click)="viewDetails(course)" class="view-details-btn align-center">View-->
+            <!--                                            Details-->
+            <!--                                          </button>-->
+            <!--                                          <button (click)="editCourse(course)" class="wishlist-btn"-->
+            <!--                                                  *ngIf="(role === 'Teacher')"><i-->
+            <!--                                            class="fas fa-edit"></i></button>-->
+            <!--                                          <a class="c-share-btn" (click)="deleteApprovedCourse(course)"><i-->
+            <!--                                            class="fas fa-trash-alt"></i>-->
+            <!--                                          </a>-->
+            <!--                                        </div>-->
+            <!--                                      </div>-->
+            <!--                                    </div>-->
+            <!--                                  </div>-->
+            <!--                                  <div class="eduman-course-thumb w-img">-->
+            <!--                                    <a [routerLink]="['/shared/Lab-course-details']">-->
+            <!--                                      <img alt="course-img" src="{{course.image}}">-->
+            <!--                                    </a>-->
+            <!--                                  </div>-->
+            <!--                                  <div class="eduman-course-wraper">-->
+            <!--                                    <div class="eduman-course-heading">-->
+            <!--                                      <a class="course-link-color-5">{{course.speciality}}</a>-->
+            <!--                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}-->
+            <!--                                        ({{course.total_enrolled}}-->
+            <!--                                        )</span>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="eduman-course-text">-->
+            <!--                                      <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>-->
+            <!--                                      </h3>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="eduman-course-meta">-->
+            <!--                                      <div class="eduman-course-price">-->
+            <!--                              <span class="price-now">-->
+            <!--                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>-->
+            <!--                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>-->
+            <!--                              </span>-->
+            <!--                                      </div>-->
+
+            <!--                                      <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">-->
+            <!--                                        <img-->
+            <!--                                          [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"-->
+            <!--                                          class="user-image" alt="">-->
+            <!--                                        &lt;!&ndash;                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>&ndash;&gt;-->
+            <!--                                        <a-->
+            <!--                                          [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>-->
+            <!--                                      </div>-->
+            <!--                                    </div>-->
+            <!--                                  </div>-->
+            <!--                                  <div class="eduman-course-footer">-->
+            <!--                                    <div class="course-lessson-svg">-->
+            <!--                                      <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"-->
+            <!--                                           xmlns="http://www.w3.org/2000/svg">-->
+            <!--                                        <g id="blackboard-13" transform="translate(-0.008)">-->
+            <!--                                          <path-->
+            <!--                                            d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
+            <!--                                            data-name="Path 101"-->
+            <!--                                            fill="#575757"-->
+            <!--                                            id="Path_000"/>-->
+            <!--                                        </g>-->
+            <!--                                      </svg>-->
+            <!--                                      <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="course-deteals-btn">-->
+            <!--                                      <a (click)="viewDetails(course)"><span class="me-2">View Details</span>-->
+            <!--                                        <i class="far fa-arrow-right"></i></a>-->
+            <!--                                    </div>-->
+            <!--                                  </div>-->
+            <!--                                </div>-->
+            <!--                              </div>-->
+            <!--                            </div>-->
+            <!--                          </div>-->
+
+
+            <!--                        </div>-->
+            <!--                      </div>-->
+            <!--                    </mat-tab>-->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <app-pagination></app-pagination>
+          </div>
+        </div>
+      </div>
+      <!--        <div class="col" style="flex-grow: 9.8;">-->
+
+
+      <!--          <div class=" course-area  pt-40 pb-20">-->
+      <!--            <div class="p-2">-->
+      <!--              <div class="">-->
+      <!--                <div class="portfolio-button ">-->
+      <!--                  <mat-tab-group [@.disabled]="true" [selectedIndex]="selectedIndex">-->
+      <!--                    <mat-tab id="view_all">-->
+      <!--                      <ng-template mat-tab-label>-->
+      <!--                        <button class="active">View All</button>-->
+      <!--                      </ng-template>-->
+      <!--                      <div class="portfolio-course-body mt-5">-->
+      <!--                        <div class="row grid course-main-items">-->
+      <!--                          <div class="portfolio-course-body mt-3">-->
+      <!--                            <div class="row grid course-main-items">-->
+      <!--                              <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">-->
+      <!--                                <div class="eduman-course-main-wrapper mb-80">-->
+      <!--                                  <div class="course-cart">-->
+      <!--                                    <div class="course-info-wrapper">-->
+      <!--                                      <div class="cart-info-body">-->
+      <!--                                        <span class="category-color category-color-5">{{course.speciality}}</span>-->
+      <!--                                        <h3>{{course.title}}</h3>-->
+      <!--                                        <div class="academic-body">-->
+      <!--                                          <div class="eduman-course-heading cart-lavel">-->
+      <!--                                            <h5>Level : <span>{{course.level}}</span></h5>-->
+      <!--                                            <div class="eduman-course-price">-->
+      <!--                                              <span class="price-now">-->
+      <!--                                                {{course.total_enrolled}} enrolled-->
+      <!--                                              </span>-->
+      <!--                                            </div>-->
+      <!--                                          </div>-->
+      <!--                                          <div class="eduman-course-tutor"-->
+      <!--                                               *ngFor="let teacher of course.teacherDetails">-->
+      <!--                                            <img-->
+      <!--                                              [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"-->
+      <!--                                              class="user-image" alt="">-->
+      <!--                                            &lt;!&ndash;                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>&ndash;&gt;-->
+      <!--                                            <a-->
+      <!--                                              [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>-->
+      <!--                                          </div>-->
+      <!--                                        </div>-->
+      <!--                                        <div class="info-cart-text">-->
+      <!--                                          <ul>-->
+      <!--                                            <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>-->
+      <!--                                            <li><i class="fas fa-check"></i> Requirements :-->
+      <!--                                            </li>-->
+      <!--                                            <p>{{course.requirements}}</p>-->
+
+      <!--                                          </ul>-->
+      <!--                                        </div>-->
+      <!--                                        <div class="course-action">-->
+      <!--                                          <button (click)="viewDetails(course)" class="view-details-btn align-center">-->
+      <!--                                            View-->
+      <!--                                            Details-->
+      <!--                                          </button>-->
+      <!--                                          <a class="c-share-btn" *ngIf="(role === 'Super_Admin' )"><i-->
+      <!--                                            class="fas fa-trash-alt"></i>-->
+      <!--                                          </a>-->
+      <!--                                        </div>-->
+      <!--                                      </div>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-thumb w-img">-->
+      <!--                                    <a [routerLink]="['/shared/Lab-course-details']"><img src="{{course.image}}" alt=""></a>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-wraper">-->
+      <!--                                    <div class="eduman-course-heading">-->
+      <!--                                      <a class="course-link-color-5">{{course.speciality}}</a>-->
+      <!--&lt;!&ndash;                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        ({{course.total_enrolled}} enrolled&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        )</span>&ndash;&gt;-->
+      <!--                                    </div>-->
+      <!--                                    <div class="eduman-course-text">-->
+      <!--                                      <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>-->
+      <!--                                      </h3>-->
+      <!--                                    </div>-->
+      <!--                                    <div class="eduman-course-meta">-->
+      <!--                                      <div class="eduman-course-price">-->
+      <!--                              <span class="price-now">-->
+      <!--                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>-->
+      <!--                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>-->
+      <!--                              </span>-->
+      <!--                                      </div>-->
+
+      <!--                                      <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">-->
+      <!--                                        <img-->
+      <!--                                          [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"-->
+      <!--                                          class="user-image" alt="">-->
+      <!--                                        &lt;!&ndash;                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>&ndash;&gt;-->
+      <!--                                        <a-->
+      <!--                                          [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>-->
+      <!--                                      </div>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-footer">-->
+      <!--                                    <div class="course-lessson-svg">-->
+      <!--                                      <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"-->
+      <!--                                           xmlns="http://www.w3.org/2000/svg">-->
+      <!--                                        <g id="blackboard-13" transform="translate(-0.008)">-->
+      <!--                                          <path-->
+      <!--                                            d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
+      <!--                                            data-name="Path 101"-->
+      <!--                                            fill="#575757"-->
+      <!--                                            id="Path_000"/>-->
+      <!--                                        </g>-->
+      <!--                                      </svg>-->
+      <!--                                      <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>-->
+      <!--                                    </div>-->
+      <!--                                    <div class="course-deteals-btn">-->
+      <!--                                      <a (click)="viewDetails(course)"><span class="me-2">View Details</span>-->
+      <!--                                        <i class="far fa-arrow-right"></i></a>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                </div>-->
+      <!--                              </div>-->
+
+      <!--                            </div>-->
+      <!--                          </div>-->
+      <!--                        </div>-->
+      <!--                      </div>-->
+      <!--                    </mat-tab>-->
+      <!--&lt;!&ndash;                    <mat-tab id="my_available_courses" *ngIf="( role === 'Teacher')">&ndash;&gt;-->
+      <!--&lt;!&ndash;                      <ng-template mat-tab-label>&ndash;&gt;-->
+      <!--&lt;!&ndash;                        <button class="active">My available courses</button>&ndash;&gt;-->
+      <!--&lt;!&ndash;                      </ng-template>&ndash;&gt;-->
+      <!--&lt;!&ndash;                      <div class="portfolio-course-body mt-5">&ndash;&gt;-->
+      <!--&lt;!&ndash;                        <div class="row grid course-main-items">&ndash;&gt;-->
+      <!--&lt;!&ndash;                          <div class="portfolio-course-body mt-5">&ndash;&gt;-->
+      <!--&lt;!&ndash;                            <div class="row grid course-main-items">&ndash;&gt;-->
+      <!--&lt;!&ndash;                              <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                   *ngFor="let course of teacherApprovedCourses">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                <div class="eduman-course-main-wrapper mb-30">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  <div class="course-cart">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="course-info-wrapper">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <div class="cart-info-body">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <span class="category-color category-color-5">{{course.speciality}}/span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <h3>{{course.title}}</h3>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <div class="cart-lavel">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <h5>Level : <span>{{course.level}}</span></h5>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <div class="info-cart-text">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <ul>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            <li><i class="fas fa-check"></i> Requirements :&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            </li>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            <p>{{course.requirements}}</p>&ndash;&gt;-->
+
+      <!--&lt;!&ndash;                                          </ul>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <div class="course-action">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <button (click)="viewDetails(course)" class="view-details-btn align-center">View&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            Details&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          </button>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <button (click)="editCourse(course)" class="wishlist-btn"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                                  *ngIf="(role === 'Teacher')"><i&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            class="fas fa-edit"></i></button>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <a class="c-share-btn" (click)="deleteApprovedCourse(course)"><i&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            class="fas fa-trash-alt"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          </a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  <div class="eduman-course-thumb w-img">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <a [routerLink]="['/shared/Lab-course-details']">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <img alt="course-img" src="{{course.image}}">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  <div class="eduman-course-wraper">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="eduman-course-heading">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <a class="course-link-color-5">{{course.speciality}}</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        ({{course.total_enrolled}}&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        )</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="eduman-course-text">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      </h3>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="eduman-course-meta">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <div class="eduman-course-price">&ndash;&gt;-->
+      <!--&lt;!&ndash;                              <span class="price-now">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>&ndash;&gt;-->
+      <!--&lt;!&ndash;                              </span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      </div>&ndash;&gt;-->
+
+      <!--&lt;!&ndash;                                      <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <img&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          class="user-image" alt="">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        &lt;!&ndash;                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>&ndash;&gt;&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <a&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  <div class="eduman-course-footer">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="course-lessson-svg">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                           xmlns="http://www.w3.org/2000/svg">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <g id="blackboard-13" transform="translate(-0.008)">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                          <path&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            data-name="Path 101"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            fill="#575757"&ndash;&gt;-->
+      <!--&lt;!&ndash;                                            id="Path_000"/>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        </g>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      </svg>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    <div class="course-deteals-btn">&ndash;&gt;-->
+      <!--&lt;!&ndash;                                      <a (click)="viewDetails(course)"><span class="me-2">View Details</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                        <i class="far fa-arrow-right"></i></a>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                  </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                              </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                          </div>&ndash;&gt;-->
+
+
+      <!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;                    </mat-tab>&ndash;&gt;-->
+      <!--                    <mat-tab *ngIf="( role === 'Teacher')">-->
+      <!--                      <ng-template mat-tab-label>-->
+      <!--                        <button class="active">My pending courses</button>-->
+      <!--                      </ng-template>-->
+      <!--                      <div class="portfolio-course-body mt-5">-->
+      <!--                        <div class="row grid course-main-items">-->
+      <!--                          <div class="portfolio-course-body mt-5">-->
+      <!--                            <div class="row grid course-main-items">-->
+      <!--                              <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1"-->
+      <!--                                   *ngFor="let course of teacherPendingCourses">-->
+      <!--                                <div class="eduman-course-main-wrapper mb-30">-->
+      <!--                                  <div class="course-cart">-->
+      <!--                                    <div class="course-info-wrapper">-->
+      <!--                                      <div class="cart-info-body">-->
+      <!--                                        <span class="category-color category-color-5">{{course.speciality}}</span>-->
+      <!--                                        <h3>{{course.title}}</h3>-->
+      <!--                                        <div class="cart-lavel">-->
+      <!--                                          <h5>Level : <span>{{course.level}}</span></h5>-->
+      <!--                                        </div>-->
+      <!--                                        <div class="info-cart-text">-->
+      <!--                                          <ul>-->
+      <!--                                            <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>-->
+      <!--                                            <li><i class="fas fa-check"></i> Requirements :-->
+      <!--                                            </li>-->
+      <!--                                            <p>{{course.requirements}}</p>-->
+
+      <!--                                          </ul>-->
+      <!--                                        </div>-->
+<!--                                              <div class="course-action">-->
+<!--                                                <button (click)="viewDetails(course)" class="view-details-btn align-center">-->
+<!--                                                  View-->
+<!--                                                  Details-->
+<!--                                                </button>-->
+<!--                                                <button (click)="editCourse(course)" class="wishlist-btn"-->
+<!--                                                        *ngIf="(role === 'Teacher')"><i-->
+<!--                                                  class="fas fa-edit"></i></button>-->
+<!--                                                <a class="c-share-btn" (click)="deletePendingCourse(course)"-->
+<!--                                                   *ngIf="(role === 'Teacher' ||role === 'Super_Admin' )"><i-->
+<!--                                                  class="fas fa-trash-alt"></i>-->
+<!--                                                </a>-->
+<!--                                              </div>-->
+      <!--                                      </div>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-thumb w-img">-->
+      <!--                                    <a [routerLink]="['/shared/Lab-course-details']"><img alt="course-img"-->
+      <!--                                                                                          src="{{course.image}}"></a>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-wraper">-->
+      <!--                                    <div class="eduman-course-heading">-->
+      <!--                                      <a [routerLink]="['/course']"-->
+      <!--                                         class="course-link-color-5">{{course.speciality}}</a>-->
+      <!--                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}-->
+      <!--                                        ({{course.total_enrolled}}-->
+      <!--                                        )</span>-->
+      <!--                                    </div>-->
+      <!--                                    <div class="eduman-course-text">-->
+      <!--                                      <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>-->
+      <!--                                      </h3>-->
+      <!--                                    </div>-->
+      <!--                                    <div class="eduman-course-meta">-->
+      <!--                                      <div class="eduman-course-price">-->
+      <!--                              <span class="price-now">-->
+      <!--                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>-->
+      <!--                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>-->
+      <!--                              </span>-->
+      <!--                                      </div>-->
+
+      <!--                                      <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">-->
+      <!--                                        <img alt="image not found" src="{{teacher.user.image}}">-->
+      <!--                                        &lt;!&ndash;                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>&ndash;&gt;-->
+      <!--                                        <a-->
+      <!--                                          [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>-->
+      <!--                                      </div>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                  <div class="eduman-course-footer">-->
+      <!--                                    <div class="course-lessson-svg">-->
+      <!--                                      <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"-->
+      <!--                                           xmlns="http://www.w3.org/2000/svg">-->
+      <!--                                        <g id="blackboard-13" transform="translate(-0.008)">-->
+      <!--                                          <path-->
+      <!--                                            d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
+      <!--                                            data-name="Path 101"-->
+      <!--                                            fill="#575757"-->
+      <!--                                            id="Path_000"/>-->
+      <!--                                        </g>-->
+      <!--                                      </svg>-->
+      <!--                                      <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>-->
+      <!--                                    </div>-->
+      <!--                                    <div class="course-deteals-btn">-->
+      <!--                                      <a (click)="viewDetails(course)"><span class="me-2">View Details</span>-->
+      <!--                                        <i class="far fa-arrow-right"></i></a>-->
+      <!--                                    </div>-->
+      <!--                                  </div>-->
+      <!--                                </div>-->
+      <!--                              </div>-->
+      <!--                            </div>-->
+      <!--                          </div>-->
+      <!--                        </div>-->
+      <!--                      </div>-->
+      <!--                    </mat-tab>-->
+      <!--                  </mat-tab-group>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--          <div class="row">-->
+      <!--            <div class="col-12">-->
+      <!--              <app-pagination></app-pagination>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+    </div>
+  </div>
 </section>
+
+
+
+
+

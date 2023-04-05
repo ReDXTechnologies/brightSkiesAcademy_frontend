@@ -1,14 +1,15 @@
 <div class="course-video-widget">
     <div class="course-widget-wrapper mb-30">
         <div class="course-video-thumb w-img">
-            <img src="assets/img/course/course-video.png" alt="image not found">
+            <img src="{{course.image}}">
             <div class="sidber-video-btn">
-                <a class="popup-video" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-play"></i></a>
+                <a  [href]="videoUrl" class="popup-video" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ><i class="fas fa-play"></i></a>
             </div>
         </div>
-        <div class="course-video-price">
-            <span>$147.00</span>
-        </div>
+      <div class="course-video-price">
+        <span *ngIf="course.price == 0">FREE</span>
+        <span *ngIf="course.price > 0">$ {{course.price}}</span>
+      </div>
         <div class="course-video-body">
             <ul>
                 <li>
@@ -17,7 +18,7 @@
                         <span>Level</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>Beginners</span>
+                        <span>{{course.level}}</span>
                     </div>
                 </li>
                 <li>
@@ -26,25 +27,25 @@
                         <span>Lectures</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>8 Lectures</span>
+                        <span>{{course.nbr_of_lessons}} Lectures</span>
                     </div>
                 </li>
                 <li>
                     <div class="course-vide-icon">
                         <i class="flaticon-clock"></i>
-                        <span>Duration</span>
+                        <span>Workload</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>1h 30m 12s</span>
+                        <span>{{course.workload}} hours</span>
                     </div>
                 </li>
                 <li>
                     <div class="course-vide-icon">
                         <i class="flaticon-menu-2"></i>
-                        <span>Category</span>
+                        <span>Speciality</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>Data Science</span>
+                        <span>{{course.speciality}}</span>
                     </div>
                 </li>
                 <li>
@@ -71,7 +72,8 @@
                         <span>Certificate</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>Yes </span>
+                      <span *ngIf="course.certificate == true">Yes</span>
+                      <span *ngIf="course.certificate ==false">No</span>
                     </div>
                 </li>
                 <li>
@@ -80,27 +82,23 @@
                         <span>Recourse</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>5 Downloadable Files </span>
+                        <span> Downloadable slides and lab Files </span>
                     </div>
                 </li>
             </ul>
         </div>
         <div class="video-wishlist">
-            <a [routerLink]="['/cart']" class="video-cart-btn"><i class="fal fa-shopping-cart"></i>Add
-                to
-                cart</a>
-            <a [routerLink]="['/wishlist']" class="video-wishlist-btn"><i class="far fa-heart"></i>Add
-                to
-                Wishlist</a>
+            <a class="video-cart-btn"><i class="fas fa-hand-paper"></i>Request Access</a>
+<!--            <a [routerLink]="['/wishlist']" class="video-wishlist-btn"><i class="far fa-heart"></i></a>-->
         </div>
-        <div class="course-gift">
-            <div class="course-apply-coupon">
-                <a href="#">Apply Coupon</a>
-            </div>
-            <div class="course-gift-coupon">
-                <a href="#">Gift Courses</a>
-            </div>
-        </div>
+<!--        <div class="course-gift">-->
+<!--            <div class="course-apply-coupon">-->
+<!--                <a href="#">Apply Coupon</a>-->
+<!--            </div>-->
+<!--            <div class="course-gift-coupon">-->
+<!--                <a href="#">Gift Courses</a>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -119,4 +117,3 @@
         </div>
       </div>
   </div>
-  

@@ -14,11 +14,10 @@
             </h2>
           </div>
           <div class="body">
-            <form [formGroup]="courseForm!" (ngSubmit)="onSubmit()">
+            <form [formGroup]="courseForm!" >
 
             <mat-vertical-stepper [linear]="isLinear" #stepper>
               <mat-step [stepControl]="courseForm!">
-                <form [formGroup]="courseForm!">
                   <ng-template matStepLabel>Add Course Overview</ng-template>
                   <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
@@ -121,7 +120,6 @@
                     >Next
                     </button>
                   </div>
-                </form>
               </mat-step>
                 <mat-step [stepControl]="courseForm!">
                   <ng-template matStepLabel>Add Course Curriculum</ng-template>
@@ -246,22 +244,22 @@
                                   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
                                       <mat-label>Lab title</mat-label>
-                                      <input matInput formControlName="title" required>
-                                      <mat-error
-                                        *ngIf="getLabsControls(i).controls[k].get('title').hasError('required')">Title
-                                        is required
-                                      </mat-error>
+                                      <input matInput formControlName="title" >
+<!--                                      <mat-error-->
+<!--                                        *ngIf="getLabsControls(i).controls[k].get('title').hasError('required')">Title-->
+<!--                                        is required-->
+<!--                                      </mat-error>-->
 
                                     </mat-form-field>
                                   </div>
                                   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
                                       <mat-label>Lab description</mat-label>
-                                      <input matInput formControlName="description" required>
-                                      <mat-error
-                                        *ngIf="getLabsControls(i).controls[k].get('description').hasError('required')">
-                                        lab description is required
-                                      </mat-error>
+                                      <input matInput formControlName="description" >
+<!--                                      <mat-error-->
+<!--                                        *ngIf="getLabsControls(i).controls[k].get('description').hasError('required')">-->
+<!--                                        lab description is required-->
+<!--                                      </mat-error>-->
 
                                     </mat-form-field>
                                   </div>
@@ -425,7 +423,7 @@
                 <div>
                   <button mat-raised-button matStepperPrevious color="warn" class="msr-2">Back</button>
                   <button mat-raised-button color="primary" class="msr-2" (click)="stepper.reset()">Reset</button>
-                  <button mat-flat-button style="color: #0b3a88" type="submit" [class.auth-spinner]="loading" >Submit</button>
+                  <button mat-flat-button style="color: #0b3a88" type="submit" [class.auth-spinner]="loading" (click)="onSubmit()" >Submit</button>
                 </div>
               </mat-step>
             </mat-vertical-stepper>

@@ -7,6 +7,9 @@ import {Teacher} from "../../../../core/models/teacher";
 import {TeacherService} from "../../../../core/service/teacher.service";
 import {ReviewService} from "../../../../core/service/review.service";
 import {Observable, of} from "rxjs";
+import {Department} from "../../../../core/models/department";
+import {DepartmentService} from "../../../../core/service/department.service";
+import {AuthService} from "../../../../core/service/auth.service";
 
 @Component({
   selector: 'app-coursefourmain',
@@ -16,15 +19,30 @@ import {Observable, of} from "rxjs";
 export class PendingCoursesComponent implements OnInit {
   courses: Course[];
   teacher: Teacher;
-
+  shopCatActive: boolean = false;
+  selectedSubDepartments: string[] = [];
+  level = '';
+  workload = '';
+  searchInput = ''
+  departments: Department[];
+  userId: number;
+  user_id: string;
+  role: any
+  department: any
   constructor(public courseService: CourseService,
               private teacherService: TeacherService,
+              private departmentService: DepartmentService,
+              private authService: AuthService,
               private router: Router, private snackBar: MatSnackBar
   ) {
+    this.role = this.authService.currentUserValue.role[0];
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
   }
 
   ngOnInit(): void {
     this.getAllPendingCourses();
+    this.getDepatments();
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -35,6 +53,7 @@ export class PendingCoursesComponent implements OnInit {
       panelClass: colorName,
     });
   }
+
   getTeacherDetails(teacherIds: any): Observable<any[]> {
     const teachers = [];
 
@@ -51,22 +70,65 @@ export class PendingCoursesComponent implements OnInit {
 
     return of(teachers);
   }
+
   getAllPendingCourses() {
-    this.courseService.getPendingCourses().subscribe(
-      (data) => {
-        this.courses = data;
-        this.courses.forEach(course => {
-          this.getTeacherDetails(course.teachers).subscribe(
-            (teachers) => {
-              course.teacherDetails = teachers;
-            }
-          );
-        });
-      },
-      (error) => {
-        console.log('Error getting approved courses:', error);
-      }
-    );
+    if (this.role === 'Super_Admin') {
+      this.courseService.getPendingCourses().subscribe(
+        (data) => {
+          this.courses = data;
+          this.courses.forEach(course => {
+            this.getTeacherDetails(course.teachers).subscribe(
+              (teachers) => {
+                course.teacherDetails = teachers;
+              }
+            );
+          });
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        }
+      );
+    } else if (this.role === 'head_super_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+        this.courseService.getSuperDepPendingCourses(res).subscribe(
+          (data) => {
+            this.courses = data;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+
+    } else if (this.role === 'head_sub_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+        this.courseService.getSubDepPendingCourses(res).subscribe(
+          (data) => {
+            this.courses = data;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+    }
+
 
   }
 
@@ -79,7 +141,7 @@ export class PendingCoursesComponent implements OnInit {
         const teacherJson = JSON.stringify(teacher);
 
         this.router.navigate(['/shared/Lab-course-details'],
-          { queryParams: { course: courseJson, teacher: teacherJson } });
+          {queryParams: {course: courseJson, teacher: teacherJson}});
 
       },
       (error) => {
@@ -87,9 +149,11 @@ export class PendingCoursesComponent implements OnInit {
       }
     );
   }
+
   navigateToCoursesTab(tabId: string) {
-    this.router.navigateByUrl('/shared/courses#'+tabId);
+    this.router.navigateByUrl('/shared/courses#' + tabId);
   }
+
   approve(courseId: number) {
     this.courseService.approveCourse(courseId)
       .subscribe((course) => {
@@ -124,4 +188,63 @@ export class PendingCoursesComponent implements OnInit {
       });
   }
 
+  shopCat() {
+    this.shopCatActive = this.shopCatActive == false;
+  }
+
+  onSearch(query: string) {
+    console.log(query)
+    this.searchInput = query;
+    this.getFilteredCourses()
+  }
+
+  onSubDepartmentChange(event: any, subDepartment: string) {
+    // Toggle selected sub-department
+    if (event.target.checked) {
+      this.selectedSubDepartments.push(subDepartment);
+    } else {
+      const index = this.selectedSubDepartments.indexOf(subDepartment);
+      if (index > -1) {
+        this.selectedSubDepartments.splice(index, 1);
+      }
+    }
+    this.getFilteredCourses();
+  }
+
+  getFilteredCourses() {
+    this.courseService.getFilteredPendingCourses(this.selectedSubDepartments)
+      .subscribe(response => {
+        this.courses = response;
+      });
+  }
+
+  private getDepatments() {
+
+    if (this.role === 'Super_Admin') {
+      this.departmentService.getSubDepartments().subscribe(value => {
+        if (!!value) {
+          this.departments = value;
+        }
+      });
+    } else if (this.role === 'head_super_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+        this.departmentService.getSubDepartmentsBySuperDepId(res).subscribe(value => {
+          if (!!value) {
+            this.departments = value;
+          }
+        });
+      })
+
+
+    } else if (this.role === 'head_sub_department') {
+      this.teacherService.getSubDepId(this.userId).subscribe(res=>{
+        this.departmentService.getSubDepartmentById(res).subscribe(value => {
+          if (!!value) {
+            console.log(value)
+            this.department = value;
+          }
+        });
+      })
+    }
+  }
 }
