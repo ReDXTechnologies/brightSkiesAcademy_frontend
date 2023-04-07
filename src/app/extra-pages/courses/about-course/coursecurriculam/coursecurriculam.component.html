@@ -35,35 +35,6 @@
               </div>
             </div>
           </div>
-<!--          <div id="collapseOne" class="accordion-collapse collapse show "-->
-<!--               aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
-<!--            <div class="accordion-body">-->
-<!--              <div class="course-curriculum">-->
-<!--                <div class="course-curriculum-list">-->
-<!--                  <app-coursevideo [videos]="module.videos" [selectedIndex]="0"></app-coursevideo>-->
-<!--                  <div class="course-curriculum-title">-->
-<!--                    <h4>{{module.name}}</h4>-->
-<!--                  </div>-->
-<!--                  <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center"-->
-<!--                       *ngFor="let video of module.videos; let j = index">-->
-<!--                    <div class="course-curriculum-info">-->
-<!--                      <i class="flaticon-youtube"></i>-->
-<!--                      <h4>{{video.name}}</h4>-->
-<!--                    </div>-->
-<!--                    <div class="course-curriculum-meta">-->
-<!--                      <span>{{video.duration}}</span>-->
-<!--                      <span class="time"> <i class="flaticon-lock"></i></span>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-
-          <!--        <div *ngIf="currentVideo">-->
-          <!--          <video [src]="currentVideo.video_file" controls></video>-->
-          <!--&lt;!&ndash;          <button (click)="nextVideo()">Next Video</button>&ndash;&gt;-->
-          <!--        </div>-->
 
           <mat-accordion>
             <ng-container *ngFor="let lab of module.labs">
@@ -117,9 +88,9 @@
 
         </mat-expansion-panel>
       </ng-container>
-      <ng-container >
+      <ng-container>
 
-        <mat-expansion-panel >
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
              <span class="accordion-header">
@@ -132,7 +103,7 @@
             </mat-panel-title>
 
           </mat-expansion-panel-header>
-          <div class=" row mt-3" >
+          <div class=" row mt-3">
             <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please
               download and review the course <b>slides </b>as they cover important tips and information that are presented throughout the course.
               The slides will be particularly helpful to get reference, so don't miss out on this valuable resource. </span>.

@@ -12,4 +12,6 @@ export class User {
   role: Role[];
   image: string;
   access?: string;
+  sub_department?: string;
+  super_department?: string;
 }

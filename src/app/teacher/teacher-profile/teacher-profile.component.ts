@@ -5,6 +5,7 @@ import {TeacherService} from "../../core/service/teacher.service";
 import {AdminService} from "../../core/service/admin.service";
 import {Teacher} from "../../core/models/teacher";
 import {Course} from "../../core/models/course";
+import {DepartmentService} from "../../core/service/department.service";
 @Component({
   selector: 'app-profile',
   templateUrl: './teacher-profile.component.html',
@@ -21,7 +22,12 @@ export class TeacherProfileComponent implements OnInit {
   teacher: Teacher;
   loading = false;
   teacherApprovedCourses: Course[]
-  constructor(private formBuilder: FormBuilder, private teacherService: TeacherService,private adminService: AdminService) { }
+  firstmanager : string
+  secondmanager : string
+  constructor(private formBuilder: FormBuilder,
+              private teacherService: TeacherService,
+              private departmentService: DepartmentService,
+              private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -56,8 +62,14 @@ export class TeacherProfileComponent implements OnInit {
     this.selectedImage = <File>event.target.files[0];
   }
   public getTeacherDetails(userId: string): void {
+    this.teacherService.getTeacherManagers(userId).subscribe(managers=>{
+      console.log(managers)
+      this.firstmanager = managers.head_of_sub_dep
+      this.secondmanager = managers.head_of_super_dep
+    })
 
     this.teacherService.getTeacherById(userId).subscribe(res=>{
+      console.log(res)
       this.teacher = res;
       this.teacherForm.patchValue({
         firstName: this.teacher.user.firstName,

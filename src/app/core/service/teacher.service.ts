@@ -24,6 +24,11 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   getDialogData() {
     return this.dialogData;
   }
+  getTeacherManagers(teacherId: any): Observable<any> {
+    const url = `${this.baseUrl}/teacher/${teacherId}/managers`;
+
+    return this.httpClient.get<any>(url);
+  }
   getSuperDepTeachers(superDepartmentId: any): Observable<Teacher[]> {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
 

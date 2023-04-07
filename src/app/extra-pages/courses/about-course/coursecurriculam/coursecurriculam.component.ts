@@ -36,12 +36,4 @@ export class CoursecurriculamComponent implements OnInit {
       }
     });
   }
-
-  // nextVideo() {
-  //   if (this.currentVideoIndex < this.module.videos.length - 1) {
-  //     this.currentVideo = this.module.videos[this.currentVideoIndex + 1];
-  //     this.currentVideoIndex++;
-  //   }
-  // }
-
 }

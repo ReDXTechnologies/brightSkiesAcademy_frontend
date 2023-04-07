@@ -9,6 +9,10 @@ const routes: Routes = [
     component: PendingAccountsComponent
   },
   {
+    path: 'hybrid-profile-confirmation',
+    component: PendingAccountsComponent
+  },
+  {
     path: 'course-confirmation',
     component: PendingCoursesComponent
   }

@@ -22,11 +22,6 @@ export class DisplayCurriculumVideosComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data.module)
     this.video_url = this.data.videoUrl
-    // const url  = this.course.modules[0].videos[0].video_file.toString()
-    // const realUrl = url.split('?')[0];
-    // this.videoUrl = decodeURIComponent(realUrl.replace(/\+/g, " "));
-    // this.currentVideoIndex = this.selectedIndex;
-    // this.currentVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.videos[this.currentVideoIndex].url);
 
   }
 

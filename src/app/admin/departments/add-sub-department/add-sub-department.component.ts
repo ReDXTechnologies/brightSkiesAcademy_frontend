@@ -7,6 +7,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {User} from "../../../core/models/user";
 import {AuthService} from "../../../core/service/auth.service";
 import {Department} from "../../../core/models/department";
+import {TeacherService} from "../../../core/service/teacher.service";
 
 @Component({
   selector: 'app-add-sub-department',

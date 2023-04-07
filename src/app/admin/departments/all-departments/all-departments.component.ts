@@ -401,7 +401,7 @@ export class superDepartmentsDatasource extends DataSource<Department> {
           [propertyA, propertyB] = [a.name, b.name];
           break;
         case 'head_of_department':
-          [propertyA, propertyB] = [a.head_of_super_department, b.head_of_super_department];
+          [propertyA, propertyB] = [a.head_of_super_department.firstName, b.head_of_super_department.firstName];
           break;
         // case 'date': [propertyA, propertyB] = [a.date, b.date]; break;
         case 'email':
@@ -489,7 +489,7 @@ export class subDepartmentsDatasource extends DataSource<Department> {
           [propertyA, propertyB] = [a.name, b.name];
           break;
         case 'head_of_department':
-          [propertyA, propertyB] = [a.head_of_sub_department, b.head_of_sub_department];
+          [propertyA, propertyB] = [a.head_of_sub_department.firstName, b.head_of_sub_department.firstName];
           break;
         // case 'date': [propertyA, propertyB] = [a.date, b.date]; break;
         case 'email':

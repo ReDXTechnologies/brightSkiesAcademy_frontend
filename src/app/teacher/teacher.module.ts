@@ -38,18 +38,6 @@ import {MyStudentsComponent} from "./students/all-students/my-students.component
 import {FormDialogComponent} from "./students/all-students/dialogs/form-dialog/form-dialog.component";
 import {DeleteDialogComponent} from "./students/all-students/dialogs/delete/delete.component";
 import {StudentsService} from "./students/all-students/students.service";
-import {AddCourseComponent} from "./courses/add-course/add-course.component";
-import {
-  CoursecurriculamComponent
-} from "../extra-pages/courses/about-course/coursecurriculam/coursecurriculam.component";
-import {
-  CourseinstructorComponent
-} from "../extra-pages/courses/about-course/courseinstructor/courseinstructor.component";
-import {StudentfeedbackComponent} from "../extra-pages/courses/about-course/studentfeedback/studentfeedback.component";
-import {CoursereviewComponent} from "../extra-pages/courses/about-course/coursereview/coursereview.component";
-import {CoursevideoComponent} from "../extra-pages/courses/about-course/coursevideo/coursevideo.component";
-import {LabCourseComponent} from "../extra-pages/courses/about-course/LabCourse/lab-course.component";
-import {MatLegacyProgressBarModule} from "@angular/material/legacy-progress-bar";
 import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
@@ -59,7 +47,6 @@ import {MatStepperModule} from "@angular/material/stepper";
     MyStudentsComponent,
     FormDialogComponent,
     DeleteDialogComponent,
-    AddCourseComponent
   ],
     imports: [
         CommonModule,
@@ -95,7 +82,6 @@ import {MatStepperModule} from "@angular/material/stepper";
         SharedModule,
         MatTabsModule,
         FileUploadModule,
-        MatLegacyProgressBarModule,
         MatStepperModule,
     ],
   providers: [StudentsService],

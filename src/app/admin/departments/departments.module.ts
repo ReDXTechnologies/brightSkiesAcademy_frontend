@@ -29,6 +29,7 @@ import { ComponentsModule } from './../../shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {AddSubDepartmentComponent} from "./add-sub-department/add-sub-department.component";
 import {MatTabsModule} from "@angular/material/tabs";
+import {HeadDepProfileComponent} from "./head-dep-profile/head-dep-profile.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     AllDepartmentsComponent,
     DeleteDialogComponent,
     FormDialogComponent,
-    AddSubDepartmentComponent
+    AddSubDepartmentComponent,
+    HeadDepProfileComponent
   ],
   imports: [
     CommonModule,

@@ -1,15 +1,4 @@
-<!--<video #videoPlayer [src]="videoUrl" controls></video>-->
-<!--<div class="advanced-options">-->
-<!--  <button (click)="togglePlay()">Play/Pause</button>-->
-<!--  <button (click)="toggleMute()">Mute/Unmute</button>-->
-<!--  <input type="range" [(ngModel)]="volume" (ngModelChange)="setVolume()">-->
-<!--  <button (click)="toggleFullScreen()">Full Screen</button>-->
-<!--  <button (click)="changePlaybackSpeed()">Playback Speed</button>-->
-<!--</div>-->
-<!--<video width="100%" height="auto" controls>-->
-<!--  <source [src]="data.videoUrl" type="video/mp4">-->
-<!--  Your browser does not support the video tag.-->
-<!--</video>-->
+
 <section class="m-3 ">
   <div class="container">
     <div class="row">
@@ -40,24 +29,6 @@
             </mat-panel-title>
 
           </mat-expansion-panel-header>
-<!--          <div id="collapseOne" class="accordion-collapse collapse show "-->
-<!--               aria-labelledby="headingOne" data-bs-parent="#accordionExample"-->
-<!--               *ngFor="let video of data.videos; let i = index" [ngClass]="{'active': data.currentIndex === i}">-->
-<!--            <div class="accordion-body" (click)="changeVideo(i)">-->
-<!--              <div-->
-<!--                class="course-curriculum-content d-sm-flex justify-content-between align-items-center">-->
-<!--                <div class="course-curriculum-info">-->
-<!--                  <i class="flaticon-youtube"></i>-->
-
-<!--                  <h4>{{video.name}}</h4>-->
-<!--                </div>-->
-<!--                <div class="course-curriculum-meta">-->
-<!--                  <span>{{video.duration}}</span>-->
-<!--                  <span class="time"> <i class="flaticon-lock"></i></span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         <div class="video-list">
           <ul>
             <li style="display: flex;  align-items: center;" *ngFor="let video of data.videos; let i = index" [ngClass]="{'active': data.currentIndex === i}" (click)="changeVideo(i)">
