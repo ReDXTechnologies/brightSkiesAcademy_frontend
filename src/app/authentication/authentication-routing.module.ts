@@ -21,7 +21,7 @@ const routes: Routes = [
     component: SignupComponent,
   },
   {
-    path: 'forgot-password',
+    path: 'reset-password',
     component: ForgotPasswordComponent,
   },
   {

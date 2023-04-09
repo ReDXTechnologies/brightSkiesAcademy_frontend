@@ -9,7 +9,10 @@ export class Teacher {
   nb_of_courses: number;
   is_student_request_pending: boolean;
   sub_department: Department
+  sub_department_name: string
+  requested_at: string
   user : User
   courses : Course[]
+  skills: any;
 
 }

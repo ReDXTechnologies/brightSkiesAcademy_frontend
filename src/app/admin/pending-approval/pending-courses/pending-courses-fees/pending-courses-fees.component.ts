@@ -8,11 +8,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {BehaviorSubject, fromEvent, merge, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {CourseDetailsComponent} from './form/course-details.component';
-import {DeleteComponent} from './delete/delete.component';
-import {Course} from "../../../core/models/course";
-import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
-import {CourseService} from "../../../core/service/course.service";
+import {CourseDetailsComponent} from '../form/course-details.component';
+import {DeleteComponent} from '../delete/delete.component';
+import {Course} from "../../../../core/models/course";
+import {UnsubscribeOnDestroyAdapter} from "../../../../shared/UnsubscribeOnDestroyAdapter";
+import {CourseService} from "../../../../core/service/course.service";
 
 @Component({
   selector: 'app-pending-courses',

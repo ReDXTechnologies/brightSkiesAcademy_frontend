@@ -96,6 +96,34 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  getHybridProfilesRequests(): void {
+    const url = `${this.baseUrl}/students/pending-teacher-requests`;
+    this.httpClient.get<Teacher[]>(url).subscribe(
+      (data) => {
+        console.log(data)
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getEnrollementRequests(): void {
+    const url = `${this.baseUrl}/users/pending-course-enrollement-requests`;
+    this.httpClient.get<any>(url).subscribe(
+      (data) => {
+        console.log(data)
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
   getSuperDepId(user_id: any){
     const url = `${this.baseUrl}/user/${user_id}/super_department_id`;
 
@@ -158,5 +186,30 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   approveTeacherAccount(teacherId: number,departmentId: number): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/teacher/${teacherId}/approve-account/${departmentId}`,{});
+  }
+  checkRequestStudentTeacherAccount(studentId: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/check-teacher-request/${studentId}`);
+  }
+  requestStudentTeacherAccount(studentId: number,departmentId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/student/${studentId}/request-teacher-access/${departmentId}`,{});
+  }
+  approveStudentTeacherAccount(studentId: number,departmentId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/student/${studentId}/request-teacher-access/sub_dep/${departmentId}/approve`,{});
+  }
+  rejectStudentTeacherAccount(studentId: number,departmentId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/student/${studentId}/request-teacher-access/sub_dep/${departmentId}/reject`,{});
+  }
+
+  checkUserEnrollement(user_id: number, course_id:number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/check-user-enrollement-request/${user_id}/course/${course_id}`);
+  }
+  requestPremuimCourseEnrollement(user_id: number, course_id:number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/course/${course_id}/enroll/${user_id}`,{});
+  }
+  approveUserEnrollement(userId: number,courseId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/user/${userId}/request-user-enrollement-access/course/${courseId}/approve`,{});
+  }
+  rejectUserEnrollement(userId: number,courseId: number): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/user/${userId}/request-user-enrollement-access/course/${courseId}/reject`,{});
   }
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {AuthService} from 'src/app/core/service/auth.service';
+import {Role} from 'src/app/core/models/role';
+import {UnsubscribeOnDestroyAdapter} from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-signin',
@@ -23,7 +24,9 @@ export class SigninComponent
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private snackBar: MatSnackBar,
     private authService: AuthService
+
   ) {
     super();
   }
@@ -53,13 +56,21 @@ export class SigninComponent
       this.subs.sink = this.authService
         .login(this.f.email.value, this.f.password.value).subscribe(res=>{
               if (res) {
+                if(res.msg==='Invalid Credentials'){
+                  this.loading = false;
+
+                  this.showNotification(
+                    'snackbar-danger',
+                    res.msg,
+                    'bottom',
+                    'center'
+                  );
+                }
                 console.log("role",this.authService.currentUserValue.role)
                   const role = this.authService.currentUserValue.role[0];
-                  console.log(role ,role === Role.head_sub_department)
                   if (role === Role.Super_Admin || role === Role.Admin || role === Role.head_sub_department || role === Role.head_super_department) {
-                    console.log('here i am')
                     this.router.navigate(['/admin/dashboard/main']);
-                  } else if (role === Role.Teacher) {
+                  } else if (role === Role.Teacher || role === Role.Student_Teacher) {
                     this.router.navigate(['/teacher/teacher-profile']);
                   } else if (role === Role.Student) {
                     this.router.navigate(['/student/dashboard']);
@@ -78,5 +89,13 @@ export class SigninComponent
             }
         )
     }
+  }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
   }
 }

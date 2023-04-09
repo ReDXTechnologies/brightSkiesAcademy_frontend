@@ -35,7 +35,7 @@
                   class="course-result-number">{{courses?.length}}</span> results
                 </div>
 
-                <div class="couse-dropdown" *ngIf="role=='Teacher'">
+                <div class="couse-dropdown" *ngIf="role=='Teacher' ||role=='Student_Teacher'">
                   <div class="course-drop-inner pt-3 mr-20">
                     <mat-form-field appearance="outline">
                       <mat-label>My courses</mat-label>

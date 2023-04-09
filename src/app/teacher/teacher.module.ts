@@ -28,7 +28,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { TeacherRoutingModule } from './teacher-routing.module';
-import { SettingsComponent } from './settings/settings.component';
 import { ComponentsModule } from '../shared/components/components.module';
 import { SharedModule } from '../shared/shared.module';
 import {TeacherProfileComponent} from "./teacher-profile/teacher-profile.component";
@@ -42,7 +41,6 @@ import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
   declarations: [
-    SettingsComponent,
     TeacherProfileComponent,
     MyStudentsComponent,
     FormDialogComponent,

@@ -96,7 +96,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userType = Role.Teacher;
       } else if (userRole === Role.Student) {
         this.userType = Role.Student;
-      } else {
+      }
+      else if (userRole === Role.Student_Teacher) {
+        this.userType = Role.Student_Teacher;
+      }else {
         this.userType = Role.head_sub_department;
       }
     }

@@ -36,7 +36,7 @@
               </div>
               <div class="course-meta-text">
                 <span>Created by</span>
-                <h6><a [routerLink]="['/instructor-profile']">{{teacher.user.firstName}} {{teacher.user.lastName}}</a>
+                <h6><a >{{teacher.user.firstName}} {{teacher.user.lastName}}</a>
                 </h6>
               </div>
             </div>
@@ -91,68 +91,68 @@
             <ul>
               <li>{{course.modules.length}} modules • {{course.workload}} h total length</li>
             </ul>
-            <app-coursecurriculam [course]="course"></app-coursecurriculam>
+            <app-coursecurriculam [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursecurriculam>
           </div>
           <!--          <app-courseinstructor></app-courseinstructor>-->
           <!--          <app-studentfeedback></app-studentfeedback>-->
           <app-courseinstructor [teacher]="teacher"></app-courseinstructor>
-          <ng-container *ngIf="course.status !== 'pending'">
-            <app-coursereview [reviews]="reviews"></app-coursereview>
-          </ng-container>
-          <div class="col-xl-12"
-               *ngIf="!(role === 'Super_Admin' || role === 'Admin' || role === 'Teacher') && course.status !== 'pending'">
-            <div class="course-review-btn pb-5">
-              <a id="show-review-box" class="edu-btn " href="javascript:void(0)" (click)=writeReview()>Write a
-                Review</a>
+<!--          <ng-container *ngIf="course.status !== 'pending'">-->
+<!--            <app-coursereview [reviews]="reviews"></app-coursereview>-->
+<!--          </ng-container>-->
+<!--          <div class="col-xl-12"-->
+<!--               *ngIf="!(role === 'Super_Admin' || role === 'Admin' || role === 'Teacher') && course.status !== 'pending'">-->
+<!--            <div class="course-review-btn pb-5">-->
+<!--              <a id="show-review-box" class="edu-btn " href="javascript:void(0)" (click)=writeReview()>Write a-->
+<!--                Review</a>-->
 
-              <div id="review-box" class="review-comment mt-45" [class.d-block]="writeReviewActive">
-                <div class="comment-title mb-20">
-                  <p>Your email address will not be published. Required fields are marked *
-                  </p>
-                </div>
-                <div class="comment-rating mb-20">
-                  <span>Overall ratings</span>
-                  <ul>
-                    <li><a href="#"><i class="fas fa-star"></i></a></li>
-                    <li><a href="#"><i class="fas fa-star"></i></a></li>
-                    <li><a href="#"><i class="fas fa-star"></i></a></li>
-                    <li><a href="#"><i class="fas fa-star"></i></a></li>
-                    <li><a href="#"><i class="fal fa-star"></i></a></li>
-                  </ul>
-                </div>
-                <div class="comment-input-box mb-15">
-                  <form action="#">
-                    <div class="row">
-                      <div class="col-xxl-12">
-                                                <textarea placeholder="Your review"
-                                                          class="comment-input comment-textarea mb-20"></textarea>
-                      </div>
-                      <div class="col-xxl-6">
-                        <div class="comment-input mb-20">
-                          <input type="text" placeholder="Your Name">
-                        </div>
-                      </div>
-                      <div class="col-xxl-6">
-                        <div class="comment-input mb-20">
-                          <input type="email" placeholder="Your Email">
-                        </div>
-                      </div>
-                      <div class="col-xxl-12 ">
-                        <div class="comment-submit">
-                          <button type="submit" class="edu-btn">Submit</button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--              <div id="review-box" class="review-comment mt-45" [class.d-block]="writeReviewActive">-->
+<!--                <div class="comment-title mb-20">-->
+<!--                  <p>Your email address will not be published. Required fields are marked *-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--                <div class="comment-rating mb-20">-->
+<!--                  <span>Overall ratings</span>-->
+<!--                  <ul>-->
+<!--                    <li><a href="#"><i class="fas fa-star"></i></a></li>-->
+<!--                    <li><a href="#"><i class="fas fa-star"></i></a></li>-->
+<!--                    <li><a href="#"><i class="fas fa-star"></i></a></li>-->
+<!--                    <li><a href="#"><i class="fas fa-star"></i></a></li>-->
+<!--                    <li><a href="#"><i class="fal fa-star"></i></a></li>-->
+<!--                  </ul>-->
+<!--                </div>-->
+<!--                <div class="comment-input-box mb-15">-->
+<!--                  <form action="#">-->
+<!--                    <div class="row">-->
+<!--                      <div class="col-xxl-12">-->
+<!--                                                <textarea placeholder="Your review"-->
+<!--                                                          class="comment-input comment-textarea mb-20"></textarea>-->
+<!--                      </div>-->
+<!--                      <div class="col-xxl-6">-->
+<!--                        <div class="comment-input mb-20">-->
+<!--                          <input type="text" placeholder="Your Name">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="col-xxl-6">-->
+<!--                        <div class="comment-input mb-20">-->
+<!--                          <input type="email" placeholder="Your Email">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="col-xxl-12 ">-->
+<!--                        <div class="comment-submit">-->
+<!--                          <button type="submit" class="edu-btn">Submit</button>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </form>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
         </div>
       </div>
       <div class=" col-xl-4 col-lg-4 col-md-12 col-sm-12">
-        <app-coursevideo [course]="course"></app-coursevideo>
+        <app-coursevideo [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursevideo>
       </div>
 
     </div>

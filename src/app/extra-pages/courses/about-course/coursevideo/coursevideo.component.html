@@ -87,10 +87,18 @@
                 </li>
             </ul>
         </div>
-        <div class="video-wishlist">
-            <a class="video-cart-btn"><i class="fas fa-hand-paper"></i>Request Access</a>
-<!--            <a [routerLink]="['/wishlist']" class="video-wishlist-btn"><i class="far fa-heart"></i></a>-->
+        <div class="video-wishlist" *ngIf="course.price > 0 && role!='Super_Admin'&& !enrolledSuccessfully && course.status ==='approved' && user != teacher_id">
+            <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
         </div>
+      <div class="video-wishlist " *ngIf="enrolledSuccessfully && course.price ==0 && role!='Super_Admin'&& course.status ==='approved'">
+        <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>already enrolled</button>
+      </div>
+      <div class="video-wishlist " *ngIf="enrolledSuccessfully && course.price >0 && role!='Super_Admin'&& course.status ==='approved'">
+        <button class="video-cart-btn warning" disabled><i class="fas fa-check"></i>request sent</button>
+      </div>
+      <div class="video-wishlist" *ngIf="course.price == 0 && !enrolledSuccessfully && role!='Super_Admin'&& course.status ==='approved' && user != teacher_id">
+        <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-clipboard-check" ></i>Enroll now</button>
+      </div>
 <!--        <div class="course-gift">-->
 <!--            <div class="course-apply-coupon">-->
 <!--                <a href="#">Apply Coupon</a>-->
@@ -102,12 +110,3 @@
     </div>
 </div>
 
-
-<!--<div class="video-player">-->
-<!--  <iframe [src]="currentVideoUrl" frameborder="0" allowfullscreen></iframe>-->
-<!--  <div class="video-controls">-->
-<!--    <button (click)="updateVideoIndex(-1)" [disabled]="currentVideoIndex === 0">Previous</button>-->
-<!--    <button (click)="updateVideoIndex(1)" [disabled]="currentVideoIndex === videos.length - 1">Next</button>-->
-<!--    <button class="download-button" disabled>Download</button>-->
-<!--  </div>-->
-<!--</div>-->

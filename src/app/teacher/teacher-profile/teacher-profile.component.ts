@@ -6,6 +6,8 @@ import {AdminService} from "../../core/service/admin.service";
 import {Teacher} from "../../core/models/teacher";
 import {Course} from "../../core/models/course";
 import {DepartmentService} from "../../core/service/department.service";
+import {AuthService} from "../../core/service/auth.service";
+import {StudentService} from "../../core/service/student.service";
 @Component({
   selector: 'app-profile',
   templateUrl: './teacher-profile.component.html',
@@ -24,18 +26,34 @@ export class TeacherProfileComponent implements OnInit {
   teacherApprovedCourses: Course[]
   firstmanager : string
   secondmanager : string
+  role: any
+  userId : number;
+  courses: Course[]
+
   constructor(private formBuilder: FormBuilder,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
-              private adminService: AdminService) { }
+              private authService: AuthService,
+              private studentService: StudentService,
+              private adminService: AdminService) {
+    this.role = this.authService.currentUserValue.role[0];
+
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.user_id = localStorage.getItem('id');
+    this.getStudentCourses(this.user_id);
     this.getTeacherDetails(this.user_id);
     this.getAllTeacherApprovedCourses(localStorage.getItem('id'))
 
 
+  }
+  getStudentCourses(studentId: string) {
+    this.studentService.getStudentCourses(studentId).subscribe(res => {
+      this.courses = res;
+      console.log("eeeeeeeeeeee", res)
+    })
   }
   initForm() {
     this.teacherForm = this.formBuilder.group({

@@ -56,8 +56,8 @@
                   </div>
                 </div>
 
-                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws">
-                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">Please be aware that by clicking on the "Start" button,
+                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws && course.status==='pending' && (role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">Please be aware that by clicking on the "Start" button,
                   the lab course will be hosted on AWS and it may take a minute to set up. Additionally,
                   you have a total of <b>{{lab.nb_sessions}}
                       trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .
@@ -65,19 +65,88 @@
                   </div>
 
                   <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
-                    <button class="play-button"><i class="fas fa-play"></i></button>
+                    <button disabled class="play-button"><i class="fas fa-play"></i></button>
                     <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
                   </div>
+
                 </div>
-                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws">
-                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11"> <span class="lab_note">By clicking on the "Download" button, you will be able to download the Docker image of the course.
+
+
+                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws && course.status==='pending' && (role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department')">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">
+                    Please be aware that by clicking on the "Start" button,
+                    the lab course will be hosted on AWS and it may take a <b>3 to 4 minutes</b> to set up and test it. Additionally,
+                  once you approve the content please get back to the curriculum and hit approve lab content .  <b>the approval make take few minutes as it will create a clone for that instance on cloud to be available for students</b> .
+                  So, wait for it then approve the entire course!</span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                    <button class="play-button"><i class="fas fa-play"></i></button>
+                    <button class="play-button"><i class="fas fa-check"></i></button>
+
+                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                  </div>
+
+                </div>
+                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws && course.status==='approved'">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">Please be aware that by clicking on the "Start" button,
+                  the lab course will be hosted on AWS and it may take a minute to set up. Additionally,
+                  you have a total of <b>{{lab.nb_sessions}}
+                      trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .
+                  So, make sure to use your time efficiently and take full advantage of the lab course. Best of luck!</span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                    <button  class="play-button" *ngIf="role==='Super_Admin'||
+                     (role==='Student'&& is_enrolled)
+                     || (role==='Student_Teacher'&& this.user == teacher_id)
+                     || (role==='head_sub_department'&& this.user == teacher_id)
+                     || (role==='head_super_department')
+                     ||(role==='Teacher'&& this.user == teacher_id)"><i class="fas fa-play"></i></button>
+                    <button disabled class="play-button" *ngIf="
+                     (role==='Teacher'&& user != teacher_id)
+                     || (role==='Student'&& !is_enrolled)
+                     || (role==='head_sub_department'&& user != teacher_id)"><i class="fas fa-play"></i></button>
+                  </div>
+
+                </div>
+
+
+
+
+                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='pending'">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10"  *ngIf=" role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department'">
+                    <span class="lab_note">Please be aware that by clicking on the "Build" button,
+                    the lab course will be tested first on AWS and it may take a <b>3 to 4 minutes</b> to set up and test it. Additionally,
+                  once you get redirected to the container url and you approve the content please get back to the curriculum and hit approve lab content .  <b>the approval make take few minutes as it will push that docker image on an ECR registry to be accessible by students</b> .
+                  So, wait for it then approve the entire course!</span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                    <button class="download-button"><i class="fas fa-download build"></i></button>
+                    <button class="play-button"><i class="fas fa-check"></i></button>
+                  </div>
+                </div>
+                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='approved'">
+                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11" >
+                    <span class="lab_note">By clicking on the "Download" button, you will be able to download the Docker image of the course.
                   To run the course on your local machine, you just need to make sure that you have <b></b>  installed and
                   To run the course on your local machine, you just need to make sure that you have <b>Docker</b>  installed and
                     then run the container on port <b>8888 </b>. Best of luck!</span>.
                   </div>
 
                   <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
-                    <button class="download-button"><i class="fas fa-download"></i></button>
+                    <button class="download-button" *ngIf="role==='Super_Admin'||
+                     (role==='Student'&& is_enrolled)
+                     || (role==='Student_Teacher'&& this.user == teacher_id)
+                     || (role==='head_sub_department')
+                     || (role==='head_super_department')
+                     ||(role==='Teacher'&& this.user == teacher_id)
+                     ||(role==='Student_Teacher'&& this.user == teacher_id)"><i class="fas fa-download"></i></button>
+                    <button disabled class="download-button" *ngIf="
+                     (role==='Teacher'&& user != teacher_id && !is_enrolled)
+                     ||(role==='Student_Teacher'&& user != teacher_id && !is_enrolled)
+                     || (role==='Student'&& !is_enrolled)"><i class="fas fa-download"></i>hh</button>
                     <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
                   </div>
                 </div>

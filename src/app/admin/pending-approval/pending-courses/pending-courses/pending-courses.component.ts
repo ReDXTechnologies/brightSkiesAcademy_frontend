@@ -109,7 +109,7 @@ export class PendingCoursesComponent implements OnInit {
 
 
     } else if (this.role === 'head_sub_department') {
-      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+      this.teacherService.getSubDepId(this.userId).subscribe(res=>{
         this.courseService.getSubDepPendingCourses(res).subscribe(
           (data) => {
             this.courses = data;

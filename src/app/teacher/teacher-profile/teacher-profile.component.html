@@ -8,9 +8,9 @@
         <div class="card">
           <div class="pt-5">
             <div class="contact-grid pt-5">
-              <img [src]="teacher.user?.image ? teacher.user.image : 'assets/images/user/profile.jpg'" class="user-img" alt="">
+              <img [src]="teacher?.user?.image ? teacher.user?.image : 'assets/images/user/profile.jpg'" class="user-img" alt="">
               <div class="profile-header">
-                <div class="user-name">{{teacher.user?.firstName}} {{teacher.user?.lastName}}</div>
+                <div class="user-name">{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</div>
                 <div class="name-center">{{teacher.degree}}</div>
               </div>
 
@@ -42,6 +42,47 @@
               </div>
             </div>
           </div>
+        <div class="card">
+
+          <div class="header">
+            <h2>Certifications
+              <mat-icon class="example-icon">school</mat-icon>
+            </h2>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table ">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Course Name</th>
+                  <th>print</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--                <tr>-->
+                <!--                  <td class="table-img">-->
+                <!--                    <img src="assets/img/course/ProfileHPC.png" alt="">-->
+                <!--                  </td>-->
+                <!--                  <td>-->
+                <!--                    <div class="media-title"><span> High performance computing fundamentals-->
+                <!--                    </span></div>-->
+                <!--                  </td>-->
+                <!--                  <td>-->
+                <!--                    <a href="#">-->
+                <!--  <span class="msr-3 align-self-center certif-icon danger-rgba text-danger">-->
+                <!--    <i class="far fa-file-pdf"></i>-->
+                <!--  </span>-->
+                <!--                    </a></td>-->
+                <!--                </tr>-->
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
 
       </div>
       <div class="col-lg-8 col-md-12">
@@ -55,7 +96,7 @@
               <div class="col-lg-12 col-md-12 col-sm-12 p-5">
                 <div class="course-detelies-wrapper">
                   <div class="course-detiles-tittle mb-30">
-                    <h3>{{teacher.user?.firstName}} {{teacher.user?.lastName}}</h3>
+                    <h3>{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</h3>
                     <span>{{teacher.degree}}</span>
                   </div>
                   <div class="course-detiles-meta">
@@ -74,21 +115,92 @@
                     </div>
                     <div class="">
                       <h5>Email</h5>
-                      <span>{{teacher.user?.email}}</span>
+                      <span>{{teacher?.user?.email}}</span>
                     </div>
                     <div class="">
                       <h5>Phone</h5>
-                      <span> {{teacher.user?.mobile_phone}}</span>
+                      <span> {{teacher?.user?.mobile_phone}}</span>
                     </div>
                     <div class="">
                       <h5>Lectures</h5>
-                      <span>{{teacher.nb_of_courses}} approved</span>
+                      <span>{{teacher?.nb_of_courses}} approved</span>
                     </div>
                   </div>
-
+                  <div class="course-bio-text pt-45 pb-20" *ngIf="role==='Student_Teacher'">
+                    <h3>Skills</h3>
+                    <p>{{teacher.skills}}</p>
+                  </div>
                   <div class="course-bio-text pt-45 pb-20">
                     <h3>Biography</h3>
                     <p>{{teacher.biography}}</p>
+                  </div>
+
+                  <div class="header mt-4">
+                    <h2>Enrolled in courses List</h2>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item disabled>
+                        <mat-icon>delete_outline</mat-icon>
+                        <span>Delete</span>
+                      </button>
+                      <button mat-menu-item>
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                        <tr>
+                          <th></th>
+                          <th>Course Name</th>
+                          <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let course of courses">
+                          <td class="table-img">
+                            <img src="{{course.image}}" alt="">
+                          </td>
+                          <td>
+                            <div class="media-title"><span> {{course.title}}
+                    </span></div>
+                          </td>
+                          <td>
+                            <div class="badge badge-solid-red">in progress</div>
+                          </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                          <td class="table-img">-->
+                        <!--                            <img src="assets/img/course/ProfileOpenMP.png" alt="">-->
+                        <!--                          </td>-->
+                        <!--                          <td>-->
+                        <!--                            <div class="media-title"><span> High performance computing OpenMP-->
+                        <!--                    </span></div>-->
+                        <!--                          </td>-->
+                        <!--                          <td>-->
+                        <!--                            <div class="badge badge-solid-red">in progress</div>-->
+                        <!--                          </td>-->
+                        <!--                        </tr>-->
+                        <!--                        <tr>-->
+                        <!--                          <td class="table-img">-->
+                        <!--                            <img src="assets/img/course/ProfileOpenACC.png" alt="">-->
+                        <!--                          </td>-->
+                        <!--                          <td>-->
+                        <!--                            <div class="media-title"><span> High performance computing OpenAcc-->
+                        <!--                    </span></div>-->
+                        <!--                          </td>-->
+                        <!--                          <td>-->
+                        <!--                            <div class="badge badge-solid-red">in progress</div>-->
+                        <!--                          </td>-->
+                        <!--                        </tr>-->
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
                   <div class="header mt-4">
@@ -148,7 +260,7 @@
                   <label>Upload profile photo</label>
                   <app-file-upload fileType="upload image"
                                    [loading]="loading"
-                                   [onClickFunction]="updateProfilePicture.bind(this, teacher.user?.id)" (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
+                                   [onClickFunction]="updateProfilePicture.bind(this, teacher?.user?.id)" (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
                 </div>
               </form>
 
@@ -207,7 +319,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <button mat-raised-button color="primary" (click)="updateTeacherProfile(teacher.user?.id)" [disabled]="teacherForm.invalid">Save Changes</button>
+                    <button mat-raised-button color="primary" (click)="updateTeacherProfile(teacher?.user?.id)" [disabled]="teacherForm.invalid">Save Changes</button>
                   </div>
                 </form>
               </div>

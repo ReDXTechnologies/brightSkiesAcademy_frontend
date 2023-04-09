@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {PendingAccountsComponent} from "./pending-accounts/pending-accounts.component";
-import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees.component";
-import {PendingCoursesComponent} from "./pending-courses/coursefourmain/pending-courses.component";
+import {PendingAccountsComponent} from "./pending-accounts/pending-teachers-accounts/pending-accounts.component";
+import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees/pending-courses-fees.component";
+import {PendingCoursesComponent} from "./pending-courses/pending-courses/pending-courses.component";
+import {
+  PendingHybridProfilesComponent
+} from "./pending-accounts/pending-hybrid-profile/pending-hybrid-profiles.component";
+import {PendingEnrollementComponent} from "./pending-courses/pending-enrollement/pending-enrollement.component";
 const routes: Routes = [
   {
     path: 'account-confirmation',
@@ -10,11 +14,15 @@ const routes: Routes = [
   },
   {
     path: 'hybrid-profile-confirmation',
-    component: PendingAccountsComponent
+    component: PendingHybridProfilesComponent
   },
   {
     path: 'course-confirmation',
     component: PendingCoursesComponent
+  },
+  {
+    path: 'enrollement-confirmation',
+    component: PendingEnrollementComponent
   }
 ];
 @NgModule({

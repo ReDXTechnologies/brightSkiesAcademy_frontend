@@ -38,7 +38,7 @@ export class AdminService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  launchSession(adminId: string, courseId: number): Observable<any> {
+    launchSession(adminId: number, courseId: number): Observable<any> {
     const url = `${this.baseUrl}/launch-session-for-admin/${adminId}/course/${courseId}`;
     return this.httpClient.post<any>(url,{});
   }

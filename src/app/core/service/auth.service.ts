@@ -48,6 +48,10 @@ export class AuthService {
         })
       );
   }
+  public changePassword(userId: string, email: string, password: string, new_password: string) {
+    return this.http.post(`${environment.apiUrl}/user/${userId}/change-password`, {email, password, new_password})
+
+  }
 
   logout() {
     // remove user from local storage to log user out

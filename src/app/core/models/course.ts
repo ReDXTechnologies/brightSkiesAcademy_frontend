@@ -2,6 +2,7 @@ import {Student} from "./student";
 import {Teacher} from "./teacher";
 import {Review} from "./review";
 import {Module} from "./Module";
+import {User} from "./user";
 
 export class Course {
   id: number;
@@ -28,7 +29,7 @@ export class Course {
   slides: File;
   teachers: Teacher[]
   teacherDetails: Teacher[]
-  students: Student[]
+  enrolled_in: User[]
   reviews: Review[]
   status: string;
   what_you_will_learn: string

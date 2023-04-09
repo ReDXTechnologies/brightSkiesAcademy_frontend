@@ -30,15 +30,16 @@ export class LabCourseComponent implements OnInit {
   teacher: Teacher;
   reviews: Review[];
   role: any
-  enrolled = false;
 userId : number;
+  enrolled = false;
   constructor(private studentService: StudentService,
               private route: ActivatedRoute,
               private teacherService: TeacherService,
               private adminService: AdminService,
+              private spinner: NgxSpinnerService,
               private authService: AuthService,
               private router: Router,
-              private spinner: NgxSpinnerService) {
+              ) {
     this.role = this.authService.currentUserValue.role[0];
     console.log(this.role)
   }
@@ -61,8 +62,6 @@ userId : number;
     if (reviewsJson) {
       this.reviews = JSON.parse(reviewsJson);
     }
-    this.checkEnrollment(this.course.id, this.user_id);
-
 
   }
 
@@ -79,29 +78,10 @@ userId : number;
     ;
   }
 
-  checkEnrollment(courseId: number, studentId: string) {
-    this.studentService.isEnrolled(courseId, studentId)
-      .subscribe(response => this.enrolled = response.enrolled);
-  }
-
-  startSession(courseId: number) {
-    this.isLoading = true;
-    this.spinner.show();
-
-    if (this.role === 'Super_Admin') {
-      this.adminService.launchSession(this.user_id, courseId).subscribe(response => {
-        this.isLoading = false;
-        this.spinner.hide();
-        window.open(response.instance_url, '_blank');
-      });
-    } else {
-      this.studentService.launchSession(this.user_id, courseId).subscribe(response => {
-        this.isLoading = false;
-        this.spinner.hide();
-        window.open(response.instance_url, '_blank');
-      });
-    }
+  // checkEnrollment(courseId: number, studentId: string) {
+  //   this.studentService.isEnrolled(courseId, studentId)
+  //     .subscribe(response => this.enrolled = response.enrolled);
+  // }
 
 
-  }
 }

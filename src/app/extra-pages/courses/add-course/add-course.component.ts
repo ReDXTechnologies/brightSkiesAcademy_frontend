@@ -13,6 +13,13 @@ import {Course} from "../../../core/models/course";
 import {Video} from "../../../core/models/Module";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatSidenav} from "@angular/material/sidenav";
+import {AuthService} from "../../../core/service/auth.service";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  SelectDepartmentComponent
+} from "../../../admin/pending-approval/pending-accounts/affect-Department/select-department.component";
+import {Teacher} from "../../../core/models/teacher";
+import {TeacherService} from "../../../core/service/teacher.service";
 
 @Component({
   selector: 'app-add-course',
@@ -42,11 +49,23 @@ export class AddCourseComponent implements OnInit {
   mode = new UntypedFormControl('side');
   @ViewChild('sidenav') sidenav: MatSidenav;
   selectedVideoIndex: number;
+  role: any
+  userId : number;
+  user_id: string;
+  sentSuccessfully = false;
 
   constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute,
-              private courseService: CourseService, private _snackBar: MatSnackBar,
-              private router: Router
+              private courseService: CourseService,
+              private authService: AuthService,
+              private teacherService: TeacherService,
+              private _snackBar: MatSnackBar,
+              private router: Router,
+              private dialogModel: MatDialog,
+
   ) {
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.role = this.authService.currentUserValue.role[0];
     const requiredForAdd = [Validators.required];
     const requiredForEdit = [];
     this.courseForm = this.fb.group({
@@ -199,8 +218,15 @@ export class AddCourseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.addModule();
+    if(this.role==='Student'){
+      this.teacherService.checkRequestStudentTeacherAccount(this.userId).subscribe(res=>{
+        if(res==='true'){
+          this.sentSuccessfully = true
+        }
+      })
+    }
   }
+
 
   isFormValid() {
     return this.courseForm && this.courseForm.valid;
@@ -517,6 +543,35 @@ export class AddCourseComponent implements OnInit {
         );
       }
     }
+  }
+
+  openDialog(): void {
+    console.log('open ')
+    const dialogRef = this.dialogModel.open(SelectDepartmentComponent, {
+      width: '400px',
+      data: {request_hybrid_profile : true},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result)
+        this.teacherService.requestStudentTeacherAccount(this.userId, result.data.id).subscribe(res => {
+
+            console.log('teacher account approved successfully');
+            const btn = document.querySelector('.video-cart-btn');
+            if (btn) {
+              btn.innerHTML = '<i class="fas fa-check"></i> Request Sent';
+              btn.classList.add('success');
+            }
+
+          },
+          error => {
+            console.error( error);
+            // show error message
+          })
+      }
+    });
+
   }
 
 }

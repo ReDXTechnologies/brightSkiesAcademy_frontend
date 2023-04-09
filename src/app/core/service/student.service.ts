@@ -41,11 +41,13 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.apiUrl}/courses/${courseId}/enroll/${studentId}`;
     return this.http.post(url, {});
   }
-  isEnrolled(courseId: number, studentId: string): Observable<{ enrolled: boolean }> {
-    const url = `${this.apiUrl}/courses/${courseId}/students/${studentId}/enrolled`;
+
+  isEnrolled(courseId: number, userId: number): Observable<any> {
+    const url = `${this.apiUrl}/course/${courseId}/user/${userId}/enrolled`;
     return this.http.get<{ enrolled: boolean }>(url);
   }
-  launchSession(studentId: string, courseId: number): Observable<any> {
+
+  launchSession(studentId: number, courseId: number): Observable<any> {
     const url = `${this.apiUrl}/course/${courseId}/student/${studentId}/launch-session`;
     return this.http.post<any>(url,{});
   }

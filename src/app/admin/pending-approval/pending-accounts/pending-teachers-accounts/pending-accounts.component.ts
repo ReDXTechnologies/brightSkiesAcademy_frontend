@@ -6,16 +6,16 @@ import {MatSort} from '@angular/material/sort';
 import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {TeacherService} from "../../../core/service/teacher.service";
-import {Teacher} from "../../../core/models/teacher";
-import {DeleteDialogComponent} from "./delete/delete.component";
+import {TeacherService} from "../../../../core/service/teacher.service";
+import {Teacher} from "../../../../core/models/teacher";
+import {DeleteDialogComponent} from "../delete/delete.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {BehaviorSubject, fromEvent, merge, Observable, Subject} from "rxjs";
-import {Course} from "../../../core/models/course";
-import {CourseService} from "../../../core/service/course.service";
+import {Course} from "../../../../core/models/course";
+import {CourseService} from "../../../../core/service/course.service";
 import {map} from "rxjs/operators";
-import {UnsubscribeOnDestroyAdapter} from "../../../shared/UnsubscribeOnDestroyAdapter";
-import {SelectDepartmentComponent} from "./affect-Department/select-department.component";
+import {UnsubscribeOnDestroyAdapter} from "../../../../shared/UnsubscribeOnDestroyAdapter";
+import {SelectDepartmentComponent} from "../affect-Department/select-department.component";
 
 @Component({
   selector: 'app-pending-accounts',

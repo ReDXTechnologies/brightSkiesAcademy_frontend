@@ -22,16 +22,20 @@ import { PendingApprovalRoutingModule } from './pending-approval-routing.module'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import {DeleteDialogComponent} from "./pending-accounts/delete/delete.component";
-import {PendingAccountsComponent} from "./pending-accounts/pending-accounts.component";
+import {PendingAccountsComponent} from "./pending-accounts/pending-teachers-accounts/pending-accounts.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {SharedModule} from "../../shared/shared.module";
 import {ComponentsModule} from "../../shared/components/components.module";
-import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees.component";
+import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees/pending-courses-fees.component";
 import {CourseDetailsComponent} from "./pending-courses/form/course-details.component";
 import {MatCardModule} from "@angular/material/card";
 import {DeleteComponent} from "./pending-courses/delete/delete.component";
 import {SelectDepartmentComponent} from "./pending-accounts/affect-Department/select-department.component";
-import {PendingCoursesComponent} from "./pending-courses/coursefourmain/pending-courses.component";
+import {PendingCoursesComponent} from "./pending-courses/pending-courses/pending-courses.component";
+import {
+  PendingHybridProfilesComponent
+} from "./pending-accounts/pending-hybrid-profile/pending-hybrid-profiles.component";
+import {PendingEnrollementComponent} from "./pending-courses/pending-enrollement/pending-enrollement.component";
 @NgModule({
   declarations: [
     DeleteDialogComponent,
@@ -40,7 +44,9 @@ import {PendingCoursesComponent} from "./pending-courses/coursefourmain/pending-
     CourseDetailsComponent,
     DeleteComponent,
     SelectDepartmentComponent,
-    PendingCoursesComponent
+    PendingCoursesComponent,
+    PendingEnrollementComponent,
+    PendingHybridProfilesComponent
   ],
   imports: [
     CommonModule,

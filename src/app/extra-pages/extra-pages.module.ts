@@ -61,7 +61,7 @@ import {
     BottomSheetOverviewExampleSheetComponent,
     BottomSheetComponent,
     Instance_guidanceComponent,
-    DisplayCurriculumVideosComponent
+    DisplayCurriculumVideosComponent,
 
 
   ],
