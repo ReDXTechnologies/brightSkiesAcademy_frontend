@@ -23,6 +23,7 @@ export class CoursecurriculamComponent implements OnInit {
   role: any
   currentVideoIndex: number;
   isLoading = false;
+  isLoadingStart = false;
   is_enrolled = false
   constructor(public dialog: MatDialog, private authService: AuthService, private adminService: AdminService,
               private spinner: NgxSpinnerService,private studentService: StudentService,
@@ -58,24 +59,38 @@ export class CoursecurriculamComponent implements OnInit {
       }
     });
   }
-  startSession(courseId: number) {
-    this.isLoading = true;
+  startSession(courseId: number,lab_id: number) {
+    console.log(lab_id)
+    this.isLoadingStart = true;
     this.spinner.show();
 
-    if (this.role === 'Super_Admin') {
-      this.adminService.launchSession(this.user, courseId).subscribe(response => {
-        this.isLoading = false;
+    if (this.course.status==='pending') {
+      this.adminService.launchSession(this.user, courseId,lab_id).subscribe(response => {
+        console.log(response)
+        this.isLoadingStart = false;
         this.spinner.hide();
         window.open(response.instance_url, '_blank');
       });
     } else {
-      this.studentService.launchSession(this.user, courseId).subscribe(response => {
-        this.isLoading = false;
+      this.studentService.launchSession(this.user, courseId,lab_id).subscribe(response => {
+        console.log(response)
+
+        this.isLoadingStart = false;
         this.spinner.hide();
         window.open(response.instance_url, '_blank');
       });
     }
 
 
+  }
+  createCustomAmi(courseId: number,lab_id: number) {
+    this.isLoading = true;
+    this.spinner.show();
+
+      this.adminService.createCustomAmi(courseId,lab_id).subscribe(response => {
+        console.log(response)
+        this.isLoading = false;
+        this.spinner.hide();
+      });
   }
 }

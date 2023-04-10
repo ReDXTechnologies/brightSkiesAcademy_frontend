@@ -87,17 +87,20 @@
                 </li>
             </ul>
         </div>
-        <div class="video-wishlist" *ngIf="course.price > 0 && role!='Super_Admin'&& !enrolledSuccessfully && course.status ==='approved' && user != teacher_id">
+        <div class="video-wishlist" *ngIf="!is_enrolled&& !requestSent&& course.price > 0 && role!='Super_Admin'&&  course.status ==='approved' && user != teacher_id">
             <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
         </div>
-      <div class="video-wishlist " *ngIf="enrolledSuccessfully && course.price ==0 && role!='Super_Admin'&& course.status ==='approved'">
-        <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>already enrolled</button>
-      </div>
-      <div class="video-wishlist " *ngIf="enrolledSuccessfully && course.price >0 && role!='Super_Admin'&& course.status ==='approved'">
+
+      <div class="video-wishlist " *ngIf="requestSent && course.price >0 && role!='Super_Admin'&& course.status ==='approved'">
         <button class="video-cart-btn warning" disabled><i class="fas fa-check"></i>request sent</button>
       </div>
-      <div class="video-wishlist" *ngIf="course.price == 0 && !enrolledSuccessfully && role!='Super_Admin'&& course.status ==='approved' && user != teacher_id">
+
+      <div class="video-wishlist" *ngIf="!is_enrolled &&course.price == 0  && role!='Super_Admin'&& course.status ==='approved' && user != teacher_id">
         <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-clipboard-check" ></i>Enroll now</button>
+      </div>
+
+      <div class="video-wishlist " *ngIf="is_enrolled && role!='Super_Admin'&& course.status ==='approved'">
+        <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>already enrolled</button>
       </div>
 <!--        <div class="course-gift">-->
 <!--            <div class="course-apply-coupon">-->

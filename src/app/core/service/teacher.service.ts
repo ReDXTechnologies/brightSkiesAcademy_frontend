@@ -203,7 +203,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   checkUserEnrollement(user_id: number, course_id:number): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/check-user-enrollement-request/${user_id}/course/${course_id}`);
   }
-  requestPremuimCourseEnrollement(user_id: number, course_id:number): Observable<any> {
+  requestCourseEnrollement(user_id: number, course_id:number): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/course/${course_id}/enroll/${user_id}`,{});
   }
   approveUserEnrollement(userId: number,courseId: number): Observable<any> {

@@ -20,9 +20,20 @@
           <div id="collapseOne" class="accordion-collapse collapse show "
                aria-labelledby="headingOne" data-bs-parent="#accordionExample"
                *ngFor="let video of module.videos; let j = index">
-            <div class="accordion-body" (click)="displayVideo(video,j,module)">
-              <div
-                class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+            <div class="enrolled" *ngIf="(is_enrolled || role ==='Super_Admin') || course.status==='pending'" (click)="displayVideo(video,j,module)">
+              <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+                <div class="course-curriculum-info">
+                  <i class="flaticon-youtube"></i>
+
+                  <h4>{{video.name}}</h4>
+                </div>
+                <div class="course-curriculum-meta">
+                  <span>{{video.duration}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-body" *ngIf="!is_enrolled && role !=='Super_Admin' && course.status==='approved'">
+              <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info">
                   <i class="flaticon-youtube"></i>
 
@@ -65,30 +76,34 @@
                   </div>
 
                   <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
-                    <button disabled class="play-button"><i class="fas fa-play"></i></button>
-                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                    <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>
+                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px">Launching ...</p></span>
                   </div>
 
                 </div>
 
 
-                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws && course.status==='pending' && (role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department')">
+                <div class=" row mt-3" *ngIf="course.status==='pending' &&lab.is_hosted_on_aws && (role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department')">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">
                     Please be aware that by clicking on the "Start" button,
-                    the lab course will be hosted on AWS and it may take a <b>3 to 4 minutes</b> to set up and test it. Additionally,
+                    the lab course will be hosted on AWS and it may take a <b>4 to 5 minutes</b> to set up and test it. Additionally,
                   once you approve the content please get back to the curriculum and hit approve lab content .  <b>the approval make take few minutes as it will create a clone for that instance on cloud to be available for students</b> .
                   So, wait for it then approve the entire course!</span>.
                   </div>
 
                   <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
-                    <button class="play-button"><i class="fas fa-play"></i></button>
-                    <button class="play-button"><i class="fas fa-check"></i></button>
-
-                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                    <a class="play-button" (click)="startSession(course.id,lab.id)">
+                      <span *ngIf="!isLoadingStart"><i class="fas fa-play"></i></span>
+                      <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"></p></span>
+                    </a>
+                    <a class="play-button" (click)="createCustomAmi(course.id,lab.id)">
+                      <span *ngIf="!isLoading"><i class="fas fa-check"></i></span>
+                      <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"></p></span>
+                    </a>
                   </div>
 
                 </div>
-                <div class=" row mt-3" *ngIf="lab.is_hosted_on_aws && course.status==='approved'">
+                <div class=" row mt-3" *ngIf="course.status==='approved' && lab.is_hosted_on_aws ">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">Please be aware that by clicking on the "Start" button,
                   the lab course will be hosted on AWS and it may take a minute to set up. Additionally,
                   you have a total of <b>{{lab.nb_sessions}}
@@ -97,12 +112,16 @@
                   </div>
 
                   <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
-                    <button  class="play-button" *ngIf="role==='Super_Admin'||
+                    <a  class="play-button" *ngIf="role==='Super_Admin'||
                      (role==='Student'&& is_enrolled)
                      || (role==='Student_Teacher'&& this.user == teacher_id)
                      || (role==='head_sub_department'&& this.user == teacher_id)
                      || (role==='head_super_department')
-                     ||(role==='Teacher'&& this.user == teacher_id)"><i class="fas fa-play"></i></button>
+                     ||(role==='Teacher'&& this.user == teacher_id)"  (click)="startSession(course.id,lab.id)">
+                      <span *ngIf="!isLoadingStart"><i class="fas fa-play"></i></span>
+                      <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px">Launching ...</p></span>
+                    </a>
+
                     <button disabled class="play-button" *ngIf="
                      (role==='Teacher'&& user != teacher_id)
                      || (role==='Student'&& !is_enrolled)
@@ -110,6 +129,12 @@
                   </div>
 
                 </div>
+                <!--      <div class="col-xl-2">-->
+                <!--        <a href="javascript:void(0)" (click)="startSession(course.id)">-->
+                <!--          <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>-->
+                <!--          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>-->
+                <!--        </a>-->
+                <!--      </div>-->
 
 
 

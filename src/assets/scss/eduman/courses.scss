@@ -1331,6 +1331,12 @@
 	border: 0;
 	color: #c1c7d2;
 }
+.course-curriculam-accodion .enrolled {
+  padding: 0;
+  border: 0;
+  color: #555659;
+  cursor: pointer;
+}
 .course-curriculam-accodion .accordion-button {
 	&:before {
 		content: "\f067";

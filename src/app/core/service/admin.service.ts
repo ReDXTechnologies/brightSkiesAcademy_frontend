@@ -37,11 +37,15 @@ export class AdminService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put(`${this.baseUrl}/user/${id}`,user);
   }
 
-
-    launchSession(adminId: number, courseId: number): Observable<any> {
-    const url = `${this.baseUrl}/launch-session-for-admin/${adminId}/course/${courseId}`;
+  launchSession(admin_id: number, courseId: number,lab_id:number): Observable<any> {
+    const url = `${this.baseUrl}/testCourseInstance/admin/${admin_id}/course/${courseId}/lab/${lab_id}`;
     return this.httpClient.post<any>(url,{});
   }
+  createCustomAmi( courseId: number,lab_id:number): Observable<any> {
+    const url = `${this.baseUrl}/course/${courseId}/lab/${lab_id}/create_custom_ami`;
+    return this.httpClient.post<any>(url,{});
+  }
+
 
   updateProfilePicture(userId: number, image: FormData): Observable<any> {
     return this.httpClient.put<any>(`${this.baseUrl}/update-profile-picture/${userId}`, image);
