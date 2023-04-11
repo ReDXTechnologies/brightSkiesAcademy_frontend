@@ -99,19 +99,6 @@
                   </div>
                   <div class="header mt-4">
                     <h2>Enrolled in courses List</h2>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item disabled>
-                        <mat-icon>delete_outline</mat-icon>
-                        <span>Delete</span>
-                      </button>
-                      <button mat-menu-item>
-                        <mat-icon>refresh</mat-icon>
-                        <span>Refresh</span>
-                      </button>
-                    </mat-menu>
                   </div>
                   <div class="tableBody">
                     <div class="table-responsive">
@@ -124,7 +111,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let course of courses">
+                        <tr *ngFor="let course of courses"  (click)="viewDetails(course)" style="cursor: pointer">
                           <td class="table-img">
                             <img src="{{course.image}}" alt="">
                           </td>
@@ -136,30 +123,6 @@
                             <div class="badge badge-solid-red">in progress</div>
                           </td>
                         </tr>
-<!--                        <tr>-->
-<!--                          <td class="table-img">-->
-<!--                            <img src="assets/img/course/ProfileOpenMP.png" alt="">-->
-<!--                          </td>-->
-<!--                          <td>-->
-<!--                            <div class="media-title"><span> High performance computing OpenMP-->
-<!--                    </span></div>-->
-<!--                          </td>-->
-<!--                          <td>-->
-<!--                            <div class="badge badge-solid-red">in progress</div>-->
-<!--                          </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                          <td class="table-img">-->
-<!--                            <img src="assets/img/course/ProfileOpenACC.png" alt="">-->
-<!--                          </td>-->
-<!--                          <td>-->
-<!--                            <div class="media-title"><span> High performance computing OpenAcc-->
-<!--                    </span></div>-->
-<!--                          </td>-->
-<!--                          <td>-->
-<!--                            <div class="badge badge-solid-red">in progress</div>-->
-<!--                          </td>-->
-<!--                        </tr>-->
                         </tbody>
                       </table>
                     </div>

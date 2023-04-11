@@ -5,6 +5,7 @@ import { Course } from '../models/course';
 import { Review } from '../models/review';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
+import {Teacher} from "../models/teacher";
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,11 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/subdepartments/${dep_id}/courses/pending`;
     return this.httpClient.get<Course[]>(url);
   }
+
+
+
+
+
   getApprovedCourses(): Observable<Course[]> {
     const url = `${this.baseUrl}/approved-courses`;
 
@@ -109,5 +115,32 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
       params = params.set('sub_department', sub_department.join(','));
     }
     return this.httpClient.get<any>(url, { params });
+  }
+
+  getSuperDepartmentPremuinCourseEnrollementRequests(superDepartmentId: any):void  {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/hybridProfilesRequests`;
+    this.subs.sink = this.httpClient.get<Course[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSubDepartmentPremuinCourseEnrollementRequests(subDepartmentId: any):void  {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/hybridProfilesRequests`;
+    this.subs.sink = this.httpClient.get<Course[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
   }
 }

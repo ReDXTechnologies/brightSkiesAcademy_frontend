@@ -104,7 +104,9 @@
 
                 </div>
                 <div class=" row mt-3" *ngIf="course.status==='approved' && lab.is_hosted_on_aws ">
-                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" > <span class="lab_note">Please be aware that by clicking on the "Start" button,
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10" >
+                    <span class="lab_note">
+                    Please be aware that by clicking on the "Start" button,
                   the lab course will be hosted on AWS and it may take a minute to set up. Additionally,
                   you have a total of <b>{{lab.nb_sessions}}
                       trial sessions</b> available, and each session lasts for <b>{{lab.session_duration}} hour</b> .
@@ -129,15 +131,7 @@
                   </div>
 
                 </div>
-                <!--      <div class="col-xl-2">-->
-                <!--        <a href="javascript:void(0)" (click)="startSession(course.id)">-->
-                <!--          <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>-->
-                <!--          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin"></i> Launching...</span>-->
-                <!--        </a>-->
-                <!--      </div>-->
-
-
-
+                <span class="lab_note" *ngIf="is_enrolled && lab.is_hosted_on_aws"><strong>Remaining trials : <span [innerHTML]="sessionsRemaining(course.id, lab.id)  | async"></span></strong></span>
 
                 <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='pending'">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10"  *ngIf=" role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department'">

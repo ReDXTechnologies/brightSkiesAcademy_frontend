@@ -12,6 +12,11 @@ import {StudentService} from "../../core/service/student.service";
 import {Student} from "../../core/models/student";
 import {AdminService} from "../../core/service/admin.service";
 import {Course} from "../../core/models/course";
+import {Teacher} from "../../core/models/teacher";
+import {ReviewService} from "../../core/service/review.service";
+import {TeacherService} from "../../core/service/teacher.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Review} from "../../core/models/review";
 
 @Component({
   selector: 'app-profile',
@@ -28,8 +33,15 @@ export class StudentProfileComponent implements OnInit {
   courses: Course[]
   hide = true;
   student: Student;
-
-  constructor(private formBuilder: UntypedFormBuilder, private studentService: StudentService, private adminService: AdminService) {
+  reviews: Review[];
+  teacher: Teacher;
+  constructor(private formBuilder: UntypedFormBuilder,
+              private studentService: StudentService,
+              private reviewService: ReviewService,
+              private teacherService: TeacherService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private adminService: AdminService) {
 
   }
 
@@ -127,6 +139,36 @@ export class StudentProfileComponent implements OnInit {
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+  }
+
+  viewDetails(course: Course) {
+    const teacher_id = course.teachers[0];
+    this.teacherService.getTeacherById(teacher_id).subscribe(
+      (teacher: Teacher) => {
+        this.teacher = teacher;
+        const teacherJson = JSON.stringify(this.teacher);
+        this.reviewService.getCourseReviews(course.id).subscribe(
+          (res) => {
+            this.reviews = res;
+            const reviewJson = JSON.stringify(this.reviews);
+            const courseJson = JSON.stringify(course);
+            this.router.navigate(['/shared/Lab-course-details'], {
+              queryParams: {
+                course: courseJson,
+                reviews: reviewJson,
+                teacher: teacherJson
+              }
+            });
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
 }

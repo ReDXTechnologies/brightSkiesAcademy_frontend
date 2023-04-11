@@ -7,6 +7,8 @@ import {AuthService} from "../../../../core/service/auth.service";
 import {AdminService} from "../../../../core/service/admin.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {StudentService} from "../../../../core/service/student.service";
+import {map, shareReplay, tap} from "rxjs/operators";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-coursecurriculam',
@@ -93,4 +95,34 @@ export class CoursecurriculamComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+  sessionsRemainingMap = new Map<string, Observable<string>>();
+
+  sessionsRemaining(courseId: number, labId: number): Observable<string> {
+    console.log('----------------------------------',courseId)
+    console.log('----------------------------------',labId)
+
+    const key = `${this.user}-${courseId}-${labId}`;
+
+    if (this.sessionsRemainingMap.has(key)) {
+      return this.sessionsRemainingMap.get(key);
+    }
+
+    const remainingTrials$ = this.studentService.remainingSessions(this.user, courseId, labId).pipe(
+      map(res => `Active sessions: <strong>${res.active_count}</strong>, Expired sessions: ${res.expired_count}, Remaining trials: ${res.available_count}`),
+      shareReplay(1)
+    );
+    console.log(remainingTrials$)
+    this.sessionsRemainingMap.set(key, remainingTrials$);
+
+    remainingTrials$.subscribe();
+    console.log(remainingTrials$)
+
+    return remainingTrials$;
+  }
+
+
+
+
+
 }

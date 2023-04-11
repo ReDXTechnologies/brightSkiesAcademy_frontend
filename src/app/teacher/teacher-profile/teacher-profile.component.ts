@@ -8,6 +8,9 @@ import {Course} from "../../core/models/course";
 import {DepartmentService} from "../../core/service/department.service";
 import {AuthService} from "../../core/service/auth.service";
 import {StudentService} from "../../core/service/student.service";
+import {ReviewService} from "../../core/service/review.service";
+import {Router} from "@angular/router";
+import {Review} from "../../core/models/review";
 @Component({
   selector: 'app-profile',
   templateUrl: './teacher-profile.component.html',
@@ -21,7 +24,6 @@ export class TeacherProfileComponent implements OnInit {
   teacherForm: FormGroup;
   user_id: string;
   selectedImage: File;
-  teacher: Teacher;
   loading = false;
   teacherApprovedCourses: Course[]
   firstmanager : string
@@ -29,11 +31,15 @@ export class TeacherProfileComponent implements OnInit {
   role: any
   userId : number;
   courses: Course[]
+  reviews: Review[];
+  teacher: Teacher;
 
   constructor(private formBuilder: FormBuilder,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
               private authService: AuthService,
+              private reviewService: ReviewService,
+              private router: Router,
               private studentService: StudentService,
               private adminService: AdminService) {
     this.role = this.authService.currentUserValue.role[0];
@@ -150,6 +156,34 @@ export class TeacherProfileComponent implements OnInit {
     //   });
   }
 
-
+  viewDetails(course: Course) {
+    const teacher_id = course.teachers[0];
+    this.teacherService.getTeacherById(teacher_id).subscribe(
+      (teacher: Teacher) => {
+        this.teacher = teacher;
+        const teacherJson = JSON.stringify(this.teacher);
+        this.reviewService.getCourseReviews(course.id).subscribe(
+          (res) => {
+            this.reviews = res;
+            const reviewJson = JSON.stringify(this.reviews);
+            const courseJson = JSON.stringify(course);
+            this.router.navigate(['/shared/Lab-course-details'], {
+              queryParams: {
+                course: courseJson,
+                reviews: reviewJson,
+                teacher: teacherJson
+              }
+            });
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
 }

@@ -331,18 +331,6 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/shared/add-course',
-        title: 'Add course',
-        iconType: '',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        role: [],
-        submenu: [],
-      },
-      {
         path: '/admin/pending/course-confirmation',
         title: 'Approve courses',
         iconType: '',

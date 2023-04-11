@@ -18,6 +18,7 @@ import {DeleteDialogComponent} from "../delete/delete.component";
 import {SelectDepartmentComponent} from "../affect-Department/select-department.component";
 import {Course} from "../../../../core/models/course";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../../core/service/auth.service";
 
 
 @Component({
@@ -56,6 +57,8 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
     public teacherService: TeacherService,
     private snackBar: MatSnackBar,
     private router: Router,
+    private authService: AuthService,
+
 
   ) {
     super();
@@ -77,9 +80,11 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
   }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
+    this.authService = new AuthService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
+      this.authService,
     );
   }
   private refreshTable() {
@@ -173,7 +178,9 @@ export class ExampleDataSource extends DataSource<Teacher> {
 
   renderedData: Teacher[] = [];
   filterChange = new BehaviorSubject('');
-
+  userId : number;
+  user_id: string;
+  role: any
   get filter(): string {
     return this.filterChange.value;
   }
@@ -186,8 +193,13 @@ export class ExampleDataSource extends DataSource<Teacher> {
   constructor(
     public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
+    private authService: AuthService,
+
   ) {
     super();
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.role = this.authService.currentUserValue.role[0];
 
   }
 
@@ -201,8 +213,22 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.exampleDatabase.dataChange,
       this.paginator.page,
     ];
+    if (this.role === 'Super_Admin') {
+      this.exampleDatabase.getHybridProfilesRequests();
+    }
+    else if (this.role === 'head_super_department') {
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSuperDepartmentHybridProfilesRequests(res);
 
-    this.exampleDatabase.getHybridProfilesRequests();
+      })
+
+    }else if (this.role === 'head_sub_department') {
+      this.exampleDatabase.getSubDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSubDepartmentHybridProfilesRequests(res);
+
+      })
+
+    }
 
     return merge(...displayDataChanges).pipe(
       map(() => {

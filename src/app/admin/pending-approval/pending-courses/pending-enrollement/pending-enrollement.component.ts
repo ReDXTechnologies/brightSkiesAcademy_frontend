@@ -17,6 +17,8 @@ import {Teacher} from "../../../../core/models/teacher";
 import {Course} from "../../../../core/models/course";
 import {DeleteDialogComponent} from "../../pending-accounts/delete/delete.component";
 import {SelectDepartmentComponent} from "../../pending-accounts/affect-Department/select-department.component";
+import {CourseService} from "../../../../core/service/course.service";
+import {AuthService} from "../../../../core/service/auth.service";
 
 
 @Component({
@@ -54,7 +56,9 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public teacherService: TeacherService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
+
   ) {
     super();
   }
@@ -75,9 +79,13 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
   }
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
+    this.authService = new AuthService(this.httpClient);
+
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,
+      this.authService,
+
     );
   }
   private refreshTable() {
@@ -107,7 +115,7 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
       }
     })
   }
-  affect(row: any): void {
+  approve(row: any): void {
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
           const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
             (x) => x.user.id === this.id
@@ -173,7 +181,9 @@ export class ExampleDataSource extends DataSource<Teacher> {
 
   renderedData: any[] = [];
   filterChange = new BehaviorSubject('');
-
+  userId : number;
+  user_id: string;
+  role: any
   get filter(): string {
     return this.filterChange.value;
   }
@@ -186,9 +196,13 @@ export class ExampleDataSource extends DataSource<Teacher> {
   constructor(
     public exampleDatabase: TeacherService,
     public paginator: MatPaginator,
+    private authService: AuthService,
+
   ) {
     super();
-
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.role = this.authService.currentUserValue.role[0];
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
@@ -201,8 +215,22 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.exampleDatabase.dataChange,
       this.paginator.page,
     ];
+    if (this.role === 'Super_Admin') {
+      this.exampleDatabase.getEnrollementRequests();
+    }
+    else if (this.role === 'head_super_department') {
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSuperDepartmentPremuimCourseEnrollementRequests(res);
 
-    this.exampleDatabase.getEnrollementRequests();
+      })
+
+    }else if (this.role === 'head_sub_department') {
+      this.exampleDatabase.getSubDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSubDepartmentPremuimCourseEnrollementRequests(res);
+
+      })
+
+    }
 
     return merge(...displayDataChanges).pipe(
       map(() => {

@@ -110,11 +110,10 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
-  getEnrollementRequests(): void {
-    const url = `${this.baseUrl}/users/pending-course-enrollement-requests`;
-    this.httpClient.get<any>(url).subscribe(
+  getSuperDepartmentHybridProfilesRequests(superDepartmentId: any):void  {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/hybridProfilesRequests`;
+    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
       (data) => {
-        console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data);
       },
@@ -124,6 +123,20 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  getSubDepartmentHybridProfilesRequests(subDepartmentId: any):void  {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/hybridProfilesRequests`;
+    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+
   getSuperDepId(user_id: any){
     const url = `${this.baseUrl}/user/${user_id}/super_department_id`;
 
@@ -211,5 +224,46 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   rejectUserEnrollement(userId: number,courseId: number): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/user/${userId}/request-user-enrollement-access/course/${courseId}/reject`,{});
+  }
+
+  getEnrollementRequests(): void {
+    const url = `${this.baseUrl}/users/pending-course-enrollement-requests`;
+    this.httpClient.get<any>(url).subscribe(
+      (data) => {
+        console.log(data)
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSuperDepartmentPremuimCourseEnrollementRequests(superDepartmentId: any):void  {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/premuimCourseEnrollementRequests`;
+    this.subs.sink = this.httpClient.get<any[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSubDepartmentPremuimCourseEnrollementRequests(subDepartmentId: any):void  {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/premuimCourseEnrollementRequests`;
+    this.subs.sink = this.httpClient.get<any[]>(url).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
   }
 }

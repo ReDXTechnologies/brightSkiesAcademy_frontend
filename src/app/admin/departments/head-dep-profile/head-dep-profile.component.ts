@@ -9,6 +9,9 @@ import {User} from "../../../core/models/user";
 import {AuthService} from "../../../core/service/auth.service";
 import {DepartmentService} from "../../../core/service/department.service";
 import {Department} from "../../../core/models/department";
+import {Router} from "@angular/router";
+import {ReviewService} from "../../../core/service/review.service";
+import {Review} from "../../../core/models/review";
 
 @Component({
   selector: 'app-profile',
@@ -33,11 +36,14 @@ export class HeadDepProfileComponent implements OnInit {
   superDepSubDepartments: Department[];
   manager: string;
   SuperAdmin: string;
-
+  reviews: Review[];
+  teacher: Teacher;
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
+              private router: Router,
+              private reviewService: ReviewService,
               private adminService: AdminService) {
     this.role = this.authService.currentUserValue.role[0];
 
@@ -51,6 +57,36 @@ export class HeadDepProfileComponent implements OnInit {
     this.getHeadDeepDetails();
 
   }
+  viewDetails(course: Course) {
+    const teacher_id = course.teachers[0];
+    this.teacherService.getTeacherById(teacher_id).subscribe(
+      (teacher: Teacher) => {
+        this.teacher = teacher;
+        const teacherJson = JSON.stringify(this.teacher);
+        this.reviewService.getCourseReviews(course.id).subscribe(
+          (res) => {
+            this.reviews = res;
+            const reviewJson = JSON.stringify(this.reviews);
+            const courseJson = JSON.stringify(course);
+            this.router.navigate(['/shared/Lab-course-details'], {
+              queryParams: {
+                course: courseJson,
+                reviews: reviewJson,
+                teacher: teacherJson
+              }
+            });
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
   initForm() {
     this.headDepForm = this.formBuilder.group({
       firstName: [''],
