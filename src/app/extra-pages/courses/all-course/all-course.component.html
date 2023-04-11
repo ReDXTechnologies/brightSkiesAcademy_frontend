@@ -70,6 +70,28 @@
         </div>
         <div class="course-sidebar-widget mb-20">
           <div class="course-sidebar-info" [class.content-hidden]="shopLevelActive">
+            <h3 class="drop-btn" (click)="shopLevel()"><span class="title">Price</span><i
+              class=" fas fa-angle-down "></i></h3>
+            <ul>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="e-free" (click)="onPriceClick('true')"
+                         [checked]="price === 'true'">
+                  <label class="edu-check-label" for="e-free">Free</label>
+                </div>
+              </li>
+              <li>
+                <div class="course-sidebar-list">
+                  <input class="edu-check-box" type="checkbox" id="e-premuim"
+                         (click)="onPriceClick('false')" [checked]="price === 'false'">
+                  <label class="edu-check-label" for="e-intermediate">Premuim</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="course-sidebar-widget mb-20">
+          <div class="course-sidebar-info" [class.content-hidden]="shopLevelActive">
             <h3 class="drop-btn" (click)="shopLevel()"><span class="title">Level</span><i
               class=" fas fa-angle-down "></i></h3>
             <ul>

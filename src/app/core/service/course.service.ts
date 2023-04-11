@@ -89,9 +89,9 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.put<Course>(url, formData);
   }
 
-  getFilteredCourses(sub_department: string[], level: string, workload_range: string,title_regex:string): Observable<any> {
+  getFilteredCourses(sub_department: string[], level: string, workload_range: string, title_regex: string, is_free: string): Observable<any> {
     let params = new HttpParams();
-    const url = `${this.baseUrl}/courses?sub_department=${sub_department}&level=${level}&workload_range=${workload_range}&title_regex=${title_regex}`;
+    const url = `${this.baseUrl}/courses?sub_department=${sub_department}&level=${level}&workload_range=${workload_range}&title_regex=${title_regex}&is_free=${is_free}`;
 
     if (sub_department.length > 0) {
       params = params.set('sub_department', sub_department.join(','));
@@ -104,6 +104,9 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     }
     if (title_regex) {
       params = params.set('title_regex',title_regex);
+    }
+    if (is_free) {
+      params = params.set('is_free',is_free);
     }
     return this.httpClient.get<any>(url, { params });
   }

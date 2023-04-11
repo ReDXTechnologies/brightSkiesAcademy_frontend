@@ -38,6 +38,7 @@ export class AllCourseComponent implements OnInit {
   shopLevelActive: boolean = false;
   selectedSubDepartments: string[] = [];
   level = '';
+  price = '';
   workload = '';
   searchInput=''
   userId : number;
@@ -109,13 +110,6 @@ export class AllCourseComponent implements OnInit {
         this.selectedIndex = 0; // Set the index of the default tab
       }
     });
-    // if (this.role === 'Teacher') {
-    //   this.getAllApprovedCourses(localStorage.getItem("id"));
-    //   this.getAllPendingCourses(localStorage.getItem('id'))
-    //   this.getAllTeacherApprovedCourses(localStorage.getItem('id'))
-    // } else {
-    //   this.getAllApprovedCourses(localStorage.getItem("id"));
-    // }
     this.getAllApprovedCourses();
     this.getDepatments();
 
@@ -204,6 +198,7 @@ export class AllCourseComponent implements OnInit {
     this.getFilteredCourses();
   }
 
+
   disableLevelCheckbox(level: string) {
     document.getElementById(`e-${level}`).setAttribute('disabled', 'disabled');
   }
@@ -244,9 +239,41 @@ export class AllCourseComponent implements OnInit {
     this.disableWorkloadheckbox('w-5-10');
     this.disableWorkloadheckbox('w-10-20');
   }
+  onPriceClick(price: string) {
+    console.log(price)
+    if (this.price === price) {
+      this.level = '';
+      this.enableAllLevelsCheckboxes();
 
+    } else {
+      this.price = price.toLowerCase();
+      switch (price) {
+        case 'free':
+          this.disablePriceCheckbox('free');
+          break;
+        case 'premuim':
+          this.disablePriceCheckbox('premuim');
+          break;
+        default:
+          this.enableAllpriceCheckboxes();
+          break;
+      }
+    }
+    this.getFilteredCourses();
+  }
+  disablePriceCheckbox(price: string) {
+    console.log(price)
+    document.getElementById(`e-${price}`).setAttribute('disabled', 'disabled');
+  }
+  enablePriceCheckbox(price: string) {
+    document.getElementById(`${price}`).removeAttribute('disabled');
+  }
+  enableAllpriceCheckboxes() {
+    this.enablePriceCheckbox('e-premuim');
+    this.enablePriceCheckbox('e-free');
+  }
   getFilteredCourses() {
-    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput)
+    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput,this.price)
       .subscribe(response => {
         this.courses = response;
       });
