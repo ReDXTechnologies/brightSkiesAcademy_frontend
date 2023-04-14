@@ -1,0 +1,29 @@
+<div class="container">
+  <h3 mat-dialog-title>Are you sure?</h3>
+  <div mat-dialog-content>
+    <ul class="clearfix">
+      <li>
+        <p><span class="font-weight-bold"> Module: </span>{{data.moduleName}} </p>
+      </li>
+      <li *ngIf="data.deleteVideo">
+        <p><span class="font-weight-bold"> video: </span>{{ data.videoName }}</p>
+      </li>
+      <li *ngIf="!data.deleteVideo">
+        <p><span class="font-weight-bold"> video: </span>{{ data.labName }}</p>
+      </li>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+      <div class="example-button-row align-center">
+        <button mat-flat-button color="warn" *ngIf="data.deleteVideo" (click)="confirmDelete()" [class.auth-spinner]="loadingVideo">
+          Delete video
+        </button>
+        <button mat-flat-button color="warn" *ngIf="!data.deleteVideo" (click)="confirmDelete()" [class.auth-spinner]="loadingLab">
+          Delete lab
+        </button>
+        <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

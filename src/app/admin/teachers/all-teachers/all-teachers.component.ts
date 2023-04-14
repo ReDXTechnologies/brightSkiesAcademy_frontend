@@ -73,11 +73,6 @@ export class AllTeachersComponent
   editCall(row) {
     this.id = row.user.id;
     let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         teachers: row,

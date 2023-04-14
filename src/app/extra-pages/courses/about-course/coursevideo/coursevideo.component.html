@@ -1,14 +1,14 @@
 <div class="course-video-widget">
     <div class="course-widget-wrapper mb-30">
         <div class="course-video-thumb w-img">
-            <img src="{{course.image}}">
+            <img src="{{course?.image}}">
             <div class="sidber-video-btn">
-                <a  [href]="videoUrl" class="popup-video" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ><i class="fas fa-play"></i></a>
+                <a  [href]="this.course?.modules[0]?.videos[0]?.video_file" class="popup-video" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ><i class="fas fa-play"></i></a>
             </div>
         </div>
       <div class="course-video-price">
-        <span *ngIf="course.price == 0">FREE</span>
-        <span *ngIf="course.price > 0">$ {{course.price}}</span>
+        <span *ngIf="course?.price == 0">FREE</span>
+        <span *ngIf="course?.price > 0">$ {{course?.price}}</span>
       </div>
         <div class="course-video-body">
             <ul>
@@ -18,7 +18,7 @@
                         <span>Level</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>{{course.level}}</span>
+                        <span>{{course?.level}}</span>
                     </div>
                 </li>
                 <li>
@@ -27,7 +27,7 @@
                         <span>Lectures</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>{{course.nbr_of_lessons}} Lectures</span>
+                        <span>{{course?.nbr_of_lessons}} Lectures</span>
                     </div>
                 </li>
                 <li>
@@ -36,7 +36,7 @@
                         <span>Workload</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>{{course.workload}} hours</span>
+                        <span>{{course?.workload}} hours</span>
                     </div>
                 </li>
                 <li>
@@ -45,7 +45,7 @@
                         <span>Speciality</span>
                     </div>
                     <div class="video-corse-info">
-                        <span>{{course.speciality}}</span>
+                        <span>{{course?.speciality}}</span>
                     </div>
                 </li>
                 <li>
@@ -72,8 +72,8 @@
                         <span>Certificate</span>
                     </div>
                     <div class="video-corse-info">
-                      <span *ngIf="course.certificate == true">Yes</span>
-                      <span *ngIf="course.certificate ==false">No</span>
+                      <span *ngIf="course?.certificate == true">Yes</span>
+                      <span *ngIf="course?.certificate ==false">No</span>
                     </div>
                 </li>
                 <li>
@@ -87,19 +87,19 @@
                 </li>
             </ul>
         </div>
-        <div class="video-wishlist" *ngIf="!is_enrolled&& !requestSent&& course.price > 0 && role!='Super_Admin'&&  course.status ==='approved' && user != teacher_id">
-            <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
+        <div class="video-wishlist" *ngIf="!is_enrolled&& !requestSent&& course?.price > 0 && role!='Super_Admin'&&  course?.status ==='approved' && user != teacher_id">
+            <button class="video-cart-btn" (click)="requestEnrollement(user,course?.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
         </div>
 
-      <div class="video-wishlist " *ngIf="requestSent && course.price >0 && role!='Super_Admin'&& course.status ==='approved'">
+      <div class="video-wishlist " *ngIf="requestSent && course?.price >0 && role!='Super_Admin'&& course?.status ==='approved'">
         <button class="video-cart-btn warning" disabled><i class="fas fa-check"></i>request sent</button>
       </div>
 
-      <div class="video-wishlist" *ngIf="!is_enrolled &&course.price == 0  && role!='Super_Admin'&& course.status ==='approved' && user != teacher_id">
-        <button class="video-cart-btn" (click)="requestEnrollement(user,course.id)"><i class="fas fa-clipboard-check" ></i>Enroll now</button>
+      <div class="video-wishlist" *ngIf="!is_enrolled &&course?.price == 0  && role!='Super_Admin'&& course?.status ==='approved' && user != teacher_id">
+        <button class="video-cart-btn" (click)="requestEnrollement(user,course?.id)"><i class="fas fa-clipboard-check" ></i>Enroll now</button>
       </div>
 
-      <div class="video-wishlist " *ngIf="is_enrolled && role!='Super_Admin'&& course.status ==='approved'">
+      <div class="video-wishlist " *ngIf="is_enrolled && role!='Super_Admin'&& course?.status ==='approved'">
         <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>already enrolled</button>
       </div>
 <!--        <div class="course-gift">-->

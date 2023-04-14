@@ -50,7 +50,7 @@ export class AddCourseComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   selectedVideoIndex: number;
   role: any
-  userId : number;
+  userId: number;
   user_id: string;
   sentSuccessfully = false;
 
@@ -61,7 +61,6 @@ export class AddCourseComponent implements OnInit {
               private _snackBar: MatSnackBar,
               private router: Router,
               private dialogModel: MatDialog,
-
   ) {
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id)
@@ -87,45 +86,90 @@ export class AddCourseComponent implements OnInit {
       modules: this.fb.array([this.createModule()]),
     });
 
-    //
-    // this.activatedRoute.queryParams.subscribe(params => {
-    //   console.log(params.courseId)
-    //   if (params.edit && params.courseId) {
-    //     this.editMode = true;
-    //     this.courseId = params.courseId;
-    //     this.courseService.getCourseById(this.courseId).subscribe(course => {
-    //       console.log(course)
-    //       this.course = course
-    //       this.courseForm.patchValue({
-    //         title: course.title,
-    //         specialty: course.speciality,
-    //         nbr_of_lessons: course.nbr_of_lessons,
-    //         description: course.description,
-    //         what_you_will_learn: course.what_you_will_learn,
-    //         session_duration: course.session_duration,
-    //         nb_sessions: course.nb_sessions,
-    //         requirements: course.requirements,
-    //         price: course.price,
-    //         level: course.level,
-    //         vm_characteristics: course.vm_characteristics,
-    //         plan: course.free ? 'free' : 'paid',
-    //         certified: course.certificate ? 'yes' : 'no',
-    //         workload: course.workload,
-    //         student_emails_file: this.editMode ? null : course.student_emails_file,
-    //         labFiles: this.editMode ? null : course.labFiles,
-    //         image: this.editMode ? null :course.image
-    //       });
-    //       if (this.editMode) {
-    //         this.courseForm.get('labFiles').setValidators(requiredForEdit);
-    //         this.courseForm.get('image').setValidators(requiredForEdit);
-    //         this.courseForm.get('student_emails_file').setValidators(requiredForEdit);
-    //       }
-    //     });
-    //   }
-    //   console.log(this.editMode)
-    //
-    // });
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      console.log(params.courseId)
+      if (params.edit && params.courseId) {
+        this.editMode = true;
+        this.courseId = params.courseId;
+        this.courseService.getCourseById(this.courseId).subscribe(course => {
+          this.course = course;
+          const modulesArray = this.fb.array(course.modules.map(module => {
+            const videosArray = this.fb.array(module.videos.map(video => {
+              return this.fb.group({
+                name: video.name,
+                duration: video.duration,
+                video_file: video.video_file
+              });
+            }));
+            const labsArray = this.fb.array(module.labs.map(lab => {
+              return this.fb.group({
+                title: lab.title,
+                description: lab.description,
+                session_duration: lab.session_duration,
+                nb_sessions: lab.nb_sessions,
+                vm_characteristics: lab.vm_characteristics,
+                labFiles: lab.labFiles,
+                libraries_requirements: lab.libraries_requirements
+              });
+            }));
+
+            return this.fb.group({
+              name: module.name,
+              videos: videosArray,
+              labs: labsArray
+            });
+          }));
+          const moduleValues = modulesArray.controls.map(module => {
+            return {
+              name: module.get('name').value,
+              videos: (<FormArray>module.get('videos')).controls.map(videoControl => {
+                return {
+                  name: videoControl.get('name').value,
+                  duration: videoControl.get('duration').value,
+                  video_file: videoControl.get('video_file').value
+                }
+              }),
+              labs: (<FormArray>module.get('labs')).controls.map(labControl => {
+                return {
+                  title: labControl.get('title').value,
+                  description: labControl.get('description').value,
+                  session_duration: labControl.get('session_duration').value,
+                  nb_sessions: labControl.get('nb_sessions').value,
+                  vm_characteristics: labControl.get('vm_characteristics').value,
+                  labFiles: labControl.get('labFiles').value,
+                  libraries_requirements: labControl.get('libraries_requirements').value
+                }
+              })
+            };
+          });
+          console.log(moduleValues)
+
+          this.courseForm.patchValue({
+            title: course.title,
+            specialty: course.speciality,
+            nbr_of_lessons: course.nbr_of_lessons,
+            description: course.description,
+            course_id: course.id,
+            what_you_will_learn: course.what_you_will_learn,
+            requirements: course.requirements,
+            price: course.price,
+            level: course.level,
+            plan: course.free ? 'free' : 'paid',
+            certified: course.certificate ? 'yes' : 'no',
+            workload: course.workload,
+            slides: this.editMode ? null : course.labFiles,
+            image: this.editMode ? null : course.image,
+            modules: moduleValues
+          });
+
+//
+          console.log('222222222222',this.courseForm.value)
+
+        })
+      }})
   }
+
 
   selectVideo(index: number) {
     this.selectedVideoIndex = index;
@@ -139,9 +183,7 @@ export class AddCourseComponent implements OnInit {
 
   deleteVideo(moduleIndex: number, videoIndex: number): void {
     const moduleVideos = this.getVideosControls(moduleIndex);
-    console.log('ererererererererere', moduleVideos.value)
     moduleVideos.removeAt(videoIndex - 1);
-    console.log('cvcvcvcvcvcvcv', moduleVideos.value)
 
   }
 
@@ -177,9 +219,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   add_video(moduleIndex: number, index: number): void {
-    console.log('*************************************')
     console.log((this.modules.at(moduleIndex).get('videos') as FormArray).value)
-    console.log('*************************************')
     const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
     console.log('unitially', videos.value)
     const video = ((this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray).at(index);
@@ -190,37 +230,19 @@ export class AddCourseComponent implements OnInit {
       this.videos[moduleIndex] = [];
     }
     this.videos[moduleIndex].push(videos.value[videos.length - 1]);
-    console.log('-------------------', this.videos[moduleIndex])
-    console.log('super course form value', this.courseForm.value.modules[0].videos)
-    console.log('super course form value', this.courseForm.value)
+    // console.log('-------------------', this.videos[moduleIndex])
+    // console.log('super course form value', this.courseForm.value.modules[0].videos)
+    // console.log('super course form value', this.courseForm.value)
   }
 
-  // edit_video(moduleIndex: number,index: number): void {
-  //   console.log('*************************************')
-  //   console.log((this.modules.at(moduleIndex).get('videos') as FormArray).value)
-  //   console.log('*************************************')
-  //   const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
-  //   console.log('unitially',videos.value)
-  //   const video = ((this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray).at(index);
-  //   videos.push(this.createVideo(video.value));
-  //   console.log('after pushing',videos.value)
-  //   // this.videos.push(videos.value[0]);
-  //   if (!this.videos[moduleIndex]) {
-  //     this.videos[moduleIndex] = [];
-  //   }
-  //   this.videos[moduleIndex].push(videos.value[videos.length - 1]);
-  //   console.log('-------------------',this.videos[moduleIndex])
-  //   console.log('super course form value',this.courseForm.value.modules[0].videos)
-  //   console.log('super course form value',this.courseForm.value)
-  // }
   getLabsControls(moduleIndex: number): FormArray {
     return this.modules.at(moduleIndex).get('labs') as FormArray;
   }
 
   ngOnInit(): void {
-    if(this.role==='Student'){
-      this.teacherService.checkRequestStudentTeacherAccount(this.userId).subscribe(res=>{
-        if(res==='true'){
+    if (this.role === 'Student') {
+      this.teacherService.checkRequestStudentTeacherAccount(this.userId).subscribe(res => {
+        if (res === 'true') {
           this.sentSuccessfully = true
         }
       })
@@ -363,7 +385,7 @@ export class AddCourseComponent implements OnInit {
     formData.append('level', this.courseForm.get('level').value);
     formData.append('certificate', this.courseForm.get('certified').value);
     formData.append('workload', this.courseForm.get('workload').value);
-    formData.append('course_id ', this.courseForm.get('workload').value);
+    formData.append('course_id ', this.courseForm.get('course_id').value);
 
     // if (this.selectedLabFiles ) {
     //   formData.append('labFiles', this.selectedLabFiles, this.selectedLabFiles.name);
@@ -399,7 +421,7 @@ export class AddCourseComponent implements OnInit {
       // Loop over the labs array for this module and add each lab's data to the FormData object
       if (module.labs[0].title == '') {
         console.log(module.labs[0])
-        this.removeLab(i,0)
+        this.removeLab(i, 0)
         module.labs.length = 0
       }
       for (let j = 0; j < module.labs.length; j++) {
@@ -427,60 +449,6 @@ export class AddCourseComponent implements OnInit {
     }
 
 
-    if (this.editMode) {
-      if (this.courseForm.get('plan').value == 'free') {
-        formData.append('price', '0');
-        console.log(this.courseForm.get('certified').value)
-        // Update existing course
-        this.courseService.updateCourse(this.courseId, localStorage.getItem('id'), formData, true, this.courseForm.get('certified').value).subscribe(
-          res => {
-            this.showNotification(
-              'snackbar-success',
-              "Your course has been updated successfully!",
-              'bottom',
-              'center'
-            );
-            this.loading = false;
-            if (res.status == 'pending') {
-              this.navigateToCoursesTab('my_pending_courses')
-            } else {
-              this.navigateToCoursesTab('my_available_courses')
-            }
-          },
-          error => {
-            this.loading = false;
-            console.log(error);
-            // handle error response
-          }
-        );
-      } else {
-        formData.append('price', this.courseForm.get('price').value);
-        this.courseService.updateCourse(this.courseId, localStorage.getItem('id'), formData, false, this.courseForm.get('certified').value).subscribe(
-          res => {
-            console.log(res);
-            this.showNotification(
-              'snackbar-success',
-              "Your course has been updated successfully!",
-              'bottom',
-              'center'
-            );
-            this.loading = false;
-            if (res.status == 'pending') {
-              this.navigateToCoursesTab('my_pending_courses')
-            } else {
-              this.navigateToCoursesTab('my_available_courses')
-            }
-          },
-          error => {
-            this.loading = false;
-
-            console.log(error);
-            // handle error response
-          }
-        );
-      }
-
-    } else {
       if (this.courseForm.get('plan').value == 'free') {
         formData.append('price', '0');
         this.courseService.createCourse(localStorage.getItem('id'), formData, true, this.courseForm.get('certified').value).subscribe(
@@ -542,14 +510,13 @@ export class AddCourseComponent implements OnInit {
           }
         );
       }
-    }
   }
 
   openDialog(): void {
     console.log('open ')
     const dialogRef = this.dialogModel.open(SelectDepartmentComponent, {
       width: '400px',
-      data: {request_hybrid_profile : true},
+      data: {request_hybrid_profile: true},
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -566,7 +533,7 @@ export class AddCourseComponent implements OnInit {
 
           },
           error => {
-            console.error( error);
+            console.error(error);
             // show error message
           })
       }

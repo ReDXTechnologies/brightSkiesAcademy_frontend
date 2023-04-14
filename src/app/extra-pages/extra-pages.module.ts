@@ -45,6 +45,11 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {
   DisplayCurriculumVideosComponent
 } from "./courses/about-course/displayCurriculumVideos/displayCurriculumVideos.component";
+import {EditCourseModuleComponent} from "./courses/about-course/LabCourse/edit/edit-course-overview/form-dialog.component";
+import {AddNewModule} from "./courses/about-course/LabCourse/edit/add-new-module/add-new-module.component";
+import {AddVideoComponent} from "./courses/about-course/coursecurriculam/edit/add-video/add-video.component";
+import {AddLabComponent} from "./courses/about-course/coursecurriculam/edit/add-lab/add-lab.component";
+import {DeleteVideoLabDialogComponent} from "./courses/about-course/coursecurriculam/edit/delete/delete.component";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -62,6 +67,11 @@ import {
     BottomSheetComponent,
     Instance_guidanceComponent,
     DisplayCurriculumVideosComponent,
+    EditCourseModuleComponent,
+    AddNewModule,
+    AddVideoComponent,
+    AddLabComponent,
+    DeleteVideoLabDialogComponent
 
 
   ],

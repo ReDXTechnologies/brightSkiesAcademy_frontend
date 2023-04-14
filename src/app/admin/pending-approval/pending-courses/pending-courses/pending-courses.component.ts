@@ -141,7 +141,8 @@ export class PendingCoursesComponent implements OnInit {
         const teacherJson = JSON.stringify(teacher);
 
         this.router.navigate(['/shared/Lab-course-details'],
-          {queryParams: {course: courseJson, teacher: teacherJson}});
+          {queryParams: {                courseId: course.id,
+             teacher: teacherJson}});
 
       },
       (error) => {

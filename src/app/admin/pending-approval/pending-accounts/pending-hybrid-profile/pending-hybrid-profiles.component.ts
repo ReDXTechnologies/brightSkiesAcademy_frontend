@@ -32,6 +32,7 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
   filterToggle = false;
   displayedColumns = [
     'select',
+    'image',
     'firstName',
     'lastName',
     'email',
@@ -97,11 +98,7 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
 
   reject(teacher: Teacher, departmentId : any) {
     this.teacherService.rejectStudentTeacherAccount(teacher.user.id, departmentId).subscribe(res => {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.user.id === this.id
-        );
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
+        this.loadData();
         console.log('teacher account approved successfully');
         this.showNotification(
           'snackbar-danger',

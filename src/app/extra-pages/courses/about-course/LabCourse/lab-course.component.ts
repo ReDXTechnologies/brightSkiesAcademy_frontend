@@ -7,6 +7,12 @@ import {TeacherService} from "../../../../core/service/teacher.service";
 import {Review} from "../../../../core/models/review";
 import {AuthService} from "../../../../core/service/auth.service";
 import {AdminService} from "../../../../core/service/admin.service";
+import {FormDialogComponent} from "../../../../admin/teachers/all-teachers/dialogs/form-dialog/form-dialog.component";
+import {CourseService} from "../../../../core/service/course.service";
+import {MatDialog} from "@angular/material/dialog";
+import {EditCourseModuleComponent} from "./edit/edit-course-overview/form-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Course} from "../../../../core/models/course";
 
 @Component({
   selector: 'app-about-course',
@@ -26,43 +32,55 @@ export class LabCourseComponent implements OnInit {
 
   user_id: string;
   isLoading = false;
-  course: any;
+  course: Course;
   teacher: Teacher;
   reviews: Review[];
   role: any
-userId : number;
+  userId: number;
   enrolled = false;
+courseId : any
   constructor(private studentService: StudentService,
               private route: ActivatedRoute,
               private teacherService: TeacherService,
+              private courseService: CourseService,
               private adminService: AdminService,
               private spinner: NgxSpinnerService,
               private authService: AuthService,
               private router: Router,
-              ) {
+              public dialog: MatDialog,
+              private snackBar: MatSnackBar,
+              private activatedRoute: ActivatedRoute,
+  ) {
     this.role = this.authService.currentUserValue.role[0];
     console.log(this.role)
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.courseId = params.courseId
+        this.courseService.getCourseById(params.courseId).subscribe(course => {
+          this.course = course
+        }
+      )
+
+    })
+
   }
 
   ngOnInit(): void {
+    console.log('courseId',this.courseId)
+    console.log('course',this.course)
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id)
-    const courseJson = this.route.snapshot.queryParamMap.get('course');
+
+    // const courseJson = this.route.snapshot.queryParamMap.get('course');
     const teacherJson = this.route.snapshot.queryParamMap.get('teacher');
     const reviewsJson = this.route.snapshot.queryParamMap.get('reviews');
 
-    if (courseJson) {
-      this.course = JSON.parse(courseJson);
-    }
-
     if (teacherJson) {
       this.teacher = JSON.parse(teacherJson);
-      console.log("************************************",typeof this.teacher.user.id ,typeof this.user_id )
     }
     if (reviewsJson) {
       this.reviews = JSON.parse(reviewsJson);
     }
-
+    console.log(this.course)
   }
 
   enrollInCourse(courseId: number) {
@@ -72,7 +90,7 @@ userId : number;
       .subscribe(response => {
           this.isLoading = false;
           this.spinner.hide();
-        this.enrolled = true;
+          this.enrolled = true;
         }
       )
     ;
@@ -82,6 +100,33 @@ userId : number;
   //   this.studentService.isEnrolled(courseId, studentId)
   //     .subscribe(response => this.enrolled = response.enrolled);
   // }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
 
+  editCall() {
 
+    const dialogRef = this.dialog.open(EditCourseModuleComponent, {
+      width: '70%',
+      data: {
+        course: this.course,
+        action: 'edit',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('rrrrrrrr', result)
+        this.courseService.updateCourse(this.course.id, result.formData, this.course.free, this.course.certificate)
+          .subscribe((res) => {
+            console.log(res)
+            window.location.reload()
+          })
+      }
+    });
+  }
 }

@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="couse-dropdown" *ngIf="role=='Teacher' ||role=='Student_Teacher'">
-                  <div class="course-drop-inner pt-3 mr-20">
+                  <div class=" pt-3 mr-20">
                     <mat-form-field appearance="outline">
                       <mat-label>My courses</mat-label>
 
@@ -205,9 +205,6 @@
                                   View
                                   Details
                                 </button>
-                                <button (click)="editCourse(course)" class="wishlist-btn"
-                                        *ngIf="(role === 'Teacher' && course.teachers[0] ===userId)"><i
-                                  class="fas fa-edit"></i></button>
                                 <a class="c-share-btn" (click)="deletePendingCourse(course)"
                                    *ngIf="(role === 'Teacher' && course.teachers[0] ===userId)"><i
                                   class="fas fa-trash-alt"></i>

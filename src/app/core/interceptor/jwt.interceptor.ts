@@ -24,7 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
       // if (currentUser && currentUser.token && token && !this.jwtHelper.isTokenExpired(token)) {
     if(token){
-      console.log(token)
+      // console.log(token)
       // localStorage.removeItem('jwt_token');
 
       request = request.clone({

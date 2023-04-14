@@ -288,6 +288,18 @@ export const ROUTES: RouteInfo[] = [
         role: ['Admin','Super_Admin'],
         submenu: [],
       },
+      {
+        path: '/admin/pending/hybrid-profile-confirmation',
+        title: 'hybrid profile approval',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        role: [''],
+        submenu: [],
+      },
       ]
 
   },

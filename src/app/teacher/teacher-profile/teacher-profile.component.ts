@@ -169,7 +169,7 @@ export class TeacherProfileComponent implements OnInit {
             const courseJson = JSON.stringify(course);
             this.router.navigate(['/shared/Lab-course-details'], {
               queryParams: {
-                course: courseJson,
+                courseId: course.id,
                 reviews: reviewJson,
                 teacher: teacherJson
               }

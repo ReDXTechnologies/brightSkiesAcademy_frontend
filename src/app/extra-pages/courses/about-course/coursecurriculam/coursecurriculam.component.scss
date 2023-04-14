@@ -1,16 +1,23 @@
 .fa-play {
   margin-top: -10px;
-  font-size: 25px;
+  font-size: 20px;
   color: #230de5;
 
   text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
   animation: pulse 2s infinite;
 }
 
-
 .fa-play::after {
   content: 'start';
   font-size: 13px;
+  display: block;
+  text-align: center;
+  margin-top: 7px;
+
+}
+.teacherplay::after {
+  content: '';
+  font-size: 10px;
   display: block;
   text-align: center;
   margin-top: 7px;
@@ -50,7 +57,57 @@
 
 }
 
+.lab{
+  margin-top: -10px;
+  font-size: 20px;
+  color: #230de5;
 
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  animation: pulse 2s infinite;
+}
+
+
+.lab::after {
+  content: '';
+  font-size: 12px;
+  display: block;
+  text-align: center;
+  margin-top: 7px;
+
+}
+
+
+.lab:hover {
+  color: #26a44a;
+  cursor: pointer;
+
+}
+
+.deletelab{
+  margin-top: -10px;
+  font-size: 20px;
+  color: #230de5;
+
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+  animation: pulse 2s infinite;
+}
+
+
+.deletelab::after {
+  content: '';
+  font-size: 10px;
+  display: block;
+  text-align: center;
+  margin-top: 7px;
+
+}
+
+
+.deletelab:hover {
+  color: #ab0e2a;
+  cursor: pointer;
+
+}
 
 .lab_note{
   font-size: 10px;
@@ -92,4 +149,3 @@
   cursor: pointer;
 
 }
-

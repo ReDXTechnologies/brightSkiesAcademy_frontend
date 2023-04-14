@@ -6,6 +6,7 @@ import { Review } from '../models/review';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
+import {Module, Video} from "../models/Module";
 
 @Injectable({
   providedIn: 'root'
@@ -84,9 +85,26 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<Course>(url, formData);
   }
 
-  updateCourse(courseId: number, teacherId: string, formData: FormData, free: boolean, certified: boolean) : Observable<Course> {
-    const url = `${this.baseUrl}/teacher/${teacherId}/course/${courseId}/update?free=${free}&certificate=${certified}`;
+  updateCourse(courseId: number,formData: FormData, free: boolean, certified: boolean) : Observable<Course> {
+    const url = `${this.baseUrl}/course/${courseId}/update?free=${free}&certificate=${certified}`;
     return this.httpClient.put<Course>(url, formData);
+  }
+
+  updateModuleName(courseId: number, formData : any,moduleId:number) : Observable<Module> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}`;
+    return this.httpClient.put<Module>(url, formData);
+  }
+  getVideoInModule(courseId: number, moduleId:number) : Observable<Video[]> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/videos`;
+    return this.httpClient.get<Video[]>(url);
+  }
+  addVideoInModule(courseId: number, formData : any,moduleId:number) : Observable<Video> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/add_video`;
+    return this.httpClient.post<Video>(url, formData);
+  }
+  deleteVideoInModule(courseId: number,moduleId:number,videoId:number) {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/deleteVideo/${videoId}`;
+    return this.httpClient.delete(url);
   }
 
   getFilteredCourses(sub_department: string[], level: string, workload_range: string, title_regex: string, is_free: string): Observable<any> {

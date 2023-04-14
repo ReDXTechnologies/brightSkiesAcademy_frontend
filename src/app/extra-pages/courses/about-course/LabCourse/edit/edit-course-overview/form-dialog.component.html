@@ -1,0 +1,174 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <img [src]='course.image' class="teacher-image" alt="avatar">
+        <div class="modal-about">
+          {{dialogTitle}}
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="courseForm">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course name</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="courseForm.get('title').hasError('required')">
+              Course name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course specialty</mat-label>
+            <input matInput formControlName="specialty" required>
+            <mat-error *ngIf="courseForm.get('specialty').hasError('required')">
+              Course specialty is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course workload hours</mat-label>
+            <input matInput formControlName="workload" type="number">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>course level</mat-label>
+            <mat-select formControlName="level" required>
+              <mat-option [value]="'entry'">
+                Entry
+              </mat-option>
+              <mat-option [value]="'intermediate'">
+                Intermediate
+              </mat-option>
+              <mat-option [value]="'advanced'">
+                Advanced
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="courseForm.get('level').hasError('required')">
+              Select any level
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course ID</mat-label>
+            <input matInput formControlName="course_id">
+
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Total number of lessons</mat-label>
+            <input matInput formControlName="nbr_of_lessons" type="number" required>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>What you will learn</mat-label>
+            <textarea matInput formControlName="what_you_will_learn" required></textarea>
+            <mat-error *ngIf="courseForm.get('what_you_will_learn').hasError('required')">
+              what you will learn is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course Requirements</mat-label>
+            <textarea matInput formControlName="requirements" required></textarea>
+            <mat-error *ngIf="courseForm.get('requirements').hasError('required')">
+              Requirements is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Course Details</mat-label>
+            <textarea matInput formControlName="description" required></textarea>
+            <mat-error *ngIf="courseForm.get('description').hasError('required')">
+              Description is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+          <label>Upload photo for the course</label>
+          <app-file-upload fileType="upload image" (change)="onImageSelected($event)"
+                           formControlName="image"></app-file-upload>
+          <!--                  <mat-error *ngIf="courseForm.get('image').hasError('required')">-->
+          <!--                    image is required-->
+          <!--                  </mat-error>-->
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-5">
+          <label>Upload the course slides </label>
+          <app-file-upload fileType="upload slides" (change)="onSlidesSelected($event)"
+                           formControlName="slides"></app-file-upload>
+          <!--                  <mat-error *ngIf="courseForm.get('labFiles').hasError('required')">-->
+          <!--                   Lab files is required-->
+          <!--                  </mat-error>-->
+        </div>
+      </div>
+      <div class="row pb-3">
+        <mat-radio-group formControlName="plan">
+          <mat-radio-button value="free">Free</mat-radio-button>
+          <mat-radio-button value="premium">Premium</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-3"
+             *ngIf="courseForm.get('plan').value === 'premium'">
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Course Price</mat-label>
+            <input matInput formControlName="price" type="number" placeholder="Price">
+            <mat-icon matSuffix>euro_symbol</mat-icon>
+
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-2"
+             *ngIf="courseForm.get('plan').value === 'premium'">
+          <h5> is it certified ?</h5>
+          <mat-radio-group formControlName="certified">
+            <mat-radio-button value="true">Yes</mat-radio-button>
+            <mat-radio-button value="false">No</mat-radio-button>
+          </mat-radio-group>
+
+        </div>
+
+
+      </div>
+
+      <div class="row text-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row ">
+            <button  mat-stroked-button color="primary" [disabled]="!courseForm.valid"
+                    [mat-dialog-close]="1"
+                    (click)="confirm()">Edit course overview
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

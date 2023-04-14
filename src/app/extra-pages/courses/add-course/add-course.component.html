@@ -328,7 +328,7 @@
 
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>VM characteristics</mat-label>
+                                      <mat-label>Instance type</mat-label>
                                       <input matInput formControlName="vm_characteristics" >
                                     </mat-form-field>
                                   </div>
@@ -340,7 +340,7 @@
                                   </div>
                                   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width mb-3" appearance="fill">
-                                      <mat-label>Number of sessions</mat-label>
+                                      <mat-label>Number of trials</mat-label>
                                       <input matInput formControlName="nb_sessions" >
                                     </mat-form-field>
                                   </div>
@@ -350,7 +350,7 @@
                                   <div class="button-container">
                                     <a href="javascript:void(0)" (click)="addLab(i)"><i
                                       class="fas fa-plus add-lab-icon"></i></a>
-                                    <a href="javascript:void(0)" (click)="removeLab(i)"><i
+                                    <a href="javascript:void(0)" (click)="removeLab(i,k)"><i
                                       class="fas fa-trash-alt delete-lab-icon"></i></a>
 
                                   </div>

@@ -11,7 +11,7 @@
               <img [src]="teacher?.user?.image ? teacher.user?.image : 'assets/images/user/profile.jpg'" class="user-img" alt="">
               <div class="profile-header">
                 <div class="user-name">{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</div>
-                <div class="name-center">{{teacher.degree}}</div>
+                <div class="name-center">{{teacher?.degree}}</div>
               </div>
 
 
@@ -74,13 +74,13 @@
                 <div class="course-detelies-wrapper">
                   <div class="course-detiles-tittle mb-30">
                     <h3>{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</h3>
-                    <span>{{teacher.degree}}</span>
+                    <span>{{teacher?.degree}}</span>
                   </div>
                   <div class="course-detiles-meta">
 
                     <div class="">
                       <h5>Department</h5>
-                      <span>{{teacher.sub_department}}</span>
+                      <span>{{teacher?.sub_department}}</span>
                     </div>
                     <div class="">
                       <h5>N+1 manager</h5>
@@ -105,11 +105,11 @@
                   </div>
                   <div class="course-bio-text pt-45 pb-20" *ngIf="role==='Student_Teacher'">
                     <h3>Skills</h3>
-                    <p>{{teacher.skills}}</p>
+                    <p>{{teacher?.skills}}</p>
                   </div>
                   <div class="course-bio-text pt-45 pb-20">
                     <h3>Biography</h3>
-                    <p>{{teacher.biography}}</p>
+                    <p>{{teacher?.biography}}</p>
                   </div>
 
                   <div class="header mt-4">
@@ -169,19 +169,7 @@
 
                   <div class="header mt-4">
                     <h2>My courses List</h2>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item disabled>
-                        <mat-icon>delete_outline</mat-icon>
-                        <span>Delete</span>
-                      </button>
-                      <button mat-menu-item>
-                        <mat-icon>refresh</mat-icon>
-                        <span>Refresh</span>
-                      </button>
-                    </mat-menu>
+
                   </div>
                   <div class="tableBody">
                     <div class="table-responsive">
@@ -194,7 +182,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let course of teacherApprovedCourses">
+                        <tr *ngFor="let course of teacherApprovedCourses" (click)="viewDetails(course)" style="cursor: pointer">
                           <td class="table-img">
                             <img src="{{course.image}}" alt="">
                           </td>

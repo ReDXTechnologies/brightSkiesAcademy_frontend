@@ -13,6 +13,7 @@ import {StudentService} from "../../../../core/service/student.service";
 })
 export class CoursevideoComponent implements OnInit {
   @Input() course: Course;
+  @Input() courseId: number;
   @Input() user: number;
   @Input() teacher_id: number;
   videoUrl: any
@@ -33,13 +34,11 @@ export class CoursevideoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const url = this.course.modules[0].videos[0].video_file.toString()
-    const realUrl = url.split('?')[0];
-    this.videoUrl = decodeURIComponent(realUrl.replace(/\+/g, " "));
+    console.log("88888",this.course)
     this.check_enrollement()
     if (this.role === 'Student' ||(this.role === 'Student_Teacher' && this.user !== this.teacher_id) || (this.role === 'Teacher' && this.user !== this.teacher_id)) {
-      if (!this.course.free) {
-        this.teacherService.checkUserEnrollement(this.user, this.course.id).subscribe(res => {
+      if (!this.course?.free) {
+        this.teacherService.checkUserEnrollement(this.user, this.courseId).subscribe(res => {
           if (res === 'true') {
             this.requestSent = true
           }
@@ -48,7 +47,7 @@ export class CoursevideoComponent implements OnInit {
   }
 
   check_enrollement(){
-    this.studentService.isEnrolled(this.course.id, this.user).subscribe(res => {
+    this.studentService.isEnrolled(this.courseId, this.user).subscribe(res => {
       if (res === 'true') {
         this.is_enrolled = true
       }
@@ -57,8 +56,14 @@ export class CoursevideoComponent implements OnInit {
 
   requestEnrollement(user_id: number, course_id: number) {
     this.teacherService.requestCourseEnrollement(user_id, course_id).subscribe(res => {
-      console.log(res)
-      this.requestSent = true
+      console.log("rrrrr",res)
+      if(!this.course.free){
+        this.requestSent = true
+
+      }else{
+        this.is_enrolled = true
+      }
+
     })
   }
 
