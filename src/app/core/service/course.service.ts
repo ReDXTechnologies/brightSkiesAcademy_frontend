@@ -6,7 +6,7 @@ import { Review } from '../models/review';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
-import {Module, Video} from "../models/Module";
+import {Lab, Module, Video} from "../models/Module";
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +94,10 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}`;
     return this.httpClient.put<Module>(url, formData);
   }
+  deleteModule(courseId: number,moduleId:number) {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/deleteModule`;
+    return this.httpClient.delete(url);
+  }
   getVideoInModule(courseId: number, moduleId:number) : Observable<Video[]> {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/videos`;
     return this.httpClient.get<Video[]>(url);
@@ -102,8 +106,24 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/add_video`;
     return this.httpClient.post<Video>(url, formData);
   }
+  editVideoInModule(courseId: number, formData : any,moduleId:number,videoId:number) : Observable<Video> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/updateVideo/${videoId}`;
+    return this.httpClient.put<Video>(url, formData);
+  }
   deleteVideoInModule(courseId: number,moduleId:number,videoId:number) {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/deleteVideo/${videoId}`;
+    return this.httpClient.delete(url);
+  }
+  addLabInModule(courseId: number, formData : any,moduleId:number) : Observable<Lab> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/add_lab`;
+    return this.httpClient.post<Lab>(url, formData);
+  }
+  editLabInModule(courseId: number, formData : any,moduleId:number,labId:number) : Observable<Lab> {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/updateLab/${labId}`;
+    return this.httpClient.put<Lab>(url, formData);
+  }
+  deleteLabInModule(courseId: number,moduleId:number,labId:number) {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/deleteLab/${labId}`;
     return this.httpClient.delete(url);
   }
 

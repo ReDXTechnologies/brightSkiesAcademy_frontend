@@ -12,7 +12,7 @@
 
             <input type="text" [value]="module.name" [(ngModel)]="newName"
                    (keydown.space)="onSpaceKeydown($event)"
-
+                   (focusout)="onInputFocusOut()"
                    (keyup)="updateName($event, i)" placeholder="edit module name">
             </mat-form-field>
 
@@ -22,14 +22,14 @@
             <button style="color: #0b7ef1 " *ngIf="!isEditMode && user == teacher_id" (click)="addVideo(courseId,module.id,module.name)"><i class="fas fa-file-video "></i></button>
             <button style="color: #f1840b " *ngIf="!isEditMode && user == teacher_id" (click)="addLab(courseId,module.id,module.name)"><i class="fas fa-file-code"></i></button>
             <button style="color: #078f28" *ngIf="(!isEditMode || editingModuleIndex !== i) && user == teacher_id" (click)="editName(i)"><i class="fas fa-edit"></i></button>
-            <button style="color: #d00e32 " *ngIf="!isEditMode && user == teacher_id"><i class="fas fa-trash "></i></button>
+            <button style="color: #d00e32 " *ngIf="!isEditMode && user == teacher_id" (click)="deleteModule(courseId,module.id,module.name)" ><i class="fas fa-trash "></i></button>
           </span>
 
         </span>
             </mat-panel-title>
 
           </mat-expansion-panel-header>
-          <div id="collapseOne" class="accordion-collapse collapse show "
+          <div id="collapseOne" class="accordion-collapse collapse show mt-2"
                aria-labelledby="headingOne" data-bs-parent="#accordionExample"
                *ngFor="let video of module.videos; let j = index">
             <div class="enrolled"
@@ -43,7 +43,7 @@
                 </div>
                 <div class="course-curriculum-meta" >
                   <span>{{video.duration}}</span>
-                  <button style="color: #078f28" *ngIf="user == teacher_id"><i class="fas fa-edit"></i></button>
+                  <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editVideo(courseId,module.id,video.id,video)"><i class="fas fa-edit"></i></button>
                   <button style="color: #d00e32 " *ngIf="user == teacher_id"  (click)="deleteVideo(courseId,module.id,video.id,module.name,video.name)" ><i class="fas fa-trash "></i></button>
 
 
@@ -99,8 +99,11 @@
                   <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
                     <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>
                     <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
-                    <div class="course-category" *ngIf="(role === 'Teacher' && course.teachers[0] ===user)">
-                      <button class="play-button"><i class="fas fa-edit lab"></i></button>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
+                    </div>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button"  (click)="deleteLab(courseId,module.id,lab.id,module.name,lab.title)"><i class="fas fa-trash lab"></i></button>
                     </div>
                   </div>
 
@@ -153,13 +156,13 @@
                      ||(role==='Teacher'&& this.user == teacher_id)" (click)="startSession(course.id,lab.id)">
                       <span *ngIf="!isLoadingStart"><i class="fas fa-play teacherplay"></i></span>
 
-                      <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px">Launching ...</p></span>
+                      <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"> </p></span>
                     </a>
-                    <div *ngIf="(role === 'Teacher' && course.teachers[0] ===user)">
-                      <button class="play-button"><i class="fas fa-edit lab"></i></button>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
                     </div>
-                    <div *ngIf="(role === 'Teacher' && course.teachers[0] ===user)">
-                      <button class="play-button"><i class="fas fa-trash deletelab"></i></button>
+                    <div *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="deleteLab(courseId,module.id,lab.id,module.name,lab.title)"><i class="fas fa-trash deletelab"></i></button>
                     </div>
 
                     <button disabled class="play-button" *ngIf="
@@ -181,33 +184,60 @@
                   So, wait for it then approve the entire course!</span>.
                   </div>
 
-                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2" *ngIf=" role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department'">
                     <button class="download-button"><i class="fas fa-download build"></i></button>
                     <button class="play-button"><i class="fas fa-check"></i></button>
                   </div>
                 </div>
+                <div class=" row mt-3"
+                     *ngIf="!lab.is_hosted_on_aws && course.status==='pending' && (role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10"> <span class="lab_note">Please be aware that by clicking on the "build" button,
+                  the lab course will be hosted first on AWS to test the content and it may take a 4 to 5 minutes to set up. Additionally,
+                 Once it's approved by the manager , a docker image will be pushed to a registry container and the student just have to pull that image and run it on his local machine on port <b>8888</b></span>.
+                  </div>
+
+                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
+                    <span *ngIf="!isLoading"><i class="fas fa-download build"></i></span>
+                    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button"  (click)="editLab(courseId,module.id,module.name,lab.id,lab)" ><i class="fas fa-edit lab"></i></button>
+                    </div>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="deleteLab(courseId,module.id,lab.id,module.name,lab.title)"><i class="fas fa-trash lab"></i></button>
+                    </div>
+                  </div>
+
+
+                </div>
                 <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='approved'">
-                  <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
+                  <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
                     <span class="lab_note">By clicking on the "Download" button, you will be able to download the Docker image of the course.
                   To run the course on your local machine, you just need to make sure that you have <b></b>  installed and
                   To run the course on your local machine, you just need to make sure that you have <b>Docker</b>  installed and
                     then run the container on port <b>8888 </b>. Best of luck!</span>.
                   </div>
-
-                  <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
-                    <button class="download-button" *ngIf="role==='Super_Admin'||
+                  <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                    <a class="play-button" *ngIf="role==='Super_Admin'||
                      (role==='Student'&& is_enrolled)
                      || (role==='Student_Teacher'&& this.user == teacher_id)
-                     || (role==='head_sub_department')
+                     || (role==='head_sub_department'&& this.user == teacher_id)
                      || (role==='head_super_department')
-                     ||(role==='Teacher'&& this.user == teacher_id)
-                     ||(role==='Student_Teacher'&& this.user == teacher_id)"><i class="fas fa-download"></i></button>
-                    <button disabled class="download-button" *ngIf="
-                     (role==='Teacher'&& user != teacher_id && !is_enrolled)
-                     ||(role==='Student_Teacher'&& user != teacher_id && !is_enrolled)
-                     || (role==='Student'&& !is_enrolled)"><i class="fas fa-download"></i>hh
-                    </button>
-                    <!--                  <span class="time"><i class="flaticon-lock"></i></span>-->
+                     ||(role==='Teacher'&& this.user == teacher_id)" (click)="startSession(course.id,lab.id)">
+                      <span *ngIf="!isLoadingStart"><i class="fas fa-download teacherplay"></i></span>
+
+                      <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"> </p></span>
+                    </a>
+                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
+                    </div>
+                    <div *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                      <button class="play-button" (click)="deleteLab(courseId,module.id,lab.id,module.name,lab.title)"><i class="fas fa-trash deletelab"></i></button>
+                    </div>
+
+                    <button disabled class="play-button" *ngIf="
+                     (role==='Teacher'&& user != teacher_id)
+                     || (role==='Student'&& !is_enrolled)
+                     || (role==='head_sub_department'&& user != teacher_id)"><i class="fas fa-play"></i></button>
                   </div>
                 </div>
               </mat-expansion-panel>

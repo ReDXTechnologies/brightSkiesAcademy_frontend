@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Course} from "../../../../core/models/course";
-import {Module, Video} from "../../../../core/models/Module";
+import {Lab, Module, Video} from "../../../../core/models/Module";
 import {DisplayCurriculumVideosComponent} from "../displayCurriculumVideos/displayCurriculumVideos.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../../../core/service/auth.service";
@@ -41,6 +41,7 @@ export class CoursecurriculamComponent implements OnInit {
               private studentService: StudentService,
               private courseService: CourseService,
               private snackBar: MatSnackBar,
+              private elementRef: ElementRef
 
   ) {
     this.role = this.authService.currentUserValue.role[0];
@@ -78,10 +79,38 @@ export class CoursecurriculamComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.checkEnrollement();
+  deleteModule( courseId: number, moduleId: any, moduleName : string ) {
+    const dialogRef = this.dialog.open(DeleteVideoLabDialogComponent, {
+      width: '20%',
+      data: {
+        deleteModule : true,
+        courseId: courseId,
+        moduleId: moduleId,
+        moduleName: moduleName,
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-danger',
+          'module deleted Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
+    });
 
   }
+
+  ngOnInit(): void {
+    this.checkEnrollement();
+   }
+  onInputFocusOut() {
+    this.isEditMode = false;  // set the flag to close the input
+  }
+
  checkEnrollement(){
     this.studentService.isEnrolled(this.courseId,this.user).subscribe(res=>{
       if(res ==='true'){
@@ -121,8 +150,33 @@ export class CoursecurriculamComponent implements OnInit {
           'center',
           'center'
         );
+        window.location.reload()
       }
-      window.location.reload()
+    });
+
+  }
+  editVideo( courseId: number, moduleId: any, videoId : number , video : Video) {
+    const dialogRef = this.dialog.open(AddVideoComponent, {
+      width: '50%',
+      data: {
+        edit : true,
+        courseId: courseId,
+        moduleId: moduleId,
+        videoId: videoId,
+        video : video
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'video edited Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
     });
 
   }
@@ -147,20 +201,83 @@ export class CoursecurriculamComponent implements OnInit {
           'center',
           'center'
         );
+        window.location.reload()
       }
-      window.location.reload()
     });
 
   }
   addLab( courseId: number, moduleId: any, moduleName : string) {
-    this.dialog.open(AddLabComponent, {
-      width: '50%',
+    const dialogRef = this.dialog.open(AddLabComponent, {
+      width: '60%',
       data: {
         courseId: courseId,
         moduleId: moduleId,
         moduleName: moduleName
       }
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'lab added Successfully...!!!',
+          'center',
+          'center'
+        );
+        // window.location.reload()
+      }
+    });
+  }
+  editLab( courseId: number, moduleId: any, moduleName:string,labId : number , lab : Lab) {
+    const dialogRef = this.dialog.open(AddLabComponent, {
+      width: '60%',
+      data: {
+        editLab : true,
+        courseId: courseId,
+        moduleId: moduleId,
+        moduleName : moduleName,
+        labId: labId,
+        lab : lab
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'lab edited Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
+    });
+
+  }
+  deleteLab( courseId: number, moduleId: any,  labId: any,moduleName : string ,labTitle : string) {
+    const dialogRef = this.dialog.open(DeleteVideoLabDialogComponent, {
+      width: '20%',
+      data: {
+        deleteLab : true,
+        courseId: courseId,
+        moduleId: moduleId,
+        labId: labId,
+        moduleName: moduleName,
+        labTitle : labTitle
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-danger',
+          'lab deleted Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
+    });
+
   }
   startSession(courseId: number,lab_id: number) {
     console.log(lab_id)

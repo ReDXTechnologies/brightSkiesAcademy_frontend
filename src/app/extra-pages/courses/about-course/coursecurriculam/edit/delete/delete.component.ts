@@ -15,6 +15,7 @@ export class DeleteVideoLabDialogComponent {
   ) {}
   loadingVideo = false
   loadingLab = false
+  loadingModule = false
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -23,14 +24,31 @@ export class DeleteVideoLabDialogComponent {
 
     if(this.data.deleteVideo){
       this.loadingVideo = true;
-
       this.courseService.deleteVideoInModule(this.data.courseId, this.data.moduleId,this.data.videoId).subscribe(res=> {
-        console.log('tttttttttttttttt',res)
       if(res){
         this.loadingVideo = false;
-
         this.dialogRef.close(res);
       }
+      });
+
+    }
+    if(this.data.deleteModule){
+      this.loadingModule = true;
+      this.courseService.deleteModule(this.data.courseId, this.data.moduleId).subscribe(res=> {
+        if(res){
+          this.loadingModule = false;
+          this.dialogRef.close(res);
+        }
+      });
+
+    }
+    if(this.data.deleteLab){
+      this.loadingLab = true;
+      this.courseService.deleteLabInModule(this.data.courseId, this.data.moduleId,this.data.labId).subscribe(res=> {
+        if(res){
+          this.loadingLab = false;
+          this.dialogRef.close(res);
+        }
       });
 
     }

@@ -99,8 +99,12 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
               <button mat-raised-button color="primary" [type]="submit" [disabled]="!labForm.valid"
-                      [mat-dialog-close]="1"
-                      (click)="confirmAdd()">Add lab course
+                      [class.auth-spinner]="loadingAdd"
+                      (click)="confirmAdd()" *ngIf="!data.editLab">Add lab course
+              </button>
+              <button mat-raised-button color="primary" [type]="submit" [disabled]="!labForm.valid"
+                      [class.auth-spinner]="loadingEdit"
+                      (click)="confirmEdit()" *ngIf="data.editLab">Edit lab course
               </button>
             </div>
           </div>

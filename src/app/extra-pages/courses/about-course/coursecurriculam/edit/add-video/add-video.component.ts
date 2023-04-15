@@ -15,8 +15,10 @@ export class AddVideoComponent implements OnInit {
   dialogTitle: string;
   videoForm: UntypedFormGroup;
   loading = false;
+  loadingEdit = false;
   submitted = false;
   // @ts-ignore
+  selectedVideo: File = null;
 
 
   constructor(
@@ -27,7 +29,13 @@ export class AddVideoComponent implements OnInit {
     private courseService : CourseService
   ) {
     // Set the defaults
-    this.dialogTitle = 'Add video to module ' + this.data.moduleName;
+    if(this.data.edit){
+      this.dialogTitle = 'Edit video to module ' + this.data.moduleName;
+
+    }else{
+      this.dialogTitle = 'Add video to module ' + this.data.moduleName;
+
+    }
 
     this.videoForm = this.createContactForm();
   }
@@ -49,11 +57,20 @@ export class AddVideoComponent implements OnInit {
   }
 
   createContactForm(): UntypedFormGroup {
-    return this.fb.group({
-      name: [''],
-      duration: [''],
-      video_file: [''],
-    });
+    if(this.data.edit){
+      return this.fb.group({
+        name: [this.data.video.name],
+        duration: [this.data.video.duration],
+        video_file: [this.data.video.video_file],
+      });
+    }else{
+      return this.fb.group({
+        name: [''],
+        duration: [''],
+        video_file: [''],
+      });
+    }
+
   }
 
 
@@ -83,6 +100,34 @@ export class AddVideoComponent implements OnInit {
 
         this.dialogRef.close(res);
       }
+      },
+      error => {
+        console.error(error);
+        // show error message
+      })
+
+  }
+  onVideoSelected(event) {
+    this.selectedVideo = <File>event.target.files[0];
+  }
+  public confirmEdit(): void {
+    this.submitted = true;
+    this.loadingEdit = true;
+
+    const formData = new FormData();
+    formData.append('name', this.videoForm.value.name);
+    formData.append('duration', this.videoForm.value.duration);
+    if (this.selectedVideo) {
+      formData.append('video_file',  this.selectedVideo);
+    }
+    formData.append('module',  this.data.moduleId);
+    this.courseService.editVideoInModule(this.data.courseId, formData , this.data.moduleId, this.data.videoId                                                   ).subscribe(res => {
+        if(res){
+          console.log(res)
+          this.loadingEdit = false;
+
+          this.dialogRef.close(res);
+        }
       },
       error => {
         console.error(error);

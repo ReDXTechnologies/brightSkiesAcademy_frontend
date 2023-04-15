@@ -45,7 +45,7 @@
                       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <label>Upload video </label>
                         <app-file-upload fileType="upload video "
-                                         formControlName="video_file"></app-file-upload>
+                                         formControlName="video_file" (change)="onVideoSelected($event)"></app-file-upload>
                       </div>
                     </div>
               </div>
@@ -59,7 +59,10 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
             <div class="example-button-row">
               <button mat-stroked-button color="primary" [type]="submit" [disabled]="!videoForm.valid"
-                      (click)="confirmAdd()" [class.auth-spinner]="loading" >Add video
+                      (click)="confirmAdd()" [class.auth-spinner]="loading" *ngIf="!data.edit">Add video
+              </button>
+              <button mat-stroked-button color="primary" [type]="submit" [disabled]="!videoForm.valid"
+                      (click)="confirmEdit()" [class.auth-spinner]="loadingEdit" *ngIf="data.edit">Edit video
               </button>
             </div>
           </div>
