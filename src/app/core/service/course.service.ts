@@ -89,7 +89,10 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/course/${courseId}/update?free=${free}&certificate=${certified}`;
     return this.httpClient.put<Course>(url, formData);
   }
-
+  addModule(courseId: number, formData : any) : Observable<Module> {
+    const url = `${this.baseUrl}/course/${courseId}/add_module`;
+    return this.httpClient.post<Module>(url, formData);
+  }
   updateModuleName(courseId: number, formData : any,moduleId:number) : Observable<Module> {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}`;
     return this.httpClient.put<Module>(url, formData);

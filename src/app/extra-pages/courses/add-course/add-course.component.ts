@@ -86,88 +86,6 @@ export class AddCourseComponent implements OnInit {
       modules: this.fb.array([this.createModule()]),
     });
 
-
-    this.activatedRoute.queryParams.subscribe(params => {
-      console.log(params.courseId)
-      if (params.edit && params.courseId) {
-        this.editMode = true;
-        this.courseId = params.courseId;
-        this.courseService.getCourseById(this.courseId).subscribe(course => {
-          this.course = course;
-          const modulesArray = this.fb.array(course.modules.map(module => {
-            const videosArray = this.fb.array(module.videos.map(video => {
-              return this.fb.group({
-                name: video.name,
-                duration: video.duration,
-                video_file: video.video_file
-              });
-            }));
-            const labsArray = this.fb.array(module.labs.map(lab => {
-              return this.fb.group({
-                title: lab.title,
-                description: lab.description,
-                session_duration: lab.session_duration,
-                nb_sessions: lab.nb_sessions,
-                vm_characteristics: lab.vm_characteristics,
-                labFiles: lab.labFiles,
-                libraries_requirements: lab.libraries_requirements
-              });
-            }));
-
-            return this.fb.group({
-              name: module.name,
-              videos: videosArray,
-              labs: labsArray
-            });
-          }));
-          const moduleValues = modulesArray.controls.map(module => {
-            return {
-              name: module.get('name').value,
-              videos: (<FormArray>module.get('videos')).controls.map(videoControl => {
-                return {
-                  name: videoControl.get('name').value,
-                  duration: videoControl.get('duration').value,
-                  video_file: videoControl.get('video_file').value
-                }
-              }),
-              labs: (<FormArray>module.get('labs')).controls.map(labControl => {
-                return {
-                  title: labControl.get('title').value,
-                  description: labControl.get('description').value,
-                  session_duration: labControl.get('session_duration').value,
-                  nb_sessions: labControl.get('nb_sessions').value,
-                  vm_characteristics: labControl.get('vm_characteristics').value,
-                  labFiles: labControl.get('labFiles').value,
-                  libraries_requirements: labControl.get('libraries_requirements').value
-                }
-              })
-            };
-          });
-          console.log(moduleValues)
-
-          this.courseForm.patchValue({
-            title: course.title,
-            specialty: course.speciality,
-            nbr_of_lessons: course.nbr_of_lessons,
-            description: course.description,
-            course_id: course.id,
-            what_you_will_learn: course.what_you_will_learn,
-            requirements: course.requirements,
-            price: course.price,
-            level: course.level,
-            plan: course.free ? 'free' : 'paid',
-            certified: course.certificate ? 'yes' : 'no',
-            workload: course.workload,
-            slides: this.editMode ? null : course.labFiles,
-            image: this.editMode ? null : course.image,
-            modules: moduleValues
-          });
-
-//
-          console.log('222222222222',this.courseForm.value)
-
-        })
-      }})
   }
 
 
@@ -332,9 +250,7 @@ export class AddCourseComponent implements OnInit {
     });
   }
 
-  onLabFilesSelected(event) {
-    this.selectedLabFiles = event.target.files[0];
-  }
+
 
   onImageSelected(event) {
     this.selectedImage = <File>event.target.files[0];
@@ -343,7 +259,9 @@ export class AddCourseComponent implements OnInit {
   onSlidesSelected(event) {
     this.selectedSlides = <File>event.target.files[0];
   }
-
+  onLabFilesSelected(event) {
+    this.selectedLabFiles = event.target.files[0];
+  }
   onLibrariesRequirementsSelected(event) {
     this.selectedLibrariesRequirements = <File>event.target.files[0];
   }
@@ -387,9 +305,6 @@ export class AddCourseComponent implements OnInit {
     formData.append('workload', this.courseForm.get('workload').value);
     formData.append('course_id ', this.courseForm.get('course_id').value);
 
-    // if (this.selectedLabFiles ) {
-    //   formData.append('labFiles', this.selectedLabFiles, this.selectedLabFiles.name);
-    // }
     if (this.selectedSlides) {
       formData.append('slides', this.selectedSlides, this.selectedSlides.name);
     }

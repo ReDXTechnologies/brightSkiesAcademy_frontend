@@ -13,6 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {EditCourseModuleComponent} from "./edit/edit-course-overview/form-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Course} from "../../../../core/models/course";
+import {AddNewModule} from "./edit/add-new-module/add-new-module.component";
 
 @Component({
   selector: 'app-about-course',
@@ -96,10 +97,6 @@ courseId : any
     ;
   }
 
-  // checkEnrollment(courseId: number, studentId: string) {
-  //   this.studentService.isEnrolled(courseId, studentId)
-  //     .subscribe(response => this.enrolled = response.enrolled);
-  // }
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
       duration: 2000,
@@ -120,13 +117,41 @@ courseId : any
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('rrrrrrrr', result)
         this.courseService.updateCourse(this.course.id, result.formData, this.course.free, this.course.certificate)
           .subscribe((res) => {
             console.log(res)
             window.location.reload()
           })
       }
+    });
+  }
+
+  addModule() {
+
+    const dialogRef = this.dialog.open(AddNewModule, {
+      width: '70%',
+      data: {
+        course: this.course,
+        action: 'edit',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'module added Successfully...!!!',
+          'center',
+          'center'
+        );
+        this.activatedRoute.queryParams.subscribe(params => {
+          this.courseId = params.courseId
+          this.courseService.getCourseById(params.courseId).subscribe(course => {
+              this.course = course
+            }
+          )
+
+        })
+   }
     });
   }
 }

@@ -50,6 +50,7 @@ import {AddNewModule} from "./courses/about-course/LabCourse/edit/add-new-module
 import {AddVideoComponent} from "./courses/about-course/coursecurriculam/edit/add-video/add-video.component";
 import {AddLabComponent} from "./courses/about-course/coursecurriculam/edit/add-lab/add-lab.component";
 import {DeleteVideoLabDialogComponent} from "./courses/about-course/coursecurriculam/edit/delete/delete.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -106,6 +107,7 @@ import {DeleteVideoLabDialogComponent} from "./courses/about-course/coursecurric
         CdkDragHandle,
         CdkDrag,
         MatDialogModule,
+        MatTooltipModule,
 
 
     ],

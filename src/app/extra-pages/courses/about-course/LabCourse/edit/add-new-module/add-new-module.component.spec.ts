@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { EditCourseModuleComponent } from './add-new-module.component';
+import { AddNewModule } from './add-new-module.component';
 
 describe('FormDialogComponent', () => {
-  let component: EditCourseModuleComponent;
-  let fixture: ComponentFixture<EditCourseModuleComponent>;
+  let component: AddNewModule;
+  let fixture: ComponentFixture<AddNewModule>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditCourseModuleComponent ]
+      declarations: [ AddNewModule ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditCourseModuleComponent);
+    fixture = TestBed.createComponent(AddNewModule);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

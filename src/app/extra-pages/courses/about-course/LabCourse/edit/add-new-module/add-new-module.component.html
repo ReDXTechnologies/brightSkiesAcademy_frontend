@@ -1,0 +1,218 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <img [src]='course.image' class="teacher-image" alt="avatar">
+        <div class="modal-about">
+          {{dialogTitle}}
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="moduleForm">
+      <mat-form-field>
+        <input matInput placeholder="Module Name" formControlName="name">
+      </mat-form-field>
+      <mat-vertical-stepper #stepper>
+        <mat-step [stepControl]="moduleForm" formArrayName="videos">
+          <ng-template matStepLabel>Add tutorials</ng-template>
+          <div class="card-body">
+            <div class="task-module">
+              <div class="task-header">
+                <div class="task-title">
+                  <h2>Tutorials</h2>
+                  <h5>{{getVideosControls().length - 1}} Total tutorial</h5>
+                </div>
+                <div class="header-button">
+                  <a href="javascript:void(0)" (click)="addNewTask(sidenav)"><i class="fas  fa-file-video"></i></a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <mat-sidenav-container class="task-container">
+                    <mat-sidenav #sidenav [mode]="mode.value" position="end"
+                                 [formGroupName]="0">
+                      <div class="header m-3">
+                        <h4 class="header-title">add video</h4>
+                        <div class="header-close m-l-0">
+                          <button mat-icon-button *ngIf="isNewEvent"
+                                  (click)="add_video(selectedVideoIndex)"
+                                  matTooltip="Save Task">
+                            <mat-icon>save</mat-icon>
+                          </button>
+                          <button mat-icon-button *ngIf="!isNewEvent"
+                                  matTooltip="edit Task">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button (click)="closeSlider(sidenav)">
+                            <mat-icon>close</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="row  m-4">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput formControlName="name">
+                            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
+                              turned_in_not
+                            </mat-icon>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Duration</mat-label>
+                            <input matInput formControlName="duration">
+                            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>
+                              access_time
+
+                            </mat-icon>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row m-2">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                          <label>Upload video </label>
+                          <app-file-upload fileType="upload video "
+                                           formControlName="video_file"></app-file-upload>
+                        </div>
+                      </div>
+                    </mat-sidenav>
+                    <mat-sidenav-content>
+                      <ng-scrollbar style="height: 330px" visibility="hover">
+                        <div cdkDropList class="task-list" (cdkDropListDropped)="drop($event)">
+                          <div class="row mt-3" *ngFor="let video of videos" cdkDrag>
+                            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12">
+                              <div class="task-handle m-r-20" cdkDragHandle>
+                                <mat-icon aria-hidden="false">drag_indicator</mat-icon>
+                              </div>
+                            </div>
+                            <div
+                              class="task-custom-placeholder col-xl-4 col-lg-4 col-md-12 col-sm-12 "
+                              *cdkDragPlaceholder></div>
+                            <div matTooltip="Title" class="task-name">
+                              {{video.name}}</div>
+                            <div class="task-video-file col-xl-5 col-lg-5 col-md-12 col-sm-12 "
+                                 matTooltip="Due Date">{{video.video_file.name}}</div>
+                            <div class="task-duration col-xl-2 col-lg-2 col-md-12 col-sm-12 "
+                                 matTooltip="Due Date">{{video.duration}} min
+                              <mat-icon class="duration-icon " aria-hidden="false">access_time
+                              </mat-icon>
+                            </div>
+
+                          </div>
+                        </div>
+                      </ng-scrollbar>
+                    </mat-sidenav-content>
+                  </mat-sidenav-container>
+                  <button mat-raised-button matStepperNext color="primary">Next</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="moduleForm" formArrayName="labs">
+          <ng-template matStepLabel>Add Labs</ng-template>
+          <div *ngFor="let lab of getLabsControls().controls; let k=index">
+            <div class="row mt-20" formGroupName="{{k}}">
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width mb-3" appearance="fill">
+                  <mat-label>Lab title</mat-label>
+                  <input matInput formControlName="title" >
+                </mat-form-field>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width mb-3" appearance="fill">
+                  <mat-label>Lab description</mat-label>
+                  <input matInput formControlName="description" >
+                </mat-form-field>
+              </div>
+            </div>
+            <app-bottom-sheet [file]="true"></app-bottom-sheet>
+            <div class="row" formGroupName="{{k}}">
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
+                <label>Upload the zip labs files</label>
+                <app-file-upload fileType="lab files " (change)="onLabFilesSelected($event)"
+                                 formControlName="labFiles"></app-file-upload>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
+                <label>Upload libraries requirements txt file</label>
+                <app-file-upload fileType="libraries"
+                                 (change)="onLibrariesRequirementsSelected($event)"
+                                 formControlName="libraries_requirements"></app-file-upload>
+              </div>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-5">
+                <label>Upload packages requirements txt file</label>
+                <app-file-upload fileType="packages"
+                                 (change)="onPackagesRequirementsSelected($event)"
+                                 formControlName="packages_requirements"></app-file-upload>
+              </div>
+            </div>
+            <div class="row" formGroupName="{{k}}">
+              <div class="col-12 mb-3 ml-20">
+                <h4>Select the hosting platform:</h4>
+                <mat-radio-group formControlName="hosting_platform">
+                  <mat-radio-button value="local">Hands-on lab on local machine</mat-radio-button>
+                  <mat-radio-button value="aws" class="ml-30">Hosted on AWS</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div class="row" formGroupName="{{k}}"
+                 *ngIf="getLabsControls().controls[k].get('hosting_platform').value === 'aws'">
+              <app-bottom-sheet [file]="false"></app-bottom-sheet>
+
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width mb-3" appearance="fill">
+                  <mat-label>Instance type</mat-label>
+                  <input matInput formControlName="vm_characteristics" >
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width mb-3" appearance="fill">
+                  <mat-label>Session duration (hours)</mat-label>
+                  <input matInput formControlName="session_duration" type="number" >
+                </mat-form-field>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width mb-3" appearance="fill">
+                  <mat-label>Number of trials</mat-label>
+                  <input matInput formControlName="nb_sessions" >
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="mt-5" *ngIf="getLabsControls().length === k + 1">
+              <div class="button-container">
+                <a href="javascript:void(0)" (click)="addLab()"><i
+                  class="fas fa-plus add-lab-icon"></i></a>
+                <a href="javascript:void(0)" (click)="removeLab(k)"><i
+                  class="fas fa-trash-alt delete-lab-icon"></i></a>
+
+              </div>
+
+
+            </div>
+
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+      <div class="row text-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row ">
+            <button  mat-stroked-button color="primary" [disabled]="!moduleForm.valid"
+                     [class.auth-spinner]="loading" (click)="confirm()"> add module
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

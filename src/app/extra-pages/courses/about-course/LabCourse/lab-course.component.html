@@ -98,7 +98,7 @@
                 </ul>
               </div>
               <div class=" col-2" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
-                <button  (click)="editCall()"><i class="fas fa-plus"></i></button>
+                <button  (click)="addModule()"><i class="fas fa-plus"></i></button>
               </div>
             </div>
             <app-coursecurriculam [courseId]="courseId" [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursecurriculam>
