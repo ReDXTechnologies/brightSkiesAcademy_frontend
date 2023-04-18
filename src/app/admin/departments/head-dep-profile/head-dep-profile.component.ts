@@ -12,6 +12,7 @@ import {Department} from "../../../core/models/department";
 import {Router} from "@angular/router";
 import {ReviewService} from "../../../core/service/review.service";
 import {Review} from "../../../core/models/review";
+import {StudentService} from "../../../core/service/student.service";
 
 @Component({
   selector: 'app-profile',
@@ -38,12 +39,16 @@ export class HeadDepProfileComponent implements OnInit {
   SuperAdmin: string;
   reviews: Review[];
   teacher: Teacher;
+  courses: Course[]
+
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
               private router: Router,
               private reviewService: ReviewService,
+              private studentService: StudentService,
+
               private adminService: AdminService) {
     this.role = this.authService.currentUserValue.role[0];
 
@@ -55,7 +60,13 @@ export class HeadDepProfileComponent implements OnInit {
 
     this.getHeadDetails(this.user_id);
     this.getHeadDeepDetails();
+    this.getStudentCourses(this.user_id);
 
+  }
+  getStudentCourses(studentId: string) {
+    this.studentService.getStudentCourses(studentId).subscribe(res => {
+      this.courses = res;
+    })
   }
   viewDetails(course: Course) {
     const teacher_id = course.teachers[0];
@@ -114,7 +125,7 @@ export class HeadDepProfileComponent implements OnInit {
   }
   public getHeadDeepDetails(): void {
     this.adminService.getSuperAdminDetails().subscribe(superAdmin=>{
-      this.SuperAdmin = superAdmin[0].firstName+' '+superAdmin[0].lastName
+      this.SuperAdmin = superAdmin[0]?.firstName+' '+superAdmin[0]?.lastName
     })
     if (this.role === 'head_super_department') {
       this.departmentService.getSuperDepByUserId(this.user_id).subscribe(value => {
