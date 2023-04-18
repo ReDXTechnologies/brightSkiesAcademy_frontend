@@ -6,7 +6,7 @@ import { Review } from '../models/review';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
-import {Lab, Module, Video} from "../models/Module";
+import {Lab, Module, Quizz, Video} from "../models/Module";
 
 @Injectable({
   providedIn: 'root'
@@ -127,6 +127,32 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   }
   deleteLabInModule(courseId: number,moduleId:number,labId:number) {
     const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/deleteLab/${labId}`;
+    return this.httpClient.delete(url);
+  }
+
+  // quizz cruds
+  addQuizzInModule( quizz : any,moduleId:number) : Observable<Quizz> {
+    const url = `${this.baseUrl}/module/${moduleId}/quizz/create`;
+    return this.httpClient.post<Quizz>(url, quizz);
+  }
+  getQuizzInModule( moduleId:number) : Observable<Quizz> {
+    const url = `${this.baseUrl}/module/${moduleId}/quizz`;
+    return this.httpClient.get<Quizz>(url);
+  }
+  editQuizzInModule( quizz : any,moduleId:number,QuizzId:number) : Observable<Quizz> {
+    const url = `${this.baseUrl}/module/${moduleId}/quizz/${QuizzId}/update`;
+    return this.httpClient.put<Quizz>(url, quizz);
+  }
+  deleteQuizzInModule( moduleId:number,QuizzId:number)  {
+    const url = `${this.baseUrl}/module/${moduleId}/quizz/${QuizzId}/delete`;
+    return this.httpClient.delete(url);
+  }
+  deleteQuestionInQuizzInModule( moduleId:number,QuizzId:number,QuestionId:number)  {
+    const url = `${this.baseUrl}/quizz/${QuizzId}/delete_question/${QuestionId}`;
+    return this.httpClient.delete(url);
+  }
+  deleteOptionInQuestionInQuizzInModule(QuizzId:number,QuestionId:number,OptionId:number)  {
+    const url = `${this.baseUrl}/quizz/${QuizzId}/question/${QuestionId}/delete_option/${OptionId}`;
     return this.httpClient.delete(url);
   }
 

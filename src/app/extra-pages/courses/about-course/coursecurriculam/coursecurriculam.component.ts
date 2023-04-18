@@ -14,6 +14,8 @@ import {AddVideoComponent} from "./edit/add-video/add-video.component";
 import {AddLabComponent} from "./edit/add-lab/add-lab.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DeleteVideoLabDialogComponent} from "./edit/delete/delete.component";
+import {AddQuizzComponent} from "./edit/add-quizz/add-quizz.component";
+import {StartQuizzComponent} from "./start-quizz/start-quizz.component";
 
 @Component({
   selector: 'app-coursecurriculam',
@@ -35,6 +37,7 @@ export class CoursecurriculamComponent implements OnInit {
   isLoading = false;
   isLoadingStart = false;
   is_enrolled = false
+  isLoadingQuizz= false
   constructor(public dialog: MatDialog, private authService: AuthService,
               private adminService: AdminService,
               private spinner: NgxSpinnerService,
@@ -271,6 +274,100 @@ export class CoursecurriculamComponent implements OnInit {
         this.showNotification(
           'snackbar-danger',
           'lab deleted Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
+    });
+
+  }
+
+  addQuizz( courseId: number, moduleId: any, moduleName : string) {
+    const dialogRef = this.dialog.open(AddQuizzComponent, {
+      width: '60%',
+      data: {
+        courseId: courseId,
+        moduleId: moduleId,
+        moduleName: moduleName
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'quizz added Successfully...!!!',
+          'center',
+          'center'
+        );
+        // window.location.reload()
+      }
+    });
+  }
+  editQuizz( quizzId: number, moduleId: any, moduleName : string, quizzName : string , quizz: any) {
+    const dialogRef = this.dialog.open(AddQuizzComponent, {
+      width: '60%',
+      data: {
+        editQuizz:true,
+        quizzId: quizzId,
+        moduleId: moduleId,
+        moduleName: moduleName,
+        quizzName: quizzName,
+        quizz: quizz,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'quizz edited Successfully...!!!',
+          'center',
+          'center'
+        );
+        window.location.reload()
+      }
+    });
+  }
+  startQuizz( courseId: number, moduleId: any, quizzName : string ,quizz : any) {
+    const dialogRef = this.dialog.open(StartQuizzComponent, {
+      width: '50%',
+      data: {
+        courseId: courseId,
+        moduleId: moduleId,
+        quizzName: quizzName,
+        quizz : quizz
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-success',
+          'quizz added Successfully...!!!',
+          'center',
+          'center'
+        );
+        // window.location.reload()
+      }
+    });
+  }
+
+  deleteQuizz(moduleId: any,  quizzId: any,moduleName : string ,quizzTitle : string) {
+    const dialogRef = this.dialog.open(DeleteVideoLabDialogComponent, {
+      width: '20%',
+      data: {
+        deleteQuizz: true,
+        moduleId: moduleId,
+        quizzId: quizzId,
+        moduleName: moduleName,
+        quizzTitle : quizzTitle
+      }
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.showNotification(
+          'snackbar-danger',
+          'quizz deleted Successfully...!!!',
           'center',
           'center'
         );

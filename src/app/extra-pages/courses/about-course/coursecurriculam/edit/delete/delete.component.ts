@@ -16,6 +16,7 @@ export class DeleteVideoLabDialogComponent {
   loadingVideo = false
   loadingLab = false
   loadingModule = false
+  loadingQuizz = false
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -47,6 +48,16 @@ export class DeleteVideoLabDialogComponent {
       this.courseService.deleteLabInModule(this.data.courseId, this.data.moduleId,this.data.labId).subscribe(res=> {
         if(res){
           this.loadingLab = false;
+          this.dialogRef.close(res);
+        }
+      });
+
+    }
+    if(this.data.deleteQuizz){
+      this.loadingQuizz = true;
+      this.courseService.deleteQuizzInModule(this.data.moduleId,this.data.quizzId).subscribe(res=> {
+        if(res){
+          this.loadingQuizz = false;
           this.dialogRef.close(res);
         }
       });

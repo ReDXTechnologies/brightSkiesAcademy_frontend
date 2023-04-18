@@ -51,6 +51,10 @@ import {AddVideoComponent} from "./courses/about-course/coursecurriculam/edit/ad
 import {AddLabComponent} from "./courses/about-course/coursecurriculam/edit/add-lab/add-lab.component";
 import {DeleteVideoLabDialogComponent} from "./courses/about-course/coursecurriculam/edit/delete/delete.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ChangeBgDirective} from "./courses/add-course/change-bg.directives";
+import {AddQuizzComponent} from "./courses/about-course/coursecurriculam/edit/add-quizz/add-quizz.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {StartQuizzComponent} from "./courses/about-course/coursecurriculam/start-quizz/start-quizz.component";
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -70,46 +74,50 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     DisplayCurriculumVideosComponent,
     EditCourseModuleComponent,
     AddNewModule,
+    AddQuizzComponent,
     AddVideoComponent,
     AddLabComponent,
-    DeleteVideoLabDialogComponent
+    DeleteVideoLabDialogComponent,
+    ChangeBgDirective,
+    StartQuizzComponent
 
 
   ],
-    imports: [
-        CommonModule,
-        ExtraPagesRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatTabsModule,
-        ComponentsModule,
-        MatOptionModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatRadioModule,
-        MatMenuModule,
-        MatProgressBarModule,
-        MatCardModule,
-        FileUploadModule,
-        MatSnackBarModule,
-        MatStepperModule,
-        MatListModule,
-        MatBottomSheetModule,
-        MatSidenavModule,
-        NgScrollbarModule,
-        CdkDropList,
-        CdkDragHandle,
-        CdkDrag,
-        MatDialogModule,
-        MatTooltipModule,
+  imports: [
+    CommonModule,
+    ExtraPagesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    ComponentsModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatCardModule,
+    FileUploadModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatListModule,
+    MatBottomSheetModule,
+    MatSidenavModule,
+    NgScrollbarModule,
+    CdkDropList,
+    CdkDragHandle,
+    CdkDrag,
+    MatDialogModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
 
 
-    ],
+  ],
 })
 export class ExtraPagesModule {}

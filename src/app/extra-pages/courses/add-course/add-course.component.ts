@@ -20,6 +20,7 @@ import {
 } from "../../../admin/pending-approval/pending-accounts/affect-Department/select-department.component";
 import {Teacher} from "../../../core/models/teacher";
 import {TeacherService} from "../../../core/service/teacher.service";
+import {interval} from "rxjs";
 
 @Component({
   selector: 'app-add-course',
@@ -88,10 +89,6 @@ export class AddCourseComponent implements OnInit {
 
   }
 
-
-  selectVideo(index: number) {
-    this.selectedVideoIndex = index;
-  }
 
 
   toggle(video: { done: boolean }, nav: MatSidenav) {
@@ -165,13 +162,12 @@ export class AddCourseComponent implements OnInit {
         }
       })
     }
-  }
 
+  }
 
   isFormValid() {
     return this.courseForm && this.courseForm.valid;
   }
-
   createModule(): FormGroup {
     return this.fb.group({
       name: ['', [Validators.required]],
@@ -179,7 +175,6 @@ export class AddCourseComponent implements OnInit {
       labs: this.fb.array([this.createLab()]),
     });
   }
-
   createInitialVideo(): FormGroup {
     return this.fb.group({
       name: ['', [Validators.required]],
@@ -187,7 +182,6 @@ export class AddCourseComponent implements OnInit {
       video_file: ['', [Validators.required]],
     });
   }
-
   createVideo(value: any): FormGroup {
     return this.fb.group({
       name: [value.name, [Validators.required]],
@@ -218,7 +212,10 @@ export class AddCourseComponent implements OnInit {
     this.videos.push([]);
 
   }
-
+  removeModule(index: number) {
+    const modules = this.courseForm.get('modules') as FormArray;
+    modules.removeAt(index);
+  }
   addLab(moduleIndex: number): void {
     const labs = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('labs') as FormArray;
     labs.push(this.createLab());
@@ -226,15 +223,6 @@ export class AddCourseComponent implements OnInit {
 
   }
 
-  removeModule(index: number) {
-    const modules = this.courseForm.get('modules') as FormArray;
-    modules.removeAt(index);
-  }
-
-  removeVideo(moduleIndex: number, index: number) {
-    const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
-    videos.removeAt(index);
-  }
 
   removeLab(moduleIndex: number, index: number) {
     const labs = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('labs') as FormArray;
@@ -249,8 +237,6 @@ export class AddCourseComponent implements OnInit {
       panelClass: colorName,
     });
   }
-
-
 
   onImageSelected(event) {
     this.selectedImage = <File>event.target.files[0];
@@ -287,6 +273,8 @@ export class AddCourseComponent implements OnInit {
   navigateToCoursesTab(tabId: string) {
     this.router.navigateByUrl('/shared/courses#' + tabId);
   }
+
+
 
   onSubmit() {
     this.submitted = true;

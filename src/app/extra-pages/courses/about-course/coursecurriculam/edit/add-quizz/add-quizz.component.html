@@ -1,0 +1,93 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          {{dialogTitle}}
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+
+    <div class="quiz-container">
+      <mat-horizontal-stepper #stepper>
+        <mat-step [stepControl]="quizForm">
+          <ng-template matStepLabel>Quiz Info</ng-template>
+          <form [formGroup]="quizForm">
+            <mat-form-field style="width: 90% ; margin-left: 10px; margin-right: 10px">
+              <mat-label>Quiz Name</mat-label>
+              <input matInput type="text" id="name" formControlName="name">
+            </mat-form-field>
+          </form>
+          <div class="button-container">
+            <button mat-raised-button color="primary" *ngIf="stepper.selectedIndex === 0" (click)="stepper.next()">Next</button>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Questions</ng-template>
+          <form [formGroup]="quizForm">
+            <div formArrayName="questions" style="margin-left: 10px ">
+              <div *ngFor="let question of questionControls; let i=index" [formGroupName]="i" class="question-container">
+                <mat-form-field  style="width: 90%">
+                  <mat-label>Question {{i + 1}}</mat-label>
+                  <input matInput type="text" formControlName="text">
+                </mat-form-field>
+                <button mat-icon-button color="warn" *ngIf="quizForm.controls.questions.length > 1&& !this.data.editQuizz" (click)="onRemoveQuestion(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" *ngIf="quizForm.controls.questions.length > 1 && this.data.editQuizz" (click)="deleteQuestion(question.value.id,i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <div formArrayName="options" style="margin-left: 30px ">
+                  <div *ngFor="let option of optionsControls(i).controls; let j=index" [formGroupName]="j" >
+                    <mat-form-field style="width: 75%">
+                      <mat-label>Option {{j + 1}}</mat-label>
+                      <input matInput type="text" formControlName="text" >
+                    </mat-form-field>
+                    <mat-checkbox formControlName="is_correct">Correct</mat-checkbox>
+                    <button mat-icon-button color="warn" *ngIf="optionsControls(i).controls.length > 1 && !this.data.editQuizz" (click)="onRemoveOption(i, j)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" *ngIf="optionsControls(i).controls.length > 1 && this.data.editQuizz" (click)="deleteOption(question.value.id,option.value.id,i,j)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                  <button mat-button color="primary" (click)="onAddOption(i)">Add Option</button>
+                </div>
+
+              </div>
+
+              <button mat-stroked-button color="warn" (click)="onAddQuestion()">Add Question</button>
+            </div>
+          </form>
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="stepper.previous()" *ngIf="stepper.selectedIndex !== 0">Back</button>
+            <button mat-raised-button color="primary" *ngIf="stepper.selectedIndex === 1" [disabled]="!quizForm.controls.questions.valid" (click)="stepper.next()">Next</button>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Submit Quiz</ng-template>
+          <div class="button-container">
+            <button mat-raised-button color="primary" class="mat-horizontal-stepper" *ngIf="stepper.selectedIndex !== 0" (click)="stepper.previous()">Back</button>
+
+            <form [formGroup]="quizForm">
+              <button mat-raised-button *ngIf="!this.data.editQuizz" color="primary" type="submit" [disabled]="!quizForm.valid" [class.auth-spinner]="loadingAdd" (click)="onSubmit()">Submit Quiz</button>
+              <button mat-raised-button *ngIf="this.data.editQuizz" color="primary" type="submit" [disabled]="!quizForm.valid" [class.auth-spinner]="loadingEdit" (click)="onSubmit()">Edit Quiz</button>
+            </form>
+          </div>
+
+
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+
+
+  </div>
+</div>

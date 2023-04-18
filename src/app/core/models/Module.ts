@@ -9,6 +9,7 @@ export class Module {
   num_labs: number;
   videos : Video[];
   labs : Lab[];
+  quizzes : Quizz[];
 }
 
 export class Video {
@@ -31,4 +32,23 @@ export class Lab {
   session_duration: string;
   is_hosted_on_aws: boolean;
   module : Module;
+}
+export class Quizz {
+  id: number;
+  name: string;
+  questions: Question[];
+  module : Module;
+
+}
+export class Question {
+  id: number;
+  text: string;
+  options: Option[];
+
+}
+export class Option {
+  id: number;
+  text: string;
+  is_correct: boolean;
+
 }

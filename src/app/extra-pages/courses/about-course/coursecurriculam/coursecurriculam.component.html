@@ -21,6 +21,7 @@
             <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs</span>&nbsp;
             <button style="color: #0b7ef1 " *ngIf="!isEditMode && user == teacher_id" (click)="addVideo(courseId,module.id,module.name)"><i class="fas fa-file-video "></i></button>
             <button style="color: #f1840b " *ngIf="!isEditMode && user == teacher_id" (click)="addLab(courseId,module.id,module.name)"><i class="fas fa-file-code"></i></button>
+            <button style="color: #484747 " *ngIf="!isEditMode && user == teacher_id" (click)="addQuizz(courseId,module.id,module.name)"><i class="fas fa-question-circle"></i></button>
             <button style="color: #078f28" *ngIf="(!isEditMode || editingModuleIndex !== i) && user == teacher_id" (click)="editName(i)"><i class="fas fa-edit"></i></button>
             <button style="color: #d00e32 " *ngIf="!isEditMode && user == teacher_id" (click)="deleteModule(courseId,module.id,module.name)" ><i class="fas fa-trash "></i></button>
           </span>
@@ -60,6 +61,45 @@
                 </div>
                 <div class="course-curriculum-meta">
                   <span>{{video.duration}}</span>
+                  <span class="time"> <i class="flaticon-lock"></i></span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div  class="accordion-collapse collapse show mt-2"
+               aria-labelledby="headingOne" data-bs-parent="#accordionExample"
+               *ngFor="let quizz of module.quizzes; let j = index">
+            <div class="enrolled"
+                 *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' && user === teacher_id) || ( role ==='Student_Teacher' && user === teacher_id)) || course.status==='pending'"
+                 >
+              <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+                <div class="course-curriculum-info" >
+                  <i class="fas fa-question-circle"></i>
+
+                  <h4>Quizz : {{quizz.name}}</h4>
+                </div>
+                <div class="course-curriculum-meta" >
+<!--                  <span>{{video.duration}}</span>-->
+                  <span (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
+<!--                  <span *ngIf="isLoadingQuizz"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>-->
+                  <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editQuizz(quizz.id,module.id,module.name,quizz.name,quizz)"><i class="fas fa-edit"></i></button>
+                  <button style="color: #d00e32 " *ngIf="user == teacher_id" (click)="deleteQuizz(module.id,quizz.id,module.name,quizz.name)"><i class="fas fa-trash "></i></button>
+
+
+                </div>
+              </div>
+            </div>
+            <div class="accordion-body"
+                 *ngIf="!is_enrolled && role !=='Super_Admin' && user != teacher_id && course.status==='approved'">
+              <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
+                <div class="course-curriculum-info">
+                  <i class="flaticon-youtube"></i>
+
+                  <h4>{{quizz.name}}</h4>
+                </div>
+                <div class="course-curriculum-meta">
+<!--                  <span>{{video.duration}}</span>-->
                   <span class="time"> <i class="flaticon-lock"></i></span>
                 </div>
 

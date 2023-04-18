@@ -1,0 +1,122 @@
+.question-container
+  margin-bottom: 20px
+
+
+//.option-container
+//  display: flex
+//  align-items: center
+//  width: 80%
+
+
+.button-container
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-top: 30px
+
+
+.auth-spinner
+  position: relative
+
+
+.auth-spinner:after
+  content: ""
+  display: block
+  width: 15px
+  height: 15px
+  margin: -8px 0 0 -8px
+  border-radius: 50%
+  border: 2px solid rgba(255, 255, 255, 0.3)
+  border-top-color: #ffffff
+  animation: auth-spinner-animation 1s linear infinite
+  position: absolute
+  top: 50%
+  left: 50%
+
+
+
+
+/* Adjust stepper styles */
+.mat-horizontal-stepper-header-container
+  background-color: #fff
+  box-shadow: none
+
+
+.mat-horizontal-stepper-header
+  justify-content: center
+
+
+.mat-horizontal-stepper-header .mat-step-label
+  font-size: 16px
+
+
+.mat-horizontal-stepper-header .mat-step-icon
+  background-color: transparent
+  border: 1px solid #000
+  color: #000
+
+
+.mat-horizontal-stepper-header .mat-step-icon.mat-step-icon-selected
+  background-color: #000
+  color: #fff
+  border: none
+
+
+.mat-horizontal-stepper-header .mat-step-icon::after
+  color: #000
+
+
+.mat-horizontal-stepper .mat-horizontal-stepper-label
+  font-size: 16px
+
+
+/* Adjust form field styles */
+.mat-form-field
+  width: 100%
+
+
+/* Adjust button styles */
+button.mat-button,
+button.mat-raised-button,
+button.mat-icon-button
+  margin-right: 10px
+
+
+.button-container .mat-button-wrapper
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 36px
+  width: 100px
+
+
+/* Add next and back buttons */
+.mat-horizontal-stepper-header .mat-stepper-next,
+.mat-horizontal-stepper-header .mat-stepper-previous
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: #000
+  color: #fff
+  height: 36px
+  width: 100px
+  border-radius: 4px
+  cursor: pointer
+  transition: all 0.3s ease
+
+
+.mat-horizontal-stepper-header .mat-stepper-next:hover,
+.mat-horizontal-stepper-header .mat-stepper-previous:hover
+  background-color: #fff
+  color: #000
+  border: 1px solid #000
+
+
+.mat-horizontal-stepper-header .mat-stepper-next
+  margin-left: auto
+
+
+.mat-horizontal-stepper-header .mat-stepper-previous
+  margin-right: auto
+
+
