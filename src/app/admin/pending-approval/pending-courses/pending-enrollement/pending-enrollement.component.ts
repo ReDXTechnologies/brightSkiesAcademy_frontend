@@ -129,13 +129,8 @@ role: any
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
             console.log(res)
           if(res[0]!=='there is not enough budget to approve the course'){
-            console.log('hi')
 
-            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-              (x) => x.user.id === this.id
-            );
-            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-            this.refreshTable();
+            this.loadData();
             this.showNotification(
               'snackbar-success',
               res,
