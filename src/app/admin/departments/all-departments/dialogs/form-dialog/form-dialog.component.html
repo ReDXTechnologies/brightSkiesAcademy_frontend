@@ -70,9 +70,19 @@
 
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Budget</mat-label>
+            <input matInput formControlName="budget" required>
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <mat-error *ngIf="departmentForm.get('budget').hasError('required') || departmentForm.get('budget').touched">
+              Please enter a budget
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row align-center">
-            <button mat-raised-button color="primary" [type]="submit" [disabled]="!departmentForm.valid"
+            <button mat-raised-button color="primary" [type]="submit"
               [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
             <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
           </div>
@@ -139,14 +149,33 @@
 
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="outline">
+            <mat-label>Budget</mat-label>
+            <input matInput formControlName="budget" required>
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <mat-error *ngIf="departmentForm.get('budget').hasError('required') || departmentForm.get('budget').touched">
+              Please enter a budget
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row align-center">
-            <button mat-raised-button color="primary" [type]="submit" [disabled]="!departmentForm.valid"
+            <button mat-raised-button color="primary" [type]="submit"
                     [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
             <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
           </div>
         </div>
       </div>
+<!--      <div class="row">-->
+<!--        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">-->
+<!--          <div class="example-button-row align-center">-->
+<!--            <button mat-raised-button color="primary" [type]="submit" [disabled]="!departmentForm.valid"-->
+<!--                    [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>-->
+<!--            <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </form>
   </div>
 </div>

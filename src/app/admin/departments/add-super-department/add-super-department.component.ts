@@ -35,6 +35,7 @@ export class AddSuperDepartmentComponent implements OnInit{
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
       department_start_date: [''],
+      budget: ['',Validators.required],
 
     });
 
@@ -107,6 +108,7 @@ export class AddSuperDepartmentComponent implements OnInit{
     const data = {
       "name": this.departmentForm.value.name,
       "email": this.departmentForm.value.email,
+      "budget": this.departmentForm.value.budget,
       "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
     }
     console.log("*****************",this.departmentForm.value.head_of_department)

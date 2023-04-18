@@ -11,4 +11,6 @@ export class Department {
   department_start_date: Date;
   isArchived: boolean;
   subDepNbTeachers: number;
+  budget: number;
+
 }

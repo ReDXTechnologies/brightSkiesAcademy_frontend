@@ -257,6 +257,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/premuimCourseEnrollementRequests`;
     this.subs.sink = this.httpClient.get<any[]>(url).subscribe(
       (data) => {
+        console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data);
       },

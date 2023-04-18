@@ -34,13 +34,14 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
     'select',
     'firstName',
     'lastName',
+    'profile',
+    'user_sub_department',
+    'user_manager',
     'email',
-    'mobile_phone',
-    'gender',
     'requested_course',
     'price',
     'sub_department',
-    'actions',
+    'sub_department_budget',
   ];
   exampleDatabase: TeacherService | null;
   dataSource: ExampleDataSource  | null;
@@ -50,7 +51,7 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
 
   isTblLoading = true;
   public refresher: Subject<any> = new Subject();
-
+role: any
 
   constructor(
     public httpClient: HttpClient,
@@ -61,6 +62,15 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
 
   ) {
     super();
+    this.role = this.authService.currentUserValue.role[0];
+    if (this.role === 'Super_Admin' || this.role==='head_super_department') {
+      this.displayedColumns.push('super_department');
+      this.displayedColumns.push('super_department_budget');
+      this.displayedColumns.push('actions');
+    }else{
+      this.displayedColumns.push('actions');
+
+    }
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -117,18 +127,31 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
   }
   approve(row: any): void {
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
-          const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-            (x) => x.user.id === this.id
-          );
-          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshTable();
-          console.log('teacher account approved successfully');
-          this.showNotification(
-            'snackbar-success',
-            'Enrollement request approved Successfully...!!!',
-            'bottom',
-            'center'
-          );
+            console.log(res)
+          if(res[0]!=='there is not enough budget to approve the course'){
+            console.log('hi')
+
+            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+              (x) => x.user.id === this.id
+            );
+            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+            this.refreshTable();
+            this.showNotification(
+              'snackbar-success',
+              res,
+              'bottom',
+              'center'
+            );
+          }else{
+            this.showNotification(
+              'snackbar-danger',
+              res,
+              'bottom',
+              'center'
+            );
+          }
+
+
         },
         error => {
           console.error('Error rejecting course:', error);

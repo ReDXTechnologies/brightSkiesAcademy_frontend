@@ -148,14 +148,27 @@
               </div>
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error
+                      *ngIf="departmentForm.get('email').hasError('required') || departmentForm.get('email').touched">
+                      Please enter a valid email address
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 ">
 
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                     <mat-label>Head Of Department</mat-label>
                     <mat-select placeholder="Select department" matInput formControlName="head_of_department">
                       <!-- Display the current department value by default -->
-<!--                      <mat-option *ngIf="departmentForm.get('department').value === teachers.department"-->
-<!--                                  [value]="teachers.department">{{ teachers.department }}-->
-<!--                      </mat-option>-->
+                      <!--                      <mat-option *ngIf="departmentForm.get('department').value === teachers.department"-->
+                      <!--                                  [value]="teachers.department">{{ teachers.department }}-->
+                      <!--                      </mat-option>-->
                       <!-- Display the department options when the user clicks the select field -->
                       <div >
                         <mat-option *ngFor="let head of HeadSuperDepartments" [value]="head.id">
@@ -169,20 +182,18 @@
                     </mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" required>
-                    <mat-icon matSuffix>email</mat-icon>
-                    <mat-error
-                      *ngIf="departmentForm.get('email').hasError('required') || departmentForm.get('email').touched">
-                      Please enter a valid email address
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Budget</mat-label>
+                    <input matInput formControlName="budget" type="number">
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                    <mat-error *ngIf="departmentForm.get('budget').hasError('required')">
+                      Budget is required
                     </mat-error>
                   </mat-form-field>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">

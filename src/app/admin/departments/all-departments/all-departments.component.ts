@@ -33,6 +33,7 @@ export class AllDepartmentsComponent
     'name',
     'head_of_department',
     'email',
+    'budget',
     'department_start_date',
   ];
 
@@ -41,6 +42,7 @@ export class AllDepartmentsComponent
     'select',
     'name',
     'head_of_sub_department',
+    'budget',
     'parent_department',
     'head_of_super_department',
     'email',

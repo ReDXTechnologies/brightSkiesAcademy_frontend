@@ -49,35 +49,69 @@
                 </ng-container>
                 <!-- ID Column -->
                 <ng-container matColumnDef="firstName">
-                  <mat-header-cell mat-header-cell *matHeaderCellDef> First Name
+                  <mat-header-cell  class="column"  mat-header-cell *matHeaderCellDef> First Name
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" >{{row.user.firstName}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="lastName">
-                  <mat-header-cell mat-header-cell *matHeaderCellDef> Last Name
+                  <mat-header-cell  class="column" mat-header-cell *matHeaderCellDef> Last Name
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" >
                     {{row.user.lastName}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="gender">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Gender
+                <ng-container matColumnDef="profile">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Profile
                   </mat-header-cell>
                   <mat-cell mat-cell *matCellDef="let row">
-                    <div *ngIf="row.user.gender=='male'">
-                              <span class="badge badge-solid-green">
-                                {{row.user.gender}}</span>
+                    <div *ngIf="row.user.is_student && !row.user.is_teacher">
+                              <span class="badge badge-solid-pink">
+                                Student</span>
                     </div>
-                    <div *ngIf="row.user.gender=='female'">
+                    <div *ngIf="row.user.is_teacher">
+                              <span class="badge badge-solid-cyan">
+                                Teacher</span>
+                    </div>
+                    <div *ngIf="row.user.is_head_of_sub_dep">
+                              <span class="badge badge-solid-red">
+                                head_of_sub_department</span>
+                    </div>
+                    <div *ngIf="row.user.is_head_of_super_dep">
                               <span class="badge badge-solid-purple">
-                                {{row.user.gender}}</span>
+                                head_of_super_department</span>
                     </div>
                   </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="mobile_phone">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    {{row.user.mobile_phone}}</mat-cell>
+                <ng-container matColumnDef="user_sub_department">
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> user department
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    {{row.user_sub_department_name}}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="user_manager">
+                  <mat-header-cell mat-header-cell *matHeaderCellDef> user manager
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    {{row.user_sub_department_head}}</mat-cell>
+                </ng-container>
+<!--                <ng-container matColumnDef="gender">-->
+<!--                  <mat-header-cell *matHeaderCellDef mat-sort-header> Gender-->
+<!--                  </mat-header-cell>-->
+<!--                  <mat-cell mat-cell *matCellDef="let row">-->
+<!--                    <div *ngIf="row.user.gender=='male'">-->
+<!--                              <span class="badge badge-solid-green">-->
+<!--                                {{row.user.gender}}</span>-->
+<!--                    </div>-->
+<!--                    <div *ngIf="row.user.gender=='female'">-->
+<!--                              <span class="badge badge-solid-purple">-->
+<!--                                {{row.user.gender}}</span>-->
+<!--                    </div>-->
+<!--                  </mat-cell>-->
+<!--                </ng-container>-->
+<!--                <ng-container matColumnDef="mobile_phone">-->
+<!--                  <mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</mat-header-cell>-->
+<!--                  <mat-cell *matCellDef="let row">-->
+<!--                    {{row.user.mobile_phone}}</mat-cell>-->
+<!--                </ng-container>-->
                 <ng-container matColumnDef="email">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
                   <mat-cell *matCellDef="let row" >
@@ -94,14 +128,29 @@
                     {{row.course_price}} $</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="sub_department">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Sub department</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Course department</mat-header-cell>
                   <mat-cell *matCellDef="let row" >
                     {{row.sub_department_name}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="sub_department_budget">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Course department left budget</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    {{row.sub_department_budget}} $</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="super_department">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>course super department</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    {{row.super_department_name}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="super_department_budget">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Super department left budget</mat-header-cell>
+                  <mat-cell *matCellDef="let row" >
+                    {{row.super_department_budget}} $</mat-cell>
                 </ng-container>
 
                 <!-- actions -->
                 <ng-container matColumnDef="actions">
-                  <mat-header-cell class="pr-0" *matHeaderCellDef>Actions
+                  <mat-header-cell  class="pr-0 column" *matHeaderCellDef>Actions
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 

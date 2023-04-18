@@ -118,6 +118,11 @@
                       <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                         {{row.email}}</mat-cell>
                     </ng-container>
+                    <ng-container matColumnDef="budget">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Budget</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.budget}} $</mat-cell>
+                    </ng-container>
                     <ng-container matColumnDef="department_start_date">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
                       <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
@@ -270,6 +275,11 @@
                       </mat-header-cell>
                       <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
                         {{row.head_of_sub_department.firstName}} {{row.head_of_sub_department.lastName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="budget">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Budget</mat-header-cell>
+                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                        {{row.budget}} $</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="parent_department">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Parent Department

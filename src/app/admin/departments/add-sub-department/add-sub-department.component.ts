@@ -45,6 +45,8 @@ export class AddSubDepartmentComponent implements OnInit{
       ],
       department_start_date: [''],
       super_department: [''],
+      budget: ['',Validators.required],
+
 
     });
 

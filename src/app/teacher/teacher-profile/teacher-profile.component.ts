@@ -58,7 +58,6 @@ export class TeacherProfileComponent implements OnInit {
   getStudentCourses(studentId: string) {
     this.studentService.getStudentCourses(studentId).subscribe(res => {
       this.courses = res;
-      console.log("eeeeeeeeeeee", res)
     })
   }
   initForm() {

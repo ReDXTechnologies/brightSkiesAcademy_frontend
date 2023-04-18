@@ -72,6 +72,8 @@ export class FormDialogComponent {
           [Validators.required, Validators.email, Validators.minLength(5)]
         ],
         department_start_date: [this.department.department_start_date, [Validators.required]],
+        budget: [this.department.budget,Validators.required],
+
 
       });
     }else{
@@ -84,6 +86,7 @@ export class FormDialogComponent {
           [Validators.required, Validators.email, Validators.minLength(5)]
         ],
         department_start_date: [this.department.department_start_date, [Validators.required]],
+        budget: [this.department.budget, [Validators.required]],
 
       });
     }
@@ -105,11 +108,11 @@ export class FormDialogComponent {
         "name": this.departmentForm.value.name,
         "head_of_super_department": this.departmentForm.value.head_of_super_department,
         "email": this.departmentForm.value.email,
+        "budget": this.departmentForm.value.budget,
         "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
       }
       console.log(data)
       this.departmentService.updateSuperDepartment(data, this.departmentForm.value.id , this.departmentForm.value.head_of_super_department).subscribe(res=>{
-        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",res)
         this.dialogRef.close(res)
       });
     }
@@ -118,6 +121,7 @@ export class FormDialogComponent {
         "name": this.departmentForm.value.name,
         "head_of_sub_department": this.departmentForm.value.head_of_super_department,
         "email": this.departmentForm.value.email,
+        "budget": this.departmentForm.value.budget,
         "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
       }
       console.log(data)
