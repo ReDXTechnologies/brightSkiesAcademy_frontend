@@ -51,7 +51,7 @@ export class StartQuizzComponent implements OnInit {
   ) {
     // Set the defaults
 
-      this.dialogTitle = 'start quizz : '+this.data.quizzName;
+      this.dialogTitle = 'start quiz : '+this.data.quizzName;
 
 
   }

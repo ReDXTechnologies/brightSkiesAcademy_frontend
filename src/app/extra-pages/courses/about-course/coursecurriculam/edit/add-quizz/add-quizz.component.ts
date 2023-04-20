@@ -32,10 +32,10 @@ export class AddQuizzComponent implements OnInit {
   ) {
     // Set the defaults
     if(this.data.editQuizz){
-      this.dialogTitle = 'Edit quizz for module '+this.data.moduleName;
+      this.dialogTitle = 'Edit quiz for module '+this.data.moduleName;
 
     }else{
-      this.dialogTitle = 'Add a quizz for module '+this.data.moduleName;
+      this.dialogTitle = 'Add a quiz for module '+this.data.moduleName;
     }
 
   }

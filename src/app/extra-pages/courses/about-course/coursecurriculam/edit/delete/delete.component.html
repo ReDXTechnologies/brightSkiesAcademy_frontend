@@ -11,8 +11,8 @@
       <li *ngIf="!data.deleteVideo && !data.deleteModule && !data.deleteQuizz">
         <p><span class="font-weight-bold"> lab: </span>{{ data.labTitle }}</p>
       </li>
-      <li *ngIf="!data.deleteVideo && !data.deleteModule ">
-        <p><span class="font-weight-bold"> Quizz: </span>{{ data.quizzTitle}}</p>
+      <li *ngIf="!data.deleteVideo && !data.deleteModule  && !data.deleteLab">
+        <p><span class="font-weight-bold"> Quiz: </span>{{ data.quizzTitle}}</p>
       </li>
     </ul>
   </div>
@@ -28,8 +28,8 @@
         <button mat-flat-button color="warn" *ngIf="data.deleteModule" (click)="confirmDelete()" [class.auth-spinner]="loadingModule">
           Delete module
         </button>
-        <button mat-flat-button color="warn" *ngIf="data.deleteQuizz" (click)="confirmDelete()" [class.auth-spinner]="loadingQuizz">
-          Delete quizz
+        <button mat-flat-button color="warn" *ngIf="data.deleteQuizz " (click)="confirmDelete()" [class.auth-spinner]="loadingQuizz">
+          Delete quiz
         </button>
         <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
       </div>
