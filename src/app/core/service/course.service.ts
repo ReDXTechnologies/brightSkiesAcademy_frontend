@@ -156,6 +156,16 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.delete(url);
   }
 
+  addScoreInModule( courseId:number,quizzId : number,moduleId:number,userId:number,score:any) {
+    const url = `${this.baseUrl}/course/${courseId}/module/${moduleId}/quizz/${quizzId}/user/${userId}/save-score`;
+    return this.httpClient.post(url, score);
+  }
+  getScoreInModule( userId:number,quizzId:number)  {
+    const url = `${this.baseUrl}/user/${userId}/quizz/${quizzId}/score`;
+    return this.httpClient.get(url);
+  }
+
+
   getFilteredCourses(sub_department: string[], level: string, workload_range: string, title_regex: string, is_free: string): Observable<any> {
     let params = new HttpParams();
     const url = `${this.baseUrl}/courses?sub_department=${sub_department}&level=${level}&workload_range=${workload_range}&title_regex=${title_regex}&is_free=${is_free}`;

@@ -57,14 +57,29 @@
 
         <ng-container *ngIf="showResult">
           <div class="result text-center py-5">
+            <div class="row">
             <h3>You have completed the quiz. <br>Below is your result:</h3>
-            <p>Total Question Attempted : {{questionList.length}} </p>
-            <p>Total Correct Answered : {{correctAnswer}} </p>
-            <p>Total Wrong Answered : {{inCorrectAnswer}} </p>
-            <p>Your Score : {{score}} % </p>
-            <button mat-stroked-button color="warn" class="btn mt-3" (click)="resetQuiz()">Retry</button>
+            <div class="result-stats d-flex justify-content-center align-items-center">
+              <p>Total Question Attempted : <strong>{{questionList.length}}</strong></p>
+              <p>Total Correct Answered : <strong>{{correctAnswer}}</strong></p>
+              <p>Total Wrong Answered : <strong>{{inCorrectAnswer}}</strong></p>
+            </div>
+            <h4 class="mt-3 mb-3">Your Score : <strong>{{score}}%</strong></h4>
+          </div>
+            <div  class="result-buttons">
+              <button mat-stroked-button color="warn" class=" mr-2" (click)="resetQuiz()">
+                <mat-icon>refresh</mat-icon>
+                Retry
+              </button>
+              <button mat-stroked-button color="primary" class=" ml-2" (click)="closeDialog()">
+                <mat-icon>done</mat-icon>
+                Complete
+              </button>
+            </div>
           </div>
         </ng-container>
+
+
 
       </div>
     </div>

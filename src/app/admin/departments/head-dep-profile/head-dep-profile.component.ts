@@ -69,6 +69,7 @@ export class HeadDepProfileComponent implements OnInit {
     })
   }
   viewDetails(course: Course) {
+    console.log('****',course)
     const teacher_id = course.teachers[0];
     this.teacherService.getTeacherById(teacher_id).subscribe(
       (teacher: Teacher) => {
@@ -81,7 +82,7 @@ export class HeadDepProfileComponent implements OnInit {
             const courseJson = JSON.stringify(course);
             this.router.navigate(['/shared/Lab-course-details'], {
               queryParams: {
-                course: courseJson,
+                courseId: course.id,
                 reviews: reviewJson,
                 teacher: teacherJson
               }

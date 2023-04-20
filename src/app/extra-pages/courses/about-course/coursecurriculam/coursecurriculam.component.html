@@ -80,9 +80,13 @@
                   <h4>Quizz : {{quizz.name}}</h4>
                 </div>
                 <div class="course-curriculum-meta" >
-<!--                  <span>{{video.duration}}</span>-->
                   <span (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
-<!--                  <span *ngIf="isLoadingQuizz"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>-->
+                  <div >
+                    <ng-container *ngIf="getQuizPercentage(quizz.id) | async as percentage">
+                      <h6 class="text-center">{{ percentage }}%</h6>
+                      <ngx-gauge [value]="percentage" [size]="30" [type]="'full'" [thick]="4" class="guage-chart-center"></ngx-gauge>
+                    </ng-container>
+                  </div>
                   <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editQuizz(quizz.id,module.id,module.name,quizz.name,quizz)"><i class="fas fa-edit"></i></button>
                   <button style="color: #d00e32 " *ngIf="user == teacher_id" (click)="deleteQuizz(module.id,quizz.id,module.name,quizz.name)"><i class="fas fa-trash "></i></button>
 

@@ -12,10 +12,13 @@ export class ChangeBgDirective {
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
   ngOnInit(): void {
+
     if (!this.selected) {
       this.renderer.setStyle(this.el.nativeElement,'background','rgba(255,255,255,0.53)');
       this.renderer.setStyle(this.el.nativeElement,'color','#000');
       this.renderer.setStyle(this.el.nativeElement,'border','3px solid #ddd');
+    }else {
+      this.renderer.addClass(this.el.nativeElement, this.selectedClass);
     }
   }
   ngOnChanges(changes: SimpleChanges): void {

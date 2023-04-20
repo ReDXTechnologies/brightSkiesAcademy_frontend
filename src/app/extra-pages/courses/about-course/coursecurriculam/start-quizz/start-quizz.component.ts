@@ -1,5 +1,5 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ChangeDetectorRef, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {
   FormArray, FormBuilder,
   FormControl, FormGroup,
@@ -12,6 +12,7 @@ import {
 import {DatePipe} from "@angular/common";
 import {CourseService} from "../../../../../core/service/course.service";
 import {interval} from "rxjs";
+import {ChangeBgDirective} from "../../../add-course/change-bg.directives";
 
 @Component({
   selector: 'app-add-quizz',
@@ -43,6 +44,7 @@ export class StartQuizzComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<StartQuizzComponent>,
     private changeDetectorRef: ChangeDetectorRef,
+    private el: ElementRef,
     private courseService: CourseService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: UntypedFormBuilder,
@@ -77,20 +79,6 @@ export class StartQuizzComponent implements OnInit {
 
   selectedOptions: any[] = [];
 
-  // answer(currentQno: number, option: any) {
-  //   // add or remove the selected option from the selectedOptions array
-  //   if (option.selected) {
-  //     console.log("unselect")
-  //     this.selectedOptions = this.selectedOptions.filter(o => o.id !== option.id);
-  //     console.log(this.selectedOptions)
-  //   } else {
-  //     console.log("select")
-  //
-  //     this.selectedOptions.push(option);
-  //   }
-  //   option.selected = !option.selected;
-  //   console.log(this.selectedOptions)
-  // }
   answer(currentQno: number, option: any) {
     // add or remove the selected option from the selectedOptions array
     if (option.selected) {
@@ -127,8 +115,12 @@ export class StartQuizzComponent implements OnInit {
         option.selectedClass = 'selected';
       }
       if (option.is_correct) {
+        console.log("correct",option)
+
         option.selectedClass += ' correct';
       } else if (option.selected) {
+        console.log("wrong",option)
+
         option.selectedClass += ' wrong';
       }
     }
@@ -138,6 +130,9 @@ export class StartQuizzComponent implements OnInit {
     if (allCorrect && !question.verified) {
       question.verified = true;
       this.points++;
+      this.correctAnswer++;
+    }else{
+      this.inCorrectAnswer++;
     }
     console.log("verify",this.selectedOptions)
 
@@ -145,16 +140,40 @@ export class StartQuizzComponent implements OnInit {
   }
 
 
+  // resetOptions() {
+  //   for(let question of this.questionList){
+  //     for (let option of question.options) {
+  //       console.log(option)
+  //       console.log(option.selected)
+  //       option.selected = false; // set selected to false
+  //       this.changeDetectorRef.detectChanges();
+  //
+  //
+  //     }
+  //   }
+  //
+  //
+  // }
 
 
   resetQuiz() {
     this.selectedOptions=[]
+    this.currentQuestion = 0;
+    this.points = 0;
+
+    for (const question of this.questionList) {
+      for (const option of question.options) {
+        option.selected = false;
+        option.verified = false;
+        option.selectedClass = '';
+      }
+    }
+
+    this.changeDetectorRef.detectChanges();
     this.isQuizCompleted = false;
     this.showResult = false;
     this.getAllQuestions();
-    this.points = 0;
     this.counter = 60;
-    this.currentQuestion = 0;
     this.progress = "0";
 
   }
@@ -165,7 +184,13 @@ export class StartQuizzComponent implements OnInit {
   }
   ShowResult() {
     this.showResult = true
-    this.score = (this.points/this.questionList.length)*100
+    this.score = ((this.points / this.questionList.length) * 100).toFixed(2);
+    const body = { score: this.score };
+
+
+    this.courseService.addScoreInModule(this.data.courseId,this.data.quizz.id,this.data.moduleId,this.data.userId,body).subscribe(res=>{
+      console.log(res)
+    })
 
   }
   onSubmit() {
@@ -182,6 +207,10 @@ export class StartQuizzComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  closeDialog(): void {
+    this.dialogRef.close();
+    window.location.reload();
   }
 
 }

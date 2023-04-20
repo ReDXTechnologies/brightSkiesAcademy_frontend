@@ -38,6 +38,8 @@ export class CoursecurriculamComponent implements OnInit {
   isLoadingStart = false;
   is_enrolled = false
   isLoadingQuizz= false
+  percentage: any;
+
   constructor(public dialog: MatDialog, private authService: AuthService,
               private adminService: AdminService,
               private spinner: NgxSpinnerService,
@@ -109,6 +111,12 @@ export class CoursecurriculamComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkEnrollement();
+   }
+   getUserScore(quizzId:number): any{
+    this.courseService.getScoreInModule(this.user,quizzId).subscribe(res=>{
+      console.log(res)
+      return res
+    })
    }
   onInputFocusOut() {
     this.isEditMode = false;  // set the flag to close the input
@@ -335,7 +343,8 @@ export class CoursecurriculamComponent implements OnInit {
         courseId: courseId,
         moduleId: moduleId,
         quizzName: quizzName,
-        quizz : quizz
+        quizz : quizz,
+        userId: this.user
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -432,6 +441,26 @@ export class CoursecurriculamComponent implements OnInit {
 
     return remainingTrials$;
   }
+
+  percentageMap = new Map<string, Observable<any>>();
+
+  getQuizPercentage(quizId: number): Observable<any> {
+    const key = `${this.user}-${quizId}`;
+
+    if (this.percentageMap.has(key)) {
+      return this.percentageMap.get(key);
+    }
+
+    const percentage$ = this.courseService.getScoreInModule(this.user, quizId).pipe(
+      map(res =>res),
+      shareReplay(1)
+    );
+
+    this.percentageMap.set(key, percentage$);
+
+    return percentage$;
+  }
+
 
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {

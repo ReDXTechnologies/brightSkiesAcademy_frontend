@@ -36,7 +36,7 @@ export class CoursevideoComponent implements OnInit {
   ngOnInit(): void {
     console.log("88888",this.course)
     this.check_enrollement()
-    if (this.role === 'Student' ||(this.role === 'Student_Teacher' && this.user !== this.teacher_id) || (this.role === 'Teacher' && this.user !== this.teacher_id)) {
+    if (this.role === 'Student' || this.role === 'head_super_department' || this.role === 'head_sub_department'||(this.role === 'Student_Teacher' && this.user !== this.teacher_id) || (this.role === 'Teacher' && this.user !== this.teacher_id)) {
       if (!this.course?.free) {
         this.teacherService.checkUserEnrollement(this.user, this.courseId).subscribe(res => {
           if (res === 'true') {
