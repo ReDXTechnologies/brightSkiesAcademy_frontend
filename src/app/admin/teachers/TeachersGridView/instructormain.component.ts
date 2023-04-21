@@ -25,8 +25,8 @@ export class InstructormainComponent implements OnInit {
   ngOnInit(): void {
     if (this.role === 'Super_Admin') {
       this.teacherService.getTeachers().subscribe(
-        (teachers: Teacher[]) => {
-          this.teachers = teachers;
+        (teachers: any) => {
+          this.teachers = teachers.results;
           console.log(this.teachers)
         },
         (error) => {
@@ -37,8 +37,8 @@ export class InstructormainComponent implements OnInit {
       this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
         console.log("**************************************",res.valueOf())
         this.teacherService.getSuperDepTeachers(res).subscribe(
-          (teachers: Teacher[]) => {
-            this.teachers = teachers;
+          (teachers: any) => {
+            this.teachers = teachers.results;
             console.log(this.teachers)
           },
           (error) => {
@@ -51,8 +51,8 @@ export class InstructormainComponent implements OnInit {
       this.teacherService.getSubDepId(this.userId).subscribe(res=>{
         console.log("**************************************",res.valueOf())
         this.teacherService.getSubDepTeachers(res).subscribe(
-          (teachers: Teacher[]) => {
-            this.teachers = teachers;
+          (teachers: any) => {
+            this.teachers = teachers.results;
             console.log(this.teachers)
           },
           (error) => {

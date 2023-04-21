@@ -29,6 +29,11 @@ export class PendingCoursesComponent implements OnInit {
   user_id: string;
   role: any
   department: any
+  pages = [];
+  currentPage = 1;
+  totalPages = 0;
+  returnedItems = 9;
+  coursesData :any;
   constructor(public courseService: CourseService,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
@@ -44,7 +49,11 @@ export class PendingCoursesComponent implements OnInit {
     this.getAllPendingCourses();
     this.getDepatments();
   }
-
+  calculatePages() {
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pages.push(i);
+    }
+  }
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
       duration: 2000,
@@ -75,7 +84,10 @@ export class PendingCoursesComponent implements OnInit {
     if (this.role === 'Super_Admin') {
       this.courseService.getPendingCourses().subscribe(
         (data) => {
-          this.courses = data;
+          this.coursesData = data
+          this.totalPages = Math.ceil(data.count/this.returnedItems)
+          this.courses = data.results;
+          this.calculatePages()
           this.courses.forEach(course => {
             this.getTeacherDetails(course.teachers).subscribe(
               (teachers) => {
@@ -92,7 +104,10 @@ export class PendingCoursesComponent implements OnInit {
       this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
         this.courseService.getSuperDepPendingCourses(res).subscribe(
           (data) => {
-            this.courses = data;
+            this.coursesData = data
+            this.totalPages = Math.ceil(data.count/this.returnedItems)
+            this.courses = data.results;
+            this.calculatePages()
             this.courses.forEach(course => {
               this.getTeacherDetails(course.teachers).subscribe(
                 (teachers) => {
@@ -112,7 +127,10 @@ export class PendingCoursesComponent implements OnInit {
       this.teacherService.getSubDepId(this.userId).subscribe(res=>{
         this.courseService.getSubDepPendingCourses(res).subscribe(
           (data) => {
-            this.courses = data;
+            this.coursesData = data
+            this.totalPages = Math.ceil(data.count/this.returnedItems)
+            this.courses = data.results;
+            this.calculatePages()
             this.courses.forEach(course => {
               this.getTeacherDetails(course.teachers).subscribe(
                 (teachers) => {
@@ -215,7 +233,7 @@ export class PendingCoursesComponent implements OnInit {
   getFilteredCourses() {
     this.courseService.getFilteredPendingCourses(this.selectedSubDepartments)
       .subscribe(response => {
-        this.courses = response;
+        this.courses = response.results;
       });
   }
 

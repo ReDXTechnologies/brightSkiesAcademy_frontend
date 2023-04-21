@@ -11,6 +11,7 @@ import {AuthService} from "../../../core/service/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DepartmentService} from "../../../core/service/department.service";
 import {Department} from "../../../core/models/department";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-all-course',
@@ -26,6 +27,7 @@ export class AllCourseComponent implements OnInit {
     },
   ];
   courses: Course[];
+  coursesData: any;
   teacherApprovedCourses: Course[];
   teacherPendingCourses: Course[];
   reviews: Review[];
@@ -43,6 +45,10 @@ export class AllCourseComponent implements OnInit {
   searchInput=''
   userId : number;
   user_id: string;
+  pages = [];
+  currentPage = 1;
+  totalPages = 0;
+  returnedItems = 9;
   constructor(private courseService: CourseService,
               private reviewService: ReviewService,
               private teacherService: TeacherService,
@@ -50,6 +56,7 @@ export class AllCourseComponent implements OnInit {
               private snackBar: MatSnackBar,
               private router: Router,
               private route: ActivatedRoute,
+              private httpClient: HttpClient,
               private departmentService: DepartmentService,
   ) {
     this.role = this.authService.currentUserValue.role[0];
@@ -113,6 +120,13 @@ export class AllCourseComponent implements OnInit {
     this.getAllApprovedCourses();
     this.getDepatments();
 
+  }
+  previous_next(url:any) {
+
+    this.httpClient.get<any>(url).subscribe(data=>{
+      this.coursesData= data;
+      this.courses=data.results;
+    });
   }
   onSearch(query: string) {
     console.log(query)
@@ -276,13 +290,19 @@ export class AllCourseComponent implements OnInit {
     this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput,this.price)
       .subscribe(response => {
         this.courses = response;
+
       });
   }
-
-  getAllApprovedCourses() {
-    this.courseService.getApprovedCourses().subscribe(
+  calculatePages() {
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pages.push(i);
+    }
+  }
+  getAllApprovedCoursesPerPage(page:number) {
+    this.courseService.getApprovedCoursesPerPage(page).subscribe(
       (data) => {
-        this.courses = data;
+        this.coursesData = data
+        this.courses = data.results;
         console.log(data)
         this.courses.forEach(course => {
           this.getTeacherDetails(course.teachers).subscribe(
@@ -298,11 +318,36 @@ export class AllCourseComponent implements OnInit {
     );
   }
 
+  getAllApprovedCourses() {
+    this.courseService.getApprovedCourses().subscribe(
+      (data) => {
+        this.coursesData = data
+        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.courses = data.results;
+        this.calculatePages()
+        console.log(data)
+        this.courses.forEach(course => {
+          this.getTeacherDetails(course.teachers).subscribe(
+            (teachers) => {
+              course.teacherDetails = teachers;
+            }
+          );
+        });
+      },
+      (error) => {
+        console.log('Error getting approved courses:', error);
+      }
+    );
+
+  }
+
   getAllTeacherApprovedCourses(teacherId: string) {
     this.teacherService.getTeacherApprovedCourses(teacherId).subscribe(
       (data) => {
-        console.log(data)
-        this.courses = data;
+        this.coursesData = data
+        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.courses = data.results;
+        this.calculatePages()
         this.courses.forEach(course => {
           this.getTeacherDetails(course.teachers).subscribe(
             (teachers) => {
@@ -320,8 +365,10 @@ export class AllCourseComponent implements OnInit {
   getAllPendingCourses(teacherId: string) {
     this.teacherService.getPendingCourses(teacherId).subscribe(
       (data) => {
-        console.log(data)
-        this.courses = data;
+        this.coursesData = data
+        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.courses = data.results;
+        this.calculatePages()
         this.courses.forEach(course => {
           this.getTeacherDetails(course.teachers).subscribe(
             (teachers) => {

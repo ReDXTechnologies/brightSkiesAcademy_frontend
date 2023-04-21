@@ -14,45 +14,50 @@ import {Lab, Module, Quizz, Video} from "../models/Module";
 export class CourseService extends UnsubscribeOnDestroyAdapter {
   private baseUrl = environment.apiUrl;
   isTblLoading = true;
-  dataChange: BehaviorSubject<Course[]> = new BehaviorSubject<Course[]>([]);
+  dataChange: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): Course[] {
+  get data(): any {
     return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
   }
-  // getPendingCourses(): Observable<Course[]> {
+  // getPendingCourses(): Observable<any> {
   //   const url = `${this.baseUrl}/pending-courses`;
   //
-  //   return this.http.get<Course[]>(url);
+  //   return this.http.get<any>(url);
   // }
-  getPendingCourses(): Observable<Course[]> {
+  getPendingCourses(): Observable<any> {
     const url = `${this.baseUrl}/pending-courses`;
-   return this.httpClient.get<Course[]>(url);
+   return this.httpClient.get<any>(url);
   }
 
-  getSuperDepPendingCourses(dep_id: any): Observable<Course[]> {
+  getSuperDepPendingCourses(dep_id: any): Observable<any> {
     const url = `${this.baseUrl}/superdepartments/${dep_id}/courses/pending`;
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
-  getSubDepPendingCourses(dep_id : any): Observable<Course[]> {
+  getSubDepPendingCourses(dep_id : any): Observable<any> {
     const url = `${this.baseUrl}/subdepartments/${dep_id}/courses/pending`;
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
 
 
 
 
-
-  getApprovedCourses(): Observable<Course[]> {
+  getApprovedCoursesPerPage(page: number): Observable<any> {
+    const url = `${this.baseUrl}/approved-courses?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
+  getApprovedCourses(): Observable<any> {
     const url = `${this.baseUrl}/approved-courses`;
 
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
 
   approveCourse(course_id:number): Observable<Course> {
@@ -199,7 +204,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
 
   getSuperDepartmentPremuinCourseEnrollementRequests(superDepartmentId: any):void  {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/hybridProfilesRequests`;
-    this.subs.sink = this.httpClient.get<Course[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -212,7 +217,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   }
   getSubDepartmentPremuinCourseEnrollementRequests(subDepartmentId: any):void  {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/hybridProfilesRequests`;
-    this.subs.sink = this.httpClient.get<Course[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);

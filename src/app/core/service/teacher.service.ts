@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Course} from '../models/course';
 import {environment} from "../../../environments/environment";
@@ -12,13 +12,13 @@ import {Teacher} from "../models/teacher";
 export class TeacherService extends UnsubscribeOnDestroyAdapter {
   private baseUrl = environment.apiUrl;
   isTblLoading = true;
-  dataChange: BehaviorSubject<Teacher[]> = new BehaviorSubject<Teacher[]>([]);
+  dataChange: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): Teacher[] {
+  get data(): any {
     return this.dataChange.value;
   }
   getDialogData() {
@@ -29,27 +29,27 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.get<any>(url);
   }
-  getSuperDepTeachers(superDepartmentId: any): Observable<Teacher[]> {
+  getSuperDepTeachers(superDepartmentId: any): Observable<any> {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
 
-    return this.httpClient.get<Teacher[]>(url);
+    return this.httpClient.get<any>(url);
   }
-  getSubDepTeachers(subDepartmentId: any): Observable<Teacher[]> {
+  getSubDepTeachers(subDepartmentId: any): Observable<any> {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
 
-    return this.httpClient.get<Teacher[]>(url);
+    return this.httpClient.get<any>(url);
   }
-  getTeachers(): Observable<Teacher[]> {
+  getTeachers(): Observable<any> {
     const url = `${this.baseUrl}/teachers/active`;
 
-    return this.httpClient.get<Teacher[]>(url);
+    return this.httpClient.get<any>(url);
   }
   getAllTeacherss(): void {
     const url = `${this.baseUrl}/teachers/active`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
-        this.dataChange.next(data);
+        this.dataChange.next(data.results);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -59,7 +59,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getSuperDepartmentTeachers(superDepartmentId: any):void  {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -70,9 +70,28 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  getFilteredTeachers(sub_department_name: string, firstName: string, lastName: string,super_department_id:number): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.baseUrl}/filtered_teachers?sub_department_name=${sub_department_name}&firstName=${firstName}&lastName=${lastName}&super_department_id=${super_department_id}`;
+
+    if (super_department_id) {
+      params = params.set('super_department_id', super_department_id);
+    }
+    if (sub_department_name) {
+      params = params.set('sub_department_name', sub_department_name);
+    }
+    if (firstName) {
+      params = params.set('firstName',firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName',lastName);
+    }
+
+    return this.httpClient.get<any>(url, { params });
+  }
   getSubDepartmentTeachers(subDepartmentId: any):void  {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -85,7 +104,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getAllInactiveTeachers(): void {
     const url = `${this.baseUrl}/teachers/inactive`;
-     this.httpClient.get<Teacher[]>(url).subscribe(
+     this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -98,7 +117,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getHybridProfilesRequests(): void {
     const url = `${this.baseUrl}/students/pending-teacher-requests`;
-    this.httpClient.get<Teacher[]>(url).subscribe(
+    this.httpClient.get<any>(url).subscribe(
       (data) => {
         console.log(data)
         this.isTblLoading = false;
@@ -112,7 +131,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getSuperDepartmentHybridProfilesRequests(superDepartmentId: any):void  {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/hybridProfilesRequests`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -125,7 +144,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   getSubDepartmentHybridProfilesRequests(subDepartmentId: any):void  {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/hybridProfilesRequests`;
-    this.subs.sink = this.httpClient.get<Teacher[]>(url).subscribe(
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -177,21 +196,21 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.delete<Teacher>(url);
   }
 
-  getPendingCourses(teacher_id: string): Observable<Course[]>{
+  getPendingCourses(teacher_id: string): Observable<any>{
     const url = `${this.baseUrl}/teacher/${teacher_id}/pending-courses`;
     console.log(url)
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
 
-  getTeacherApprovedCourses(teacher_id: string): Observable<Course[]>{
+  getTeacherApprovedCourses(teacher_id: string): Observable<any>{
     const url = `${this.baseUrl}/teacher/${teacher_id}/approved-courses`;
     console.log(url)
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
-  getApprovedCourses(): Observable<Course[]>{
+  getApprovedCourses(): Observable<any>{
     const url = `${this.baseUrl}/approved-courses`;
     console.log(url)
-    return this.httpClient.get<Course[]>(url);
+    return this.httpClient.get<any>(url);
   }
 
   rejectTeacherAccount(id: number): Observable<any> {
