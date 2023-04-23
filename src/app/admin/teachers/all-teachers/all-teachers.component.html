@@ -27,18 +27,18 @@
                             <ul class="header-buttons-left ms-0">
                               <li class="tbl-search-box">
                                 <label for="search-input"><i class="material-icons search-icon">search </i></label>
-                                <input placeholder="Search Name" type="text" #filter class="browser-default search-field"
-                                  aria-label="Search box">
+                                <input placeholder="Search FirstName" type="text" #filter class="browser-default search-field"
+                                  aria-label="Search box" (keyup)="onSearchFirstName($event.target.value)">
+                              </li>
+                              <li class="tbl-search-box">
+                                <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                                <input placeholder="Search LastName" type="text" #filter class="browser-default search-field"
+                                       aria-label="Search box" (keyup)="onSearchLastName($event.target.value)">
                               </li>
                               <li class="tbl-search-box">
                                 <label for="search-input"><i class="material-icons search-icon">search </i></label>
                                 <input placeholder="Search Department" type="text" #filter class="browser-default search-field"
-                                       aria-label="Search box">
-                              </li>
-                              <li class="tbl-search-box">
-                                <label for="search-input"><i class="material-icons search-icon">search </i></label>
-                                <input placeholder="Search Degree" type="text" #filter class="browser-default search-field"
-                                       aria-label="Search box">
+                                       aria-label="Search box" (keyup)="onSearchDepartment($event.target.value)">
                               </li>
                               <li class="tbl-header-btn">
                                 <div class="m-l-10" matTooltip="REFRESH">
@@ -192,55 +192,31 @@
                         </mat-progress-spinner>
                       </div>
                       <!-- context menu start -->
-                      <div style="visibility: hidden; position: fixed" [style.left]="contextMenuPosition.x"
-                        [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu">
-                      </div>
-                      <mat-menu #contextMenu="matMenu">
-                        <ng-template matMenuContent let-item="item">
-                          <button mat-menu-item (click)="editCall(item)">
-                            <mat-icon>create</mat-icon>
-                            <span>Edit Record</span>
-                          </button>
-                          <button mat-menu-item (click)="deleteItem(item)">
-                            <mat-icon>delete</mat-icon>
-                            <span>Delete Record</span>
-                          </button>
-                          <button mat-menu-item (click)="refresh()">
-                            <mat-icon>refresh</mat-icon>
-                            <span>Refresh Record</span>
-                          </button>
-                          <button mat-menu-item disabled>
-                            <mat-icon>no_encryption</mat-icon>
-                            <span>Disable</span>
-                          </button>
-                          <button mat-menu-item [matMenuTriggerFor]="nestedmenu">
-                            <mat-icon>list_alt</mat-icon>
-                            <span> Nested Menu</span>
-                          </button>
-                        </ng-template>
-                      </mat-menu>
-                      <mat-menu #nestedmenu="matMenu">
-                        <button mat-menu-item>
-                          <mat-icon>mail_outline</mat-icon>
-                          <span>Item 1</span>
-                        </button>
-                        <button mat-menu-item>
-                          <mat-icon>call</mat-icon>
-                          <span>Item 2</span>
-                        </button>
-                        <button mat-menu-item>
-                          <mat-icon>chat</mat-icon>
-                          <span>Item 3</span>
-                        </button>
-                      </mat-menu>
                       <!-- context menu end -->
                       <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
-                        [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                        [style.display]="dataSource.filteredData.length == 0 ? '' : 'none'">
                         No results
                       </div>
-                      <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0"
-                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100,150,200,250]">
-                      </mat-paginator>
+                      <div class="pagination-container">
+                        <span style="margin-top: 10px; margin-inline: 20px">Total teachers <span>{{dataSource.totalItems}}</span></span>
+
+                        <div class="edu-pagination mt-30 mb-20">
+                          <ul>
+                            <li><a (click)="next_previous('previous')"><i class="fas fa-angle-left"></i></a></li>
+                            <!--                <li class="active"><a href="#"><span>01</span></a> </li>-->
+                            <!--                <li><a href="#"><span>02</span></a></li>-->
+                            <li *ngFor="let i of [].constructor(dataSource.count); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                              <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                                <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                                <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
+                              </a>
+                            </li>
+
+                            <li><a (click)="next_previous('next')"><i class="fas fa-angle-right"></i></a></li>
+                          </ul>
+
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

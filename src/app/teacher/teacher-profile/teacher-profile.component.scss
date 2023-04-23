@@ -162,3 +162,67 @@
   font-weight: 500;
   color: #5b5bff;
 }
+//pagination style
+@import 'src/assets/scss/custom-palettes.scss';
+
+.edu-pagination {
+  ul {
+    display: flex;
+    align-items: center;
+  }
+
+  li {
+    margin-right: 15px;
+
+    &:hover {
+      a {
+        color: $theme-color;
+        font-weight: 600;
+      }
+    }
+
+    i {
+      height: 25px;
+      width: 25px;
+      background: $white;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 20%;
+      color: $body-text;
+      font-size: 14px;
+      border: 1px solid $border;
+      transition: 0.3s;
+
+      &:hover {
+        border-color: $theme-color;
+        background: $theme-color;
+        color: $white;
+      }
+    }
+  }
+
+  ul li.active a {
+    color: $theme-color;
+    font-weight: 600;
+  }
+}
+.mat-paginator-navigation-next {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.pagination-container {
+  margin-top: -20px;
+  display: flex;
+  justify-content: flex-end; /* align children to the right side */
+  align-items: center; /* vertically center the children */
+}
+
+.mat-paginator {
+  margin-right: 20px; /* add some space between the two components */
+
+  .mat-paginator-navigation-previous,
+  .mat-paginator-navigation-next {
+    display: none;
+  }
+}

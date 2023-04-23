@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TeacherService} from "../../../core/service/teacher.service";
 import {Course} from "../../../core/models/course";
 import {ReviewService} from "../../../core/service/review.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-instructorpromain',
@@ -14,10 +15,11 @@ import {ReviewService} from "../../../core/service/review.service";
 export class InstructorpromainComponent implements OnInit {
   followedActive: boolean = false;
   btnVal = "Follow";
-  firstmanager : any
-  secondmanager : any
+  firstmanager: any
+  secondmanager: any
   teacherApprovedCourses: Course[]
-  reviews : any
+  reviews: any
+
   followedClick() {
     if (this.followedActive == false) {
       this.followedActive = true;
@@ -29,24 +31,50 @@ export class InstructorpromainComponent implements OnInit {
   }
 
   teacher: Teacher;
-  courses : Course[]
-teacherId : number;
+  courses: Course[]
+  teacherId: number;
+  coursesData: any
+  pages = [];
+  currentPage = 1;
+  totalPages = 0;
+
   constructor(
     private route: ActivatedRoute,
     private teacherService: TeacherService,
     private reviewService: ReviewService,
     private router: Router,
+    private httpClient: HttpClient,
   ) {
   }
 
   ngOnInit(): void {
     this.teacherId = +this.route.snapshot.paramMap.get('id'); // Get the id parameter from the route and convert it to a number using the + operator
     this.getTeacherInfos();
-    this.getAllTeacherApprovedCourses(this.teacherId);
+      this.teacherService.getTeacherApprovedCourses(this.teacherId.toString(), 1).subscribe(
+        (data) => {
+          this.teacherApprovedCourses = data.results;
+          this.totalPages=data.count;
+          this.calculatePages()
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        })
+      }
+  calculatePages() {
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pages.push(i);
+    }
+  }
+  previous_next(url: any) {
+
+    this.httpClient.get<any>(url).subscribe(data => {
+      this.coursesData = data;
+      this.courses = data.results;
+    });
   }
 
   getTeacherInfos() {
-    this.teacherService.getTeacherManagers(this.teacherId).subscribe(managers=>{
+    this.teacherService.getTeacherManagers(this.teacherId).subscribe(managers => {
       console.log(managers)
       this.firstmanager = managers.head_of_sub_dep
       this.secondmanager = managers.head_of_super_dep
@@ -55,16 +83,13 @@ teacherId : number;
       this.teacher = res;
     })
   }
-  getTeacherCourses() {
-    // const id = +this.route.snapshot.paramMap.get('id'); // Get the id parameter from the route and convert it to a number using the + operator
-    // this.teacherService.getApprovedCourses(id).subscribe(res => {
-    //   this.courses = res;
-    // })
-  }
-  getAllTeacherApprovedCourses(teacherId: any) {
-    this.teacherService.getTeacherApprovedCourses(teacherId).subscribe(
+
+
+  getAllTeacherApprovedCourses(teacherId: any,page:number) {
+    this.teacherService.getTeacherApprovedCourses(teacherId, page).subscribe(
       (data) => {
         this.teacherApprovedCourses = data.results;
+        this.totalPages=data.count;
       },
       (error) => {
         console.log('Error getting approved courses:', error);

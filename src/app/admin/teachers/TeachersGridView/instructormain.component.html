@@ -11,35 +11,32 @@
           </div>
           <div class="course-sidebar-tab corse-bar-wrapper">
             <div class="course-sidebar-wrapper">
-              <div class="curse-tab-left-wrap">
-                <div class="header-search">
-                  <form action="#">
+              <div class="row">
+
+              <div class="header-search col-xl-6">
                     <div class="search-icon p-relative">
-                      <input type="text" placeholder="filter by Name">
+                      <input type="text" placeholder="filter by first name" (keyup)="onSearchFirstName($event.target.value)">
                       <button type="submit"><i class="fas fa-search"></i></button>
                     </div>
-                  </form>
-                </div>
-<!--                <div class="header-search">-->
-<!--                  <form action="#">-->
-<!--                    <div class="search-icon p-relative">-->
-<!--                      <input type="text" placeholder="filter by Degree">-->
-<!--                      <button type="submit"><i class="fas fa-search"></i></button>-->
-<!--                    </div>-->
-<!--                  </form>-->
-<!--                </div>-->
               </div>
+                <div class="header-search col-xl-6">
+                    <div class="search-icon p-relative">
+                      <input type="text" placeholder="filter by last name" (keyup)="onSearchLastName($event.target.value)">
+                      <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+              </div>
+
 
               <div class="couse-dropdown">
                 <div class="course-drop-inner">
-                  <select>
-                    <option value="">Department</option>
-                    <option value="">HPC</option>
-                    <option value="">DeVops</option>
-
+                  <select (change)="onDepartmentSelect($event.target.value)">
+                    <option value="">Select a department</option>
+                    <option *ngFor="let department of departments" [value]="department.name">{{ department.name }}</option>
                   </select>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -89,252 +86,25 @@
                </div>
              </div>
           </div>
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher3.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Nicholson Ocak</a></h4>-->
-<!--                         <span>UI/UX Researcher </span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                     </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher4.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Miriam Abate</a></h4>-->
-<!--                         <span>Web Developer</span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                     </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher5.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Vanbrunt Carl</a></h4>-->
-<!--                         <span>Entrepreneur</span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                     </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher6.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Anthony Peter</a></h4>-->
-<!--                         <span>Software Engineer</span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                     </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher7.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">John Everton</a></h4>-->
-<!--                         <span>Data Scientist</span>-->
-<!--                          <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                          <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                        </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher8.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Joseph Daniyel</a></h4>-->
-<!--                         <span>Sr. Developer, BDevs</span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                      </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-4 col-md-6">-->
-<!--             <div class="member-main-wrapper mb-30">-->
-<!--                <div class="member-body text-center">-->
-<!--                   <div class="member-item">-->
-<!--                      <div class="member-thumb">-->
-<!--                         <a [routerLink]="['/admin/teachers/about-teacher']"><img src="assets/images/user/teacher9.png"-->
-<!--                               alt="member-img"></a>-->
-<!--                      </div>-->
-<!--                      <div class="member-content">-->
-<!--                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">Cristina Ena</a></h4>-->
-<!--                         <span>Drawing Expert</span>-->
-<!--                        <span><i class="material-icons mr-10">email</i>imen.chaari@enis.tn</span>-->
-<!--                        <span><i class="material-icons mr-10">phone</i>264-625-2583</span>-->
-<!--                      </div>-->
-<!--                   </div>-->
-<!--                </div>-->
-<!--               <div class="eduman-course-footer">-->
-<!--                 <div class="course-lessson-svg">-->
-<!--                   <svg xmlns="http://www.w3.org/2000/svg" width="16.471" height="16.471"-->
-<!--                        viewBox="0 0 16.471 16.471">-->
-<!--                     <g id="blackboar09" transform="translate(-0.008)">-->
-<!--                       <path id="Path_01" data-name="Path 101"-->
-<!--                             d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"-->
-<!--                             fill="#575757" />-->
-<!--                     </g>-->
-<!--                   </svg>-->
-<!--                   <span class="ms-2">12 Lessons</span>-->
-<!--                 </div>-->
-<!--                 <div class="course-deteals-btn">-->
-<!--                   <a [routerLink]="['/admin/teachers/about-teacher']"><span class="me-2">View Details</span><i-->
-<!--                     class="far fa-arrow-right"></i></a>-->
-<!--                 </div>-->
-<!--               </div>-->
-<!--             </div>-->
-<!--          </div>-->
        </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="edu-pagination mt-30 mb-20">
+            <ul>
+              <li><a (click)="next_previous('previous')"><i class="fas fa-angle-left"></i></a></li>
+              <li *ngFor="let i of[].constructor(totalPages); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                  <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                  <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
+                </a>
+              </li>
+
+              <li><a (click)="next_previous('next')"><i class="fas fa-angle-right"></i></a></li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
     </div>
  </section>
  <!-- member-area-end -->

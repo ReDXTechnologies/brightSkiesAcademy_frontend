@@ -11,6 +11,8 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
   private readonly apiUrl = environment.apiUrl;
   isTblLoading = true;
   dataChange: BehaviorSubject<Student[]> = new BehaviorSubject<Student[]>([]);
+  countChange : BehaviorSubject<any>= new BehaviorSubject<any>(0);
+  totalItems : BehaviorSubject<any>= new BehaviorSubject<any>(0);
   // Temporarily stores data from dialogs
   dialogData: any;
   constructor(private http: HttpClient) {
@@ -23,12 +25,16 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     return this.dialogData;
   }
   /** CRUD METHODS */
-  getAllStudents(): void {
-    const url = `${this.apiUrl}/students`;
-    this.subs.sink = this.http.get<Student[]>(url).subscribe(
+  getAllStudents(page:number): void {
+    const url = `${this.apiUrl}/students?page=${page}`;
+    this.subs.sink = this.http.get<any>(url).subscribe(
       (data) => {
+        console.log(data)
         this.isTblLoading = false;
-        this.dataChange.next(data);
+        this.dataChange.next(data.results);
+        this.countChange.next(Math.ceil(data.count/10));
+        console.log(Math.ceil(data.count/10))
+        this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -61,9 +67,9 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.apiUrl}/student/${id}`;
     return this.http.get<Student>(url);
   }
-  getStudentCourses(id: string): Observable<Course[]> {
-    const url = `${this.apiUrl}/students/${id}/courses`;
-    return this.http.get<Course[]>(url);
+  getStudentCourses(id: string,page:number): Observable<any> {
+    const url = `${this.apiUrl}/students/${id}/courses?page=${page}`;
+    return this.http.get<any>(url);
   }
 
   addStudent(student: Student): Observable<Student> {

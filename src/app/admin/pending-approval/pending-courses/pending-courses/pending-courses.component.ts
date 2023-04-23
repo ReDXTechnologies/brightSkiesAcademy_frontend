@@ -10,6 +10,7 @@ import {Observable, of} from "rxjs";
 import {Department} from "../../../../core/models/department";
 import {DepartmentService} from "../../../../core/service/department.service";
 import {AuthService} from "../../../../core/service/auth.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-coursefourmain',
@@ -38,6 +39,7 @@ export class PendingCoursesComponent implements OnInit {
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
               private authService: AuthService,
+              private httpClient: HttpClient,
               private router: Router, private snackBar: MatSnackBar
   ) {
     this.role = this.authService.currentUserValue.role[0];
@@ -48,6 +50,25 @@ export class PendingCoursesComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPendingCourses();
     this.getDepatments();
+  }
+  getAllApprovedCoursesPerPage(page:number) {
+    this.courseService.getPendingCoursesPerPage(page).subscribe(
+      (data) => {
+        this.coursesData = data
+        this.courses = data.results;
+        console.log(data)
+        this.courses.forEach(course => {
+          this.getTeacherDetails(course.teachers).subscribe(
+            (teachers) => {
+              course.teacherDetails = teachers;
+            }
+          );
+        });
+      },
+      (error) => {
+        console.log('Error getting approved courses:', error);
+      }
+    );
   }
   calculatePages() {
     for (let i = 1; i <= this.totalPages; i++) {
@@ -79,15 +100,24 @@ export class PendingCoursesComponent implements OnInit {
 
     return of(teachers);
   }
+  previous_next(url:any) {
+
+    this.httpClient.get<any>(url).subscribe(data=>{
+      this.coursesData= data;
+      this.courses=data.results;
+    });
+  }
 
   getAllPendingCourses() {
     if (this.role === 'Super_Admin') {
       this.courseService.getPendingCourses().subscribe(
         (data) => {
+          console.log(data)
           this.coursesData = data
           this.totalPages = Math.ceil(data.count/this.returnedItems)
           this.courses = data.results;
           this.calculatePages()
+          console.log(this.courses)
           this.courses.forEach(course => {
             this.getTeacherDetails(course.teachers).subscribe(
               (teachers) => {

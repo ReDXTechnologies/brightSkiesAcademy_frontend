@@ -148,7 +148,20 @@
 
         <div class="row">
           <div class="col-12">
-            <app-pagination></app-pagination>
+            <div class="edu-pagination mt-30 mb-20">
+              <ul>
+                <li><a (click)="previous_next(coursesData.previous)"><i class="fas fa-angle-left"></i></a></li>
+                <!--                <li class="active"><a href="#"><span>01</span></a> </li>-->
+                <!--                <li><a href="#"><span>02</span></a></li>-->
+                <li *ngFor="let page of pages" [ngClass]="{ 'active': page === currentPage }">
+                  <a (click)="getAllApprovedCoursesPerPage(page)">
+                    <span *ngIf="page<10">0{{ page }}</span>
+                    <span *ngIf="page>=10">{{ page }}</span>
+                  </a>
+                </li>
+                <li><a (click)="previous_next(coursesData.next)"><i class="fas fa-angle-right"></i></a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -35,6 +35,10 @@ export class StudentProfileComponent implements OnInit {
   student: Student;
   reviews: Review[];
   teacher: Teacher;
+  currentPage = 1;
+  next = 1;
+  totalPages = 0;
+  returnedItems = 9;
   constructor(private formBuilder: UntypedFormBuilder,
               private studentService: StudentService,
               private reviewService: ReviewService,
@@ -48,9 +52,22 @@ export class StudentProfileComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getStudentDetails(localStorage.getItem('id'))
-    this.getStudentCourses(localStorage.getItem('id'))
+    this.getStudentCourses(localStorage.getItem('id'),1)
   }
-
+  onPageChanged(page: number) {
+    this.currentPage = page;
+    this.getStudentCourses(localStorage.getItem('id'),page);
+  }
+  next_previous(action: string) {
+    if (action === 'next') {
+      this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
+      console.log(this.currentPage)
+    } else if (action === 'previous') {
+      this.currentPage = Math.max(this.currentPage - 1, 1);
+      console.log(this.currentPage)
+    }
+    this.getStudentCourses(localStorage.getItem('id'),this.currentPage);
+  }
   onImageSelected(event) {
     this.selectedImage = <File>event.target.files[0];
   }
@@ -94,10 +111,11 @@ export class StudentProfileComponent implements OnInit {
     })
   }
 
-  getStudentCourses(studentId: string) {
-    this.studentService.getStudentCourses(studentId).subscribe(res => {
-      this.courses = res;
-      console.log("eeeeeeeeeeee", res)
+  getStudentCourses(studentId: string,page:number) {
+    this.studentService.getStudentCourses(studentId,page).subscribe(res => {
+      this.courses = res.results;
+      this.courses = res.results;
+      this.totalPages= Math.ceil(res.count/4)
     })
   }
 

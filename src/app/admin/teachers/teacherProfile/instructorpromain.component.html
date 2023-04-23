@@ -9,20 +9,20 @@
        <div class="row">
           <div class="col-xl-3 col-lg-3">
              <div class="course-instructors-img mb-30">
-               <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"  alt="">
+               <img [src]="teacher?.user?.image ? teacher?.user?.image : 'assets/images/user/profile.jpg'"  alt="">
 
              </div>
           </div>
           <div class="col-xl-8 col-lg-9">
              <div class="course-detelies-wrapper">
                 <div class="course-detiles-tittle mb-30">
-                   <h3>{{teacher.user.firstName}} {{teacher.user.lastName}}</h3>
-                   <span>{{teacher.degree}}  </span>
+                   <h3>{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</h3>
+                   <span>{{teacher?.degree}}  </span>
                 </div>
                 <div class="course-detiles-meta">
                   <div class="total-course">
                     <h5>Department</h5>
-                    <span>{{teacher.sub_department}}</span>
+                    <span>{{teacher?.sub_department}}</span>
                   </div>
                   <div class="">
                     <h5>N+1 manager</h5>
@@ -35,17 +35,17 @@
                   <div class="review-course">
                     <h5>Email</h5>
                     <div class="review-course-inner d-flex">
-                      <span>{{teacher.user.email}}</span>
+                      <span>{{teacher?.user?.email}}</span>
                     </div>
                   </div>
                   <div class="total-course">
                     <span>Total Courses</span>
-                    <label>{{teacher.nb_of_courses}}</label>
+                    <label>{{teacher?.nb_of_courses}}</label>
                   </div>
                 </div>
                 <div class="course-bio-text pt-45 pb-20">
                    <h3>Biography</h3>
-                   <p>{{teacher.biography}}</p>
+                   <p>{{teacher?.biography}}</p>
                 </div>
                 <div class="my-course-info">
                    <h3>Courses</h3>
@@ -70,11 +70,11 @@
                                <div class="eduman-course-tutor"
                                     *ngFor="let teacher of course.teacherDetails">
                                  <img
-                                   [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                                   [src]="teacher?.user?.image ? teacher?.user?.image : 'assets/images/user/profile.jpg'"
                                    class="user-image" alt="">
                                  <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                                  <a
-                                   [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                                   [routerLink]="['/admin/teachers/about-teacher']">{{ teacher?.user?.firstName }} {{ teacher?.user?.lastName }}</a>
                                </div>
                              </div>
                              <div class="info-cart-text">
@@ -119,11 +119,11 @@
 
                            <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
                              <img
-                               [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                               [src]="teacher?.user?.image ? teacher?.user?.image : 'assets/images/user/profile.jpg'"
                                class="user-image" alt="">
                              <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                              <a
-                               [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                               [routerLink]="['/admin/teachers/about-teacher']">{{ teacher?.user?.firstName }} {{ teacher?.user?.lastName }}</a>
                            </div>
                          </div>
                        </div>
@@ -151,8 +151,22 @@
                    </div>
 
                 </div>
-<!--                <app-pagination></app-pagination>-->
-             </div>
+               <div class="row">
+                 <div class="col-12">
+                   <div class="edu-pagination mt-30 mb-20">
+                     <ul>
+                       <li><a (click)="previous_next(coursesData.previous)"><i class="fas fa-angle-left"></i></a></li>
+                       <li *ngFor="let page of pages" [ngClass]="{ 'active': page === currentPage }">
+                         <a (click)="getAllTeacherApprovedCourses(teacherId,page)">
+                           <span *ngIf="page<10">0{{ page }}</span>
+                           <span *ngIf="page>=10">{{ page }}</span>
+                         </a>
+                       </li>
+                       <li><a (click)="previous_next(coursesData.next)"><i class="fas fa-angle-right"></i></a></li>
+                     </ul>
+                   </div>
+                 </div>
+               </div>             </div>
           </div>
        </div>
     </div>

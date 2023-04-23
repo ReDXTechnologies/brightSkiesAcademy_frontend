@@ -33,7 +33,11 @@ export class TeacherProfileComponent implements OnInit {
   courses: Course[]
   reviews: Review[];
   teacher: Teacher;
-
+  currentPage = 1;
+  MyCoursesCurrentPage = 1;
+  next = 1;
+  totalPages = 0;
+  MyCoursesTotalPages = 0;
   constructor(private formBuilder: FormBuilder,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
@@ -49,15 +53,46 @@ export class TeacherProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.user_id = localStorage.getItem('id');
-    this.getStudentCourses(this.user_id);
+    this.getStudentCourses(this.user_id,1);
     this.getTeacherDetails(this.user_id);
-    this.getAllTeacherApprovedCourses(localStorage.getItem('id'))
+    this.getAllTeacherApprovedCourses(localStorage.getItem('id'),1)
 
 
   }
-  getStudentCourses(studentId: string) {
-    this.studentService.getStudentCourses(studentId).subscribe(res => {
-      this.courses = res;
+
+  onPageChanged(page: number) {
+    this.currentPage = page;
+    this.getStudentCourses(localStorage.getItem('id'),page);
+  }
+  next_previous(action: string) {
+    if (action === 'next') {
+      this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
+      console.log(this.currentPage)
+    } else if (action === 'previous') {
+      this.currentPage = Math.max(this.currentPage - 1, 1);
+      console.log(this.currentPage)
+    }
+    this.getStudentCourses(localStorage.getItem('id'),this.currentPage);
+  }
+
+  onMyCoursesPageChanged(page: number) {
+    this.MyCoursesCurrentPage = page;
+    this.getAllTeacherApprovedCourses(localStorage.getItem('id'),page);
+  }
+  next_previousMyCourses(action: string) {
+    if (action === 'next') {
+      this.MyCoursesCurrentPage = Math.min(this.MyCoursesCurrentPage + 1, this.teacherApprovedCourses.length);
+    } else if (action === 'previous') {
+      this.MyCoursesCurrentPage = Math.max(this.MyCoursesCurrentPage - 1, 1);
+    }
+    this.getAllTeacherApprovedCourses(localStorage.getItem('id'),this.MyCoursesCurrentPage);
+  }
+
+
+  getStudentCourses(studentId: string,page:number) {
+    this.studentService.getStudentCourses(studentId,page).subscribe(res => {
+      this.courses = res.results;
+      this.totalPages= Math.ceil(res.count/4)
     })
   }
   initForm() {
@@ -70,11 +105,13 @@ export class TeacherProfileComponent implements OnInit {
       image: [''],
     });
   }
-  getAllTeacherApprovedCourses(teacherId: string) {
-    this.teacherService.getTeacherApprovedCourses(teacherId).subscribe(
+  getAllTeacherApprovedCourses(teacherId: string,page:number) {
+    this.teacherService.getTeacherApprovedCourses(teacherId, page).subscribe(
       (data) => {
         console.log(data)
-        this.teacherApprovedCourses = data;
+        this.teacherApprovedCourses = data.results;
+        this.MyCoursesTotalPages= Math.ceil(data.count/6)
+
       },
       (error) => {
         console.log('Error getting approved courses:', error);

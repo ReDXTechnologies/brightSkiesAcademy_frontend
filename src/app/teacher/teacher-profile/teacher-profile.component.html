@@ -8,7 +8,8 @@
         <div class="card">
           <div class="pt-5">
             <div class="contact-grid pt-5">
-              <img [src]="teacher?.user?.image ? teacher.user?.image : 'assets/images/user/profile.jpg'" class="user-img" alt="">
+              <img [src]="teacher?.user?.image ? teacher.user?.image : 'assets/images/user/profile.jpg'"
+                   class="user-img" alt="">
               <div class="profile-header">
                 <div class="user-name">{{teacher?.user?.firstName}} {{teacher?.user?.lastName}}</div>
                 <div class="name-center">{{teacher?.degree}}</div>
@@ -111,7 +112,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let course of courses"  (click)="viewDetails(course)" style="cursor: pointer">
+                        <tr *ngFor="let course of courses" (click)="viewDetails(course)" style="cursor: pointer">
                           <td class="table-img">
                             <img src="{{course.image}}" alt="">
                           </td>
@@ -151,7 +152,28 @@
                       </table>
                     </div>
                   </div>
+                  <div class="pagination-container">
+                    <span
+                      style="margin-top: 10px; margin-inline: 20px">Total courses enrolled in <span>{{courses.length}}</span></span>
 
+                    <div class="edu-pagination mt-30 mb-20">
+                      <ul>
+                        <li><a (click)="next_previous('previous')"><i class="fas fa-angle-double-left"></i></a></li>
+                        <!--                <li class="active"><a href="#"><span>01</span></a> </li>-->
+                        <!--                <li><a href="#"><span>02</span></a></li>-->
+                        <li *ngFor="let i of [].constructor(totalPages); let page = index "
+                            [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                          <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                            <span *ngIf="(page+1)<10">0{{ page + 1}}</span>
+                            <span *ngIf="(page+1)>=10">{{ page + 1 }}</span>
+                          </a>
+                        </li>
+
+                        <li><a (click)="next_previous('next')"><i class="fas fa-angle-double-right"></i></a></li>
+                      </ul>
+
+                    </div>
+                  </div>
                   <div class="header mt-4">
                     <h2>My courses List</h2>
 
@@ -167,7 +189,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let course of teacherApprovedCourses" (click)="viewDetails(course)" style="cursor: pointer">
+                        <tr *ngFor="let course of teacherApprovedCourses" (click)="viewDetails(course)"
+                            style="cursor: pointer">
                           <td class="table-img">
                             <img src="{{course.image}}" alt="">
                           </td>
@@ -181,6 +204,26 @@
                         </tr>
                         </tbody>
                       </table>
+                    </div>
+                  </div>
+                  <div class="pagination-container">
+                    <span
+                      style="margin-top: 10px; margin-inline: 20px">Total approved courses <span>{{teacherApprovedCourses.length}}</span></span>
+
+                    <div class="edu-pagination mt-30 mb-20">
+                      <ul>
+                        <li><a (click)="next_previousMyCourses('previous')"><i class="fas fa-angle-double-left"></i></a>
+                        </li>
+                        <li *ngFor="let i of [].constructor(MyCoursesTotalPages); let page = index "
+                            [ngClass]="{ 'active': page === (MyCoursesCurrentPage-1 ) }">
+                          <a (click)="onMyCoursesPageChanged(page+1)" style="cursor: pointer">
+                            <span *ngIf="(page+1)<10">0{{ page + 1}}</span>
+                            <span *ngIf="(page+1)>=10">{{ page + 1 }}</span>
+                          </a>
+                        </li>
+                        <li><a (click)="next_previousMyCourses('next')"><i class="fas fa-angle-double-right"></i></a>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -197,12 +240,11 @@
                   <label>Upload profile photo</label>
                   <app-file-upload fileType="upload image"
                                    [loading]="loading"
-                                   [onClickFunction]="updateProfilePicture.bind(this, teacher?.user?.id)" (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
+                                   [onClickFunction]="updateProfilePicture.bind(this, teacher?.user?.id)"
+                                   (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
                 </div>
               </form>
-
             </mat-tab>
-
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2">settings</mat-icon>
@@ -218,13 +260,13 @@
                     <div class="col-lg-6 col-md-12">
                       <mat-form-field class="example-full-width" appearance="fill">
                         <mat-label>First Name</mat-label>
-                        <input matInput formControlName="firstName" >
+                        <input matInput formControlName="firstName">
                       </mat-form-field>
                     </div>
                     <div class="col-lg-6 col-md-12">
                       <mat-form-field class="example-full-width" appearance="fill">
                         <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="lastName" >
+                        <input matInput formControlName="lastName">
                       </mat-form-field>
                     </div>
                   </div>
@@ -243,7 +285,7 @@
                         <span matPrefix>
             <mat-icon class="msr-2">phone</mat-icon>
           </span>
-                        <input matInput formControlName="mobile_phone"  />
+                        <input matInput formControlName="mobile_phone"/>
                       </mat-form-field>
                     </div>
                   </div>
@@ -256,15 +298,17 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <button mat-raised-button color="primary" (click)="updateTeacherProfile(teacher?.user?.id)" [disabled]="teacherForm.invalid">Save Changes</button>
+                    <button mat-raised-button color="primary" (click)="updateTeacherProfile(teacher?.user?.id)"
+                            [disabled]="teacherForm.invalid">Save Changes
+                    </button>
                   </div>
                 </form>
               </div>
 
             </mat-tab>
-        </mat-tab-group>
+          </mat-tab-group>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </section>

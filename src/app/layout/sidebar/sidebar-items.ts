@@ -173,7 +173,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Admin','Super_Admin'],
+    role: ['Admin','Super_Admin','head_super_department',"head_sub_department"],
     submenu: [],
   },
 

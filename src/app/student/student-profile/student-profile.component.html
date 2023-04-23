@@ -127,6 +127,26 @@
                       </table>
                     </div>
                   </div>
+                  <div class="pagination-container">
+                    <span style="margin-top: 10px; margin-inline: 20px">Total courses enrolled in <span>{{courses.length}}</span></span>
+
+                    <div class="edu-pagination mt-30 mb-20">
+                      <ul>
+                        <li><a (click)="next_previous('previous')"><i class="fas fa-angle-double-left"></i></a></li>
+                        <!--                <li class="active"><a href="#"><span>01</span></a> </li>-->
+                        <!--                <li><a href="#"><span>02</span></a></li>-->
+                        <li *ngFor="let i of [].constructor(totalPages); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                          <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                            <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                            <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
+                          </a>
+                        </li>
+
+                        <li><a (click)="next_previous('next')"><i class="fas fa-angle-double-right"></i></a></li>
+                      </ul>
+
+                    </div>
+                  </div>
                 </div>
 
               </div>

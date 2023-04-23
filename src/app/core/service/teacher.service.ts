@@ -5,6 +5,7 @@ import {Course} from '../models/course';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
+import {any} from "codelyzer/util/function";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   private baseUrl = environment.apiUrl;
   isTblLoading = true;
   dataChange: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  countChange : BehaviorSubject<any>= new BehaviorSubject<any>(0);
+  totalItems : BehaviorSubject<any>= new BehaviorSubject<any>(0);
   // Temporarily stores data from dialogs
   dialogData: any;
   constructor(private httpClient: HttpClient) {
@@ -20,7 +23,9 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
   }
   get data(): any {
     return this.dataChange.value;
+
   }
+
   getDialogData() {
     return this.dialogData;
   }
@@ -30,12 +35,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(url);
   }
   getSuperDepTeachers(superDepartmentId: any): Observable<any> {
-    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
+    const url = `${this.baseUrl}/superdepartment/${superDepartmentId}/teacher_count`;
 
     return this.httpClient.get<any>(url);
   }
   getSubDepTeachers(subDepartmentId: any): Observable<any> {
-    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
+    const url = `${this.baseUrl}/subdepartment/${subDepartmentId}/teacher_count`;
 
     return this.httpClient.get<any>(url);
   }
@@ -44,39 +49,30 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.get<any>(url);
   }
-  getAllTeacherss(): void {
-    const url = `${this.baseUrl}/teachers/active`;
-    this.subs.sink = this.httpClient.get<any>(url).subscribe(
-      (data) => {
-        this.isTblLoading = false;
-        this.dataChange.next(data.results);
-      },
-      (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
-      }
-    );
-  }
-  getSuperDepartmentTeachers(superDepartmentId: any):void  {
-    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers`;
-    this.subs.sink = this.httpClient.get<any>(url).subscribe(
-      (data) => {
-        this.isTblLoading = false;
-        this.dataChange.next(data);
-      },
-      (error: HttpErrorResponse) => {
-        this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
-      }
-    );
-  }
-  getFilteredTeachers(sub_department_name: string, firstName: string, lastName: string,super_department_id:number): Observable<any> {
+  getSuperDepTeachersperPage(superDepartmentId: any,page:any): Observable<any> {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
     let params = new HttpParams();
-    const url = `${this.baseUrl}/filtered_teachers?sub_department_name=${sub_department_name}&firstName=${firstName}&lastName=${lastName}&super_department_id=${super_department_id}`;
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
+  getSubDepTeachersperPage(subDepartmentId: any,page:any): Observable<any> {
+    const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
+  getTeachersperPage(page:any): Observable<any> {
+    const url = `${this.baseUrl}/teachers/active?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
 
-    if (super_department_id) {
-      params = params.set('super_department_id', super_department_id);
-    }
+
+  getFilteredTeachersGrid( firstName: string, lastName: string,sub_department_name: string): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.baseUrl}/filtered_teachers?sub_department_name=${sub_department_name}&firstName=${firstName}&lastName=${lastName}`;
+
     if (sub_department_name) {
       params = params.set('sub_department_name', sub_department_name);
     }
@@ -87,14 +83,85 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       params = params.set('lastName',lastName);
     }
 
-    return this.httpClient.get<any>(url, { params });
+  return this.httpClient.get<any>(url, { params })
+  }
+
+  getSuperDepFilteredTeachersGrid(superDepId: Object, firstName: string, lastName: string, sub_department_name: string): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.baseUrl}/super_department/${superDepId}/filtered_teachers?sub_department_name=${sub_department_name}&firstName=${firstName}&lastName=${lastName}`;
+
+    if (sub_department_name) {
+      params = params.set('sub_department_name', sub_department_name);
+    }
+    if (firstName) {
+      params = params.set('firstName',firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName',lastName);
+    }
+
+    return this.httpClient.get<any>(url, { params })
+  }
+
+  getSubDepFilteredTeachersGrid(subDepId: Object, firstName: string, lastName: string, sub_department_name: string): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.baseUrl}/sub_department/${subDepId}/filtered_teachers?sub_department_name=${sub_department_name}&firstName=${firstName}&lastName=${lastName}`;
+
+    if (sub_department_name) {
+      params = params.set('sub_department_name', sub_department_name);
+    }
+    if (firstName) {
+      params = params.set('firstName',firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName',lastName);
+    }
+
+    return this.httpClient.get<any>(url, { params })
+  }
+  getAllTeacherss(page:number): void {
+    const url = `${this.baseUrl}/teachers/active?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    this.subs.sink = this.httpClient.get<any>(url, { params }).subscribe(
+      (data) => {
+        this.isTblLoading = false;
+        this.dataChange.next(data.results);
+        this.countChange.next(Math.ceil(data.count/2));
+        this.totalItems.next(data.count);
+      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
+  }
+  getSuperDepartmentTeachers(superDepartmentId: any,page:number):void  {
+    console.log('here')
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    this.subs.sink = this.httpClient.get<any>(url).subscribe(
+      (data) => {
+        console.log(data)
+        this.isTblLoading = false;
+        this.dataChange.next(data.results);
+        this.countChange.next(Math.ceil(data.count/2));
+        this.totalItems.next(data.count);      },
+      (error: HttpErrorResponse) => {
+        this.isTblLoading = false;
+        console.log(error.name + ' ' + error.message);
+      }
+    );
   }
   getSubDepartmentTeachers(subDepartmentId: any):void  {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers`;
     this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
-        this.dataChange.next(data);
+        this.dataChange.next(data.results);
+        this.countChange.next(Math.ceil(data.count/2));
+        this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -107,7 +174,9 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
      this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
-        this.dataChange.next(data);
+        this.dataChange.next(data.results);
+        this.countChange.next(Math.ceil(data.count/2));
+        this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -202,17 +271,12 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(url);
   }
 
-  getTeacherApprovedCourses(teacher_id: string): Observable<any>{
-    const url = `${this.baseUrl}/teacher/${teacher_id}/approved-courses`;
-    console.log(url)
-    return this.httpClient.get<any>(url);
+  getTeacherApprovedCourses(teacher_id: string, page: number): Observable<any>{
+    const url = `${this.baseUrl}/teacher/${teacher_id}/approved-courses?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
   }
-  getApprovedCourses(): Observable<any>{
-    const url = `${this.baseUrl}/approved-courses`;
-    console.log(url)
-    return this.httpClient.get<any>(url);
-  }
-
   rejectTeacherAccount(id: number): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/teacher/${id}/reject-account`);
   }

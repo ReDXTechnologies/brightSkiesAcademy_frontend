@@ -18,7 +18,6 @@ import { TeachersRoutingModule } from './teachers-routing.module';
 import { AllTeachersComponent } from './all-teachers/all-teachers.component';
 import { DeleteDialogComponent } from './all-teachers/dialogs/delete/delete.component';
 import { FormDialogComponent } from './all-teachers/dialogs/form-dialog/form-dialog.component';
-import { AboutTeacherComponent } from './about-teacher/about-teacher.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatMenuModule } from '@angular/material/menu';
@@ -34,7 +33,6 @@ import {TeacherService} from "../../core/service/teacher.service";
     AllTeachersComponent,
     DeleteDialogComponent,
     FormDialogComponent,
-    AboutTeacherComponent,
     InstructormainComponent,
     InstructorpromainComponent
   ],

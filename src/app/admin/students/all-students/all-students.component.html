@@ -185,10 +185,6 @@
                       </div>
                       <mat-menu #contextMenu="matMenu">
                         <ng-template matMenuContent let-item="item">
-                          <button mat-menu-item (click)="addNew()">
-                            <mat-icon>add_box</mat-icon>
-                            <span>Add Record</span>
-                          </button>
                           <button mat-menu-item (click)="editCall(item)">
                             <mat-icon>create</mat-icon>
                             <span>Edit Record</span>
@@ -227,12 +223,27 @@
                       </mat-menu>
                       <!-- context menu end -->
                       <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
-                        [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+                        [style.display]="dataSource.filteredData.length == 0 ? '' : 'none'">
                         No results
                       </div>
-                      <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0"
-                        [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100,150,200,250]">
-                      </mat-paginator>
+                      <div class="pagination-container">
+                        <span style="margin-top: 10px; margin-inline: 20px">Total students <span>{{dataSource.totalItems}}</span></span>
+
+                        <div class="edu-pagination mt-30 mb-20">
+                          <ul>
+                            <li><a (click)="next_previous('previous')"><i class="fas fa-angle-left"></i></a></li>
+                            <li *ngFor="let i of [].constructor(dataSource.count); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                              <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                                <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                                <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
+                              </a>
+                            </li>
+
+                            <li><a (click)="next_previous('next')"><i class="fas fa-angle-right"></i></a></li>
+                          </ul>
+
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -40,7 +40,10 @@ export class HeadDepProfileComponent implements OnInit {
   reviews: Review[];
   teacher: Teacher;
   courses: Course[]
-
+  currentPage = 1;
+  next = 1;
+  totalPages = 0;
+  returnedItems = 9;
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private teacherService: TeacherService,
@@ -60,12 +63,13 @@ export class HeadDepProfileComponent implements OnInit {
 
     this.getHeadDetails(this.user_id);
     this.getHeadDeepDetails();
-    this.getStudentCourses(this.user_id);
+    this.getStudentCourses(this.user_id,1);
 
   }
-  getStudentCourses(studentId: string) {
-    this.studentService.getStudentCourses(studentId).subscribe(res => {
-      this.courses = res;
+  getStudentCourses(studentId: string,page:number) {
+    this.studentService.getStudentCourses(studentId,page).subscribe(res => {
+      this.courses = res.results;
+      this.totalPages= Math.ceil(res.count/4)
     })
   }
   viewDetails(course: Course) {
@@ -124,6 +128,20 @@ export class HeadDepProfileComponent implements OnInit {
       });
     })
   }
+  onPageChanged(page: number) {
+    this.currentPage = page;
+    this.getStudentCourses(this.user_id,page);
+  }
+  next_previous(action: string) {
+    if (action === 'next') {
+      this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
+      console.log(this.currentPage)
+    } else if (action === 'previous') {
+      this.currentPage = Math.max(this.currentPage - 1, 1);
+      console.log(this.currentPage)
+    }
+    this.getStudentCourses(this.user_id,this.currentPage);
+  }
   public getHeadDeepDetails(): void {
     this.adminService.getSuperAdminDetails().subscribe(superAdmin=>{
       this.SuperAdmin = superAdmin[0]?.firstName+' '+superAdmin[0]?.lastName
@@ -133,10 +151,10 @@ export class HeadDepProfileComponent implements OnInit {
         if (!!value) {
           this.superDep = value;
           console.log(this.superDep)
-          this.teacherService.getSuperDepTeachers(value[0]?.id).subscribe(res=>{this.teachers_super_dep = res.length})
+          this.teacherService.getSuperDepTeachers(value[0]?.id).subscribe(res=>{this.teachers_super_dep = res})
           this.departmentService.getSubDepartmentsBySuperDepId(value[0]?.id).subscribe(value => {
             if (!!value) {
-              value.map(dep=> this.teacherService.getSubDepTeachers(dep.id).subscribe(res=>dep.subDepNbTeachers=res.length))
+              value.map(dep=> this.teacherService.getSubDepTeachers(dep.id).subscribe(res=>dep.subDepNbTeachers=res))
               this.superDepSubDepartments = value;
             }
           });
@@ -194,12 +212,6 @@ export class HeadDepProfileComponent implements OnInit {
         mobile_phone: this.headDepForm.get('mobile_phone').value
       }
     };
-
-    // this.teacherService.updateTeacher(this.user_id, teacherData)
-    //   .subscribe(response => {
-    //     console.log(response);
-    //     // Add any additional logic or actions here after the teacher has been updated
-    //   });
   }
 
 

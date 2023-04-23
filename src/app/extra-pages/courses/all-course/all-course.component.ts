@@ -42,13 +42,14 @@ export class AllCourseComponent implements OnInit {
   level = '';
   price = '';
   workload = '';
-  searchInput=''
-  userId : number;
+  searchInput = ''
+  userId: number;
   user_id: string;
   pages = [];
   currentPage = 1;
   totalPages = 0;
   returnedItems = 9;
+
   constructor(private courseService: CourseService,
               private reviewService: ReviewService,
               private teacherService: TeacherService,
@@ -75,16 +76,18 @@ export class AllCourseComponent implements OnInit {
   shopDuration() {
     this.shopDurationActive = this.shopDurationActive == false;
   }
+
   onCourseSelect(selectedCourse: string) {
     this.disableAllWorkloadsCheckboxes()
     this.disableAllLevelsCheckboxes()
+    this.pages = []
     if (selectedCourse === 'pending') {
       this.getAllPendingCourses(localStorage.getItem('id'));
-
     } else if (selectedCourse === 'available') {
-      this.getAllTeacherApprovedCourses(localStorage.getItem('id'));
+      this.getAllTeacherApprovedCourses(localStorage.getItem('id'), 1);
     }
   }
+
   getTeacherDetails(teacherIds: any): Observable<any[]> {
     const teachers = [];
 
@@ -121,18 +124,21 @@ export class AllCourseComponent implements OnInit {
     this.getDepatments();
 
   }
-  previous_next(url:any) {
 
-    this.httpClient.get<any>(url).subscribe(data=>{
-      this.coursesData= data;
-      this.courses=data.results;
+  previous_next(url: any) {
+
+    this.httpClient.get<any>(url).subscribe(data => {
+      this.coursesData = data;
+      this.courses = data.results;
     });
   }
+
   onSearch(query: string) {
     console.log(query)
     this.searchInput = query;
-   this.getFilteredCourses()
+    this.getFilteredCourses()
   }
+
   onSubDepartmentChange(event: any, subDepartment: string) {
     // Toggle selected sub-department
     if (event.target.checked) {
@@ -218,9 +224,10 @@ export class AllCourseComponent implements OnInit {
   }
 
   enableWorkloadCheckbox(workload: string) {
-    console.log('rrrr',workload)
+    console.log('rrrr', workload)
     document.getElementById(`${workload}`).removeAttribute('disabled');
   }
+
   disableWorkloadheckbox(workload: string) {
     console.log(workload)
     document.getElementById(`${workload}`).setAttribute('disabled', 'disabled');
@@ -235,11 +242,13 @@ export class AllCourseComponent implements OnInit {
     this.enableLevelCheckbox('intermediate');
     this.enableLevelCheckbox('advanced');
   }
+
   disableAllLevelsCheckboxes() {
     this.disableLevelCheckbox('entry');
     this.disableLevelCheckbox('intermediate');
     this.disableLevelCheckbox('advanced');
   }
+
   enableAllWorkloadsCheckboxes() {
     this.enableWorkloadCheckbox('w-1-2');
     this.enableWorkloadCheckbox('w-2-5');
@@ -253,6 +262,7 @@ export class AllCourseComponent implements OnInit {
     this.disableWorkloadheckbox('w-5-10');
     this.disableWorkloadheckbox('w-10-20');
   }
+
   onPriceClick(price: string) {
     console.log(price)
     if (this.price === price) {
@@ -275,30 +285,36 @@ export class AllCourseComponent implements OnInit {
     }
     this.getFilteredCourses();
   }
+
   disablePriceCheckbox(price: string) {
     console.log(price)
     document.getElementById(`e-${price}`).setAttribute('disabled', 'disabled');
   }
+
   enablePriceCheckbox(price: string) {
     document.getElementById(`${price}`).removeAttribute('disabled');
   }
+
   enableAllpriceCheckboxes() {
     this.enablePriceCheckbox('e-premuim');
     this.enablePriceCheckbox('e-free');
   }
+
   getFilteredCourses() {
-    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput,this.price)
+    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput, this.price)
       .subscribe(response => {
         this.courses = response;
 
       });
   }
+
   calculatePages() {
     for (let i = 1; i <= this.totalPages; i++) {
       this.pages.push(i);
     }
   }
-  getAllApprovedCoursesPerPage(page:number) {
+
+  getAllApprovedCoursesPerPage(page: number) {
     this.courseService.getApprovedCoursesPerPage(page).subscribe(
       (data) => {
         this.coursesData = data
@@ -322,7 +338,7 @@ export class AllCourseComponent implements OnInit {
     this.courseService.getApprovedCourses().subscribe(
       (data) => {
         this.coursesData = data
-        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.totalPages = Math.ceil(data.count / this.returnedItems)
         this.courses = data.results;
         this.calculatePages()
         console.log(data)
@@ -341,12 +357,13 @@ export class AllCourseComponent implements OnInit {
 
   }
 
-  getAllTeacherApprovedCourses(teacherId: string) {
-    this.teacherService.getTeacherApprovedCourses(teacherId).subscribe(
+  getAllTeacherApprovedCourses(teacherId: string, page: number) {
+    this.teacherService.getTeacherApprovedCourses(teacherId, page).subscribe(
       (data) => {
         this.coursesData = data
-        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.totalPages = Math.ceil(data.count / this.returnedItems)
         this.courses = data.results;
+
         this.calculatePages()
         this.courses.forEach(course => {
           this.getTeacherDetails(course.teachers).subscribe(
@@ -366,7 +383,7 @@ export class AllCourseComponent implements OnInit {
     this.teacherService.getPendingCourses(teacherId).subscribe(
       (data) => {
         this.coursesData = data
-        this.totalPages = Math.ceil(data.count/this.returnedItems)
+        this.totalPages = Math.ceil(data.count / this.returnedItems)
         this.courses = data.results;
         this.calculatePages()
         this.courses.forEach(course => {
@@ -449,7 +466,7 @@ export class AllCourseComponent implements OnInit {
   deleteApprovedCourse(course: Course) {
     this.courseService.delete(course.id).subscribe(res => {
       console.log(res);
-      this.getAllTeacherApprovedCourses(localStorage.getItem('id'));
+      this.getAllTeacherApprovedCourses(localStorage.getItem('id'), 1);
       this.showNotification(
         'snackbar-danger',
         'course deleted Successfully...!!!',

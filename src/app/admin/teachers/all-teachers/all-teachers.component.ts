@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -40,8 +40,16 @@ export class AllTeachersComponent
   selection = new SelectionModel<Teacher>(true, []);
   id: number;
   teachers: Teacher | null;
-
-
+  firstName = '';
+  lastName = '';
+  departmentName = '';
+  role:any
+  user_id:any
+  userId:any
+  currentPage = 1;
+  next = 1;
+  totalPages = 0;
+  returnedItems = 9;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -52,6 +60,9 @@ export class AllTeachersComponent
 
   ) {
     super();
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
+    this.role = this.authService.currentUserValue.role[0];
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -64,6 +75,8 @@ export class AllTeachersComponent
   ngOnInit() {
 
     this.loadData();
+
+
   }
 
   refresh() {
@@ -172,24 +185,32 @@ export class AllTeachersComponent
       'center'
     );
   }
+  getRange(num: number): number[] {
+    console.log(Math.ceil(num/this.returnedItems))
+    return Array(num).fill(0).map((_, i) => i + 1);
+  }
 
   public loadData() {
     this.exampleDatabase = new TeacherService(this.httpClient);
     this.authService = new AuthService(this.httpClient);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
-      this.paginator,
       this.sort,
       this.authService,
     );
+
+
     this.subs.sink = fromEvent(this.filter.nativeElement, 'keyup').subscribe(
       () => {
+
         if (!this.dataSource) {
           return;
         }
         this.dataSource.filter = this.filter.nativeElement.value;
       }
     );
+
+
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -200,7 +221,6 @@ export class AllTeachersComponent
       panelClass: colorName,
     });
   }
-
   // context menu
   onContextMenu(event: MouseEvent, item: Teacher) {
     event.preventDefault();
@@ -210,6 +230,103 @@ export class AllTeachersComponent
     this.contextMenu.menu.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
+
+  onPageChanged(page: number) {
+    this.currentPage = page;
+    if (this.role === 'Super_Admin') {
+      this.exampleDatabase.getTeachersperPage(this.currentPage).subscribe(data=>{
+        this.exampleDatabase.dataChange.next(data.results);
+      });
+    }
+    else if (this.role === 'head_super_department') {
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSuperDepTeachersperPage(res,this.currentPage).subscribe(data=>{
+          this.exampleDatabase.dataChange.next(data.results);
+        });
+      })
+    }else if (this.role === 'head_sub_department') {
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        this.exampleDatabase.getSubDepTeachersperPage(res,this.currentPage).subscribe(data=>{
+          this.exampleDatabase.dataChange.next(data.results);
+        });
+      })
+    }
+  }
+  next_previous(action: string) {
+    if (action === 'next') {
+      this.currentPage = Math.min(this.currentPage + 1, this.dataSource.count);
+      console.log(this.currentPage)
+    } else if (action === 'previous') {
+      this.currentPage = Math.max(this.currentPage - 1, 1);
+      console.log(this.currentPage)
+    }
+      if (this.role === 'Super_Admin') {
+        this.exampleDatabase.getTeachersperPage(this.currentPage).subscribe(data=>{
+          this.exampleDatabase.dataChange.next(data.results);
+        });
+      }
+      else if (this.role === 'head_super_department') {
+        this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+          this.exampleDatabase.getSuperDepTeachersperPage(res,this.currentPage).subscribe(data=>{
+            this.exampleDatabase.dataChange.next(data.results);
+          });
+        })
+      }else if (this.role === 'head_sub_department') {
+        this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+          this.exampleDatabase.getSubDepTeachersperPage(res,this.currentPage).subscribe(data=>{
+            this.exampleDatabase.dataChange.next(data.results);
+          });
+        })
+      }
+  }
+  onSearchFirstName(query: string) {
+    console.log(query)
+    this.firstName = query;
+    this.getFilteredTeachers()
+  }
+  onSearchLastName(query: string) {
+    console.log(query)
+    this.lastName = query;
+    this.getFilteredTeachers()
+  }
+  onSearchDepartment(query: string) {
+    console.log(query)
+    this.departmentName = query;
+    this.getFilteredTeachers()
+  }
+  getFilteredTeachers() {
+    if (this.role === 'Super_Admin') {
+      this.teachersService.getFilteredTeachersGrid(this.firstName, this.lastName, this.departmentName).subscribe(res=>{
+        this.exampleDatabase.dataChange.next(res.results);
+        this.dataSource.totalItems = res.count
+        this.dataSource.count = Math.ceil(res.count/2)
+      })
+    }
+    else if (this.role === 'head_super_department') {
+      console.log('here')
+      this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
+        this.teachersService.getSuperDepFilteredTeachersGrid(res,this.firstName, this.lastName, this.departmentName).subscribe(res=>{
+          this.exampleDatabase.dataChange.next(res.results);
+          this.dataSource.totalItems = res.count
+          this.dataSource.count = Math.ceil(res.count/2)
+        })
+      })
+
+    }else if (this.role === 'head_sub_department') {
+      this.exampleDatabase.getSubDepId(this.userId).subscribe(res=>{
+        this.teachersService.getSubDepFilteredTeachersGrid(res,this.firstName, this.lastName, this.departmentName).subscribe(res=>{
+          this.exampleDatabase.dataChange.next(res.results);
+          this.dataSource.totalItems = res.count
+          this.dataSource.count = Math.ceil(res.count/2)
+        })
+      })
+
+    }
+
+
+
+  }
+
 }
 
 export class ExampleDataSource extends DataSource<Teacher> {
@@ -222,22 +339,23 @@ export class ExampleDataSource extends DataSource<Teacher> {
   set filter(filter: string) {
     this.filterChange.next(filter);
   }
-
   filteredData: Teacher[] = [];
+  count: number;
+  totalItems: number;
+  next: string;
+  previous: string;
   renderedData: Teacher[] = [];
   userId : number;
   user_id: string;
   role: any
   constructor(
     public exampleDatabase: TeacherService,
-    public paginator: MatPaginator,
     public _sort: MatSort,
     private authService: AuthService,
 
   ) {
     super();
     // Reset to the first page when the user changes the filter.
-    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id)
     this.role = this.authService.currentUserValue.role[0];
@@ -246,19 +364,18 @@ export class ExampleDataSource extends DataSource<Teacher> {
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Teacher[]> {
-    // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this.exampleDatabase.dataChange,
       this._sort.sortChange,
       this.filterChange,
-      this.paginator.page,
     ];
     if (this.role === 'Super_Admin') {
-      this.exampleDatabase.getAllTeacherss();
+      this.exampleDatabase.getAllTeacherss(1);
     }
     else if (this.role === 'head_super_department') {
+      console.log('here')
       this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
-        this.exampleDatabase.getSuperDepartmentTeachers(res);
+        this.exampleDatabase.getSuperDepartmentTeachers(res,1);
 
       })
 
@@ -271,30 +388,19 @@ export class ExampleDataSource extends DataSource<Teacher> {
     }
     return merge(...displayDataChanges).pipe(
       map(() => {
+        this.exampleDatabase.countChange.subscribe(count => {
+          this.count=count
+        });
+        this.exampleDatabase.totalItems.subscribe(count => {
+          this.totalItems=count
+        });
         // Filter data
         this.filteredData = this.exampleDatabase.data
-          .slice()
-          .filter((teachers: Teacher) => {
-            const searchStr = (
-              teachers.user.firstName +
-              teachers.user.lastName +
-              teachers.sub_department +
-              teachers.user.gender +
-              teachers.degree +
-              teachers.user.email +
-              teachers.user.mobile_phone
-            ).toLowerCase();
-            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-          });
-        // Sort filtered data
-        const sortedData = this.sortData(this.filteredData.slice());
-        // Grab the page's slice of the filtered sorted data.
-        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
-        this.renderedData = sortedData.splice(
-          startIndex,
-          this.paginator.pageSize
-        );
-        return this.renderedData;
+
+          .slice();
+
+
+        return this.filteredData;
       })
     );
   }
@@ -302,37 +408,4 @@ export class ExampleDataSource extends DataSource<Teacher> {
   disconnect() {
   }
 
-  /** Returns a sorted copy of the database data. */
-  sortData(data: Teacher[]): Teacher[] {
-    if (!this._sort.active || this._sort.direction === '') {
-      return data;
-    }
-    return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
-      switch (this._sort.active) {
-        case 'id':
-          [propertyA, propertyB] = [a.user.id, b.user.id];
-          break;
-        case 'firstName':
-          [propertyA, propertyB] = [a.user.firstName, b.user.firstName];
-          break;
-        case 'lastName':
-          [propertyA, propertyB] = [a.user.lastName, b.user.lastName];
-          break;
-        case 'email':
-          [propertyA, propertyB] = [a.user.email, b.user.email];
-          break;
-        case 'department':
-          [propertyA, propertyB] = [a.sub_department.name, b.sub_department.name];
-          break;
-
-      }
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-      return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
-      );
-    });
-  }
 }

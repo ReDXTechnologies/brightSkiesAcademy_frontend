@@ -37,21 +37,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--                <tr>-->
-                <!--                  <td class="table-img">-->
-                <!--                    <img src="assets/img/course/ProfileHPC.png" alt="">-->
-                <!--                  </td>-->
-                <!--                  <td>-->
-                <!--                    <div class="media-title"><span> High performance computing fundamentals-->
-                <!--                    </span></div>-->
-                <!--                  </td>-->
-                <!--                  <td>-->
-                <!--                    <a href="#">-->
-                <!--  <span class="msr-3 align-self-center certif-icon danger-rgba text-danger">-->
-                <!--    <i class="far fa-file-pdf"></i>-->
-                <!--  </span>-->
-                <!--                    </a></td>-->
-                <!--                </tr>-->
 
                 </tbody>
               </table>
@@ -254,36 +239,56 @@
                     </table>
                   </div>
                 </div>
-                <div class="header mt-4" *ngIf="role==='head_sub_department'">
-                  <h2>My courses List</h2>
-                </div>
-                <div class="tableBody" *ngIf="role==='head_sub_department'">
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                      <tr>
-                        <th></th>
-                        <th>Course Name</th>
-                        <th>Students Enrolled in</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr *ngFor="let course of teacherApprovedCourses">
-                        <td class="table-img">
-                          <img src="{{course.image}}" alt="">
-                        </td>
-                        <td>
-                          <div class="media-title"><span> {{course.title}}
-                    </span></div>
-                        </td>
-                        <td>
-                          <span class="font-bold">{{course.total_enrolled}}</span>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                <div class="pagination-container">
+                  <span style="margin-top: 10px; margin-inline: 20px">Total courses enrolled in <span>{{courses.length}}</span></span>
+
+                  <div class="edu-pagination mt-30 mb-20">
+                    <ul>
+                      <li><a (click)="next_previous('previous')"><i class="fas fa-angle-double-left"></i></a></li>
+                      <!--                <li class="active"><a href="#"><span>01</span></a> </li>-->
+                      <!--                <li><a href="#"><span>02</span></a></li>-->
+                      <li *ngFor="let i of [].constructor(totalPages); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
+                        <a (click)="onPageChanged(page+1)" style="cursor: pointer">
+                          <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                          <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
+                        </a>
+                      </li>
+
+                      <li><a (click)="next_previous('next')"><i class="fas fa-angle-double-right"></i></a></li>
+                    </ul>
+
                   </div>
                 </div>
+<!--                <div class="header mt-4" *ngIf="role==='head_sub_department'">-->
+<!--                  <h2>My courses List</h2>-->
+<!--                </div>-->
+<!--                <div class="tableBody" *ngIf="role==='head_sub_department'">-->
+<!--                  <div class="table-responsive">-->
+<!--                    <table class="table table-hover">-->
+<!--                      <thead>-->
+<!--                      <tr>-->
+<!--                        <th></th>-->
+<!--                        <th>Course Name</th>-->
+<!--                        <th>Students Enrolled in</th>-->
+<!--                      </tr>-->
+<!--                      </thead>-->
+<!--                      <tbody>-->
+<!--                      <tr *ngFor="let course of teacherApprovedCourses">-->
+<!--                        <td class="table-img">-->
+<!--                          <img src="{{course.image}}" alt="">-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                          <div class="media-title"><span> {{course.title}}-->
+<!--                    </span></div>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                          <span class="font-bold">{{course.total_enrolled}}</span>-->
+<!--                        </td>-->
+<!--                      </tr>-->
+<!--                      </tbody>-->
+<!--                    </table>-->
+<!--                  </div>-->
+<!--                </div>-->
 
               </div>
             </mat-tab>

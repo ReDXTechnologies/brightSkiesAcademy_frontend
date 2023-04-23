@@ -224,7 +224,7 @@
     color: $body-text;
     @media #{$xxxl} {
       width: 300px;
-      margin-inline: 25px;
+      margin-inline: 0px;
     }
     @media #{$xxl} {
       width: 250px;
