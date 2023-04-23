@@ -68,12 +68,16 @@ export class SigninComponent
                 }
                 console.log("role",this.authService.currentUserValue.role)
                   const role = this.authService.currentUserValue.role[0];
-                  if (role === Role.Super_Admin || role === Role.Admin || role === Role.head_sub_department || role === Role.head_super_department) {
-                    this.router.navigate(['/admin/dashboard/main']);
+                  if (role === Role.Super_Admin || role === Role.Admin ) {
+                    // this.router.navigate(['/admin/dashboard/main']);
+                    this.router.navigate(['/admin/departments/all-departments']);
                   } else if (role === Role.Teacher || role === Role.Student_Teacher) {
                     this.router.navigate(['/teacher/teacher-profile']);
                   } else if (role === Role.Student) {
-                    this.router.navigate(['/student/dashboard']);
+                    // this.router.navigate(['/student/dashboard']);
+                    this.router.navigate(['/student/student-profile']);
+                  } else if (role === Role.head_sub_department ||  role === Role.head_super_department) {
+                    this.router.navigate(['/admin/departments/head-department-profile']);
                   } else {
                     this.router.navigate(['/authentication/signin']);
                   }

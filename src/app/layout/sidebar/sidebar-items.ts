@@ -13,11 +13,23 @@ export const ROUTES: RouteInfo[] = [
     role: ['All'],
     submenu: [],
   },
+  // {
+  //   path: '/student/dashboard',
+  //   title: 'MENUITEMS.STUDENT.LIST.DASHBOARD',
+  //   iconType: 'material-icons-two-tone',
+  //   icon: 'space_dashboard',
+  //   class: '',
+  //   groupTitle: false,
+  //   badge: '',
+  //   badgeClass: '',
+  //   role: ['Student'],
+  //   submenu: [],
+  // },
   {
-    path: '/student/dashboard',
-    title: 'MENUITEMS.STUDENT.LIST.DASHBOARD',
+    path: '/student/student-profile',
+    title: 'Profile',
     iconType: 'material-icons-two-tone',
-    icon: 'space_dashboard',
+    icon: 'person',
     class: '',
     groupTitle: false,
     badge: '',
@@ -25,18 +37,6 @@ export const ROUTES: RouteInfo[] = [
     role: ['Student'],
     submenu: [],
   },
-      {
-        path: '/student/student-profile',
-        title: 'Profile',
-        iconType: 'material-icons-two-tone',
-        icon: 'person',
-        class: '',
-        groupTitle: false,
-        badge: '',
-        badgeClass: '',
-        role: ['Student'],
-        submenu: [],
-      },
   {
     path: '/teacher/teacher-profile',
     title: 'Profile',
@@ -46,24 +46,24 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Teacher','Student_Teacher'],
+    role: ['Teacher', 'Student_Teacher'],
     submenu: [],
   },
 
   // Admin Modules
 
-  {
-    path: '/admin/dashboard/main',
-    title: 'MENUITEMS.DASHBOARD.TEXT',
-    iconType: 'material-icons-two-tone',
-    icon: 'space_dashboard',
-    class: '',
-    groupTitle: false,
-    badge: '',
-    badgeClass: '',
-    role: ['Admin','Super_Admin','head_sub_department','head_super_department'],
-    submenu: [],
-  },
+  // {
+  //   path: '/admin/dashboard/main',
+  //   title: 'MENUITEMS.DASHBOARD.TEXT',
+  //   iconType: 'material-icons-two-tone',
+  //   icon: 'space_dashboard',
+  //   class: '',
+  //   groupTitle: false,
+  //   badge: '',
+  //   badgeClass: '',
+  //   role: ['Admin', 'Super_Admin', 'head_sub_department', 'head_super_department'],
+  //   submenu: [],
+  // },
   {
     path: '/admin/departments/head-department-profile',
     title: 'Profile',
@@ -73,7 +73,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['head_sub_department','head_super_department'],
+    role: ['head_sub_department', 'head_super_department'],
     submenu: [],
   },
   {
@@ -123,7 +123,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Admin','Super_Admin'],
+    role: ['Admin', 'Super_Admin'],
     submenu: [
       {
         path: '/admin/departments/all-departments',
@@ -146,7 +146,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin'],
+        role: ['Admin', 'Super_Admin'],
         submenu: [],
       },
       {
@@ -173,7 +173,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Admin','Super_Admin','head_super_department',"head_sub_department"],
+    role: ['Admin', 'Super_Admin', 'head_super_department', "head_sub_department"],
     submenu: [],
   },
 
@@ -247,7 +247,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin','head_sub_department'],
+        role: ['Admin', 'Super_Admin', 'head_sub_department'],
         submenu: [],
       },
     ]
@@ -262,7 +262,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Admin','Super_Admin'],
+    role: ['Admin', 'Super_Admin'],
     submenu: [
       {
         path: '/admin/teachers/all-teachers',
@@ -273,7 +273,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin'],
+        role: ['Admin', 'Super_Admin'],
         submenu: [],
       },
       {
@@ -285,7 +285,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin'],
+        role: ['Admin', 'Super_Admin'],
         submenu: [],
       },
       {
@@ -300,7 +300,7 @@ export const ROUTES: RouteInfo[] = [
         role: [''],
         submenu: [],
       },
-      ]
+    ]
 
   },
 
@@ -318,7 +318,7 @@ export const ROUTES: RouteInfo[] = [
   //   role: ['Admin','Super_Admin'],
   //   submenu: [],
   // },
- //courses admin
+  //courses admin
   {
     path: 'shared/courses',
     title: 'Courses',
@@ -378,7 +378,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Admin','Super_Admin','head_super_department'],
+    role: ['Admin', 'Super_Admin', 'head_super_department'],
     submenu: [
       {
         path: 'shared/courses',
@@ -389,7 +389,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin','head_super_department'],
+        role: ['Admin', 'Super_Admin', 'head_super_department'],
         submenu: [],
       },
       {
@@ -401,7 +401,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: '',
         badgeClass: '',
-        role: ['Admin','Super_Admin','head_super_department'],
+        role: ['Admin', 'Super_Admin', 'head_super_department'],
         submenu: [],
       },
       {
@@ -427,7 +427,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: '',
     badgeClass: '',
-    role: ['Teacher','Student','Student_Teacher'],
+    role: ['Teacher', 'Student', 'Student_Teacher'],
     submenu: [
       {
         path: '/shared/courses',
