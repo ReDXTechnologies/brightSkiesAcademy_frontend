@@ -88,7 +88,8 @@
             </ul>
         </div>
         <div class="video-wishlist" *ngIf="!is_enrolled&& !requestSent&& course?.price > 0 && role!='Super_Admin'&&  course?.status ==='approved' && user != teacher_id">
-            <button class="video-cart-btn" (click)="requestEnrollement(user,course?.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
+            <button *ngIf="!isLoading" class="video-cart-btn" (click)="requestEnrollement(user,course?.id)"><i class="fas fa-hand-paper" ></i>Request Access</button>
+          <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
         </div>
 
       <div class="video-wishlist " *ngIf="requestSent && course?.price >0 && role!='Super_Admin'&& course?.status ==='approved'">

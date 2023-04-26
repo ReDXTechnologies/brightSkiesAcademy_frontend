@@ -60,7 +60,7 @@
                          </a>
                       </div>
                       <div class="member-content">
-                         <h4><a [routerLink]="['/admin/teachers/about-teacher']">{{teacher.user.firstName}} {{teacher.user.lastName}}</a></h4>
+                         <h4><a [routerLink]="['/admin/teachers/about-teacher', teacher.user.id]">{{teacher.user.firstName}} {{teacher.user.lastName}}</a></h4>
                          <span>{{teacher.degree}}</span>
                         <span><i class="material-icons mr-10">email</i>{{teacher.user.email}}</span>
                         <span><i class="material-icons mr-10">phone</i>{{teacher.user.mobile_phone}}</span>

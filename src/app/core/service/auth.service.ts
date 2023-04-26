@@ -52,6 +52,14 @@ export class AuthService {
     return this.http.post(`${environment.apiUrl}/user/${userId}/change-password`, {email, password, new_password})
 
   }
+  public resetPassword(userId: string, token: string, password: string, confirm_password: string) {
+    return this.http.post(`${environment.apiUrl}/set-new-password/${userId}/${token}`, { password, confirm_password})
+
+  }
+  public forgetPassword(email: string) {
+    return this.http.get(`${environment.apiUrl}/forget-password/${email}`)
+
+  }
 
   logout() {
     // remove user from local storage to log user out

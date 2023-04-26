@@ -18,7 +18,7 @@
 
           </span>
           <span class="accordion-tittle-inner" >
-            <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs</span>&nbsp;
+            <span>{{module.videos.length}} tutorials • {{module.labs.length}} labs • {{module.quizzes.length}} Quiz</span>&nbsp;
             <button style="color: #0b7ef1 " *ngIf="!isEditMode && user == teacher_id" (click)="addVideo(courseId,module.id,module.name)"><i class="fas fa-file-video "></i></button>
             <button style="color: #f1840b " *ngIf="!isEditMode && user == teacher_id" (click)="addLab(courseId,module.id,module.name)"><i class="fas fa-file-code"></i></button>
             <button style="color: #484747 " *ngIf="!isEditMode && user == teacher_id" (click)="addQuizz(courseId,module.id,module.name)"><i class="fas fa-question-circle"></i></button>
@@ -156,7 +156,7 @@
 
 
                 <div class=" row mt-3"
-                     *ngIf="course.status==='pending' &&lab.is_hosted_on_aws && (role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department')">
+                     *ngIf="(course.status==='pending'|| course.status==='update_pending_approval') &&lab.is_hosted_on_aws && (role==='Super_Admin'|| role==='head_super_department' || role==='head_sub_department')">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10"> <span class="lab_note">
                     Please be aware that by clicking on the "Start" button,
                     the lab course will be hosted on AWS and it may take a <b>4 to 5 minutes</b> to set up and test it. Additionally,
@@ -181,7 +181,7 @@
                   </div>
 
                 </div>
-                <div class=" row mt-3" *ngIf="course.status==='approved' && lab.is_hosted_on_aws ">
+                <div class=" row mt-3" *ngIf="(course.status==='approved' || (course.status==='update_pending_approval'&& role!=='Super_Admin'&& role!=='head_super_department'&& role!=='head_sub_department')) && lab.is_hosted_on_aws ">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
                     <span class="lab_note">
                     Please be aware that by clicking on the "Start" button,
@@ -216,7 +216,7 @@
                   </div>
 
                 </div>
-                <span class="lab_note" *ngIf="is_enrolled && lab.is_hosted_on_aws || user==teacher_id"><strong>Remaining trials : <span
+                <span class="lab_note" *ngIf="(is_enrolled && lab.is_hosted_on_aws) || (user==teacher_id && lab.is_hosted_on_aws)"><strong>Remaining trials : <span
                   [innerHTML]="sessionsRemaining(course.id, lab.id)  | async"></span></strong></span>
 
                 <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='pending'">
@@ -253,7 +253,7 @@
 
 
                 </div>
-                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && course.status==='approved'">
+                <div class=" row mt-3" *ngIf="!lab.is_hosted_on_aws && (course.status==='approved' || course.status==='update_pending_approval')">
                   <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
                     <span class="lab_note">By clicking on the "Download" button, you will be able to download the Docker image of the course.
                   To run the course on your local machine, you just need to make sure that you have <b></b>  installed and

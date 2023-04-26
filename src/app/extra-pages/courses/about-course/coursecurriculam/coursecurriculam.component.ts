@@ -259,7 +259,7 @@ export class CoursecurriculamComponent implements OnInit {
           'center',
           'center'
         );
-        window.location.reload()
+        // window.location.reload()
       }
     });
 
@@ -390,7 +390,7 @@ export class CoursecurriculamComponent implements OnInit {
     this.isLoadingStart = true;
     this.spinner.show();
 
-    if (this.course.status==='pending') {
+    if (this.course.status==='pending' || this.course.status==='update_pending_approval' ) {
       this.adminService.launchSession(this.user, courseId,lab_id).subscribe(response => {
         console.log(response)
         this.isLoadingStart = false;
@@ -415,6 +415,12 @@ export class CoursecurriculamComponent implements OnInit {
 
       this.adminService.createCustomAmi(courseId,lab_id).subscribe(response => {
         console.log(response)
+        this.showNotification(
+          'snackbar-success',
+          'AMI created Successfully...!!!',
+          'center',
+          'center'
+        );
         this.isLoading = false;
         this.spinner.hide();
       });

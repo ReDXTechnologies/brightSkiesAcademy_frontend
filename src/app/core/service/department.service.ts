@@ -112,8 +112,8 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
   createSuperDepartment(department: { name: string; department_start_date: string;  email: any;  }, head_id: string): Observable<Department> {
     return this.http.post<Department>(`${this.baseUrl}/super-departments/create/${head_id}`, department);
   }
-  createSubDepartment(department: any, head_id: string, super_dep_id :string): Observable<Department> {
-    return this.http.post<Department>(`${this.baseUrl}/sub-departments/create/${head_id}/super_dep/${super_dep_id}`, department);
+  createSubDepartment(department: any, head_id: string, super_dep_id :string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/sub-departments/create/${head_id}/super_dep/${super_dep_id}`, department);
   }
 
 

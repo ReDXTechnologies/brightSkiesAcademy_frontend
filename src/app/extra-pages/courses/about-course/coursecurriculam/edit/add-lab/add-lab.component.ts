@@ -67,7 +67,7 @@ export class AddLabComponent implements OnInit {
         labFiles: [this.data.lab.labFiles],
         packages_requirements: [this.data.lab.packages_requirements],
         libraries_requirements: [this.data.lab.libraries_requirements],
-        hosting_platform: [this.data.lab.hosting_platform],
+        hosting_platform: [this.data.lab.is_hosted_on_aws],
       });
     }else{
       return this.fb.group({
@@ -108,10 +108,11 @@ export class AddLabComponent implements OnInit {
 
   public confirmAdd(): void {
     this.loadingAdd = true;
+    console.log('************',this.labForm.value.hosting_platform,'*************')
 
     const formData = new FormData();
-
-    if (this.labForm.value.hosting_platform == 'aws') {
+    if (!this.labForm.value.hosting_platform) {
+      console.log('**************************************')
       // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
       formData.append(`is_hosted_on_aws`, 'True');
       formData.append(`title`, this.labForm.value.title);
@@ -155,10 +156,10 @@ export class AddLabComponent implements OnInit {
   }
   public confirmEdit(): void {
     this.loadingEdit = true;
-
+    console.log('*************',this.labForm.value.hosting_platform,'*******************')
     const formData = new FormData();
 
-    if (this.labForm.value.hosting_platform == 'aws') {
+    if (this.labForm.value.hosting_platform) {
       // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
       formData.append(`is_hosted_on_aws`, 'True');
       formData.append(`title`, this.labForm.value.title);

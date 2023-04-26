@@ -3,9 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { LockedComponent } from './locked/locked.component';
-import { Page404Component } from './page404/page404.component';
-import { Page500Component } from './page500/page500.component';
+import { Reset_passwordComponent } from './reset_password/reset_password.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,21 +20,14 @@ const routes: Routes = [
     component: SignupComponent,
   },
   {
-    path: 'reset-password',
+    path: 'forget-password',
     component: ForgotPasswordComponent,
   },
   {
-    path: 'locked',
-    component: LockedComponent,
+    path: 'reset-password',
+    component: Reset_passwordComponent,
   },
-  {
-    path: 'page404',
-    component: Page404Component,
-  },
-  {
-    path: 'page500',
-    component: Page500Component,
-  },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

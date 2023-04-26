@@ -1,4 +1,3 @@
-import { Page404Component } from './authentication/page404/page404.component';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
 import { NgModule } from '@angular/core';
@@ -56,7 +55,6 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
-  { path: '**', component: Page404Component },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, {})],

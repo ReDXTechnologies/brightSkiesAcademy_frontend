@@ -23,7 +23,7 @@ export class CoursevideoComponent implements OnInit {
   @Input() selectedIndex: number;
   requestSent = false
   is_enrolled = false
-
+  isLoading= false
   constructor(private sanitizer: DomSanitizer,
               private authService: AuthService,
               private teacherService: TeacherService,
@@ -55,15 +55,14 @@ export class CoursevideoComponent implements OnInit {
   }
 
   requestEnrollement(user_id: number, course_id: number) {
+    this.isLoading = true
     this.teacherService.requestCourseEnrollement(user_id, course_id).subscribe(res => {
-      console.log("rrrrr",res)
+      this.isLoading=false
       if(!this.course.free){
         this.requestSent = true
-
       }else{
         this.is_enrolled = true
       }
-
     })
   }
 

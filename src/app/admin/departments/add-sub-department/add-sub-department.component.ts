@@ -140,19 +140,31 @@ export class AddSubDepartmentComponent implements OnInit{
     const data = {
       "name": this.departmentForm.value.name,
       "email": this.departmentForm.value.email,
-      "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
+      "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd'),
+      "budget": this.departmentForm.value.budget,
+
     }
-    console.log("*****************",this.departmentForm.value.head_of_department)
     this.departmentService.createSubDepartment(data,this.departmentForm.value.head_of_department,this.departmentForm.value.super_department).subscribe(res => {
       console.log(res)
-      this.showNotification(
-        'snackbar-success',
-        'department added successfully !',
-        'bottom',
-        'center'
-      );
-      this.navigateToSubDEpTab('sub_departments')
-
+      if(res ==='Super department does not have enough budget'){
+        this.loading = false;
+        this.showNotification(
+          'snackbar-danger',
+          'Super department does not have enough budget !',
+          'bottom',
+          'center'
+        );
+      }
+      else{
+        this.loading = false;
+        this.showNotification(
+          'snackbar-success',
+          'department added successfully !',
+          'bottom',
+          'center'
+        );
+        this.navigateToSubDEpTab('sub_departments')
+      }
     })
   }
 

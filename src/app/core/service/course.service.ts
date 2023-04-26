@@ -35,12 +35,57 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/pending-courses`;
    return this.httpClient.get<any>(url);
   }
+  getPendingUpdatedCourses(): Observable<any> {
+    const url = `${this.baseUrl}/pending-updated-courses`;
+    return this.httpClient.get<any>(url);
+  }
+  getPendingUpdatedCoursesPerPage(page: number): Observable<any> {
+    const url = `${this.baseUrl}/pending-updated-courses?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
   getPendingCoursesPerPage(page: number): Observable<any> {
     const url = `${this.baseUrl}/pending-courses?page=${page}`;
     let params = new HttpParams();
     params = params.set('page',page);
     return this.httpClient.get<any>(url, { params });
   }
+
+
+
+
+  getSuperDepPendingCoursesPerPage(dep_id: any,page: number): Observable<any> {
+    const url = `${this.baseUrl}/superdepartments/${dep_id}/courses/pending?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });  }
+  getSubDepPendingCoursesPerPage(dep_id : any,page: number): Observable<any> {
+    const url = `${this.baseUrl}/subdepartments/${dep_id}/courses/pending?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });  }
+
+  getSuperDepUpdatedPendingCoursesPerPage(dep_id: any,page: number): Observable<any> {
+    const url = `${this.baseUrl}/superdepartments/${dep_id}/updated-courses/pending?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });  }
+  getSubDepUpdatedPendingCoursesPerPage(dep_id : any,page: number): Observable<any> {
+    const url = `${this.baseUrl}/subdepartments/${dep_id}/updated-courses/pending?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page',page);
+    return this.httpClient.get<any>(url, { params });
+  }
+
+
+
+
+
+
+
+
+
 
   getSuperDepPendingCourses(dep_id: any): Observable<any> {
     const url = `${this.baseUrl}/superdepartments/${dep_id}/courses/pending`;
@@ -51,7 +96,14 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(url);
   }
 
-
+  getSuperDepUpdatedPendingCourses(dep_id: any): Observable<any> {
+    const url = `${this.baseUrl}/superdepartments/${dep_id}/updated-courses/pending`;
+    return this.httpClient.get<any>(url);
+  }
+  getSubDepUpdatedPendingCourses(dep_id : any): Observable<any> {
+    const url = `${this.baseUrl}/subdepartments/${dep_id}/updated-courses/pending`;
+    return this.httpClient.get<any>(url);
+  }
 
 
   getApprovedCoursesPerPage(page: number): Observable<any> {

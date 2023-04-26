@@ -19,6 +19,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PendingCoursesComponent implements OnInit {
   courses: Course[];
+  updatedCourses: Course[];
   teacher: Teacher;
   shopCatActive: boolean = false;
   selectedSubDepartments: string[] = [];
@@ -31,10 +32,16 @@ export class PendingCoursesComponent implements OnInit {
   role: any
   department: any
   pages = [];
+  updatedCoursePages = [];
   currentPage = 1;
+  updatedcurrentPage = 1;
   totalPages = 0;
+  totalPagesUpdated = 0;
   returnedItems = 9;
-  coursesData :any;
+  coursesData: any;
+  updatedCoursesData: any;
+  selectedIndex = 0;
+
   constructor(public courseService: CourseService,
               private teacherService: TeacherService,
               private departmentService: DepartmentService,
@@ -49,32 +56,156 @@ export class PendingCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPendingCourses();
+    this.getAllPendingUpdatedCourses()
     this.getDepatments();
   }
-  getAllApprovedCoursesPerPage(page:number) {
-    this.courseService.getPendingCoursesPerPage(page).subscribe(
-      (data) => {
-        this.coursesData = data
-        this.courses = data.results;
-        console.log(data)
-        this.courses.forEach(course => {
-          this.getTeacherDetails(course.teachers).subscribe(
-            (teachers) => {
-              course.teacherDetails = teachers;
-            }
-          );
-        });
-      },
-      (error) => {
-        console.log('Error getting approved courses:', error);
-      }
-    );
+
+  getAllPendingCoursesPerPage(page: number) {
+    if (this.role === 'Super_Admin') {
+      this.courseService.getPendingCoursesPerPage(page).subscribe(
+        (data) => {
+          console.log(data)
+          this.coursesData = data
+          this.totalPages = Math.ceil(data.count / this.returnedItems)
+          this.courses = data.results;
+          console.log(this.courses)
+          this.courses.forEach(course => {
+            this.getTeacherDetails(course.teachers).subscribe(
+              (teachers) => {
+                course.teacherDetails = teachers;
+              }
+            );
+          });
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        }
+      );
+    } else if (this.role === 'head_super_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res => {
+        this.courseService.getSuperDepPendingCoursesPerPage(res,page).subscribe(
+          (data) => {
+            this.coursesData = data
+            this.totalPages = Math.ceil(data.count / this.returnedItems)
+            this.courses = data.results;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+
+    } else if (this.role === 'head_sub_department') {
+      this.teacherService.getSubDepId(this.userId).subscribe(res => {
+        this.courseService.getSubDepPendingCoursesPerPage(res,page).subscribe(
+          (data) => {
+            this.coursesData = data
+            this.totalPages = Math.ceil(data.count / this.returnedItems)
+            this.courses = data.results;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+    }
+
   }
+
+  getAllPendingUpdatedCoursesPerPage(page: number) {
+    if (this.role === 'Super_Admin') {
+      this.courseService.getPendingUpdatedCoursesPerPage(page).subscribe(
+        (data) => {
+          console.log(data)
+          this.updatedCoursesData = data
+          this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+          this.updatedCourses = data.results;
+          console.log(this.courses)
+          this.courses.forEach(course => {
+            this.getTeacherDetails(course.teachers).subscribe(
+              (teachers) => {
+                course.teacherDetails = teachers;
+              }
+            );
+          });
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        }
+      );
+    } else if (this.role === 'head_super_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res => {
+        this.courseService.getSuperDepUpdatedPendingCoursesPerPage(res,page).subscribe(
+          (data) => {
+            this.updatedCoursesData = data
+            this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+            this.updatedCourses = data.results;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+
+    } else if (this.role === 'head_sub_department') {
+      this.teacherService.getSubDepId(this.userId).subscribe(res => {
+        this.courseService.getSubDepUpdatedPendingCoursesPerPage(res,page).subscribe(
+          (data) => {
+            this.updatedCoursesData = data
+            this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+            this.updatedCourses = data.results;
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+    }
+  }
+
   calculatePages() {
     for (let i = 1; i <= this.totalPages; i++) {
       this.pages.push(i);
     }
   }
+  calculatePagesUpdated() {
+    for (let i = 1; i <= this.totalPagesUpdated; i++) {
+      this.updatedCoursePages.push(i);
+    }
+  }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {
       duration: 2000,
@@ -100,11 +231,20 @@ export class PendingCoursesComponent implements OnInit {
 
     return of(teachers);
   }
-  previous_next(url:any) {
 
-    this.httpClient.get<any>(url).subscribe(data=>{
-      this.coursesData= data;
-      this.courses=data.results;
+  previous_next(url: any) {
+
+    this.httpClient.get<any>(url).subscribe(data => {
+      this.coursesData = data;
+      this.courses = data.results;
+    });
+  }
+
+  previous_next_updated(url: any) {
+
+    this.httpClient.get<any>(url).subscribe(data => {
+      this.updatedCoursesData = data;
+      this.updatedCourses = data.results;
     });
   }
 
@@ -114,7 +254,7 @@ export class PendingCoursesComponent implements OnInit {
         (data) => {
           console.log(data)
           this.coursesData = data
-          this.totalPages = Math.ceil(data.count/this.returnedItems)
+          this.totalPages = Math.ceil(data.count / this.returnedItems)
           this.courses = data.results;
           this.calculatePages()
           console.log(this.courses)
@@ -131,11 +271,11 @@ export class PendingCoursesComponent implements OnInit {
         }
       );
     } else if (this.role === 'head_super_department') {
-      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+      this.teacherService.getSuperDepId(this.userId).subscribe(res => {
         this.courseService.getSuperDepPendingCourses(res).subscribe(
           (data) => {
             this.coursesData = data
-            this.totalPages = Math.ceil(data.count/this.returnedItems)
+            this.totalPages = Math.ceil(data.count / this.returnedItems)
             this.courses = data.results;
             this.calculatePages()
             this.courses.forEach(course => {
@@ -154,11 +294,11 @@ export class PendingCoursesComponent implements OnInit {
 
 
     } else if (this.role === 'head_sub_department') {
-      this.teacherService.getSubDepId(this.userId).subscribe(res=>{
+      this.teacherService.getSubDepId(this.userId).subscribe(res => {
         this.courseService.getSubDepPendingCourses(res).subscribe(
           (data) => {
             this.coursesData = data
-            this.totalPages = Math.ceil(data.count/this.returnedItems)
+            this.totalPages = Math.ceil(data.count / this.returnedItems)
             this.courses = data.results;
             this.calculatePages()
             this.courses.forEach(course => {
@@ -179,7 +319,77 @@ export class PendingCoursesComponent implements OnInit {
 
 
   }
+  getAllPendingUpdatedCourses() {
+    if (this.role === 'Super_Admin') {
+      this.courseService.getPendingUpdatedCourses().subscribe(
+        (data) => {
+          console.log(data)
+          this.updatedCoursesData = data
+          this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+          this.updatedCourses = data.results;
+          this.calculatePagesUpdated()
+          console.log(this.courses)
+          this.courses.forEach(course => {
+            this.getTeacherDetails(course.teachers).subscribe(
+              (teachers) => {
+                course.teacherDetails = teachers;
+              }
+            );
+          });
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        }
+      );
+    } else if (this.role === 'head_super_department') {
+      this.teacherService.getSuperDepId(this.userId).subscribe(res => {
+        this.courseService.getSuperDepUpdatedPendingCourses(res).subscribe(
+          (data) => {
+            this.updatedCoursesData = data
+            this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+            this.updatedCourses = data.results;
+            this.calculatePagesUpdated()
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
 
+
+    } else if (this.role === 'head_sub_department') {
+      this.teacherService.getSubDepId(this.userId).subscribe(res => {
+        this.courseService.getSubDepUpdatedPendingCourses(res).subscribe(
+          (data) => {
+            this.updatedCoursesData = data
+            this.totalPagesUpdated = Math.ceil(data.count / this.returnedItems)
+            this.updatedCourses = data.results;
+            this.calculatePagesUpdated()
+            this.courses.forEach(course => {
+              this.getTeacherDetails(course.teachers).subscribe(
+                (teachers) => {
+                  course.teacherDetails = teachers;
+                }
+              );
+            });
+          },
+          (error) => {
+            console.log('Error getting approved courses:', error);
+          }
+        );
+      })
+
+    }
+
+
+  }
   viewDetails(course: Course) {
     const courseJson = JSON.stringify(course);
     const teacher_id = course.teachers[0]
@@ -189,8 +399,12 @@ export class PendingCoursesComponent implements OnInit {
         const teacherJson = JSON.stringify(teacher);
 
         this.router.navigate(['/shared/Lab-course-details'],
-          {queryParams: {                courseId: course.id,
-             teacher: teacherJson}});
+          {
+            queryParams: {
+              courseId: course.id,
+              teacher: teacherJson
+            }
+          });
 
       },
       (error) => {
@@ -276,7 +490,7 @@ export class PendingCoursesComponent implements OnInit {
         }
       });
     } else if (this.role === 'head_super_department') {
-      this.teacherService.getSuperDepId(this.userId).subscribe(res=>{
+      this.teacherService.getSuperDepId(this.userId).subscribe(res => {
         this.departmentService.getSubDepartmentsBySuperDepId(res).subscribe(value => {
           if (!!value) {
             this.departments = value;
@@ -286,7 +500,7 @@ export class PendingCoursesComponent implements OnInit {
 
 
     } else if (this.role === 'head_sub_department') {
-      this.teacherService.getSubDepId(this.userId).subscribe(res=>{
+      this.teacherService.getSubDepId(this.userId).subscribe(res => {
         this.departmentService.getSubDepartmentById(res).subscribe(value => {
           if (!!value) {
             console.log(value)
