@@ -27,7 +27,6 @@ import {AuthService} from "../../../../core/service/auth.service";
   styleUrls: ['./pending-enrollement.component.sass'],
 })
 export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
-
   implements OnInit {
   filterToggle = false;
   displayedColumns = [
@@ -41,8 +40,11 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
     'requested_course',
     'price',
     'sub_department',
-    'sub_department_budget',
+    'actions'
   ];
+  isLoadingApprove=false
+  isLoadingReject=false
+
   exampleDatabase: TeacherService | null;
   dataSource: ExampleDataSource  | null;
   selection = new SelectionModel<any>(true, []);
@@ -63,14 +65,13 @@ role: any
   ) {
     super();
     this.role = this.authService.currentUserValue.role[0];
-    if (this.role === 'Super_Admin' || this.role==='head_super_department') {
-      this.displayedColumns.push('super_department');
-      this.displayedColumns.push('super_department_budget');
-      this.displayedColumns.push('actions');
-    }else{
-      this.displayedColumns.push('actions');
-
-    }
+    // if (this.role === 'Super_Admin' || this.role==='head_super_department') {
+    //
+    //   this.displayedColumns.push('actions');
+    // }else{
+    //   this.displayedColumns.push('actions');
+    //
+    // }
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -107,28 +108,37 @@ role: any
   }
 
   reject(row) {
+    this.isLoadingReject=true
+
     this.teacherService.rejectUserEnrollement(row.user.id, row.course).subscribe(res => {
-      const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-        (x) => x.user.id === this.id
-      );
-      this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-      this.refreshTable();
-      console.log('teacher rejected successfully');
-      this.showNotification(
-        'snackbar-danger',
-        'Enrollement request rejected Successfully...!!!',
-        'bottom',
-        'center'
-      );
-      error => {
-        console.error('Error rejecting course:', error);
+      if (res){
+        this.isLoadingReject = false
+
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.user.id === this.id
+        );
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        console.log('teacher rejected successfully');
+        this.showNotification(
+          'snackbar-danger',
+          'Enrollement request rejected Successfully...!!!',
+          'bottom',
+          'center'
+        );
+        error => {
+          console.error('Error rejecting course:', error);
+        }
       }
+
     })
   }
   approve(row: any): void {
+    this.isLoadingApprove=true
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
             console.log(res)
           if(res[0]!=='there is not enough budget to approve the course'){
+            this.isLoadingApprove=false
 
             this.loadData();
             this.showNotification(
@@ -138,6 +148,8 @@ role: any
               'center'
             );
           }else{
+            this.isLoadingApprove=false
+
             this.showNotification(
               'snackbar-danger',
               res,
