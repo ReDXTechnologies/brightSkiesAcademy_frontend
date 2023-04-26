@@ -1,0 +1,30 @@
+<div class="container">
+  <h3 mat-dialog-title>Write an email explaining the reasons behind rejecting that course : {{data.courseName}}</h3>
+    <div class="course-review-btn pb-5">
+      <div class="m-5">
+        <div class="comment-title mb-20">
+          <p>This email will be sent to the creator of that course , please give detailed reasons
+          </p>
+        </div>
+        <div class="comment-input-box mb-15">
+          <form class="validate-form" [formGroup]="rejectionEmail" (ngSubmit)="writeFeedback()">
+            <div class="row">
+              <div class="col-xxl-12">
+                <textarea placeholder="Your feedback" formControlName="emailText"
+                          class="comment-input comment-textarea mb-20" required></textarea>
+              </div>
+
+
+            </div>
+
+            <div class="text-center">
+              <button mat-raised-button  class="custom-button edu-btn" color="primary"  [class.auth-spinner]="loading" [disabled]="loading || !rejectionEmail.valid" (click)="writeFeedback()">Send email</button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+  </div>
+
+</div>

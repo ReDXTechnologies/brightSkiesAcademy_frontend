@@ -202,17 +202,17 @@
 
                       <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"> </p></span>
                     </a>
-                    <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                    <div class="course-category" *ngIf="((role==='Teacher'&&user==teacher_id)|| (role==='Student_Teacher'&&user==teacher_id) )">
                       <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
                     </div>
-                    <div *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
+                    <div *ngIf="((role==='Teacher'&&user==teacher_id)|| (role==='Student_Teacher'&&user==teacher_id) )">
                       <button class="play-button" (click)="deleteLab(courseId,module.id,lab.id,module.name,lab.title)"><i class="fas fa-trash deletelab"></i></button>
                     </div>
 
-                    <button disabled class="play-button" *ngIf="
-                     (role==='Teacher'&& user != teacher_id)
-                     || (role==='Student'&& !is_enrolled)
-                     || (role==='head_sub_department'&& user != teacher_id)"><i class="fas fa-play"></i></button>
+<!--                    <button disabled class="play-button" *ngIf="-->
+<!--                     (role==='Teacher'&& user != teacher_id && !is_enrolled)-->
+<!--                     || (role==='Student'&& !is_enrolled)-->
+<!--                     || (role==='head_sub_department'&& user != teacher_id)"><i class="fas fa-play"></i></button>-->
                   </div>
 
                 </div>

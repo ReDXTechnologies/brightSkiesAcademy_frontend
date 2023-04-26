@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PendingAccountsComponent} from "./pending-accounts/pending-teachers-accounts/pending-accounts.component";
-import {PendingCoursesFeesComponent} from "./pending-courses/pending-courses-fees/pending-courses-fees.component";
 import {PendingCoursesComponent} from "./pending-courses/pending-courses/pending-courses.component";
 import {
   PendingHybridProfilesComponent

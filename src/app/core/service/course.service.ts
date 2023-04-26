@@ -129,10 +129,10 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.post<Course>(url,{});
   }
 
-  rejectCourse(course_id:number){
+  rejectCourse(course_id:number,emailText:string){
     const url = `${this.baseUrl}/courses/${course_id}/reject`;
     console.log(url)
-    return this.httpClient.delete(url);
+    return this.httpClient.post(url,emailText);
   }
   getCourseById(course_id:number): Observable<Course>{
     const url = `${this.baseUrl}/courses/${course_id}`;

@@ -11,7 +11,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class ForgotPasswordComponent implements OnInit {
   authForm: UntypedFormGroup;
   submitted = false;
-  returnUrl: string;
   loading = false;
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -28,8 +27,6 @@ export class ForgotPasswordComponent implements OnInit {
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
     });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
   get f() {
     return this.authForm.controls;

@@ -11,6 +11,9 @@ import {Department} from "../../../../core/models/department";
 import {DepartmentService} from "../../../../core/service/department.service";
 import {AuthService} from "../../../../core/service/auth.service";
 import {HttpClient} from "@angular/common/http";
+import {DeleteDialogComponent} from "../../../departments/all-departments/dialogs/delete/delete.component";
+import {MatDialog} from "@angular/material/dialog";
+import {RejectionEmail} from "./rejection-email/rejection-email";
 
 @Component({
   selector: 'app-coursefourmain',
@@ -47,7 +50,9 @@ export class PendingCoursesComponent implements OnInit {
               private departmentService: DepartmentService,
               private authService: AuthService,
               private httpClient: HttpClient,
-              private router: Router, private snackBar: MatSnackBar
+              private router: Router, private snackBar: MatSnackBar,
+              public dialog: MatDialog,
+
   ) {
     this.role = this.authService.currentUserValue.role[0];
     this.user_id = localStorage.getItem('id');
@@ -434,21 +439,27 @@ export class PendingCoursesComponent implements OnInit {
       });
   }
 
-  reject(courseId: number) {
-    this.courseService.rejectCourse(courseId)
-      .subscribe(() => {
-        console.log(`Course ${courseId} has been rejected.`);
-        this.getAllPendingCourses();
+  reject(row) {
+    const dialogRef = this.dialog.open(RejectionEmail, {
+      data:{
+        courseId: row.id,
+        courseName :row.title,
+      } ,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
+        // this.superDeploadData();
+      if(result){
         this.showNotification(
           'snackbar-danger',
-          'course rejected Successfully...!!!',
-          'center',
+          'Email sent and course rejected !',
+          'bottom',
           'center'
         );
-        this.navigateToCoursesTab('0')
+        this.getAllPendingCoursesPerPage(1);
+      }
 
-        // do something after the course has been rejected
-      });
+      })
   }
 
   shopCat() {
@@ -510,4 +521,5 @@ export class PendingCoursesComponent implements OnInit {
       })
     }
   }
+
 }
