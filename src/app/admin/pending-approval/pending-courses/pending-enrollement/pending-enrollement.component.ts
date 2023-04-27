@@ -50,7 +50,8 @@ export class PendingEnrollementComponent extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<any>(true, []);
   id: number;
   Teachers: Teacher | null;
-
+  loadingIndexReject: number = null;
+  loadingIndexApprove: number = null;
   isTblLoading = true;
   public refresher: Subject<any> = new Subject();
 role: any
@@ -107,8 +108,9 @@ role: any
     console.log(row);
   }
 
-  reject(row) {
+  reject(row,i) {
     this.isLoadingReject=true
+    this.loadingIndexReject = i;
 
     this.teacherService.rejectUserEnrollement(row.user.id, row.course).subscribe(res => {
       if (res){
@@ -133,8 +135,9 @@ role: any
 
     })
   }
-  approve(row: any): void {
+  approve(row: any,i): void {
     this.isLoadingApprove=true
+    this.loadingIndexApprove=i
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
             console.log(res)
           if(res[0]!=='there is not enough budget to approve the course'){
