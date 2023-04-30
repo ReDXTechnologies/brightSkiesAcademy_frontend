@@ -111,7 +111,7 @@ export class AddLabComponent implements OnInit {
     console.log('************',this.labForm.value.hosting_platform,'*************')
 
     const formData = new FormData();
-    if (!this.labForm.value.hosting_platform) {
+    if (this.labForm.value.hosting_platform) {
       console.log('**************************************')
       // Add the lab's session duration, number of sessions, VM characteristics, and file uploads to the FormData object
       formData.append(`is_hosted_on_aws`, 'True');
