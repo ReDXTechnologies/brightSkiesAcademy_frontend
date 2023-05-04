@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 746200881003.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - docker build -t brightskiesacademy:latest .
+      - docker tag brightskiesacademy:latest docker push 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:latest
+  post_build:
+    commands:
+      - docker push 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:frontend
+      - printf '[{"name":"frontend","imageUri":"%s"}]' docker push 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:latest > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
