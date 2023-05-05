@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api',
+  apiUrl: 'backendloadbalancer-466602480.us-east-1.elb.amazonaws.com/api',
 };
 
 /*
