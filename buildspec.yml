@@ -11,6 +11,6 @@ phases:
   post_build:
     commands:
       - docker push 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:frontend
-      - printf '[{"name":"frontend","imageUri":"%s"}]' docker push 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:latest > imagedefinitions.json
+      - printf '[{"name":"frontend","imageUri":"%s"}]' 746200881003.dkr.ecr.us-east-1.amazonaws.com/brightskiesacademy:latest > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json

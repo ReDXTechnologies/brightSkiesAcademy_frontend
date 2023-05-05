@@ -82,7 +82,7 @@
     "@angular/language-service": "^15.0.3",
     "@types/jasmine": "~4.3.0",
     "@types/jasminewd2": "~2.0.10",
-    "@types/node": "^18.11.10",
+    "@types/node": "^18.16.4",
     "codelyzer": "^6.0.2",
     "del": "^7.0.0",
     "install": "^0.13.0",
