@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl:"http://django:8000/api"
+  apiUrl:"http://backendloadbalancer-466602480.us-east-1.elb.amazonaws.com/api"
 };
