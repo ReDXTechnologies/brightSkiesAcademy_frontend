@@ -6,7 +6,6 @@ import {AllCourseComponent} from "./courses/all-course/all-course.component";
 import {AboutCourseComponent} from "./courses/about-course/about-course.component";
 import {LabCourseComponent} from "./courses/about-course/LabCourse/lab-course.component";
 import {AddCourseComponent} from "./courses/add-course/add-course.component";
-import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
 const routes: Routes = [
 
   {
@@ -17,10 +16,7 @@ const routes: Routes = [
     path: 'add-course',
     component: AddCourseComponent
   },
-  {
-    path: 'edit-course',
-    component: EditCourseComponent
-  },
+
   {
     path: 'course-details',
     component: AboutCourseComponent

@@ -28,7 +28,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCardModule} from "@angular/material/card";
 import {FileUploadModule} from "ng2-file-upload";
-import {EditCourseComponent} from "./courses/edit-course/edit-course.component";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatStepperModule} from "@angular/material/stepper";
 import {
@@ -68,7 +67,6 @@ import {NgxGaugeModule} from "ngx-gauge";
     CoursevideoComponent,
     LabCourseComponent,
     AddCourseComponent,
-    EditCourseComponent,
     BottomSheetOverviewExampleSheetComponent,
     BottomSheetComponent,
     Instance_guidanceComponent,

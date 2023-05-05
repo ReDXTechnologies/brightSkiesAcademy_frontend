@@ -9,3 +9,4 @@ RUN npm run prod
 FROM nginx:latest
 COPY --from=build /app/dist/main/ /usr/share/nginx/html/
 EXPOSE 80
+
