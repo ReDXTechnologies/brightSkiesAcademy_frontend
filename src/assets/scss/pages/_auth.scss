@@ -11,14 +11,14 @@
 
 .left-img {
   height: 100%;
-  width: 100%;
+  width: 80%;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px 15px;
+  margin-left: 100px ;
   position: relative;
   z-index: 1;
 }
