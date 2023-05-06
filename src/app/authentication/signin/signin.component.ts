@@ -31,7 +31,7 @@ export class SigninComponent
     super();
   }
   ngOnInit() {
-    console.log("****************",process.env.API_URL)
+    console.log("****************",process.env)
 
     const password = new UntypedFormControl('', Validators.required);
     // const confirmPassword = new UntypedFormControl('', CustomValidators.equalTo(password));
