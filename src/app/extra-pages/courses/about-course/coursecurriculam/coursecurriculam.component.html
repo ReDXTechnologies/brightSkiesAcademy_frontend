@@ -197,6 +197,7 @@
                      || (role==='Student_Teacher'&& this.user == teacher_id)
                      || (role==='head_sub_department'&& this.user == teacher_id)
                      || (role==='head_super_department')
+                     || (role==='Teacher' && is_enrolled)
                      ||(role==='Teacher'&& this.user == teacher_id)" (click)="startSession(course.id,lab.id)">
                       <span *ngIf="!isLoadingStart"><i class="fas fa-play teacherplay"></i></span>
 
