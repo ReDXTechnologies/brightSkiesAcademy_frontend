@@ -249,7 +249,6 @@ export class ExampleDataSource extends DataSource<Student> {
     return merge(...displayDataChanges).pipe(
       map(() => {
         this.exampleDatabase.countChange.subscribe(count => {
-          console.log('eeeeeeeee',count)
           this.count=count
         });
         this.exampleDatabase.totalItems.subscribe(count => {

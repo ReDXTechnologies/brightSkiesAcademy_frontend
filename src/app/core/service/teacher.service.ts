@@ -1,12 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Course} from '../models/course';
 import {environment} from "../../../environments/environment";
 import {UnsubscribeOnDestroyAdapter} from "../../shared/UnsubscribeOnDestroyAdapter";
 import {Teacher} from "../models/teacher";
-import {any} from "codelyzer/util/function";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -127,7 +124,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data.results);
-        this.countChange.next(Math.ceil(data.count/2));
+        this.countChange.next(Math.ceil(data.count/8));
         this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
@@ -140,13 +137,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     console.log('here')
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
     let params = new HttpParams();
-    params = params.set('page',page);
+    params.set('page',page);
     this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
         console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data.results);
-        this.countChange.next(Math.ceil(data.count/2));
+        this.countChange.next(Math.ceil(data.count/8));
         this.totalItems.next(data.count);      },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
@@ -160,7 +157,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data.results);
-        this.countChange.next(Math.ceil(data.count/2));
+        this.countChange.next(Math.ceil(data.count/8));
         this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
@@ -175,7 +172,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data.results);
-        this.countChange.next(Math.ceil(data.count/2));
+        this.countChange.next(Math.ceil(data.count/8));
         this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {

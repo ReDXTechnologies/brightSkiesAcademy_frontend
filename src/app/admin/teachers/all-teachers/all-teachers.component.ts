@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -49,7 +49,7 @@ export class AllTeachersComponent
   currentPage = 1;
   next = 1;
   totalPages = 0;
-  returnedItems = 9;
+  returnedItems = 8;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -91,7 +91,6 @@ export class AllTeachersComponent
         teachers: row,
         action: 'edit',
       },
-      direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -299,7 +298,8 @@ export class AllTeachersComponent
       this.teachersService.getFilteredTeachersGrid(this.firstName, this.lastName, this.departmentName).subscribe(res=>{
         this.exampleDatabase.dataChange.next(res.results);
         this.dataSource.totalItems = res.count
-        this.dataSource.count = Math.ceil(res.count/2)
+        this.dataSource.count = Math.ceil(res.count/8)
+        console.log("************************",this.dataSource.count)
       })
     }
     else if (this.role === 'head_super_department') {
@@ -308,7 +308,7 @@ export class AllTeachersComponent
         this.teachersService.getSuperDepFilteredTeachersGrid(res,this.firstName, this.lastName, this.departmentName).subscribe(res=>{
           this.exampleDatabase.dataChange.next(res.results);
           this.dataSource.totalItems = res.count
-          this.dataSource.count = Math.ceil(res.count/2)
+          this.dataSource.count = Math.ceil(res.count/this.returnedItems)
         })
       })
 
@@ -317,7 +317,7 @@ export class AllTeachersComponent
         this.teachersService.getSubDepFilteredTeachersGrid(res,this.firstName, this.lastName, this.departmentName).subscribe(res=>{
           this.exampleDatabase.dataChange.next(res.results);
           this.dataSource.totalItems = res.count
-          this.dataSource.count = Math.ceil(res.count/2)
+          this.dataSource.count = Math.ceil(res.count/this.returnedItems)
         })
       })
 

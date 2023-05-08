@@ -22,7 +22,7 @@ export class InstructormainComponent implements OnInit {
   pages = [];
   currentPage = 1;
   totalPages = 0;
-  returnedItems = 2;
+  returnedItems = 8;
   firstName = '';
   lastName = '';
   subDepartment = '';

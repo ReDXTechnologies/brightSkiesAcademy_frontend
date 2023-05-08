@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import {DataSource} from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,13 +11,11 @@ import { FormDialogComponent } from './dialogs/form-dialog/form-dialog.component
 import { DeleteDialogComponent } from './dialogs/delete/delete.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UnsubscribeOnDestroyAdapter } from './../../../shared/UnsubscribeOnDestroyAdapter';
+import { UnsubscribeOnDestroyAdapter } from '../../../shared/UnsubscribeOnDestroyAdapter';
 import {Department} from "../../../core/models/department";
 import {DepartmentService} from "../../../core/service/department.service";
 import {AuthService} from "../../../core/service/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {log} from "echarts/types/src/util/log";
-import {co} from "@fullcalendar/core/internal-common";
 
 @Component({
   selector: 'app-all-departments',
@@ -106,12 +104,6 @@ export class AllDepartmentsComponent
   }
   editSuperDep(row) {
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         department: row,
@@ -119,29 +111,22 @@ export class AllDepartmentsComponent
         editSuperDep: true
 
       },
-      direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-        this.superDeploadData();
-      if(result!== undefined) {
         this.showNotification(
-          'black',
-          result,
+          'snackbar-success',
+          'Super department edited successfully',
           'bottom',
           'center'
         );
-      }
+
+      this.superDeploadData();
+
     });
 
   }
   editSubDep(row) {
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         department: row,
@@ -149,19 +134,17 @@ export class AllDepartmentsComponent
         editSuperDep: false
 
       },
-      direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
         this.subDeploadData();
         this.refreshTable();
-      if(result!== undefined){
         this.showNotification(
-          'black',
-          result,
+          'snackbar-success',
+          'Sub department edited successfully',
           'bottom',
           'center'
         );
-      }
+
     });
   }
   deleteSuperDep(row) {
