@@ -195,7 +195,7 @@
                     <a class="play-button" *ngIf="role==='Super_Admin'||
                      (role==='Student'&& is_enrolled)
                      || (role==='Student_Teacher'&& this.user == teacher_id && !is_enrolled)
-                     || (role==='head_sub_department'&& this.user == teacher_id && is_enrolled)
+                     || (role==='head_sub_department' && is_enrolled)
                      || (role==='head_super_department' &&is_enrolled)
                      || (role==='Teacher'&& is_enrolled)
                      || (role==='Student_Teacher'&& is_enrolled)
