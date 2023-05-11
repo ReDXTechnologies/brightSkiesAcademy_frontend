@@ -171,9 +171,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
      this.httpClient.get<any>(url).subscribe(
       (data) => {
         this.isTblLoading = false;
-        this.dataChange.next(data.results);
-        this.countChange.next(Math.ceil(data.count/8));
-        this.totalItems.next(data.count);
+        this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;

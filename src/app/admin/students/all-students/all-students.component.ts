@@ -68,60 +68,42 @@ export class AllStudentsComponent
 
   editCall(row) {
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         students: row,
         action: 'edit',
       },
-      direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      console.log(result)
       if (result ) {
         this.studentService.updateStudent(row.user.id, result)
           .subscribe((res) => {
-        // When using an edit things are little different, firstly we find record inside DataService by id
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.user.id === this.id
-        );
-        // Then you update that record using data from dialogData (values you enetered)
-        this.exampleDatabase.dataChange.value[foundIndex] = this.studentService.getDialogData();
-        this.loadData();
-        this.refreshTable();
-        this.showNotification(
-          'black',
-          'Edit Record Successfully...!!!',
-          'bottom',
-          'center'
-        );
+            if(res){
+              this.refresh();
+              this.showNotification(
+                'snackbar-success',
+                'Edit Record Successfully...!!!',
+                'bottom',
+                'center'
+              );
+            }
       })
     }})
   }
   deleteItem(row) {
     this.id = row.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: row,
-      direction: tempDirection,
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      if (result === 1) {
+      if (result) {
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.user.id === this.id
         );
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
+        this.loadData();
         this.showNotification(
           'snackbar-danger',
           'Delete Record Successfully...!!!',

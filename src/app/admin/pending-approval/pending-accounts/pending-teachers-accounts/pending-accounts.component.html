@@ -115,14 +115,17 @@
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
 
-                    <button mat-icon-button aria-label="Example icon-button with a heart icon"
-                            class="btn btn-circle bg-green msr-2 small"  (click)="affect(row)"  (click)="$event.stopPropagation()">
+                    <button *ngIf="!isLoadingApprove ||loadingIndexApprove != i"  mat-icon-button aria-label="Example icon-button with a heart icon"
+                            class="btn btn-circle bg-green msr-2 small"  (click)="affect(row,i)"  (click)="$event.stopPropagation()">
                       <mat-icon>thumb_up</mat-icon>
                     </button>
-                    <button mat-icon-button aria-label="Example icon-button with a heart icon"
-                            class="btn btn-circle bg-red small" (click)="$event.stopPropagation()" (click)="reject(row)">
+                    <span *ngIf="isLoadingApprove && loadingIndexApprove=== i"><i class="fas fa-spinner fa-spin m-2"></i> <p style="font-size: 12px"></p></span>
+
+                    <button *ngIf="!isLoadingReject ||loadingIndexReject != i" mat-icon-button aria-label="Example icon-button with a heart icon"
+                            class="btn btn-circle bg-red small" (click)="$event.stopPropagation()" (click)="reject(row,i)">
                       <mat-icon>thumb_down</mat-icon>
                     </button>
+                    <span *ngIf="isLoadingReject && loadingIndexReject === i"><i class="fas fa-spinner fa-spin m-2"></i> <p style="font-size: 12px"></p></span>
 
                   </mat-cell>
                 </ng-container>

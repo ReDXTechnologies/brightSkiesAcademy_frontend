@@ -50,8 +50,10 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
 
   isTblLoading = true;
   public refresher: Subject<any> = new Subject();
-
-
+  isLoadingApprove=false
+  isLoadingReject=false
+  loadingIndexReject: number = null;
+  loadingIndexApprove: number = null;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -96,37 +98,49 @@ export class PendingHybridProfilesComponent extends UnsubscribeOnDestroyAdapter
     console.log(row);
   }
 
-  reject(teacher: Teacher, departmentId : any) {
-    this.teacherService.rejectStudentTeacherAccount(teacher.user.id, departmentId).subscribe(res => {
-        this.loadData();
-        console.log('teacher account approved successfully');
-        this.showNotification(
-          'snackbar-danger',
-          'hybrid profile rejected Successfully...!!!',
-          'bottom',
-          'center'
-        );
-      },
-      error => {
-        console.error('Error rejecting course:', error);
-        // show error message
-      })
-  }
-  approve(teacher: Teacher, departmentId : any): void {
-
-        this.teacherService.approveStudentTeacherAccount(teacher.user.id, departmentId).subscribe(res => {
+  reject(teacher: Teacher, departmentId: any, i: any) {
+    this.isLoadingReject = true;
+    this.loadingIndexReject = i;
+    this.teacherService.rejectStudentTeacherAccount(teacher.user.id, departmentId).subscribe(
+      (res) => {
+        if (res) {
+          this.isLoadingReject = false;
+          this.loadData();
+          console.log('Teacher account approved successfully');
           this.showNotification(
-            'snackbar-success',
-            'hybrid profile approved Successfully...!!!',
+            'snackbar-danger',
+            'Hybrid profile rejected successfully...!!!',
             'bottom',
             'center'
           );
+        }
+      },
+      (error) => {
+        console.error('Error rejecting course:', error);
+// show error message
+      }
+    );
+  }
+  approve(teacher: Teacher, departmentId : any,i): void {
+    this.isLoadingApprove=true
+    this.loadingIndexApprove=i
+        this.teacherService.approveStudentTeacherAccount(teacher.user.id, departmentId).subscribe(res => {
+          if(res) {
+            this.isLoadingApprove = false
+
+            this.showNotification(
+              'snackbar-success',
+              'hybrid profile approved Successfully...!!!',
+              'bottom',
+              'center'
+            );
             this.router.navigate(['/admin/teachers/all-teachers']);
-          },
-        error => {
-          console.error('Error rejecting course:', error);
-          // show error message
-        })
+          }},
+          error => {
+            console.error('Error rejecting course:', error);
+            // show error message
+          }
+        )
 
   }
   isAllSelected() {

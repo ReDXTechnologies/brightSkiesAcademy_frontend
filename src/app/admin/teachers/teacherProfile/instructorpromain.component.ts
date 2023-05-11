@@ -53,7 +53,7 @@ export class InstructorpromainComponent implements OnInit {
       this.teacherService.getTeacherApprovedCourses(this.teacherId.toString(), 1).subscribe(
         (data) => {
           this.teacherApprovedCourses = data.results;
-          this.totalPages=data.count;
+          this.totalPages=Math.ceil(data.count/6);
           this.calculatePages()
         },
         (error) => {

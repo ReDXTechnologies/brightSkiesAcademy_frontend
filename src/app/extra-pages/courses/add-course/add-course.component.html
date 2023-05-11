@@ -14,19 +14,20 @@
           <div class="body">
             <div class="row">
               <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
-
-                <p>You can request a hybrid profile access from the sub-department that you want to belong to,
-                to upgrade and gain teacher privileges. Your request will be reviewed by the sub-department manager,
-                and you will be notified once it is approved.</p>
+                <p>You can request a hybrid profile access from the sub-department that you want to belong to, to upgrade and gain teacher privileges. Your request will be reviewed by the sub-department manager, and you will be notified once it is approved.</p>
               </div>
-              <div class="video-wishlist col-lg-2 col-md-2 col-sm-4 col-xs-4" *ngIf="!sentSuccessfully">
-                <button class="video-cart-btn" (click)="openDialog()"><i class="fas fa-hand-paper"></i>Request Access</button>
-              </div>
-              <div class="video-wishlist col-lg-2 col-md-2 col-sm-4 col-xs-4" *ngIf="sentSuccessfully">
-                <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>Request sent</button>
+              <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 text-center">
+                <div class="video-wishlist" *ngIf="!sentSuccessfully">
+                  <button *ngIf="!isLoading" class="video-cart-btn" (click)="openDialog()"><i class="fas fa-hand-paper"></i>Request Access</button>
+                  <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
+                </div>
+                <div class="video-wishlist" *ngIf="sentSuccessfully">
+                  <button class="video-cart-btn success" disabled><i class="fas fa-check"></i>Request sent</button>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

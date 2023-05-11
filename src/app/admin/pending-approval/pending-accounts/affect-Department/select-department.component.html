@@ -3,7 +3,7 @@
     <div class="editRowModal">
       <div class="modalHeader clearfix" *ngIf="!data.request_hybrid_profile">
         <div class="modal-about">
-          To approve {{teacher}} account , please affect him a department
+          To approve {{teacher}} account , please affect for that user a department
         </div>
       </div>
       <div class="modalHeader clearfix" *ngIf="data.request_hybrid_profile">
@@ -48,7 +48,7 @@
           color="warn"
           (click)="onSubmit()" *ngIf="data.request_hybrid_profile"
         >
-          select department
+          send request
         </button>
       </div>
     </div>

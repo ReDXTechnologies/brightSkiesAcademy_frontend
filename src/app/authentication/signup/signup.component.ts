@@ -99,7 +99,17 @@ export class SignupComponent   extends UnsubscribeOnDestroyAdapter
 
       // this.router.navigateByUrl('sessions/signin3');
 
-    });  }
+    },
+      error => {
+        this.loading = false;
+        this.showNotification(
+          'snackbar-danger',
+          "Invalid user type, please select user type",
+          'bottom',
+          'center'
+        );
+        // show error message
+      });  }
 
   ngOnInit() {
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

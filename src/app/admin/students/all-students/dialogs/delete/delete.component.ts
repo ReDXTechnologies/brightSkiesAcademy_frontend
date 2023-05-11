@@ -17,6 +17,7 @@ export class DeleteDialogComponent {
   }
   confirmDelete(): void {
     this.studentService.deleteStudent(this.data.user.id).subscribe(res=> {
+      this.dialogRef.close(res);
       console.log(res)});
   }
 

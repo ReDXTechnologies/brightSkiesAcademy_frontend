@@ -40,7 +40,10 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
   selection = new SelectionModel<Teacher>(true, []);
   id: number;
   Teachers: Teacher | null;
-
+  loadingIndexReject: number = null;
+  loadingIndexApprove: number = null;
+  isLoadingApprove=false
+  isLoadingReject=false
   breadscrums = [
     {
       title: 'Teachers',
@@ -90,23 +93,19 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
     console.log(row);
   }
 
-  reject(row) {
+  reject(row,i) {
+    this.isLoadingReject = true;
+    this.loadingIndexReject = i;
     this.id = row.user.id;
-    let tempDirection;
-    if (localStorage.getItem('isRtl') === 'true') {
-      tempDirection = 'rtl';
-    } else {
-      tempDirection = 'ltr';
-    }
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: row,
-      direction: tempDirection,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.user.id === this.id
         );
+        this.isLoadingReject = false;
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
         console.log('teacher rejected successfully');
@@ -124,32 +123,38 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
 
     });
   }
-  affect(teacher: Teacher): void {
+  affect(teacher: Teacher,i): void {
+
     const dialogRef = this.dialog.open(SelectDepartmentComponent, {
       width: '350px',
       data: {payload: teacher.user.firstName+' '+teacher.user.lastName},
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isLoadingApprove=true
+      this.loadingIndexApprove=i
       if (result) {
         this.teacherService.approveTeacherAccount(teacher.user.id, result.data.id).subscribe(res => {
-          const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-            (x) => x.user.id === this.id
-          );
-          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-          this.refreshTable();
-          console.log('teacher account approved successfully');
-          this.showNotification(
-            'snackbar-success',
-            'Approve account Successfully...!!!',
-            'bottom',
-            'center'
-          );
-        },
-        error => {
-          console.error('Error rejecting course:', error);
-          // show error message
-        })
+          if(res){
+            this.isLoadingApprove = false
+            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+              (x) => x.user.id === this.id
+            );
+            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+            this.refreshTable();
+            console.log('teacher account approved successfully');
+            this.showNotification(
+              'snackbar-success',
+              'Approve account Successfully...!!!',
+              'bottom',
+              'center'
+            );
+          }},
+            error => {
+              console.error('Error rejecting course:', error);
+              // show error message
+            }
+          )
       }
     });
 

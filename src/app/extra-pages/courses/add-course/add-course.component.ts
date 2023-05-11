@@ -54,7 +54,7 @@ export class AddCourseComponent implements OnInit {
   userId: number;
   user_id: string;
   sentSuccessfully = false;
-
+  isLoading= false
   constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute,
               private courseService: CourseService,
               private authService: AuthService,
@@ -416,6 +416,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   openDialog(): void {
+
     console.log('open ')
     const dialogRef = this.dialogModel.open(SelectDepartmentComponent, {
       width: '400px',
@@ -423,16 +424,21 @@ export class AddCourseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.isLoading= true
       if (result) {
         console.log(result)
         this.teacherService.requestStudentTeacherAccount(this.userId, result.data.id).subscribe(res => {
-
-            console.log('teacher account approved successfully');
+          if(res){
+            console.log(res)
+            this.isLoading= true
             const btn = document.querySelector('.video-cart-btn');
             if (btn) {
               btn.innerHTML = '<i class="fas fa-check"></i> Request Sent';
               btn.classList.add('success');
             }
+            this.sentSuccessfully= true
+          }
+
 
           },
           error => {
