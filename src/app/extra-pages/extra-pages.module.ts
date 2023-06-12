@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentsModule } from '../shared/components/components.module';
 import {SettingsComponent} from "./settings/settings.component";
 import {AllCourseComponent} from "./courses/all-course/all-course.component";
+import {AcademyComponent} from "./courses/academy/academy.component";
 import {CoursevideoComponent} from "./courses/about-course/coursevideo/coursevideo.component";
 import {CoursereviewComponent} from "./courses/about-course/coursereview/coursereview.component";
 import {StudentfeedbackComponent} from "./courses/about-course/studentfeedback/studentfeedback.component";
@@ -55,6 +56,7 @@ import {AddQuizzComponent} from "./courses/about-course/coursecurriculam/edit/ad
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {StartQuizzComponent} from "./courses/about-course/coursecurriculam/start-quizz/start-quizz.component";
 import {NgxGaugeModule} from "ngx-gauge";
+import { StartCourseComponent } from './courses/start-course/start-course.component';
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -78,7 +80,9 @@ import {NgxGaugeModule} from "ngx-gauge";
     AddLabComponent,
     DeleteVideoLabDialogComponent,
     ChangeBgDirective,
-    StartQuizzComponent
+    StartQuizzComponent,
+    StartCourseComponent,
+
 
 
   ],
@@ -116,6 +120,7 @@ import {NgxGaugeModule} from "ngx-gauge";
         MatTooltipModule,
         MatProgressSpinnerModule,
         NgxGaugeModule,
+        AcademyComponent
 
 
     ],

@@ -25,10 +25,11 @@ import {
   HttpClient,
 } from '@angular/common/http';
 
+
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {RightSidebarComponent} from "./layout/right-sidebar/right-sidebar.component";
-
+import { provideFuse } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse';
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -63,6 +64,45 @@ export function createTranslateLoader(http: HttpClient): any {
     SharedModule,
   ],
   providers: [
+    provideFuse({
+      fuse   : {
+        layout : 'classy',
+        scheme : 'light',
+        screens: {
+          sm: '600px',
+          md: '960px',
+          lg: '1280px',
+          xl: '1440px',
+        },
+        theme  : 'theme-default',
+        themes : [
+          {
+            id  : 'theme-default',
+            name: 'Default',
+          },
+          {
+            id  : 'theme-brand',
+            name: 'Brand',
+          },
+          {
+            id  : 'theme-teal',
+            name: 'Teal',
+          },
+          {
+            id  : 'theme-rose',
+            name: 'Rose',
+          },
+          {
+            id  : 'theme-purple',
+            name: 'Purple',
+          },
+          {
+            id  : 'theme-amber',
+            name: 'Amber',
+          },
+        ],
+      },
+    }),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
