@@ -36,10 +36,10 @@ export class LabCourseComponent implements OnInit {
   course: Course;
   teacher: Teacher;
   reviews: Review[];
-  role: any
+  role: any;
   userId: number;
   enrolled = false;
-courseId : any
+  courseId : any;
   constructor(private studentService: StudentService,
               private route: ActivatedRoute,
               private teacherService: TeacherService,
@@ -53,16 +53,14 @@ courseId : any
               private activatedRoute: ActivatedRoute,
   ) {
     this.role = this.authService.currentUserValue.role[0];
-    console.log(this.role)
+    console.log(this.role);
     this.activatedRoute.queryParams.subscribe(params => {
-      this.courseId = params.courseId
-        this.courseService.getCourseById(params.courseId).subscribe(course => {
-          this.course = course
+      this.courseId = params.courseId;
+      this.courseService.getCourseById(params.courseId).subscribe(course => {
+          this.course = course;
         }
-      )
-
-    })
-
+      );
+    });
   }
 
   ngOnInit(): void {
@@ -152,6 +150,14 @@ courseId : any
 
         })
    }
+    });
+  }
+  viewDetails(course: Course) {
+    const courseJson = JSON.stringify(course);
+    this.router.navigate(['/shared/Lab-course-academy'], {
+      queryParams: {
+        courseId: course.id,
+      }
     });
   }
 }

@@ -30,6 +30,8 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {RightSidebarComponent} from "./layout/right-sidebar/right-sidebar.component";
 import { provideFuse } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse';
+
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }

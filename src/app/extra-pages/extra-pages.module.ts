@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {AsyncPipe, CommonModule, NgClass, NgFor, NgIf} from '@angular/common';
 import { ExtraPagesRoutingModule } from './extra-pages-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +12,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentsModule } from '../shared/components/components.module';
 import {SettingsComponent} from "./settings/settings.component";
 import {AllCourseComponent} from "./courses/all-course/all-course.component";
-import {AcademyComponent} from "./courses/academy/academy.component";
 import {CoursevideoComponent} from "./courses/about-course/coursevideo/coursevideo.component";
 import {CoursereviewComponent} from "./courses/about-course/coursereview/coursereview.component";
 import {StudentfeedbackComponent} from "./courses/about-course/studentfeedback/studentfeedback.component";
@@ -57,35 +56,41 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {StartQuizzComponent} from "./courses/about-course/coursecurriculam/start-quizz/start-quizz.component";
 import {NgxGaugeModule} from "ngx-gauge";
 import { StartCourseComponent } from './courses/start-course/start-course.component';
+import {RouterLink} from "@angular/router";
+import {CdkScrollable} from "@angular/cdk/scrolling";
+import {FuseFindByKeyPipe} from "../../@fuse/pipes/find-by-key/find-by-key.pipe";
+import {AcademyDetailsComponent} from "./courses/about-course/details/details.component";
+import { LabComponent } from './courses/about-course/coursecurriculam/lab/lab.component';
+
+
 @NgModule({
-  declarations: [
-    SettingsComponent,
-    AllCourseComponent,
-    AboutCourseComponent,
-    CoursecurriculamComponent,
-    CourseinstructorComponent,
-    StudentfeedbackComponent,
-    CoursereviewComponent,
-    CoursevideoComponent,
-    LabCourseComponent,
-    AddCourseComponent,
-    BottomSheetOverviewExampleSheetComponent,
-    BottomSheetComponent,
-    Instance_guidanceComponent,
-    DisplayCurriculumVideosComponent,
-    EditCourseModuleComponent,
-    AddNewModule,
-    AddQuizzComponent,
-    AddVideoComponent,
-    AddLabComponent,
-    DeleteVideoLabDialogComponent,
-    ChangeBgDirective,
-    StartQuizzComponent,
-    StartCourseComponent,
-
-
-
-  ],
+    declarations: [
+        SettingsComponent,
+        AllCourseComponent,
+        AboutCourseComponent,
+        CoursecurriculamComponent,
+        CourseinstructorComponent,
+        StudentfeedbackComponent,
+        CoursereviewComponent,
+        CoursevideoComponent,
+        LabCourseComponent,
+        AddCourseComponent,
+        BottomSheetOverviewExampleSheetComponent,
+        BottomSheetComponent,
+        Instance_guidanceComponent,
+        DisplayCurriculumVideosComponent,
+        EditCourseModuleComponent,
+        AddNewModule,
+        AddQuizzComponent,
+        AddVideoComponent,
+        AddLabComponent,
+        DeleteVideoLabDialogComponent,
+        ChangeBgDirective,
+        StartQuizzComponent,
+        StartCourseComponent,
+      AcademyDetailsComponent,
+      LabComponent
+    ],
     imports: [
         CommonModule,
         ExtraPagesRoutingModule,
@@ -120,9 +125,14 @@ import { StartCourseComponent } from './courses/start-course/start-course.compon
         MatTooltipModule,
         MatProgressSpinnerModule,
         NgxGaugeModule,
-        AcademyComponent
+      MatSidenavModule , RouterLink, MatIconModule, NgIf,
+      NgClass, NgFor, MatButtonModule, MatProgressBarModule, CdkScrollable,
+      MatTabsModule, FuseFindByKeyPipe, FuseFindByKeyPipe, FuseFindByKeyPipe, AsyncPipe, NgxGaugeModule
 
-
-    ],
+],
+  exports: [
+    AddQuizzComponent,
+    StartQuizzComponent
+  ]
 })
 export class ExtraPagesModule {}

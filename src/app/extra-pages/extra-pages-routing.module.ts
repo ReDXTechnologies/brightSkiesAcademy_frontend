@@ -6,10 +6,7 @@ import {AllCourseComponent} from "./courses/all-course/all-course.component";
 import {AboutCourseComponent} from "./courses/about-course/about-course.component";
 import {LabCourseComponent} from "./courses/about-course/LabCourse/lab-course.component";
 import {AddCourseComponent} from "./courses/add-course/add-course.component";
-import {AcademyComponent} from "./courses/academy/academy.component";
-import {AcademyListComponent} from "./courses/academy/list/list.component";
-import {AcademyService} from "./courses/academy/academy.service";
-import {AcademyDetailsComponent} from "./courses/academy/details/details.component";
+import {AcademyDetailsComponent} from "./courses/about-course/details/details.component";
 const routes: Routes = [
 
   {
@@ -30,21 +27,19 @@ const routes: Routes = [
     path: 'Lab-course-details',
     component: LabCourseComponent
   },
-
+  {
+    path: 'Lab-course-academy',
+    component: AcademyDetailsComponent
+  },
   {
     path: 'settings',
     component: SettingsComponent
   },
-  {
-    path     : 'ibra',
-    pathMatch: 'full',
-    component: AcademyDetailsComponent
-  },
-  {
-    path     : 'imen',
-    pathMatch: 'full',
-    component: AcademyListComponent
-  },
+  // {
+  //   path     : 'ibra',
+  //   pathMatch: 'full',
+  //   component: AcademyDetailsComponent
+  // },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

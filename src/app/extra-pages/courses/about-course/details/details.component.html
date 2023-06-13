@@ -17,9 +17,7 @@
           class="inline-flex items-center leading-6 text-primary hover:underline"
           [routerLink]="['..']">
                     <span class="inline-flex items-center">
-                        <mat-icon
-                          class="icon-size-5 text-current"
-                          [svgIcon]="'icons/heroicons_solid/arrow-small-left.svg'"></mat-icon>
+
                         <span class="ml-1.5 font-medium leading-5">Back to courses</span>
                     </span>
         </a>
@@ -39,9 +37,7 @@
         <div class="text-secondary">{{course.description}}</div>
         <!-- Course time -->
         <div class="mt-6 flex items-center leading-5 text-md text-secondary">
-          <mat-icon
-            class="icon-size-5 text-hint"
-            [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+
           <div class="ml-1.5">{{course.duration}} minutes</div>
         </div>
       </div>
@@ -101,7 +97,6 @@
         <a
           mat-icon-button
           [routerLink]="['..']">
-          <mat-icon [svgIcon]="'heroicons_outline:arrow-small-left'"></mat-icon>
         </a>
         <h2 class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate">
           {{course.title}}
@@ -126,7 +121,15 @@
               <ng-template matTabContent>
                 <div
                   class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
-                  [innerHTML]="step.content"></div>
+                  >
+                  <ng-container *ngIf="step.content[0] == 'quizz'">
+                    <app-start-quizz [courseId]="courseId" [quizz]="step.content[1]"  [user]="this.user" [moduleId]="step.module" [quizzName]="step.content[1].name"></app-start-quizz>
+                  </ng-container>
+                  <ng-container *ngIf="step.content[0] == 'lab'">
+                    <app-lab-component [lab]="step.content[1]" [user]="this.user" [module]="step.module" [course]="course1" [courseId]="courseId" [teacher_id]="teacher_id"></app-lab-component>
+                  </ng-container>
+                  </div>
+
               </ng-template>
             </mat-tab>
           </ng-container>
@@ -185,7 +188,6 @@
           class="ml-4"
           mat-icon-button
           (click)="goToPreviousStep()">
-          <mat-icon [svgIcon]="'heroicons_outline:arrow-long-left'"></mat-icon>
         </button>
         <button
           class="ml-0.5"

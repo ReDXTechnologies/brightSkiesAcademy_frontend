@@ -113,7 +113,7 @@ export class CoursecurriculamComponent implements OnInit {
     this.checkEnrollement();
    }
    getUserScore(quizzId:number): any{
-    this.courseService.getScoreInModule(this.user,quizzId).subscribe(res=>{
+    this.courseService.getScoreInModule(this.user, quizzId).subscribe(res=>{
       console.log(res)
       return res
     })
@@ -337,7 +337,7 @@ export class CoursecurriculamComponent implements OnInit {
       }
     });
   }
-  startQuizz( courseId: number, moduleId: any, quizzName : string ,quizz : any) {
+  startQuizz( courseId: number, moduleId: any, quizzName: string , quizz: any) {
     const dialogRef = this.dialog.open(StartQuizzComponent, {
       width: '50%',
       data: {
@@ -414,7 +414,7 @@ export class CoursecurriculamComponent implements OnInit {
     this.isLoading = true;
     this.spinner.show();
 
-      this.adminService.createCustomAmi(courseId,lab_id).subscribe(response => {
+      this.adminService.createCustomAmi(courseId, lab_id).subscribe(response => {
         console.log(response)
         this.showNotification(
           'snackbar-success',
