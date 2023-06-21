@@ -138,7 +138,14 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/courses/${course_id}`;
     return this.httpClient.get<Course>(url);
   }
-
+  getCurrentStep(course_id: number, student_id: number): Observable<any>{
+    const url = `${this.baseUrl}/user-progress/${student_id}/${course_id}`;
+    return this.httpClient.get<any>(url);
+  }
+  updateCurrentStep(courseId: number, formData : any, student_id: number) : Observable<any> {
+    const url = `${this.baseUrl}/course/${courseId}/student/${student_id}/currentStep`;
+    return this.httpClient.put<any>(url, formData);
+  }
   delete(id: number): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/courses/${id}`);
   }

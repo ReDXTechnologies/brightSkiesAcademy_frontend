@@ -19,6 +19,7 @@ import {DeleteDialogComponent} from "../../pending-accounts/delete/delete.compon
 import {SelectDepartmentComponent} from "../../pending-accounts/affect-Department/select-department.component";
 import {CourseService} from "../../../../core/service/course.service";
 import {AuthService} from "../../../../core/service/auth.service";
+import {StudentService} from "../../../../core/service/student.service";
 
 
 @Component({
@@ -62,7 +63,7 @@ role: any
     public teacherService: TeacherService,
     private snackBar: MatSnackBar,
     private authService: AuthService,
-
+    private studentService: StudentService,
   ) {
     super();
     this.role = this.authService.currentUserValue.role[0];
@@ -141,8 +142,8 @@ role: any
         this.teacherService.approveUserEnrollement(row.user.id, row.course).subscribe(res => {
             console.log(res)
           if(res[0]!=='there is not enough budget to approve the course'){
-            this.isLoadingApprove=false
-
+            this.isLoadingApprove =false
+            this.studentService.createStudentProgress(row.user.id, row.course).subscribe();
             this.loadData();
             this.showNotification(
               'snackbar-success',
@@ -160,8 +161,6 @@ role: any
               'center'
             );
           }
-
-
         },
         error => {
           console.error('Error rejecting course:', error);

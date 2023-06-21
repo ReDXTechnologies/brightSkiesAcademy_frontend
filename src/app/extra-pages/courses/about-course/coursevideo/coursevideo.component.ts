@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {Course} from "../../../../core/models/course";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {AuthService} from "../../../../core/service/auth.service";
@@ -18,7 +18,7 @@ export class CoursevideoComponent implements OnInit {
   @Input() teacher_id: number;
   videoUrl: any
   role: any
-
+  @Output() enrollmentChanged = new EventEmitter<boolean>();
   @Input() videos: any[];
   @Input() selectedIndex: number;
   requestSent = false
@@ -49,9 +49,9 @@ export class CoursevideoComponent implements OnInit {
   check_enrollement(){
     this.studentService.isEnrolled(this.courseId, this.user).subscribe(res => {
       if (res === 'true') {
-        this.is_enrolled = true
+        this.is_enrolled = true;
       }
-    })
+    });
   }
 
   requestEnrollement(user_id: number, course_id: number) {
@@ -61,9 +61,11 @@ export class CoursevideoComponent implements OnInit {
       if(!this.course.free){
         this.requestSent = true
       }else{
-        this.is_enrolled = true
+        this.is_enrolled = true;
+        this.enrollmentChanged.emit(this.is_enrolled);
+        this.studentService.createStudentProgress(user_id, course_id).subscribe();
       }
-    })
+    });
   }
 
 }

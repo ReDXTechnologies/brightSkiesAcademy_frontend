@@ -10,23 +10,28 @@
 //  50% { transform: scale(1.05); }
 //  100% { transform: scale(1); }
 //}
-.fa-play {
+.faas-play {
   font-size: 65px;
-  color: #2626a4;
-  text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+  color: #ffffff;
+
   animation: pulse 2s infinite;
+  padding-right: 3em;
+
+
 }
 
-.fa-play::after {
+.faas-play::after {
+
   content: "start";
-  font-size: 12px;
-  display: block;
+  font-size: 1.2em;
+  display: inline;
   text-align: center;
-  margin-top: 5px;
+  margin-left: 7px;
+  margin-top: 1em;
 }
 
-.fa-play:hover {
-  color: black;
+.faas-play:hover {
+  color: #230de5;
 }
 .fa-user-plus {
   margin-top: -10px;
@@ -92,4 +97,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.course-info {
+  display: flex;
+  align-items: center;
+}
+
+.progress-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  margin-top: 0.4em;
+  /* Adjust this value to add spacing between the two elements */
 }

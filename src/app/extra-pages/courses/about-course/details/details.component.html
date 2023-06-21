@@ -18,7 +18,7 @@
           [routerLink]="['..']">
                     <span class="inline-flex items-center">
 
-                        <span class="ml-1.5 font-medium leading-5">Back to courses</span>
+                        <span class="ml-1.5 font-medium leading-5" (click)="viewDetails(course1)">Back to courses</span>
                     </span>
         </a>
         <!-- Course category -->
@@ -38,7 +38,7 @@
         <!-- Course time -->
         <div class="mt-6 flex items-center leading-5 text-md text-secondary">
 
-          <div class="ml-1.5">{{course.duration}} minutes</div>
+          <div class="ml-1.5">{{course.duration}} hours</div>
         </div>
       </div>
       <!-- Steps -->
@@ -119,15 +119,24 @@
           <ng-container *ngFor="let step of course.steps; trackBy: trackByFn">
             <mat-tab>
               <ng-template matTabContent>
+
                 <div
-                  class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
+                  class="prose prose-sm max-w-5xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
                   >
+
                   <ng-container *ngIf="step.content[0] == 'quizz'">
-                    <app-start-quizz [courseId]="courseId" [quizz]="step.content[1]"  [user]="this.user" [moduleId]="step.module" [quizzName]="step.content[1].name"></app-start-quizz>
+                    <app-start-quizz [courseId]="this.courseId" [quizz]=step.content[1]  [user]="this.user" [moduleId]="step.module"></app-start-quizz>
                   </ng-container>
                   <ng-container *ngIf="step.content[0] == 'lab'">
-                    <app-lab-component [lab]="step.content[1]" [user]="this.user" [module]="step.module" [course]="course1" [courseId]="courseId" [teacher_id]="teacher_id"></app-lab-component>
+                    <app-lab-component [lab]="step.content[1]" [user]="this.user" [module]="step.module" [course]="course1" [courseId]="courseId" [teacher_id]="this.teacher_id"></app-lab-component>
                   </ng-container>
+                  <ng-container *ngIf="step.content[0] == 'video'">
+                    <video width="100%" height="auto" controls >
+                      <source [src]="step.content[1]" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                  </ng-container>
+
                   </div>
 
               </ng-template>

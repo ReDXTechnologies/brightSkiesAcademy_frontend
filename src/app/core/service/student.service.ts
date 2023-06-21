@@ -61,7 +61,10 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.apiUrl}/course/${courseId}/lab/${lab_id}/student/${studentId}/instances`;
     return this.http.get<any>(url,{});
   }
-
+  createStudentProgress(studentId: number, courseId: number): Observable<any> {
+    const url = `${this.apiUrl}/course/${courseId}/student/${studentId}/addProgress`;
+    return this.http.post<any>(url,{});
+  }
 
   getStudent(id: string): Observable<Student> {
     const url = `${this.apiUrl}/student/${id}`;

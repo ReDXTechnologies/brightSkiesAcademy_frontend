@@ -37,7 +37,7 @@
                  *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' && user === teacher_id) || ( role ==='Student_Teacher' && user === teacher_id)) || course.status==='pending'"
                  >
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                <div class="course-curriculum-info" (click)="displayVideo(video,j,module)">
+                <div class="course-curriculum-info">
                   <i class="flaticon-youtube"></i>
 
                   <h4>{{video.name}}</h4>
@@ -80,7 +80,7 @@
                   <h4>Quiz : {{quizz.name}}</h4>
                 </div>
                 <div class="course-curriculum-meta" >
-                  <span (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
+                  <span><i class="fas fa-play quizz"></i></span>
                   <div >
                     <ng-container *ngIf="getQuizPercentage(quizz.id) | async as percentage">
                       <h6 class="text-center">{{ percentage }}%</h6>
@@ -89,7 +89,6 @@
                   </div>
                   <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editQuizz(quizz.id,module.id,module.name,quizz.name,quizz)"><i class="fas fa-edit"></i></button>
                   <button style="color: #d00e32 " *ngIf="user == teacher_id" (click)="deleteQuizz(module.id,quizz.id,module.name,quizz.name)"><i class="fas fa-trash "></i></button>
-
 
                 </div>
               </div>
@@ -125,7 +124,7 @@
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
-               <app-lab-component [lab]="lab" [user]="this.user" [module]="module" [course]="course" [courseId]="courseId" [teacher_id]="teacher_id"></app-lab-component>
+               <app-lab-component *ngIf="role !=='Student'" [lab]="lab" [user]="this.user" [module]="module" [course]="course" [courseId]="courseId" [teacher_id]="teacher_id"></app-lab-component>
               </mat-expansion-panel>
             </ng-container>
 

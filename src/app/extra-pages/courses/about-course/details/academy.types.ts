@@ -7,7 +7,7 @@ export interface Category
 
 export interface Course1
 {
-    id?: string;
+    id?: number;
     title?: string;
     slug?: string;
     description?: string;
@@ -20,7 +20,7 @@ export interface Course1
         content?: string;
     }[];
     totalSteps?: number;
-    updatedAt?: string;
+    updatedAt?: Date;
     featured?: boolean;
     progress?: {
         currentStep?: number;

@@ -26,15 +26,8 @@ export class StartQuizzComponent implements OnInit {
     private courseService: CourseService,
 
     private fb: UntypedFormBuilder,
-  ) {
-    // Set the defaults
-
-      this.dialogTitle = 'start quiz : ' + this.quizzName;
-
-
-  }
+  ) {}
   @Input() quizz: any;
-  @Input() quizzName: string;
   @Input() courseId: number;
   @Input() moduleId: any;
   @Input() user: number;
@@ -63,6 +56,7 @@ export class StartQuizzComponent implements OnInit {
   selectedOptions: any[] = [];
 
   ngOnInit() {
+    console.log("data" + this.user + "course id : " + this.courseId + " quizz : " + this.quizz);
     this.quizForm = this.fb.group({
       name: ['', Validators.required],
       questions: this.fb.array([], Validators.required)
