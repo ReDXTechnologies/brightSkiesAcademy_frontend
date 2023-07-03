@@ -4,11 +4,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   Inject,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit, Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,7 +17,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { FuseMediaWatcherService } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/services/media-watcher';
 import { Category, Course1} from './academy.types';
 import {Course} from "../../../../core/models/course";
-import { Subject, takeUntil } from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import { categories, courses} from './data';
 import {CourseService} from "../../../../core/service/course.service";
 import {AuthService} from "../../../../core/service/auth.service";
@@ -30,6 +30,7 @@ import {Teacher} from "../../../../core/models/teacher";
 import {TeacherService} from "../../../../core/service/teacher.service";
 import {ReviewService} from "../../../../core/service/review.service";
 import {Review} from "../../../../core/models/review";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector       : 'academy-details',
@@ -38,6 +39,8 @@ import {Review} from "../../../../core/models/review";
   })
 export class AcademyDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
+  @ViewChild('videoPlayer') videoPlayerRef: ElementRef<HTMLVideoElement>;
+
   categories: Category[];
   course1: Course;
   course: Course1;
@@ -55,6 +58,11 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
   max_step = -1;
   reviews: Review[];
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+  videoProgress = 0;
+  quizzProgress = false;
+  quizzId: number;
+  quizzScore = 0;
+  nextItem: any;
 
   /**
    * Constructor
@@ -72,6 +80,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private teacherService: TeacherService,
     private reviewService: ReviewService,
+    private snackBar: MatSnackBar,
   ) {
 
   }
@@ -120,7 +129,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
             title: quiz.name,
             subtitle: quiz.name,
             content: ['quizz', quiz],
-            module: element.id,
+            module: quiz.module,
           }));
 
           element.labs.map((lab) => this.academyCourseSteps.push({
@@ -181,7 +190,11 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  onScoreChanged(quizzScore: number) {
+    // Handle the enrollment change event from the child component
+    this.quizzScore = quizzScore;
+    console.log("teeeeeest" + this.quizzScore);
+  }
   /**
    * On destroy
    */
@@ -247,15 +260,60 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
    * Go to next step
    */
   goToNextStep(): void {
+
     // Return if we already on the last step
-    if (this.currentStep === this.course.totalSteps - 1) {
-      return;
+    if (this.currentStep === this.course.totalSteps - 1 ) {
+        this.showNotification(
+          'snackbar-success',
+          'Congratualtions...!!!',
+          'center',
+          'center'
+        );
+      // }else if (this.quizzScore < 70){
+      //   this.showNotification(
+      //     'snackbar-danger',
+      //     'You have to get at least 70% in the quizz',
+      //     'center',
+      //     'center'
+      //   );
+      // }
+        return;
     }
+
     if (this.currentStep > this.max_step){
+      if ( this.currentStep !== this.course.totalSteps - 1) {
+        const filteredVideos = this.academyCourseSteps.filter(item => item.order === this.currentStep );
+        console.log(filteredVideos);
+        if ( filteredVideos[0].content[0] === 'video'){
+          this.videoProgress = 0;
+          this.trackProgress();
+          if ( this.videoProgress < 90) {
+            this.showNotification(
+              'snackbar-danger',
+              'You have to watch at least 90% of the video',
+              'center',
+              'center'
+            );
+            return;
+          }
+        }else if ( filteredVideos[0].content[0] === 'quizz'){
+          if ( this.quizzScore < 60) {
+            this.showNotification(
+              'snackbar-danger',
+              'You have to get at least 60% in the quizz',
+              'center',
+              'center'
+            );
+            return;
+          }
+          this.quizzScore = 0;
+        }
+      }
       this.max_step = this.currentStep;
       const formData = new FormData();
       formData.append('current_step', `${this.currentStep + 2}`);
       this.courseService.updateCurrentStep(this.courseId, formData, this.user).subscribe();
+
     }
     // Go to step
 
@@ -337,6 +395,26 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
         console.error(error);
       }
     );
+  }
+  trackProgress() {
+    const videoPlayer: HTMLVideoElement = this.videoPlayerRef.nativeElement;
+    const currentTime = videoPlayer.currentTime;
+    const totalDuration = videoPlayer.duration;
+
+    // Calculate the progress as a percentage
+    this.videoProgress = (currentTime / totalDuration) * 100;
+    if (isNaN(this.videoProgress)) {
+      this.videoProgress = 0;
+    }
+    console.log(this.videoProgress);
+  }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
   }
 
 }

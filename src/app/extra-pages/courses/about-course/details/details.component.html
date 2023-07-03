@@ -96,8 +96,13 @@
         <!-- Title & Actions -->
         <a
           mat-icon-button
-          [routerLink]="['..']">
+          [routerLink]="['..']" (click)="viewDetails(course1)">
+          <span class="inline-flex items-center">
+                        <i class="fas fa-regular fa-arrow-left "></i>
+                        <span class="ml-1.5 font-medium leading-5" ></span>
+                    </span>
         </a>
+
         <h2 class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate">
           {{course.title}}
         </h2>
@@ -125,13 +130,13 @@
                   >
 
                   <ng-container *ngIf="step.content[0] == 'quizz'">
-                    <app-start-quizz [courseId]="this.courseId" [quizz]=step.content[1]  [user]="this.user" [moduleId]="step.module"></app-start-quizz>
+                    <app-start-quizz (quizzScored)="onScoreChanged($event)" [courseId]="this.courseId" [quizz]=step.content[1]  [user]="this.user" [moduleId]=step.module></app-start-quizz>
                   </ng-container>
                   <ng-container *ngIf="step.content[0] == 'lab'">
                     <app-lab-component [lab]="step.content[1]" [user]="this.user" [module]="step.module" [course]="course1" [courseId]="courseId" [teacher_id]="this.teacher_id"></app-lab-component>
                   </ng-container>
                   <ng-container *ngIf="step.content[0] == 'video'">
-                    <video width="100%" height="auto" controls >
+                    <video  #videoPlayer width="100%" height="auto" controls  (timeupdate)="trackProgress()" >
                       <source [src]="step.content[1]" type="video/mp4">
                       Your browser does not support the video tag.
                     </video>
@@ -197,12 +202,13 @@
           class="ml-4"
           mat-icon-button
           (click)="goToPreviousStep()">
+          <i class="fas fa-regular fa-arrow-left  "></i>
         </button>
         <button
           class="ml-0.5"
           mat-icon-button
           (click)="goToNextStep()">
-          <i class="fa-regular fa-arrow-right"></i>
+          <i class="fas fa-regular fa-arrow-right "></i>
         </button>
       </div>
 

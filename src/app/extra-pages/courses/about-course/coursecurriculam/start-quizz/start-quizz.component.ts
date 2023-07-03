@@ -1,5 +1,15 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {
   FormArray, FormBuilder,
   FormControl, FormGroup,
@@ -31,6 +41,7 @@ export class StartQuizzComponent implements OnInit {
   @Input() courseId: number;
   @Input() moduleId: any;
   @Input() user: number;
+  @Output() quizzScored = new EventEmitter<number>();
   action: string;
   dialogTitle: string;
   loadingAdd = false;
@@ -184,7 +195,7 @@ export class StartQuizzComponent implements OnInit {
     this.showResult = true;
     this.score = ((this.points / this.questionList.length) * 100).toFixed(2);
     const body = { score: this.score };
-
+    this.quizzScored.emit(this.score);
 
     this.courseService.addScoreInModule(this.courseId, this.quizz.id, this.moduleId, this.user, body).subscribe(res => {
       console.log(res);
@@ -196,12 +207,10 @@ export class StartQuizzComponent implements OnInit {
 
     this.courseService.addQuizzInModule(this.quizForm.value, this.moduleId).subscribe(res => {
       console.log(res);
+      console.log("Mdodule id"+ this.moduleId);
       if (res){
         this.loadingAdd = false;
       }
     });
   }
-
-
-
 }

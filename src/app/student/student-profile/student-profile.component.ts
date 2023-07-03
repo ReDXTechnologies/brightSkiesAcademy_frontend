@@ -17,6 +17,10 @@ import {ReviewService} from "../../core/service/review.service";
 import {TeacherService} from "../../core/service/teacher.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Review} from "../../core/models/review";
+import {CourseService} from "../../core/service/course.service";
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { PDFDocument,PDFForm , StandardFonts, rgb} from 'pdf-lib';
 
 @Component({
   selector: 'app-profile',
@@ -34,18 +38,24 @@ export class StudentProfileComponent implements OnInit {
   hide = true;
   student: Student;
   reviews: Review[];
+  academyCourseProgress = [];
+  academyCourseCompleted = [];
+
   teacher: Teacher;
   currentPage = 1;
   next = 1;
   totalPages = 0;
   returnedItems = 9;
+
   constructor(private formBuilder: UntypedFormBuilder,
               private studentService: StudentService,
               private reviewService: ReviewService,
               private teacherService: TeacherService,
               private router: Router,
               private route: ActivatedRoute,
+              private courseService: CourseService,
               private adminService: AdminService) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
   }
 
@@ -53,6 +63,7 @@ export class StudentProfileComponent implements OnInit {
     this.initForm();
     this.getStudentDetails(localStorage.getItem('id'))
     this.getStudentCourses(localStorage.getItem('id'),1)
+
   }
   onPageChanged(page: number) {
     this.currentPage = page;
@@ -114,7 +125,14 @@ export class StudentProfileComponent implements OnInit {
   getStudentCourses(studentId: string,page:number) {
     this.studentService.getStudentCourses(studentId,page).subscribe(res => {
       this.courses = res.results;
-      this.courses = res.results;
+      res.results.map((course) => this.courseService.getCurrentStep(course.id, Number(studentId)).subscribe(current1 => {
+        const progress = Math.floor(current1.progress);
+        this.academyCourseProgress.push({...course, progress});
+        if (progress === 100){
+          this.academyCourseCompleted.push({...course, progress});
+        }
+      }));
+      console.log(this.academyCourseProgress);
       this.totalPages= Math.ceil(res.count/4)
     })
   }
@@ -188,5 +206,63 @@ export class StudentProfileComponent implements OnInit {
       }
     );
   }
+  generateCertificate(studentName: string, courseName: string): void {
+    const documentDefinition = {
+      content: [
+        { text: 'Certificate of Completion', style: 'header' },
+        { text: `This is to certify that ${studentName}`, style: 'studentName' },
+        { text: `has successfully completed the course ${courseName}`, style: 'courseName' },
+      ],
+      styles: {
+        header: { fontSize: 18, bold: true, margin: [0, 0, 0, 20] },
+        studentName: {fontSize: 56, bold: true, margin: [0, 0, 0, 10] },
+        courseName: { fontSize: 12, margin: [0, 0, 0, 10] },
+      },
+    };
 
+    const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+    pdfDocGenerator.download('certificate.pdf');
+  }
+    async flattenForm(studentName: string, courseName: string, studentId : number,courseId : number) {
+      const formUrl = '../../../assets/images/certif.pdf';
+      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
+
+      const pdfDoc = await PDFDocument.load(formPdfBytes);
+      const pages = pdfDoc.getPages();
+      const firstPage = pages[0]; // Assuming the student certification is on the first page
+      this.courseService.getCourseCertification(courseId, studentId).subscribe(async certif => {
+
+
+        // Add student-specific data
+        firstPage.drawText(studentName, {
+          x: 270,
+          y: 270,
+          size: 56,
+          font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+          color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+        });
+        firstPage.drawText(courseName, {
+          x: 240,
+          y: 170,
+          size: 24,
+          font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+          color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+        });
+        firstPage.drawText('DATE OF COMPLETION:' + certif.time, {
+          x: 500,
+          y: 90,
+          size: 17,
+          font: await pdfDoc.embedFont(StandardFonts.Helvetica),
+          color: rgb(0, 0, 0), // black color
+        });
+
+        const pdfBytes = await pdfDoc.save();
+        const pdfBlob = new Blob([pdfBytes], {type: 'application/pdf'});
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(pdfBlob);
+        downloadLink.download = 'certificate.pdf';
+        downloadLink.click();
+      });
+  }
 }
