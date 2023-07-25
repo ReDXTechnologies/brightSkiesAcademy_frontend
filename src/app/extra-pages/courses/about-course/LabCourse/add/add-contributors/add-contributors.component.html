@@ -1,0 +1,63 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix align-items-center">
+        <img [src]="course.image" class="teacher-image" alt="avatar">
+        <div class="modal-about mt-3">{{ dialogTitle }}</div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content>
+    <form class="register-form m-4">
+      <div class="row">
+        <ng-container *ngIf="availableTeachers?.length > 0; else noTeachers">
+          <mat-card class="mb-3">
+            <mat-card-content class="example-full-width mb-3 fw-normal mt-3" appearance="fill">
+              <p class="fw-semibold">Choose Collaborator(s) :</p>
+              <ul>
+                <li *ngFor="let teacher of availableTeachers">
+                  <div class="course-sidebar-list mt-5">
+                    <input class="edu-check-box" type="checkbox" id="{{ teacher.user.id }}" (change)="onTeacherChange($event, teacher)">
+                    <label class="edu-check-label mb-4" for="{{ teacher.user.id }}">
+                      <div class="row">
+                        <div class="col-3 course-meta-img">
+                          <img [src]="teacher.user.image" alt="Teacher Image">
+                        </div>
+                        <div class="col-8 ml-2 my-auto text-center">
+                          <h6><a>{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a></h6>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </li>
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+
+        <ng-template #noTeachers>
+          <mat-card class="mb-3">
+            <mat-card-content class="example-full-width mb-3 fw-normal mt-3" appearance="fill">
+              <p class="fw-semibold">No Collaborator(s) to be displayed </p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-stroked-button color="primary" [disabled]="!hasSelectedTeachers()"
+                    [mat-dialog-close]="1"
+                    (click)="confirm()">Add Contributor(s)
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

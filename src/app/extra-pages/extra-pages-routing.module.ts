@@ -7,6 +7,9 @@ import {AboutCourseComponent} from "./courses/about-course/about-course.componen
 import {LabCourseComponent} from "./courses/about-course/LabCourse/lab-course.component";
 import {AddCourseComponent} from "./courses/add-course/add-course.component";
 import {AcademyDetailsComponent} from "./courses/about-course/details/details.component";
+import {RoadmapComponent} from "./courses/roadmap/roadmap.component";
+import {HomeComponent} from "./home/home.component";
+import {RoadmapDisplayComponent} from "./courses/roadmap-display/roadmap-display.component";
 const routes: Routes = [
 
   {
@@ -32,8 +35,20 @@ const routes: Routes = [
     component: AcademyDetailsComponent
   },
   {
+    path: 'Roadmap',
+    component: RoadmapComponent
+  },
+  {
     path: 'settings',
     component: SettingsComponent
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'roadmapDisplay',
+    component: RoadmapDisplayComponent
   },
   // {
   //   path     : 'ibra',

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartsModule as chartjsModule } from 'ng2-charts';
@@ -35,6 +35,7 @@ import { SharedModule } from '../shared/shared.module';
 import {StudentProfileComponent} from "./student-profile/student-profile.component";
 import {MatTabsModule} from "@angular/material/tabs";
 import {FileUploadModule} from "ng2-file-upload";
+import {BarChartModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -76,6 +77,8 @@ import {FileUploadModule} from "ng2-file-upload";
     SharedModule,
     MatTabsModule,
     FileUploadModule,
+    BarChartModule,
+    NgOptimizedImage,
   ],
   providers: [],
 })

@@ -77,20 +77,20 @@
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
-.fa-plus {
+.fa-plus1 {
   font-size: 21px;
   color: rgb(11, 58, 136);
   text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
   animation: pulse 2s infinite;
 }
-.fa-plus::after {
+.fa-plus1::after {
   content: "add module";
   font-size: 12px;
   display: block;
   text-align: center;
   margin-top: 5px;
 }
-.fa-plus:hover {
+.fa-plus1:hover {
   color: black;
 }
 .line-container {

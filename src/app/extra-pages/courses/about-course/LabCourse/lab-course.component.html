@@ -52,8 +52,13 @@
               <p>Creation date</p>
               <span>{{course?.creation_date}}</span>
             </div>
-            <div class="course-category" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+            <div class="row align-items-center justify-content-center">
+            <div class="course-category col-6 " *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+              <button  class="wishlist-btn" (click)="addContributorCall()"><i class=" fas fa-plus"></i></button>
+            </div>
+            <div class="course-category col-6" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
               <button  class="wishlist-btn" (click)="editCall()"><i class="fas fa-edit"></i></button>
+            </div>
             </div>
           </div>
           <div class="course-description pt-45 pb-30">
@@ -70,7 +75,7 @@
               <div class="row info-cart-text ">
                 <div class="col-xl-12">
                   <ul>
-                    <li><i class="fas fa-check"></i>{{course?.what_you_will_learn}}</li>
+                    <li *ngFor="let line of lines"><i class="fas fa-check"></i>{{line}}</li>
 
                   </ul>
                 </div>
@@ -106,8 +111,8 @@
 
 
               </div>
-              <div class=" col-2" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
-                <button  (click)="addModule()"><i class="fas fa-plus"></i></button>
+              <div class=" col-2 " *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+                <button  (click)="addModule()"><i class="fas fa-plus1"></i></button>
               </div>
             </div>
             <app-coursecurriculam [courseId]="courseId" [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursecurriculam>

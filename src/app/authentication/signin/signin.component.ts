@@ -76,7 +76,7 @@ export class SigninComponent
                     this.router.navigate(['/teacher/teacher-profile']);
                   } else if (role === Role.Student) {
                     // this.router.navigate(['/student/dashboard']);
-                    this.router.navigate(['/student/student-profile']);
+                    this.router.navigate(['/student/dashboard']);
                   } else if (role === Role.head_sub_department ||  role === Role.head_super_department) {
                     this.router.navigate(['/admin/departments/head-department-profile']);
                   } else {

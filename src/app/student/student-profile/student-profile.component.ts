@@ -123,7 +123,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   getStudentCourses(studentId: string,page:number) {
-    this.studentService.getStudentCourses(studentId,page).subscribe(res => {
+    this.studentService.getStudentCourses(studentId, page).subscribe(res => {
       this.courses = res.results;
       res.results.map((course) => this.courseService.getCurrentStep(course.id, Number(studentId)).subscribe(current1 => {
         const progress = Math.floor(current1.progress);
@@ -134,7 +134,7 @@ export class StudentProfileComponent implements OnInit {
       }));
       console.log(this.academyCourseProgress);
       this.totalPages= Math.ceil(res.count/4)
-    })
+    });
   }
 
   public updateProfilePicture(userId: number): void {

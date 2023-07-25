@@ -1,30 +1,24 @@
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import {AsyncPipe, DOCUMENT, formatDate, NgClass, NgFor, NgIf} from '@angular/common';
+import {DOCUMENT} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
   Inject,
-  Input,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
   ViewChild,
-  ViewEncapsulation
 } from '@angular/core';
 import { MatTabGroup} from '@angular/material/tabs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FuseMediaWatcherService } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/services/media-watcher';
 import { Category, Course1} from './academy.types';
 import {Course} from "../../../../core/models/course";
-import {Subject, Subscription, takeUntil} from 'rxjs';
-import { categories, courses} from './data';
+import {Subject, takeUntil} from 'rxjs';
+import { categories} from './data';
 import {CourseService} from "../../../../core/service/course.service";
 import {AuthService} from "../../../../core/service/auth.service";
 import {Video} from "../../../../core/models/Module";
-import {
-  DisplayCurriculumVideosComponent
-} from "../../about-course/displayCurriculumVideos/displayCurriculumVideos.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Teacher} from "../../../../core/models/teacher";
 import {TeacherService} from "../../../../core/service/teacher.service";
@@ -36,6 +30,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   selector       : 'academy-details',
   templateUrl    : './details.component.html',
   styleUrls: ['./details.component.scss', './details1.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
   })
 export class AcademyDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
@@ -55,13 +50,13 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
   currentVideoIndex: number;
   teacher: Teacher;
   teacher_id: number;
-  max_step = -1;
   reviews: Review[];
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-  videoProgress = 0;
+  private _unsubscribeAll: Subject<void> = new Subject<void>();
+  private videoProgress = 0;
+  private quizzScore = 0;
+  private max_step = -1;
   quizzProgress = false;
   quizzId: number;
-  quizzScore = 0;
   nextItem: any;
 
   /**
@@ -82,7 +77,6 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private snackBar: MatSnackBar,
   ) {
-
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -146,9 +140,9 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
           this.course =  {
           id         : this.course1.id,
           title      : this.course1.title,
-          slug       : 'basics-of-angular',
+          slug       : this.course1.speciality,
           description: this.course1.description,
-          category   : 'web',
+          category   : this.course1.speciality,
           duration   : this.course1.workload,
           totalSteps : this.course1.nbr_of_lessons,
           updatedAt  : this.course1.last_update_date,
@@ -213,17 +207,6 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
    *
    * @param step
    */
-  displayVideo(video: string) {
-    this.currentVideoIndex = 0;
-    this.dialog.open(DisplayCurriculumVideosComponent, {
-      width: '70%',
-      data: {
-        videoUrl: video,
-        currentIndex: 0,
-
-      }
-    });
-  }
 
   goToStep(step: number): void {
 
@@ -269,14 +252,6 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
           'center',
           'center'
         );
-      // }else if (this.quizzScore < 70){
-      //   this.showNotification(
-      //     'snackbar-danger',
-      //     'You have to get at least 70% in the quizz',
-      //     'center',
-      //     'center'
-      //   );
-      // }
         return;
     }
 
@@ -315,7 +290,6 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
       this.courseService.updateCurrentStep(this.courseId, formData, this.user).subscribe();
 
     }
-    // Go to step
 
     // Set the current step
     this.currentStep = this.currentStep + 1;
@@ -396,7 +370,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  trackProgress() {
+  private trackProgress() {
     const videoPlayer: HTMLVideoElement = this.videoPlayerRef.nativeElement;
     const currentTime = videoPlayer.currentTime;
     const totalDuration = videoPlayer.duration;

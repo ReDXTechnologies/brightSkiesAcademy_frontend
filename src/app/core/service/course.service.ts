@@ -138,8 +138,17 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/courses/${course_id}`;
     return this.httpClient.get<Course>(url);
   }
+
+  getRecommandedCourses(user_id:number): Observable<Course>{
+    const url = `${this.baseUrl}/userRecommendedCourses/${user_id}`;
+    return this.httpClient.get<Course>(url);
+  }
   getCurrentStep(course_id: number, student_id: number): Observable<any>{
     const url = `${this.baseUrl}/user-progress/${student_id}/${course_id}`;
+    return this.httpClient.get<any>(url);
+  }
+  getCourseSteps(student_id: number): Observable<any>{
+    const url = `${this.baseUrl}/userCoursesProgress/${student_id}`;
     return this.httpClient.get<any>(url);
   }
   updateCurrentStep(courseId: number, formData : any, student_id: number) : Observable<any> {
@@ -240,9 +249,9 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   }
 
 
-  getFilteredCourses(sub_department: string[], level: string, workload_range: string, title_regex: string, is_free: string): Observable<any> {
+  getFilteredCourses(sub_department: string[], level: string, workload_range: string, title_regex: string, is_free: string, speciality: string): Observable<any> {
     let params = new HttpParams();
-    const url = `${this.baseUrl}/courses?sub_department=${sub_department}&level=${level}&workload_range=${workload_range}&title_regex=${title_regex}&is_free=${is_free}`;
+    const url = `${this.baseUrl}/courses?sub_department=${sub_department}&level=${level}&workload_range=${workload_range}&title_regex=${title_regex}&is_free=${is_free}&speciality=${speciality}`;
 
     if (sub_department.length > 0) {
       params = params.set('sub_department', sub_department.join(','));
@@ -251,13 +260,16 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
       params = params.set('level', level);
     }
     if (workload_range) {
-      params = params.set('workload_range',workload_range);
+      params = params.set('workload_range', workload_range);
     }
     if (title_regex) {
-      params = params.set('title_regex',title_regex);
+      params = params.set('title_regex', title_regex);
     }
     if (is_free) {
-      params = params.set('is_free',is_free);
+      params = params.set('is_free', is_free);
+    }
+    if (speciality) {
+      params = params.set('speciality', speciality);
     }
     return this.httpClient.get<any>(url, { params });
   }
@@ -271,7 +283,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
     return this.httpClient.get<any>(url, { params });
   }
 
-  getSuperDepartmentPremuinCourseEnrollementRequests(superDepartmentId: any):void  {
+  getSuperDepartmentPremuinCourseEnrollementRequests(superDepartmentId: any): void  {
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/hybridProfilesRequests`;
     this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
@@ -284,7 +296,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
-  getSubDepartmentPremuinCourseEnrollementRequests(subDepartmentId: any):void  {
+  getSubDepartmentPremuinCourseEnrollementRequests(subDepartmentId: any): void  {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/hybridProfilesRequests`;
     this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
@@ -296,5 +308,14 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
         console.log(error.name + ' ' + error.message);
       }
     );
+  }
+
+  addRoadmap(formData: any): Observable<any> {
+    const url = `${this.baseUrl}/roadmap`;
+    return this.httpClient.post<Course>(url, formData);
+  }
+  getRoadmaps(): Observable<any> {
+    const url = `${this.baseUrl}/roadmapCourses`;
+    return this.httpClient.get<any>(url, {});
   }
 }

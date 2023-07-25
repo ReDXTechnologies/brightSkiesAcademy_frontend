@@ -61,6 +61,11 @@ import {CdkScrollable} from "@angular/cdk/scrolling";
 import {FuseFindByKeyPipe} from "../../@fuse/pipes/find-by-key/find-by-key.pipe";
 import {AcademyDetailsComponent} from "./courses/about-course/details/details.component";
 import { LabComponent } from './courses/about-course/coursecurriculam/lab/lab.component';
+import { RoadmapComponent } from './courses/roadmap/roadmap.component';
+import { HomeComponent } from './home/home.component';
+import {SharedModule} from "../shared/shared.module";
+import { RoadmapDisplayComponent } from './courses/roadmap-display/roadmap-display.component';
+import { AddContributorsComponent } from './courses/about-course/LabCourse/add/add-contributors/add-contributors.component';
 
 
 @NgModule({
@@ -89,7 +94,11 @@ import { LabComponent } from './courses/about-course/coursecurriculam/lab/lab.co
         StartQuizzComponent,
         StartCourseComponent,
       AcademyDetailsComponent,
-      LabComponent
+      LabComponent,
+      RoadmapComponent,
+      HomeComponent,
+      RoadmapDisplayComponent,
+      AddContributorsComponent
     ],
     imports: [
         CommonModule,
@@ -125,11 +134,11 @@ import { LabComponent } from './courses/about-course/coursecurriculam/lab/lab.co
         MatTooltipModule,
         MatProgressSpinnerModule,
         NgxGaugeModule,
-      MatSidenavModule , RouterLink, MatIconModule, NgIf,
-      NgClass, NgFor, MatButtonModule, MatProgressBarModule, CdkScrollable,
-      MatTabsModule, FuseFindByKeyPipe, FuseFindByKeyPipe, FuseFindByKeyPipe, AsyncPipe, NgxGaugeModule
+        MatSidenavModule, RouterLink, MatIconModule, NgIf,
+        NgClass, NgFor, MatButtonModule, MatProgressBarModule, CdkScrollable,
+        MatTabsModule, FuseFindByKeyPipe, FuseFindByKeyPipe, FuseFindByKeyPipe, AsyncPipe, NgxGaugeModule, SharedModule
 
-],
+    ],
   exports: [
     AddQuizzComponent,
     StartQuizzComponent

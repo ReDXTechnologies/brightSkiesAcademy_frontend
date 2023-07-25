@@ -66,7 +66,7 @@ const themes = {
  */
 const config = {
   darkMode   : 'class',
-  content    : ['./src/app/extra-pages/courses/about-course/details/*.{html,scss,ts}'],
+  content    : ['./src/app/extra-pages/home/*.{html,scss,ts}','./src/app/extra-pages/courses/about-course/details/*.{html,scss,ts}','./src/app/extra-pages/courses/about-course/LabCourse/add/add-contributors/*.{html,scss,ts}'],
   important  : true,
   theme      : {
     fontSize: {

@@ -12,7 +12,6 @@ import {
 import { ROUTES } from './sidebar-items';
 import { Role } from 'src/app/core/models/role';
 import { AuthService } from 'src/app/core/service/auth.service';
-import {HttpClient} from "@angular/common/http";
 import {AdminService} from "../../core/service/admin.service";
 import {User} from "../../core/models/user";
 @Component({
@@ -30,7 +29,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userImg: string;
   userType: string;
   headerHeight = 60;
-  currentRoute: string;
   routerObj = null;
   user: User;
 
@@ -112,9 +110,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   getUser(id: string) {
     this.adminService.getUser(id).subscribe((user: any) => {
       this.user = user;
-      console.log(user)
-      this.userFullName = user.firstName + " "+user.lastName
-      this.userImg = user.image
+      console.log(user);
+      this.userFullName = user.firstName + " " + user.lastName;
+      this.userImg = user.image;
     });
   }
   ngOnDestroy() {

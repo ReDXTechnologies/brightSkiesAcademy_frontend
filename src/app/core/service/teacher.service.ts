@@ -345,4 +345,9 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  addTeacherToCourse(body: any, courseId: number): Observable<any> {
+    const url = `${this.baseUrl}/course/${courseId}/add_teacher`;
+
+    return this.httpClient.post<any>(url, body);
+  }
 }

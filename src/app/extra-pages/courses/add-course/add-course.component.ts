@@ -424,8 +424,9 @@ export class AddCourseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.isLoading= true
       if (result) {
+        this.isLoading= true
+
         console.log(result)
         this.teacherService.requestStudentTeacherAccount(this.userId, result.data.id).subscribe(res => {
           if(res){

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CourseService} from "../../../core/service/course.service";
 import {Course} from "../../../core/models/course";
 import {ReviewService} from "../../../core/service/review.service";
@@ -26,7 +26,7 @@ export class AllCourseComponent implements OnInit {
       active: 'All Course',
     },
   ];
-  courses: Course[];
+  courses: Course[] = [];
   coursesData: any;
   teacherApprovedCourses: Course[];
   teacherPendingCourses: Course[];
@@ -59,6 +59,7 @@ export class AllCourseComponent implements OnInit {
               private route: ActivatedRoute,
               private httpClient: HttpClient,
               private departmentService: DepartmentService,
+              private activatedRoute: ActivatedRoute,
   ) {
     this.role = this.authService.currentUserValue.role[0];
     this.user_id = localStorage.getItem('id');
@@ -120,9 +121,8 @@ export class AllCourseComponent implements OnInit {
         this.selectedIndex = 0; // Set the index of the default tab
       }
     });
-    this.getAllApprovedCourses();
+    this.getAllApprovedCourses()
     this.getDepatments();
-
   }
 
   previous_next(url: any) {
@@ -301,13 +301,11 @@ export class AllCourseComponent implements OnInit {
   }
 
   getFilteredCourses() {
-    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput, this.price)
+    this.courseService.getFilteredCourses(this.selectedSubDepartments, this.level, this.workload, this.searchInput, this.price, "")
       .subscribe(response => {
         this.courses = response;
-
       });
   }
-
   calculatePages() {
     for (let i = 1; i <= this.totalPages; i++) {
       this.pages.push(i);
@@ -354,8 +352,8 @@ export class AllCourseComponent implements OnInit {
         console.log('Error getting approved courses:', error);
       }
     );
-
   }
+
 
   getAllTeacherApprovedCourses(teacherId: string, page: number) {
     this.teacherService.getTeacherApprovedCourses(teacherId, page).subscribe(

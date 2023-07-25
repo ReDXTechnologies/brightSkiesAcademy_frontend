@@ -14,6 +14,8 @@ import {EditCourseModuleComponent} from "./edit/edit-course-overview/form-dialog
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Course} from "../../../../core/models/course";
 import {AddNewModule} from "./edit/add-new-module/add-new-module.component";
+import {AddContributorsComponent} from "./add/add-contributors/add-contributors.component";
+import {DepartmentService} from "../../../../core/service/department.service";
 @Injectable()
 @Component({
   selector: 'app-about-course',
@@ -26,6 +28,7 @@ export class LabCourseComponent implements OnInit {
               private teacherService: TeacherService,
               private courseService: CourseService,
               private adminService: AdminService,
+              private departmentService: DepartmentService,
               private spinner: NgxSpinnerService,
               private authService: AuthService,
               private router: Router,
@@ -39,12 +42,16 @@ export class LabCourseComponent implements OnInit {
       this.courseId = params.courseId;
       this.courseService.getCourseById(params.courseId).subscribe(course => {
           this.course = course;
+          this.contributorTeachers = this.course.teachers;
+          console.log(this.course.what_you_will_learn)
+          this.lines = this.course.what_you_will_learn.split(`-`).filter((line) => line.trim().length > 0);
+          console.log(this.lines);
         }
       );
     });
   }
   writeReviewActive = false;
-  @Input() is_enrolled= false;
+  @Input() is_enrolled = false;
   user_id: string;
   isLoading = false;
   course: Course;
@@ -55,6 +62,12 @@ export class LabCourseComponent implements OnInit {
   enrolled = false;
   courseId: any;
   progress: number;
+  teachers: Teacher[] = [];
+  contributorTeachers: number[] = [];
+  lines: string[] = [];
+
+  protected readonly parseInt = parseInt;
+  protected readonly Number = Number;
 
   writeReview() {
     if (this.writeReviewActive == false) {
@@ -65,23 +78,19 @@ export class LabCourseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    console.log('courseId', this.courseId);
-    console.log('course', this.course);
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id);
     this.checkEnrollement();
     // const courseJson = this.route.snapshot.queryParamMap.get('course');
     const teacherJson = this.route.snapshot.queryParamMap.get('teacher');
     const reviewsJson = this.route.snapshot.queryParamMap.get('reviews');
-
     if (teacherJson) {
       this.teacher = JSON.parse(teacherJson);
     }
     if (reviewsJson) {
       this.reviews = JSON.parse(reviewsJson);
     }
-    console.log(this.course);
+
     this.courseService.getCurrentStep(this.courseId, this.userId).subscribe(current => {
       this.progress = Math.floor(current.progress);
     });
@@ -110,6 +119,29 @@ export class LabCourseComponent implements OnInit {
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
       panelClass: colorName,
+    });
+  }
+
+  addContributorCall() {
+    this.departmentService.getSubDepartmentsByCourseId(this.courseId).subscribe((dep) => {
+      this.teacherService.getFilteredTeachersGrid("", "", dep.name).subscribe((teachers) => {
+        teachers.results.map((el1) =>  this.teachers.push(el1));
+        const contributorsSet: Set<number> = new Set(this.contributorTeachers);
+        console.log(contributorsSet);
+        this.teachers = this.teachers.filter((teacherId) =>  !contributorsSet.has(teacherId.user.id));
+        console.log(this.teachers);
+        const dialogRef = this.dialog.open(AddContributorsComponent, {
+          width: '50%',
+          data: {
+            teachers: this.teachers,
+            course: this.course,
+            action: 'add',
+          },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          this.teachers = [];
+            });
+      });
     });
   }
 
@@ -179,14 +211,11 @@ export class LabCourseComponent implements OnInit {
     });
   }
   checkEnrollement(){
-    this.studentService.isEnrolled(this.courseId, this.userId).subscribe(res=>{
+    this.studentService.isEnrolled(this.courseId, this.userId).subscribe(res => {
       console.log("course id :  " + this.courseId + "res : " + res);
       if (res === 'true'){
         this.is_enrolled = true;
       }
     });
   }
-
-  protected readonly parseInt = parseInt;
-  protected readonly Number = Number;
 }
