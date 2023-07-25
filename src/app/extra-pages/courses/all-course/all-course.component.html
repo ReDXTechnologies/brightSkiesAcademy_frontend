@@ -237,12 +237,17 @@
                             </div>
 
                             <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                              <img
-                                [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                class="user-image" alt="">
+                              <div class="course-meta-wrapper border-line-meta">
+                              <div class="course-meta-img">
+                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
+                              </div>
+<!--                              <img-->
+<!--                                [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"-->
+<!--                                class="user-image" alt="">-->
                               <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                               <a
                                 [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                              </div>
                             </div>
                           </div>
                         </div>

@@ -25,7 +25,6 @@ import {StartQuizzComponent} from "./start-quizz/start-quizz.component";
 export class CoursecurriculamComponent implements OnInit {
   @Input() course: Course;
   @Input() courseId: number;
-
   @Input() teacher_id: number;
   @Input() user: number;
   newName = '';
@@ -37,8 +36,8 @@ export class CoursecurriculamComponent implements OnInit {
   isLoading = false;
   isLoadingStart = false;
   is_enrolled = false
-  isLoadingQuizz= false
   percentage: any;
+  contributorTeachers: number[] = [];
 
   constructor(public dialog: MatDialog, private authService: AuthService,
               private adminService: AdminService,
@@ -46,10 +45,10 @@ export class CoursecurriculamComponent implements OnInit {
               private studentService: StudentService,
               private courseService: CourseService,
               private snackBar: MatSnackBar,
-              private elementRef: ElementRef
 
   ) {
     this.role = this.authService.currentUserValue.role[0];
+
   }
 
   isEditMode = false;
@@ -111,6 +110,9 @@ export class CoursecurriculamComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkEnrollement();
+    this.courseService.getCourseById(this.courseId).subscribe((course1) => {
+      this.contributorTeachers = course1.teachers;
+    });
    }
    getUserScore(quizzId:number): any{
     this.courseService.getScoreInModule(this.user, quizzId).subscribe(res=>{
@@ -129,20 +131,6 @@ export class CoursecurriculamComponent implements OnInit {
       }
     })
  }
-
-  displayVideo(video: Video, index: number, module: any) {
-    this.currentVideo = video;
-    this.currentVideoIndex = index;
-    this.dialog.open(DisplayCurriculumVideosComponent, {
-      width: '70%',
-      data: {
-        videoUrl: video.video_file,
-        videos: module.videos,
-        currentIndex: index,
-        module: module
-      }
-    });
-  }
   addVideo( courseId: number, moduleId: any, moduleName : string) {
     const dialogRef = this.dialog.open(AddVideoComponent, {
       width: '50%',

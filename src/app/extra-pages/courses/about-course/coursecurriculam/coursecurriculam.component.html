@@ -34,7 +34,7 @@
                aria-labelledby="headingOne" data-bs-parent="#accordionExample"
                *ngFor="let video of module.videos; let j = index">
             <div class="enrolled"
-                 *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' && user === teacher_id) || ( role ==='Student_Teacher' && user === teacher_id)) || course.status==='pending'"
+                 *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' &&  contributorTeachers.includes(user)) || ( role ==='Student_Teacher' && contributorTeachers.includes(user))) || course.status==='pending'"
                  >
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info">
@@ -44,15 +44,15 @@
                 </div>
                 <div class="course-curriculum-meta" >
                   <span>{{video.duration}}</span>
-                  <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editVideo(courseId,module.id,video.id,video)"><i class="fas fa-edit"></i></button>
-                  <button style="color: #d00e32 " *ngIf="user == teacher_id"  (click)="deleteVideo(courseId,module.id,video.id,module.name,video.name)" ><i class="fas fa-trash "></i></button>
+                  <button style="color: #078f28" *ngIf="contributorTeachers.includes(user)" (click)="editVideo(courseId,module.id,video.id,video)"><i class="fas fa-edit"></i></button>
+                  <button style="color: #d00e32 " *ngIf="contributorTeachers.includes(user)"  (click)="deleteVideo(courseId,module.id,video.id,module.name,video.name)" ><i class="fas fa-trash "></i></button>
 
 
                 </div>
               </div>
             </div>
             <div class="accordion-body"
-                 *ngIf="!is_enrolled && role !=='Super_Admin' && user != teacher_id && course.status==='approved'">
+                 *ngIf="!is_enrolled && role !=='Super_Admin' && !contributorTeachers.includes(user)&& course.status==='approved'">
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info">
                   <i class="flaticon-youtube"></i>
@@ -71,7 +71,7 @@
                aria-labelledby="headingOne" data-bs-parent="#accordionExample"
                *ngFor="let quizz of module.quizzes; let j = index">
             <div class="enrolled"
-                 *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' && user === teacher_id) || ( role ==='Student_Teacher' && user === teacher_id)) || course.status==='pending'"
+                 *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' && contributorTeachers.includes(user)) || ( role ==='Student_Teacher' && contributorTeachers.includes(user)) || course.status==='pending')"
                  >
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info" >
@@ -86,14 +86,14 @@
                       <ngx-gauge [value]="percentage" [size]="30" [type]="'full'" [thick]="4" class="guage-chart-center text-white"></ngx-gauge>
                     </ng-container>
                   </div>
-                  <button style="color: #078f28" *ngIf="user == teacher_id" (click)="editQuizz(quizz.id,module.id,module.name,quizz.name,quizz)"><i class="fas fa-edit"></i></button>
-                  <button style="color: #d00e32 " *ngIf="user == teacher_id" (click)="deleteQuizz(module.id,quizz.id,module.name,quizz.name)"><i class="fas fa-trash "></i></button>
+                  <button style="color: #078f28" *ngIf="contributorTeachers.includes(user)" (click)="editQuizz(quizz.id,module.id,module.name,quizz.name,quizz)"><i class="fas fa-edit"></i></button>
+                  <button style="color: #d00e32 " *ngIf="contributorTeachers.includes(user)" (click)="deleteQuizz(module.id,quizz.id,module.name,quizz.name)"><i class="fas fa-trash "></i></button>
 
                 </div>
               </div>
             </div>
             <div class="accordion-body"
-                 *ngIf="!is_enrolled && role !=='Super_Admin' && user != teacher_id && course.status==='approved'">
+                 *ngIf="!is_enrolled && role !=='Super_Admin' && !contributorTeachers.includes(user) && course.status==='approved'">
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
                 <div class="course-curriculum-info">
                   <i class="fas fa-question-circle"></i>

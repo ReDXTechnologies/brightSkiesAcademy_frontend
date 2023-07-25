@@ -37,7 +37,6 @@ export const ROUTES: RouteInfo[] = [
     role: ['Student'],
     submenu: [],
   },
-
   {
     path: '/student/student-profile',
     title: 'Profile',

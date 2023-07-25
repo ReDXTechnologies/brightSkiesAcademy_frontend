@@ -53,10 +53,10 @@
               <span>{{course?.creation_date}}</span>
             </div>
             <div class="row align-items-center justify-content-center">
-            <div class="course-category col-6 " *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+            <div class="course-category col-6 " *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
               <button  class="wishlist-btn" (click)="addContributorCall()"><i class=" fas fa-plus"></i></button>
             </div>
-            <div class="course-category col-6" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+            <div class="course-category col-6" *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
               <button  class="wishlist-btn" (click)="editCall()"><i class="fas fa-edit"></i></button>
             </div>
             </div>
@@ -111,11 +111,11 @@
 
 
               </div>
-              <div class=" col-2 " *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
-                <button  (click)="addModule()"><i class="fas fa-plus1"></i></button>
+              <div class=" col-2 " *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
+                <button  (click)="addModule()"><i class="fas fa-plus1 fa-plus"></i></button>
               </div>
             </div>
-            <app-coursecurriculam [courseId]="courseId" [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursecurriculam>
+            <app-coursecurriculam [courseId]=courseId [course]=course [user]=userId [teacher_id]="teacher.user.id"></app-coursecurriculam>
           </div>
           <!--          <app-courseinstructor></app-courseinstructor>-->
           <!--          <app-studentfeedback></app-studentfeedback>-->
