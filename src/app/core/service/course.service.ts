@@ -311,8 +311,16 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
   }
 
   addRoadmap(formData: any): Observable<any> {
-    const url = `${this.baseUrl}/roadmap`;
+    const url = `${this.baseUrl}/roadmap/`;
     return this.httpClient.post<Course>(url, formData);
+  }
+  updateRoadmap(formData: any): Observable<any> {
+    const url = `${this.baseUrl}/roadmap/update`;
+    return this.httpClient.put<any>(url, formData);
+  }
+  deleteRoadmap(title: string): Observable<any> {
+    const url = `${this.baseUrl}/roadmap/?title=${encodeURIComponent(title)}`;
+    return this.httpClient.delete<any>(url);
   }
   getRoadmaps(): Observable<any> {
     const url = `${this.baseUrl}/roadmapCourses`;

@@ -66,6 +66,7 @@ import { HomeComponent } from './home/home.component';
 import {SharedModule} from "../shared/shared.module";
 import { RoadmapDisplayComponent } from './courses/roadmap-display/roadmap-display.component';
 import { AddContributorsComponent } from './courses/about-course/LabCourse/add/add-contributors/add-contributors.component';
+import { EditRoadmapComponent } from './home/edit/edit-roadmap/edit-roadmap.component';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { AddContributorsComponent } from './courses/about-course/LabCourse/add/a
       RoadmapComponent,
       HomeComponent,
       RoadmapDisplayComponent,
-      AddContributorsComponent
+      AddContributorsComponent,
+      EditRoadmapComponent
     ],
     imports: [
         CommonModule,

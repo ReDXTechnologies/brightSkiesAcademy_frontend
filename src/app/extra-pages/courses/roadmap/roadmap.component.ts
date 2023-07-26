@@ -25,7 +25,6 @@ export class RoadmapComponent implements OnInit {
   selectedSubDepartments: string[] = [];
   selectedSuperDepartments: Department[] = [];
   selectedCourses: Course[] = [];
-  sentCoursesIds: number[] = [];
   userId: number;
   user_id: string;
   role: any;
@@ -127,10 +126,10 @@ export class RoadmapComponent implements OnInit {
     });
   }
   submitRoadmap() {
-    this.sentCoursesIds = this.selectedCourses.map((el1) => el1.id);
+    const sentCoursesIds = this.selectedCourses.map((el1) => el1.id);
     const roadmapData = {
       title: this.roadmapTitle,
-      courses: this.sentCoursesIds,
+      courses: sentCoursesIds,
       certified: this.selectedChoice
     };
     this.courseService.addRoadmap(roadmapData).subscribe(

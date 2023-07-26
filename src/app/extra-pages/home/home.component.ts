@@ -1,14 +1,19 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSelectChange } from "@angular/material/select";
 import { Category } from "../courses/about-course/details/academy.types";
 import { Course } from "../../core/models/course";
 import { BehaviorSubject, forkJoin, mergeMap, of, Subject } from "rxjs";
-import { takeUntil, toArray, switchMap } from 'rxjs/operators';
+import { toArray, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 import { CourseService } from "../../core/service/course.service";
 import { StudentService } from "../../core/service/student.service";
 import { DepartmentService } from "../../core/service/department.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../core/service/auth.service";
+import {
+  EditCourseModuleComponent
+} from "../courses/about-course/LabCourse/edit/edit-course-overview/form-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {EditRoadmapComponent} from "./edit/edit-roadmap/edit-roadmap.component";
 
 @Component({
   selector: 'app-home',
@@ -20,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   filteredCourses: Course[] = [];
   user_id: string;
   userId: number;
+  role: any;
   filters: {
     categorySlug$: BehaviorSubject<string>;
     query$: BehaviorSubject<string>;
@@ -42,9 +48,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private studentService: StudentService,
     private departmentService: DepartmentService,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) {
+    this.role = this.authService.currentUserValue.role[0];
     this.user_id = localStorage.getItem('id');
-    this.userId = parseInt(this.user_id);
+    this.userId = parseInt(this.user_id)
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -148,6 +158,48 @@ export class HomeComponent implements OnInit, OnDestroy {
       queryParams: {
         coursesId: courseJson,
         title: titleJson
+      }
+    });
+  }
+  deleteRoadmap(title: string) {
+    this.courseService.deleteRoadmap(title).subscribe(res => {
+      this.showNotification(
+        'snackbar-danger',
+        'Roadmap deleted Successfully...!!!',
+        'center',
+        'center'
+      );
+      window.location.reload();
+    });
+  }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+  editCall(course) {
+    const idTab: number[] = [];
+    console.log(course)
+    course.courses.forEach((id) => idTab.push(id));
+    const dialogRef = this.dialog.open(EditRoadmapComponent, {
+      width: '70%',
+      data: {
+        coursesId: idTab,
+        name: course.title,
+        certified: course.certified,
+        action: 'edit',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // this.courseService.updateCourse(this.course.id, result.formData, this.course.free, this.course.certificate)
+        //   .subscribe((res) => {
+        //     console.log(res);
+        //     window.location.reload();
+        //   });
       }
     });
   }

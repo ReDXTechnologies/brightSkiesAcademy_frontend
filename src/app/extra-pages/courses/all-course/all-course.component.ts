@@ -32,7 +32,7 @@ export class AllCourseComponent implements OnInit {
   teacherPendingCourses: Course[];
   reviews: Review[];
   teacher: Teacher;
-  role: any
+  role: any;
   selectedIndex = 0;
   departments: Department[];
   shopCatActive: boolean = false;
@@ -59,7 +59,6 @@ export class AllCourseComponent implements OnInit {
               private route: ActivatedRoute,
               private httpClient: HttpClient,
               private departmentService: DepartmentService,
-              private activatedRoute: ActivatedRoute,
   ) {
     this.role = this.authService.currentUserValue.role[0];
     this.user_id = localStorage.getItem('id');
