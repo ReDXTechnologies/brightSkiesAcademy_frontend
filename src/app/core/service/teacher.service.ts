@@ -41,21 +41,22 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
     return this.httpClient.get<any>(url);
   }
-  getTeachers(): Observable<any> {
-    const url = `${this.baseUrl}/teachers/active`;
-
-    return this.httpClient.get<any>(url);
-  }
-  getSuperDepTeachersperPage(superDepartmentId: any,page:any): Observable<any> {
-    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
+  getTeachers(page:any): Observable<any> {
+    const url = `${this.baseUrl}/teachers/active?page=${page}`;
     let params = new HttpParams();
-    params = params.set('page',page);
+    params = params.set('page', page);
     return this.httpClient.get<any>(url, { params });
   }
-  getSubDepTeachersperPage(subDepartmentId: any,page:any): Observable<any> {
+  getSuperDepTeachersperPage(superDepartmentId: any, page: any): Observable<any> {
+    const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
+    let params = new HttpParams();
+    params = params.set('page', page);
+    return this.httpClient.get<any>(url, { params });
+  }
+  getSubDepTeachersperPage(subDepartmentId: any, page: any): Observable<any> {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/teachers?page=${page}`;
     let params = new HttpParams();
-    params = params.set('page',page);
+    params = params.set('page', page);
     return this.httpClient.get<any>(url, { params });
   }
   getTeachersperPage(page:any): Observable<any> {

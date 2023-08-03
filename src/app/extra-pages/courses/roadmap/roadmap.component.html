@@ -34,14 +34,14 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                  <mat-form-field class="example-full-width mb-3" appearance="fill" *ngIf="role === 'head_sub_department'">
-                    <mat-label>Select department :</mat-label>
-                    <mat-select  [value]="depName" (selectionChange)="selectDepartment($event.value)">
-                      <mat-option  [value]="depName">
-                        {{depName}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+<!--                  <mat-form-field class="example-full-width mb-3" appearance="fill" *ngIf="role === 'head_sub_department'">-->
+<!--                    <mat-label>Select department :</mat-label>-->
+<!--                    <mat-select  [value]="depName" (selectionChange)="selectDepartment($event.value)">-->
+<!--                      <mat-option  [value]="depName">-->
+<!--                        {{depName}}-->
+<!--                      </mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
 
                       <mat-form-field class="example-full-width mb-3" appearance="fill">
                         <mat-label>Speciality :</mat-label>
@@ -53,7 +53,7 @@
                       <ul>
                         <li *ngFor="let course of courses">
                           <div class="course-sidebar-list">
-                            <input class="edu-check-box" type="checkbox" id="{{ course.id }}" (change)="onCourseChange($event, course)">
+                            <input class="edu-check-box" type="checkbox" id="{{ course.id }}" (change)="onCourseChange($event, course)" [checked]="course.checked">
                             <label class="edu-check-label" for="{{ course.id }}">{{ course.title }}</label>
                           </div>
                         </li>

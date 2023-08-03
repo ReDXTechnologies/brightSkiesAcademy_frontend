@@ -10,6 +10,7 @@ import {AcademyDetailsComponent} from "./courses/about-course/details/details.co
 import {RoadmapComponent} from "./courses/roadmap/roadmap.component";
 import {HomeComponent} from "./home/home.component";
 import {RoadmapDisplayComponent} from "./courses/roadmap-display/roadmap-display.component";
+import {DepartmentDetailsComponent} from "./departments/department-details/department-details.component";
 const routes: Routes = [
 
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'roadmapDisplay',
     component: RoadmapDisplayComponent
+  },
+  {
+    path: 'department',
+    component: DepartmentDetailsComponent
   },
   // {
   //   path     : 'ibra',

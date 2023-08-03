@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import { Department } from '../models/department';
 import {environment} from "../../../environments/environment";
@@ -78,6 +78,11 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
 
      return this.http.get<Department[]>(url);
   }
+  getSuperdepById(sup_department_id: any): Observable<Department> {
+    const url = `${this.baseUrl}/superdepartment/${sup_department_id}`;
+
+    return this.http.get<Department>(url);
+  }
 
   getSuperDepByUserId(user_id: any):Observable<Department[]> {
     const url = `${this.baseUrl}/user/${user_id}/super_department`;
@@ -93,6 +98,12 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
     const url = `${this.baseUrl}/sub-departments`;
 
     return this.http.get<Department[]>(url);
+  }
+  getSubDepartmentsPerPage(page:any): Observable<any> {
+    const url = `${this.baseUrl}/sub-departments/subdep`;
+    let params = new HttpParams();
+    params = params.set('page', page);
+    return this.http.get<any>(url, { params });
   }
   getSubDepartmentById(dep_id : any): Observable<Department> {
     const url = `${this.baseUrl}/subdepartment/${dep_id}`;

@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentsModule } from './../../shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import {MatOptionModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [MainComponent],
@@ -26,6 +27,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatMenuModule,
     ComponentsModule,
     SharedModule,
+    MatOptionModule,
   ],
 })
 export class DashboardModule {}

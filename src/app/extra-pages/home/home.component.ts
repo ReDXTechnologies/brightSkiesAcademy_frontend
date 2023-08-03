@@ -9,16 +9,22 @@ import { StudentService } from "../../core/service/student.service";
 import { DepartmentService } from "../../core/service/department.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../../core/service/auth.service";
-import {
-  EditCourseModuleComponent
-} from "../courses/about-course/LabCourse/edit/edit-course-overview/form-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {EditRoadmapComponent} from "./edit/edit-roadmap/edit-roadmap.component";
+import {Department} from "../../core/models/department";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('true', style({ height: '*', opacity: 1 })),
+      state('false', style({ height: '0', opacity: 0 })),
+      transition('true <=> false', animate('10000ms ease-in-out'))
+    ])
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
@@ -26,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   user_id: string;
   userId: number;
   role: any;
+  departments: Department[];
   filters: {
     categorySlug$: BehaviorSubject<string>;
     query$: BehaviorSubject<string>;
@@ -98,7 +105,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                     id = course1.id;
                     price += course1.price;
                   });
-
+                  this.departmentService.getSubDepartmentsByCourseId(id).subscribe((res) => {
+                    console.log(res);
+                  });
                   // Use a new observable to get the subdepartments by course ID
                   const subDepartments$ = this.departmentService.getSubDepartmentsByCourseId(id);
 
@@ -108,15 +117,15 @@ export class HomeComponent implements OnInit, OnDestroy {
                       console.log(dubdepnam.name);
                       this.categories.push({
                         id,
-                        title: dubdepnam.name,
-                        slug: dubdepnam.name
+                        title: dubdepnam.super_department_name,
+                        slug: dubdepnam.super_department_name
                       });
                       const updatedCourse = {
                         ...originalCourse,
                         workload: time,
                         totalSteps,
                         currentStep,
-                        category: dubdepnam.name,
+                        category: dubdepnam.super_department_name,
                         price,
                       };
                       console.log(updatedCourse);
@@ -133,6 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     ).subscribe((filteredCourses: any[]) => {
       this.filteredCourses = filteredCourses[0];
     });
+    this.getDepartments();
   }
 
   /**
@@ -203,4 +213,26 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
   }
+  getDepartments() {
+  this.departmentService.getSuperDepartments().subscribe((dep) => {
+    this.departments = dep.map((el1) => ({
+      ...el1,
+      showContent: false,
+    }));
+  });
+  }
+
+  toggleContent(department: any, show: boolean) {
+    department.showContent = show;
+  }
+  viewDetails1(dep: Department) {
+      const deparmentIdTab = dep.id;
+      const departmentJson = JSON.stringify(deparmentIdTab);
+      this._router.navigate(['/shared/department'], {
+        queryParams: {
+          departmentId: departmentJson,
+        }
+      });
+    }
+  protected readonly onclick = onclick;
 }

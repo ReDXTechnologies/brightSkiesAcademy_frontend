@@ -22,8 +22,8 @@ export class RoadmapComponent implements OnInit {
   courseForm: FormGroup;
   courses: Course[] = [];
   selectedChoice: boolean;
-  selectedSubDepartments: string[] = [];
-  selectedSuperDepartments: Department[] = [];
+  selectedSubDepartment: Department;
+  selectedSuperDepartment: Department;
   selectedCourses: Course[] = [];
   userId: number;
   user_id: string;
@@ -49,11 +49,11 @@ export class RoadmapComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.role === 'head_sub_department') {
-      this.departmentService.getSubDepByUserId(this.userId).subscribe((subDep: SubDepartment[]) => {
-        this.depName = subDep[0].name;
-      });
-    } else if (this.role === 'head_super_department') {
+    // if (this.role === 'head_sub_department') {
+    //   this.departmentService.getSubDepByUserId(this.userId).subscribe((subDep: SubDepartment[]) => {
+    //     this.depName = subDep[0].name;
+    //   });
+    if (this.role === 'head_super_department') {
       this.getSupDepartments();
     } else if (this.role === 'Super_Admin' || this.role === 'Admin') {
       this.getAllSupDepartments();
@@ -80,38 +80,48 @@ export class RoadmapComponent implements OnInit {
 
   async getFilteredCourses() {
     this.courses = await this.courseService.getFilteredCourses(
-      this.selectedSubDepartments,
-      '',
-      '',
-      '',
-      '',
-      this.searchInput
-    ).toPromise();
+        [this.selectedSubDepartment.toString()],
+        '',
+        '',
+        '',
+        '',
+        this.searchInput).toPromise();
+    this.courses = this.courses.map((course) => ({
+      ...course,
+      checked: this.isCourseSelected(course),
+    }));
   }
 
-  selectDepartment(dep: string) {
-    this.selectedSubDepartments = [dep];
-    this.selectedCourses = [];
+
+  selectDepartment(dep: Department) {
+    this.selectedSubDepartment = dep;
     this.getFilteredCourses();
   }
 
   selectSuperDepartment(dep: Department) {
-    this.selectedSuperDepartments = [dep];
+    this.selectedSuperDepartment = dep;
     this.selectedCourses = [];
+    this.courses = [];
     this.departmentService.getSubDepartmentsBySuperDepId(dep.id).subscribe((value: SubDepartment[]) => {
       this.departments = value;
     });
   }
 
-  onCourseChange(event: any, course: Course): void {
+  onCourseChange(event: any, course: any): void {
     if (event.target.checked) {
+      course.checked = true;
       this.selectedCourses.push(course);
+      console.log(this.selectedCourses)
     } else {
-      const index = this.selectedCourses.indexOf(course);
+      const index = this.selectedCourses.findIndex((selectedCourse) => selectedCourse.id === course.id);
       if (index > -1) {
         this.selectedCourses.splice(index, 1);
       }
     }
+  }
+
+  isCourseSelected(course: Course): boolean {
+    return this.selectedCourses.some((selectedCourse) => selectedCourse.id === course.id);
   }
 
   onChoiceChange(event: any) {

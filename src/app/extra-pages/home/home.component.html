@@ -10,6 +10,26 @@
             <div class="flex flex-auto p-2 sm:p-10">
 
               <div class="flex flex-col flex-auto w-full max-w-md sm:max-w-7xl mx-auto" >
+                <div class="row">
+<!--                  <div class="col-green text-start">-->
+<!--                    <h3 class="font-weight-bold mb-5">Departments :</h3>-->
+<!--                  </div>-->
+                  <div class="col-lg-3 col-md-3 col-sm-12" *ngFor="let department of departments;">
+                    <div class="card card-statistic-2 text-center text-truncate" (mouseenter)="toggleContent(department, true)" (mouseleave)="toggleContent(department, false)" (click)="viewDetails1(department)" style="cursor: pointer">
+                      <div class="clearfix justify-content-center align-items-center">
+                        <div class="card-content my-5">
+                          <div class="col-green text-center">
+                            <h3 class="font-weight-bold mb-0">{{department?.name}}</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div [@slideInOut]="department.showContent" class="card-content mb-3 text-center fs-" *ngIf="department.showContent">
+                        <p class="m-b-0">{{department?.email}}</p>
+                        <p class="m-b-0">creation date : {{department?.department_start_date}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!-- Courses -->
                 <ng-container *ngIf="this.filteredCourses?.length; else noCourses">
 
@@ -22,10 +42,10 @@
                             <ng-container *ngIf="(course.category | fuseFindByKey:'slug':categories) as category">
                               <div
                                 class="py-0.5 px-3 rounded-full text-sm fw-normal "
-                                [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': category.slug === 'HPC-parallell',
-                                                        'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': category.slug === 'HPC-optimization',
-                                                        'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': category.slug === 'devops sub1',
-                                                        'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': category.slug === 'HPC_application'}">
+                                [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': category.slug === 'HPC',
+                                                        'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': category.slug === 'Automative',
+                                                        'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': category.slug === 'devops',
+                                                        'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': category.slug === 'AI'}">
                                 {{category.title}}
                               </div>
                             </ng-container>
@@ -124,7 +144,7 @@
                                             <ng-container *ngIf="((100 * course['currentStep']) / course['totalSteps']) === 0">
                                               <span>Start</span>
                                             </ng-container>
-                                          <ng-container *ngIf="((100 * course['currentStep']) / course['totalSteps']) > 0">
+                                          <ng-container *ngIf="((((100 * course['currentStep']) / course['totalSteps']) > 0) && ((100 * course['currentStep']) / course['totalSteps']) < 100)">
                                               <span>Continue</span>
                                             </ng-container>
                                             <ng-container *ngIf=" ((100 * course['currentStep']) / course['totalSteps']) === 100">
