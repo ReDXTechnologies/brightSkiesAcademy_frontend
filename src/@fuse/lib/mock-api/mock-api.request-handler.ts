@@ -1,5 +1,5 @@
 import { HttpRequest } from '@angular/common/http';
-import { FuseMockApiReplyCallback } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/lib/mock-api/mock-api.types';
+import { FuseMockApiReplyCallback } from 'src/@fuse/lib/mock-api/mock-api.types';
 import { Observable, of, take, throwError } from 'rxjs';
 
 export class FuseMockApiHandler

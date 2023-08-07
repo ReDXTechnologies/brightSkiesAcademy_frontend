@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FuseHighlightComponent } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/components/highlight';
 import { IconsService } from './icons.service';
 import { Icon } from './icons.types';
 import { BehaviorSubject, combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
@@ -16,7 +15,8 @@ import { BehaviorSubject, combineLatest, map, Observable, Subject, takeUntil } f
     templateUrl  : './icons.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone   : true,
-    imports      : [MatIconModule, NgIf, FuseHighlightComponent, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, MatOptionModule, NgFor, NgClass, AsyncPipe],
+    imports      : [MatIconModule, NgIf, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, MatOptionModule,
+      NgFor, NgClass, AsyncPipe],
 })
 export class IconsComponent implements OnInit, OnDestroy
 {

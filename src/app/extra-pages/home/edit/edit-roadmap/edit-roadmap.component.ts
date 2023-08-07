@@ -35,23 +35,27 @@ export class EditRoadmapComponent implements OnInit{
     // Set the defaults
     this.dialogTitle = data.name;
     this.selectedChoice = data.certified;
+
+    console.log(data.coursesId)
     data.coursesId.map((el1) => this.courseService.getCourseById(el1).subscribe((result) => {
       this.onCourseChange({ target: { checked: true } }, result);
     }));
-    this.departmentService.getSubDepartmentsByCourseId(data.coursesId[0]).subscribe(async (el1) => {
-            const subDep: string[] = [el1.name];
-            this.courseService.getFilteredCourses(
-              subDep,
-              '',
-              '',
-              '',
-              '',
-              ''
-            ).subscribe((el2) => {
-              this.courses = el2.map((course) => ({
-                ...course,
-                checked: data.coursesId.includes(course.id),
-              }));
+    this.departmentService.getSuperDepartmentByCourseId(data.coursesId[0]).subscribe(async (el1) => {
+            this.departmentService.getSubDepartmentsBySuperDepId(el1.id).subscribe((el2) => {
+              const subDep: string[] = [el2.map((res) => res.name).toString()];
+              this.courseService.getFilteredCourses(
+                subDep,
+                '',
+                '',
+                '',
+                '',
+                ''
+              ).subscribe((el3) => {
+                this.courses = el3.map((course) => ({
+                  ...course,
+                  checked: data.coursesId.includes(course.id),
+                }));
+              });
             });
           });
     this.courseForm = this.createContactForm();

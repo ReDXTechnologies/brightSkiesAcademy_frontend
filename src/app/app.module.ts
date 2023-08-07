@@ -29,7 +29,7 @@ import {
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {RightSidebarComponent} from "./layout/right-sidebar/right-sidebar.component";
-import { provideFuse } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse';
+import { provideFuse } from 'src/@fuse';
 
 
 export function createTranslateLoader(http: HttpClient): any {

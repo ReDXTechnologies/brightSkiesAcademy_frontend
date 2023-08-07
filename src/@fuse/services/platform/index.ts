@@ -1,1 +1,1 @@
-export * from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/services/platform/public-api';
+export * from 'src/@fuse/services/platform/public-api';

@@ -144,6 +144,7 @@ role: any
           if(res[0]!=='there is not enough budget to approve the course'){
             this.isLoadingApprove =false
             this.studentService.createStudentProgress(row.user.id, row.course).subscribe();
+
             this.loadData();
             this.showNotification(
               'snackbar-success',

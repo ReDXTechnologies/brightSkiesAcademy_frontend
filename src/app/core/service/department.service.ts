@@ -89,6 +89,11 @@ export class DepartmentService extends UnsubscribeOnDestroyAdapter{
 
     return this.http.get<Department[]>(url);
   }
+
+  getSuperDepartmentByCourseId(course_id : any): Observable<Department> {
+    const url = `${this.baseUrl}/superdepartment/${course_id}/depByCourse`;
+    return this.http.get<Department>(url);
+  }
   getSubDepByUserId(user_id: any):Observable<Department[]> {
     const url = `${this.baseUrl}/user/${user_id}/sub_department`;
 
