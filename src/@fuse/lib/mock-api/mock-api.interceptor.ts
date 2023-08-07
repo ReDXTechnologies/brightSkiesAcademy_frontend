@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { FUSE_MOCK_API_DEFAULT_DELAY } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/lib/mock-api/mock-api.constants';
-import { FuseMockApiService } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/lib/mock-api/mock-api.service';
+import { FUSE_MOCK_API_DEFAULT_DELAY } from 'src/@fuse/lib/mock-api/mock-api.constants';
+import { FuseMockApiService } from 'src/@fuse/lib/mock-api/mock-api.service';
 import { delay, Observable, of, switchMap, throwError } from 'rxjs';
 
 export const mockApiInterceptor = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> =>

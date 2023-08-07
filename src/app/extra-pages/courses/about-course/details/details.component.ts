@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { MatTabGroup} from '@angular/material/tabs';
 import {ActivatedRoute, Router} from '@angular/router';
-import { FuseMediaWatcherService } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/services/media-watcher';
+import { FuseMediaWatcherService } from 'src/@fuse/services/media-watcher';
 import { Category, Course1} from './academy.types';
 import {Course} from "../../../../core/models/course";
 import {Subject, takeUntil} from 'rxjs';

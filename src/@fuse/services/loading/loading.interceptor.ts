@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { FuseLoadingService } from 'D:/RedX/brightSkiesAcademy_frontend/src/@fuse/services/loading/loading.service';
+import { FuseLoadingService } from 'src/@fuse/services/loading/loading.service';
 import { finalize, Observable, take } from 'rxjs';
 
 export const fuseLoadingInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> =>

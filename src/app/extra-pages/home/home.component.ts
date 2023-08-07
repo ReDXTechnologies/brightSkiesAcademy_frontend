@@ -114,7 +114,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                   // Combine the subdepartments observable with the course values using forkJoin
                   return forkJoin([subDepartments$, of(course)]).pipe(
                     mergeMap(([dubdepnam, originalCourse]) => {
-                      console.log(dubdepnam.name);
                       this.categories.push({
                         id,
                         title: dubdepnam.super_department_name,
@@ -200,6 +199,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         coursesId: idTab,
         name: course.title,
         certified: course.certified,
+        superDep: course.category,
         action: 'edit',
       },
     });
