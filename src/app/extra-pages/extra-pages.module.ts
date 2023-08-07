@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {AsyncPipe, CommonModule, NgClass, NgFor, NgIf} from '@angular/common';
 import { ExtraPagesRoutingModule } from './extra-pages-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -55,33 +55,55 @@ import {AddQuizzComponent} from "./courses/about-course/coursecurriculam/edit/ad
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {StartQuizzComponent} from "./courses/about-course/coursecurriculam/start-quizz/start-quizz.component";
 import {NgxGaugeModule} from "ngx-gauge";
+import { StartCourseComponent } from './courses/start-course/start-course.component';
+import {RouterLink} from "@angular/router";
+import {CdkScrollable} from "@angular/cdk/scrolling";
+import {FuseFindByKeyPipe} from "../../@fuse/pipes/find-by-key/find-by-key.pipe";
+import {AcademyDetailsComponent} from "./courses/about-course/details/details.component";
+import { LabComponent } from './courses/about-course/coursecurriculam/lab/lab.component';
+import { RoadmapComponent } from './courses/roadmap/roadmap.component';
+import { HomeComponent } from './home/home.component';
+import {SharedModule} from "../shared/shared.module";
+import { RoadmapDisplayComponent } from './courses/roadmap-display/roadmap-display.component';
+import { AddContributorsComponent } from './courses/about-course/LabCourse/add/add-contributors/add-contributors.component';
+import { EditRoadmapComponent } from './home/edit/edit-roadmap/edit-roadmap.component';
+import { DepartmentDetailsComponent } from './departments/department-details/department-details.component';
+
+
 @NgModule({
-  declarations: [
-    SettingsComponent,
-    AllCourseComponent,
-    AboutCourseComponent,
-    CoursecurriculamComponent,
-    CourseinstructorComponent,
-    StudentfeedbackComponent,
-    CoursereviewComponent,
-    CoursevideoComponent,
-    LabCourseComponent,
-    AddCourseComponent,
-    BottomSheetOverviewExampleSheetComponent,
-    BottomSheetComponent,
-    Instance_guidanceComponent,
-    DisplayCurriculumVideosComponent,
-    EditCourseModuleComponent,
-    AddNewModule,
-    AddQuizzComponent,
-    AddVideoComponent,
-    AddLabComponent,
-    DeleteVideoLabDialogComponent,
-    ChangeBgDirective,
-    StartQuizzComponent
-
-
-  ],
+    declarations: [
+        SettingsComponent,
+        AllCourseComponent,
+        AboutCourseComponent,
+        CoursecurriculamComponent,
+        CourseinstructorComponent,
+        StudentfeedbackComponent,
+        CoursereviewComponent,
+        CoursevideoComponent,
+        LabCourseComponent,
+        AddCourseComponent,
+        BottomSheetOverviewExampleSheetComponent,
+        BottomSheetComponent,
+        Instance_guidanceComponent,
+        DisplayCurriculumVideosComponent,
+        EditCourseModuleComponent,
+        AddNewModule,
+        AddQuizzComponent,
+        AddVideoComponent,
+        AddLabComponent,
+        DeleteVideoLabDialogComponent,
+        ChangeBgDirective,
+        StartQuizzComponent,
+        StartCourseComponent,
+      AcademyDetailsComponent,
+      LabComponent,
+      RoadmapComponent,
+      HomeComponent,
+      RoadmapDisplayComponent,
+      AddContributorsComponent,
+      EditRoadmapComponent,
+      DepartmentDetailsComponent
+    ],
     imports: [
         CommonModule,
         ExtraPagesRoutingModule,
@@ -116,8 +138,14 @@ import {NgxGaugeModule} from "ngx-gauge";
         MatTooltipModule,
         MatProgressSpinnerModule,
         NgxGaugeModule,
-
+        MatSidenavModule, RouterLink, MatIconModule, NgIf,
+        NgClass, NgFor, MatButtonModule, MatProgressBarModule, CdkScrollable,
+        MatTabsModule, FuseFindByKeyPipe, FuseFindByKeyPipe, FuseFindByKeyPipe, AsyncPipe, NgxGaugeModule, SharedModule
 
     ],
+  exports: [
+    AddQuizzComponent,
+    StartQuizzComponent
+  ]
 })
 export class ExtraPagesModule {}

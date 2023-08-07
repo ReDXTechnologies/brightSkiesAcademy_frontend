@@ -1,5 +1,15 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {
   FormArray, FormBuilder,
   FormControl, FormGroup,
@@ -15,69 +25,68 @@ import {interval} from "rxjs";
 import {ChangeBgDirective} from "../../../add-course/change-bg.directives";
 
 @Component({
-  selector: 'app-add-quizz',
+  selector: 'app-start-quizz',
   templateUrl: './start-quizz.component.html',
   styleUrls: ['./start-quizz.component.sass'],
 })
 export class StartQuizzComponent implements OnInit {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private el: ElementRef,
+    private courseService: CourseService,
+
+    private fb: UntypedFormBuilder,
+  ) {}
+  @Input() quizz: any;
+  @Input() courseId: number;
+  @Input() moduleId: any;
+  @Input() user: number;
+  @Output() quizzScored = new EventEmitter<number>();
   action: string;
   dialogTitle: string;
   loadingAdd = false;
   loadingEdit = false;
   quizForm: FormGroup;
   @ViewChild('cdRef') cdRef: ChangeDetectorRef;
-  public name: string = "";
+  public name = "";
   public questionList: any = [];
-  public currentQuestion: number = 0;
-  public points: number = 0;
+  public currentQuestion = 0;
+  public points = 0;
   counter = 60;
-  correctAnswer: number = 0;
-  inCorrectAnswer: number = 0;
+  correctAnswer = 0;
+  inCorrectAnswer = 0;
   interval$: any;
-  progress: string = "0";
-  isQuizCompleted : boolean = false;
-  showResult : boolean = false;
-  score : any ;
+  progress = "0";
+  isQuizCompleted = false;
+  showResult = false;
+  score: any ;
   private elementRef: any;
   private renderer: any;
   private pointsIncremented: boolean;
-  constructor(
-    public dialogRef: MatDialogRef<StartQuizzComponent>,
-    private changeDetectorRef: ChangeDetectorRef,
-    private el: ElementRef,
-    private courseService: CourseService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: UntypedFormBuilder,
-  ) {
-    // Set the defaults
 
-      this.dialogTitle = 'start quiz : '+this.data.quizzName;
-
-
-  }
+  selectedOptions: any[] = [];
 
   ngOnInit() {
+    console.log("data" + this.user + "course id : " + this.courseId + " quizz : " + this.quizz);
     this.quizForm = this.fb.group({
-      name: ['',Validators.required],
-      questions: this.fb.array([],Validators.required)
+      name: ['', Validators.required],
+      questions: this.fb.array([], Validators.required)
     });
     this.getAllQuestions();
   }
 
   getAllQuestions() {
-    this.questionList= this.data.quizz.questions;
+    this.questionList = this.quizz.questions;
   }
   nextQuestion() {
-    if(this.currentQuestion < this.questionList.length -1){
+    if (this.currentQuestion < this.questionList.length - 1){
       this.currentQuestion++;
-      this.selectedOptions=[]
+      this.selectedOptions = [];
     }
   }
   previousQuestion() {
     this.currentQuestion--;
   }
-
-  selectedOptions: any[] = [];
 
   answer(currentQno: number, option: any) {
     // add or remove the selected option from the selectedOptions array
@@ -115,11 +124,11 @@ export class StartQuizzComponent implements OnInit {
         option.selectedClass = 'selected';
       }
       if (option.is_correct) {
-        console.log("correct",option)
+        console.log("correct", option);
 
         option.selectedClass += ' correct';
       } else if (option.selected) {
-        console.log("wrong",option)
+        console.log("wrong", option);
 
         option.selectedClass += ' wrong';
       }
@@ -134,7 +143,7 @@ export class StartQuizzComponent implements OnInit {
     }else{
       this.inCorrectAnswer++;
     }
-    console.log("verify",this.selectedOptions)
+    console.log("verify", this.selectedOptions);
 
     this.changeDetectorRef.detectChanges();
   }
@@ -157,7 +166,7 @@ export class StartQuizzComponent implements OnInit {
 
 
   resetQuiz() {
-    this.selectedOptions=[]
+    this.selectedOptions = [];
     this.currentQuestion = 0;
     this.points = 0;
 
@@ -183,34 +192,25 @@ export class StartQuizzComponent implements OnInit {
 
   }
   ShowResult() {
-    this.showResult = true
+    this.showResult = true;
     this.score = ((this.points / this.questionList.length) * 100).toFixed(2);
     const body = { score: this.score };
+    this.quizzScored.emit(this.score);
 
-
-    this.courseService.addScoreInModule(this.data.courseId,this.data.quizz.id,this.data.moduleId,this.data.userId,body).subscribe(res=>{
-      console.log(res)
-    })
+    this.courseService.addScoreInModule(this.courseId, this.quizz.id, this.moduleId, this.user, body).subscribe(res => {
+      console.log(res);
+    });
 
   }
   onSubmit() {
     this.loadingAdd = true;
 
-    this.courseService.addQuizzInModule(this.quizForm.value,this.data.moduleId).subscribe(res=>{
+    this.courseService.addQuizzInModule(this.quizForm.value, this.moduleId).subscribe(res => {
       console.log(res);
-      if(res){
+      console.log("Mdodule id"+ this.moduleId);
+      if (res){
         this.loadingAdd = false;
-        this.dialogRef.close(res);
       }
-    })
+    });
   }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-  closeDialog(): void {
-    this.dialogRef.close();
-    window.location.reload();
-  }
-
 }

@@ -1,0 +1,201 @@
+<section class="content">
+  <div class="content-block mt-50">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card ">
+          <div class="header mt-10">
+            <h2>Roadmap Overview </h2>
+          </div>
+          <div class="body">
+            <form [formGroup]="courseForm" (ngSubmit)="submitRoadmap()" >
+              <ng-template matStepLabel>Add Roadmap Overview</ng-template>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 ">
+                  <mat-form-field class="example-full-width mb-3" appearance="fill">
+                    <mat-label>Roadmap title:</mat-label>
+                    <input matInput formControlName="title" [(ngModel)]="roadmapTitle" required>
+                    <mat-error *ngIf="courseForm.get('title').hasError('required')">
+                      Roadmap name is required
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width mb-3" appearance="fill" *ngIf="role === 'Super_Admin' || role === 'Admin'">
+                    <mat-label>Select Super department :</mat-label>
+                    <mat-select  (selectionChange)="selectSuperDepartment($event.value)">
+                      <mat-option *ngFor="let department of supDepartments" [value]="department">
+                        {{ department.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                    <mat-form-field class="example-full-width mb-3" appearance="fill" *ngIf="role === 'Super_Admin' || role === 'Admin' ||  role === 'head_super_department'">
+                      <mat-label>Select department :</mat-label>
+                      <mat-select  (selectionChange)="selectDepartment($event.value.name)">
+                        <mat-option *ngFor="let department of departments" [value]="department">
+                          {{ department.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+<!--                  <mat-form-field class="example-full-width mb-3" appearance="fill" *ngIf="role === 'head_sub_department'">-->
+<!--                    <mat-label>Select department :</mat-label>-->
+<!--                    <mat-select  [value]="depName" (selectionChange)="selectDepartment($event.value)">-->
+<!--                      <mat-option  [value]="depName">-->
+<!--                        {{depName}}-->
+<!--                      </mat-option>-->
+<!--                    </mat-select>-->
+<!--                  </mat-form-field>-->
+
+                      <mat-form-field class="example-full-width mb-3" appearance="fill">
+                        <mat-label>Speciality :</mat-label>
+                        <input matInput  type="text" (keyup)="onSearch($event.target.value)">
+                      </mat-form-field>
+                  <mat-card *ngIf="courses?.length > 0" class="mb-3">
+                    <mat-card-content class="example-full-width mb-3 fw-normal mt-3" appearance="fill">
+                      <p class="fw-semibold">Choose courses :</p>
+                      <ul>
+                        <li *ngFor="let course of courses">
+                          <div class="course-sidebar-list">
+                            <input class="edu-check-box" type="checkbox" id="{{ course.id }}" (change)="onCourseChange($event, course)" [checked]="course.checked">
+                            <label class="edu-check-label" for="{{ course.id }}">{{ course.title }}</label>
+                          </div>
+                        </li>
+                      </ul>
+
+                      <p class="fw-semibold mt-2">This Roadmap is certified :</p>
+                      <ul>
+                        <li>
+                          <div class="course-sidebar-list">
+                            <input class="edu-radio-button" type="radio" name="choice" value="True" (change)="onChoiceChange($event)">
+                            <label class="edu-radio-label">Yes</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="course-sidebar-list">
+                            <input class="edu-radio-button" type="radio" name="choice" value="False" (change)="onChoiceChange($event)">
+                            <label class="edu-radio-label">No</label>
+                          </div>
+                        </li>
+                      </ul>
+                    </mat-card-content>
+                  </mat-card>
+
+                  <!--                  <div  *ngIf="courses?.length > 0">-->
+<!--                    <p class="fs-5 fw-bold mb-3" >Choose courses :</p>-->
+<!--                    <ul>-->
+<!--                      <li *ngFor="let course of courses">-->
+<!--                        <div class="course-sidebar-list">-->
+<!--                          <input class="edu-check-box" type="checkbox" id="{{course.id}}"-->
+<!--                                 (change)="onCourseChange($event, course)">-->
+<!--                          <label class="edu-check-label" for="{{course.id}}">{{course.title}}</label>-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+<!--                    <p class="fs-6 fw-normal mb-2 mt-3">This Roadmap is certified  :</p>-->
+<!--                    <ul>-->
+<!--                      <li>-->
+<!--                        <div class="course-sidebar-list">-->
+<!--                          <input class="edu-radio-button" type="radio" name="choice" value="True" (change)="onChoiceChange($event)">-->
+<!--                          <label class="edu-radio-label">Yes</label>-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                      <li>-->
+<!--                        <div class="course-sidebar-list">-->
+<!--                          <input class="edu-radio-button" type="radio" name="choice" value="False" (change)="onChoiceChange($event)">-->
+<!--                          <label class="edu-radio-label">No</label>-->
+<!--                        </div>-->
+<!--                      </li>-->
+<!--                    </ul>-->
+<!--                  </div>-->
+                </div>
+                <div  *ngIf="selectedCourses?.length > 0" class="col-6">
+                  <div class="card" >
+                    <div class="row  course-main-items" cdkScrollable>
+                      <div class="col-xl-6 col-lg-6 col-md-6 grid-item c-1" *ngFor="let course of selectedCourses">
+                        <div class="eduman-course-main-wrapper ">
+                          <div class="course-cart">
+                            <div class="course-info-wrapper">
+                              <div class="cart-info-body">
+                                <span class="category-color category-color-5">{{course.speciality}}</span>
+                                <h3>{{course.title}}</h3>
+                                <div class="academic-body">
+                                  <div class="eduman-course-heading cart-lavel">
+                                    <h5>Level : <span>{{course.level}}</span></h5>
+                                    <div class="eduman-course-price">
+                                              <span class="price-now">
+                                                {{course.total_enrolled}} enrolled
+                                              </span>
+                                    </div>
+                                  </div>
+                                  <div class="eduman-course-tutor"
+                                       *ngFor="let teacher of course.teacherDetails">
+                                    <img
+                                      [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
+                                      class="user-image w-10" alt="">
+                                    <a
+                                      [routerLink]="['/admin/teachers/about-teacher', teacher.user.id]">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                                  </div>
+                                </div>
+                                <div class="info-cart-text">
+                                  <ul>
+                                    <li><i class="fas fa-check"></i> Workloads : {{course.workload}} Hours</li>
+                                    <li><i class="fas fa-check"></i> Requirements :
+                                    </li>
+                                    <p>{{course.requirements}}</p>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="eduman-course-thumb w-img">
+                            <a [routerLink]="['/shared/Lab-course-details']"><img src="{{course.image}}" alt=""></a>
+                          </div>
+                          <div class="eduman-course-wraper">
+                            <div class="eduman-course-heading">
+                              <a class="course-link-color-5">{{course.speciality}}</a>
+                              <!--                                      <span class="couse-star"><i class="fas fa-star"></i>{{course.rate}}-->
+                              <!--                                        ({{course.total_enrolled}} enrolled-->
+                              <!--                                        )</span>-->
+                            </div>
+                            <div class="eduman-course-text">
+                              <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                              </h3>
+                            </div>
+                            <div class="eduman-course-meta">
+                              <div class="eduman-course-price">
+                              <span class="price-now fs-6">
+                                 <ng-container *ngIf="course.free; else premium">FREE</ng-container>
+                                <ng-template #premium>Premium: {{ course.price }} $</ng-template>
+                              </span>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="eduman-course-footer">
+                            <div class="course-lessson-svg">
+                              <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471"
+                                   xmlns="http://www.w3.org/2000/svg">
+                                <g id="blackboard-13" transform="translate(-0.008)">
+                                  <path
+                                    d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
+                                    data-name="Path 101"
+                                    fill="#575757"
+                                    id="Path_000"/>
+                                </g>
+                              </svg>
+                              <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button  type="submit" *ngIf="selectedCourses?.length > 0 && roadmapTitle &&  selectedChoice" class="view-details-btn ">
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

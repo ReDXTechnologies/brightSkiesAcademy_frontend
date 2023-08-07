@@ -29,7 +29,7 @@ import {CourseService} from "./service/course.service";
     ReviewService,
     StudentService,
     AdminService,
-    CourseService
+    CourseService,
   ],
 })
 export class CoreModule {

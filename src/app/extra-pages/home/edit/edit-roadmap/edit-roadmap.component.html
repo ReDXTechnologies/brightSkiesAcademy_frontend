@@ -1,0 +1,70 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" class="modal-close-button" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="courseForm">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width mb-3" appearance="fill">
+            <mat-label>Roadmap name</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="courseForm.get('title').hasError('required')">
+              Course name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-sm-12 mb-2">
+          <mat-card *ngIf="courses?.length > 0" class="mb-3">
+            <mat-card-content class="example-full-width mb-3 fw-normal mt-3" appearance="fill">
+              <p class="fw-semibold">Choose courses :</p>
+              <ul>
+                <li *ngFor="let course of courses">
+                  <div class="course-sidebar-list">
+                    <input class="edu-check-box" type="checkbox" id="{{ course.id }}" (change)="onCourseChange($event, course)" [checked]="course.checked">
+                    <label class="edu-check-label" for="{{ course.id }}">{{ course.title }}</label>
+                  </div>
+                </li>
+              </ul>
+
+              <p class="fw-semibold mt-2">This Roadmap is certified :</p>
+              <ul>
+                <li>
+                  <div class="course-sidebar-list">
+                    <input class="edu-radio-button" type="radio" name="choice" value="True" (change)="onChoiceChange($event)" [checked]="selectedChoice === true">
+                    <label class="edu-radio-label">Yes</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="course-sidebar-list">
+                    <input class="edu-radio-button" type="radio" name="choice" value="False" (change)="onChoiceChange($event)" [checked]="selectedChoice === false">
+                    <label class="edu-radio-label">No</label>
+                  </div>
+                </li>
+              </ul>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row ">
+            <button  mat-stroked-button color="primary" [disabled]="!isButtonEnabled()"
+                     [mat-dialog-close]="1"
+                     (click)="confirm()">Edit roadmap overview
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

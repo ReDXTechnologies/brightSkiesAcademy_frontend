@@ -15,7 +15,7 @@ const routes: Routes = [
         path: 'admin',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.Super_Admin , Role.Admin ,Role.head_sub_department ,Role.head_super_department],
+          role: [Role.Super_Admin , Role.Admin , Role.head_sub_department , Role.head_super_department],
         },
         loadChildren: () =>
           import('./admin/admin.module').then((m) => m.AdminModule),
@@ -24,7 +24,7 @@ const routes: Routes = [
         path: 'teacher',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.Teacher,Role.Student_Teacher],
+          role: [Role.Teacher, Role.Student_Teacher],
         },
         loadChildren: () =>
           import('./teacher/teacher.module').then((m) => m.TeacherModule),

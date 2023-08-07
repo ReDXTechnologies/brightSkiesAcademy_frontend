@@ -15,8 +15,11 @@
 
 
 /*                 [1. Common ]                   			*/
+
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 /* Importing Bootstrap SCSS file. */
+@import "D:/RedX/brightSkiesAcademy_frontend/src/app/extra-pages/home/home.component.scss";
+@import "D:/RedX/brightSkiesAcademy_frontend/src/app/extra-pages/courses/about-course/details/details.component.scss";
 @import 'common/_variables';
 @import 'common/_mixins';
 @import 'common/_customanimate.scss';
@@ -114,7 +117,6 @@
 @import 'src/assets/scss/eduman/courses.scss';
 @import 'src/assets/scss/eduman/header.scss';
 @import 'src/assets/scss/eduman/breadcrumb.scss';
-
 
 .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
   padding-right: var(--bs-gutter-x, 0.938rem);

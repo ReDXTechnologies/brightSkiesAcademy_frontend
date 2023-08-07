@@ -165,7 +165,7 @@
             <div class="portfolio-course-body">
               <div class="row grid course-main-items">
                 <div class="portfolio-course-body mt-3">
-                  <div class="row grid course-main-items">
+                  <div class="row course-main-items">
                     <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">
                       <div class="eduman-course-main-wrapper mb-80">
                         <div class="course-cart">
@@ -225,7 +225,7 @@
                             <!--                                        )</span>-->
                           </div>
                           <div class="eduman-course-text">
-                            <h3><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                            <h3 class="text-truncate"><a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
                             </h3>
                           </div>
                           <div class="eduman-course-meta">
@@ -237,12 +237,17 @@
                             </div>
 
                             <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
-                              <img
-                                [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"
-                                class="user-image" alt="">
+                              <div class="course-meta-wrapper border-line-meta">
+                              <div class="course-meta-img">
+                                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
+                              </div>
+<!--                              <img-->
+<!--                                [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'"-->
+<!--                                class="user-image" alt="">-->
                               <!--                                <a [routerLink]="['/instructor-profile']"><span>Saber Feki</span></a>-->
                               <a
                                 [routerLink]="['/admin/teachers/about-teacher']">{{ teacher.user.firstName }} {{ teacher.user.lastName }}</a>
+                              </div>
                             </div>
                           </div>
                         </div>

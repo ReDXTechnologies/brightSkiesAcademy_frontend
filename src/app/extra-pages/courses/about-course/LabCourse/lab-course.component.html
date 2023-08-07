@@ -1,5 +1,5 @@
 <!-- course-details-area-start -->
-<section class="content course-detalis-area pb-90">
+<section class="content course-detalis-area ">
   <app-breadcrumb breadcrumbTitle="Course overview"
                   breadcrumbSubTitle1="courses" breadcrumbSubTitle2="{{course?.title}}"
                   breadcrumbImage='url(assets/img/course/tuto.png)'></app-breadcrumb>
@@ -52,8 +52,13 @@
               <p>Creation date</p>
               <span>{{course?.creation_date}}</span>
             </div>
-            <div class="course-category" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
+            <div class="row align-items-center justify-content-center">
+            <div class="course-category col-6 " *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
+              <button  class="wishlist-btn" (click)="addContributorCall()"><i class=" fas fa-plus"></i></button>
+            </div>
+            <div class="course-category col-6" *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
               <button  class="wishlist-btn" (click)="editCall()"><i class="fas fa-edit"></i></button>
+            </div>
             </div>
           </div>
           <div class="course-description pt-45 pb-30">
@@ -70,7 +75,7 @@
               <div class="row info-cart-text ">
                 <div class="col-xl-12">
                   <ul>
-                    <li><i class="fas fa-check"></i>{{course?.what_you_will_learn}}</li>
+                    <li *ngFor="let line of lines"><i class="fas fa-check"></i>{{line}}</li>
 
                   </ul>
                 </div>
@@ -89,19 +94,28 @@
           </div>
           <div class="course-curriculum pt-40 pb-50">
             <div class="row">
-              <div class="col-10">
-                <div class="course-curriculam">
+              <div class="col-12">
+                <div class="course-curriculam line-container">
                   <h4>Curriculum</h4>
+                  <button  *ngIf="this.is_enrolled == true"  (click)="viewDetails(course)" class="view-details-btn align-center faas-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em"  viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+                  </button>
                 </div>
-                <ul>
+                <ul class="course-info">
                   <li>{{course?.modules?.length}} modules • {{course?.workload}} h total length</li>
+                  <div *ngIf="this.progress != 0 && this.is_enrolled == true" class="progress-info">
+                    <h6 class="text-center">{{ this.progress }}%</h6>
+                    <ngx-gauge [value]="this.progress" [size]="30" [type]="'full'" [thick]="4" class="guage-chart-center text-white"></ngx-gauge>
+                  </div>
                 </ul>
+
+
               </div>
-              <div class=" col-2" *ngIf="(role === 'Teacher' && course?.teachers[0] ===userId)">
-                <button  (click)="addModule()"><i class="fas fa-plus"></i></button>
+              <div class=" col-2 " *ngIf="(role === 'Teacher' && contributorTeachers.includes(userId))">
+                <button  (click)="addModule()"><i class="fas fa-plus1 fa-plus"></i></button>
               </div>
             </div>
-            <app-coursecurriculam [courseId]="courseId" [course]="course" [user]="userId" [teacher_id]="teacher.user.id"></app-coursecurriculam>
+            <app-coursecurriculam [courseId]=courseId [course]=course [user]=userId [teacher_id]="teacher.user.id"></app-coursecurriculam>
           </div>
           <!--          <app-courseinstructor></app-courseinstructor>-->
           <!--          <app-studentfeedback></app-studentfeedback>-->
@@ -162,7 +176,7 @@
         </div>
       </div>
       <div class=" col-xl-4 col-lg-4 col-md-12 col-sm-12">
-        <app-coursevideo [course]="course" [courseId]="courseId" [user]="userId" [teacher_id]="teacher.user.id"></app-coursevideo>
+        <app-coursevideo (enrollmentChanged)="onEnrollmentChanged($event)" [course]="course" [courseId]="courseId" [user]="userId" [teacher_id]="teacher.user.id"></app-coursevideo>
       </div>
 
     </div>

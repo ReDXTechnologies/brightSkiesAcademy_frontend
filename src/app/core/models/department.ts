@@ -12,5 +12,5 @@ export class Department {
   isArchived: boolean;
   subDepNbTeachers: number;
   budget: number;
-
+  super_department_name: string;
 }

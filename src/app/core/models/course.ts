@@ -27,7 +27,7 @@ export class Course {
   labFiles: File;
   image: File;
   slides: File;
-  teachers: Teacher[]
+  teachers: number[]
   teacherDetails: Teacher[]
   enrolled_in: User[]
   reviews: Review[]
@@ -35,6 +35,7 @@ export class Course {
   what_you_will_learn: string
   session_duration: string
   modules : Module[]
+  courses: any;
 }
 
 

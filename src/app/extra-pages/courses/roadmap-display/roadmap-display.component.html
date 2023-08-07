@@ -1,0 +1,112 @@
+<section class="content">
+  <app-breadcrumb [breadcrumbImage]="'url(assets/images/user/courses.jpg)'"
+                  [breadcrumbSubTitle1]="'Home'"
+                  [breadcrumbSubTitle2]="'Roadmap'"
+                  [breadcrumbTitle]="roadmapTitle">
+  </app-breadcrumb>
+
+  <div class="pl-20">
+    <div class="row mb-10" style="display: flex;">
+      <div class="col" style="flex-grow: 9.8;">
+        <div class="course-area pb-20 pl-10">
+          <div class="portfolio-button">
+            <div class="portfolio-course-body">
+              <div class="row  course-main-items  w-full max-w-md sm:max-w-7xl mx-auto">
+                <div class="col-xl-4 col-lg-4 col-md-6 grid-item c-1" *ngFor="let course of courses">
+                  <div class="eduman-course-main-wrapper mb-80">
+                    <div class="course-cart">
+                      <div class="course-info-wrapper">
+                        <div class="cart-info-body">
+                          <span class="category-color category-color-5">{{course.speciality}}</span>
+                          <h3>{{course.title}}</h3>
+                          <div class="academic-body">
+                            <div class="eduman-course-heading cart-lavel">
+                              <h5>Level: <span>{{course.level}}</span></h5>
+                              <div class="eduman-course-price">
+                                <span class="price-now">
+                                  {{course.total_enrolled}} enrolled
+                                </span>
+                              </div>
+                            </div>
+                            <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
+                              <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" class="user-image" alt="">
+                              <a [routerLink]="['/admin/teachers/about-teacher', teacher.user.id]">
+                                {{ teacher.user.firstName }} {{ teacher.user.lastName }}
+                              </a>
+                            </div>
+                          </div>
+                          <div class="info-cart-text">
+                            <ul>
+                              <li><i class="fas fa-check"></i> Workloads: {{course.workload}} Hours</li>
+                              <li><i class="fas fa-check"></i> Requirements:</li>
+                              <p>{{course.requirements}}</p>
+                            </ul>
+                          </div>
+                          <div class="course-action">
+                            <button (click)="viewDetails(course)" class="view-details-btn align-center">
+                              View Details
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="eduman-course-thumb w-img">
+                      <a [routerLink]="['/shared/Lab-course-details']">
+                        <img src="{{course.image}}" alt="">
+                      </a>
+                    </div>
+                    <div class="eduman-course-wraper">
+                      <div class="eduman-course-heading">
+                        <a class="course-link-color-5">{{course.speciality}}</a>
+                      </div>
+                      <div class="eduman-course-text">
+                        <h3 class="text-truncate">
+                          <a [routerLink]="['/shared/Lab-course-details']">{{course.title}}</a>
+                        </h3>
+                      </div>
+                      <div class="eduman-course-meta">
+                        <div class="eduman-course-price">
+                          <span class="price-now">
+                            <ng-container *ngIf="course.free; else premium">FREE</ng-container>
+                            <ng-template #premium>Premium: {{ course.price }} $</ng-template>
+                          </span>
+                        </div>
+                        <div class="eduman-course-tutor" *ngFor="let teacher of course.teacherDetails">
+                          <div class="course-meta-wrapper border-line-meta">
+                          <div class="course-meta-img">
+                            <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
+                          </div>
+                          <a [routerLink]="['/admin/teachers/about-teacher']">
+                            {{ teacher.user.firstName }} {{ teacher.user.lastName }}
+                          </a>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="eduman-course-footer">
+                      <div class="course-lessson-svg">
+                        <svg height="16.471" viewBox="0 0 16.471 16.471" width="16.471" xmlns="http://www.w3.org/2000/svg">
+                          <g id="blackboard-13" transform="translate(-0.008)">
+                            <path d="M16,1.222H8.726V.483a.483.483,0,1,0-.965,0v.74H.491A.483.483,0,0,0,.008,1.7V13.517A.483.483,0,0,0,.491,14H5.24L4.23,15.748a.483.483,0,1,0,.836.483L6.354,14H7.761v1.99a.483.483,0,0,0,.965,0V14h1.407l1.288,2.231a.483.483,0,1,0,.836-.483L11.247,14H16a.483.483,0,0,0,.483-.483V1.7A.483.483,0,0,0,16,1.222Zm-.483.965v8.905H.973V2.187Zm0,10.847H.973v-.976H15.514Z"
+                                  data-name="Path 101" fill="#575757" id="Path_000"></path>
+                        </g>
+                        </svg>
+                        <span class="ms-2">{{course.nbr_of_lessons}} Lessons</span>
+                      </div>
+                      <div class="course-deteals-btn">
+                        <a (click)="viewDetails(course)">
+                          <span class="me-2">View Details</span>
+                          <i class="fas fa-arrow-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

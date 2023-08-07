@@ -25,7 +25,6 @@ import {StartQuizzComponent} from "./start-quizz/start-quizz.component";
 export class CoursecurriculamComponent implements OnInit {
   @Input() course: Course;
   @Input() courseId: number;
-
   @Input() teacher_id: number;
   @Input() user: number;
   newName = '';
@@ -37,8 +36,8 @@ export class CoursecurriculamComponent implements OnInit {
   isLoading = false;
   isLoadingStart = false;
   is_enrolled = false
-  isLoadingQuizz= false
   percentage: any;
+  contributorTeachers: number[] = [];
 
   constructor(public dialog: MatDialog, private authService: AuthService,
               private adminService: AdminService,
@@ -46,10 +45,10 @@ export class CoursecurriculamComponent implements OnInit {
               private studentService: StudentService,
               private courseService: CourseService,
               private snackBar: MatSnackBar,
-              private elementRef: ElementRef
 
   ) {
     this.role = this.authService.currentUserValue.role[0];
+
   }
 
   isEditMode = false;
@@ -111,9 +110,12 @@ export class CoursecurriculamComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkEnrollement();
+    this.courseService.getCourseById(this.courseId).subscribe((course1) => {
+      this.contributorTeachers = course1.teachers;
+    });
    }
    getUserScore(quizzId:number): any{
-    this.courseService.getScoreInModule(this.user,quizzId).subscribe(res=>{
+    this.courseService.getScoreInModule(this.user, quizzId).subscribe(res=>{
       console.log(res)
       return res
     })
@@ -129,20 +131,6 @@ export class CoursecurriculamComponent implements OnInit {
       }
     })
  }
-
-  displayVideo(video: Video, index: number, module: any) {
-    this.currentVideo = video;
-    this.currentVideoIndex = index;
-    this.dialog.open(DisplayCurriculumVideosComponent, {
-      width: '70%',
-      data: {
-        videoUrl: video.video_file,
-        videos: module.videos,
-        currentIndex: index,
-        module: module
-      }
-    });
-  }
   addVideo( courseId: number, moduleId: any, moduleName : string) {
     const dialogRef = this.dialog.open(AddVideoComponent, {
       width: '50%',
@@ -337,7 +325,7 @@ export class CoursecurriculamComponent implements OnInit {
       }
     });
   }
-  startQuizz( courseId: number, moduleId: any, quizzName : string ,quizz : any) {
+  startQuizz( courseId: number, moduleId: any, quizzName: string , quizz: any) {
     const dialogRef = this.dialog.open(StartQuizzComponent, {
       width: '50%',
       data: {
@@ -414,7 +402,7 @@ export class CoursecurriculamComponent implements OnInit {
     this.isLoading = true;
     this.spinner.show();
 
-      this.adminService.createCustomAmi(courseId,lab_id).subscribe(response => {
+      this.adminService.createCustomAmi(courseId, lab_id).subscribe(response => {
         console.log(response)
         this.showNotification(
           'snackbar-success',

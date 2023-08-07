@@ -13,18 +13,30 @@ export const ROUTES: RouteInfo[] = [
     role: ['All'],
     submenu: [],
   },
-  // {
-  //   path: '/student/dashboard',
-  //   title: 'MENUITEMS.STUDENT.LIST.DASHBOARD',
-  //   iconType: 'material-icons-two-tone',
-  //   icon: 'space_dashboard',
-  //   class: '',
-  //   groupTitle: false,
-  //   badge: '',
-  //   badgeClass: '',
-  //   role: ['Student'],
-  //   submenu: [],
-  // },
+  {
+    path: 'shared/home',
+    title: 'Home',
+    iconType: 'material-icons-two-tone',
+    icon: 'local_library',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    role: ['All'],
+    submenu: [],
+  },
+  {
+    path: '/student/dashboard',
+    title: 'MENUITEMS.STUDENT.LIST.DASHBOARD',
+    iconType: 'material-icons-two-tone',
+    icon: 'space_dashboard',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    role: ['Student'],
+    submenu: [],
+  },
   {
     path: '/student/student-profile',
     title: 'Profile',
@@ -113,7 +125,18 @@ export const ROUTES: RouteInfo[] = [
       }
     ],
   },
-
+  {
+    path: '/admin/dashboard/main',
+    title: 'Dashboard',
+    iconType: 'material-icons-two-tone',
+    icon: 'space_dashboard',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    role: ['Super_Admin'],
+    submenu: [],
+  },
   {
     path: '',
     title: 'MENUITEMS.DEPARTMENTS.TEXT',
@@ -176,6 +199,7 @@ export const ROUTES: RouteInfo[] = [
     role: ['Admin', 'Super_Admin', 'head_super_department', "head_sub_department"],
     submenu: [],
   },
+
 
   {
     path: '/admin/teachers/all-teachers',
@@ -366,7 +390,6 @@ export const ROUTES: RouteInfo[] = [
         role: [],
         submenu: [],
       },
-
     ],
   },
   {
@@ -407,6 +430,18 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/admin/pending/enrollement-confirmation',
         title: 'Approve enrollement',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        role: [],
+        submenu: [],
+      },
+      {
+        path: 'shared/Roadmap',
+        title: 'Add course roadmap',
         iconType: '',
         icon: '',
         class: 'ml-menu',
