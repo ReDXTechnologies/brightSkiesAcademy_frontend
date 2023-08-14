@@ -122,7 +122,7 @@ export class StudentProfileComponent implements OnInit {
     })
   }
 
-  getStudentCourses(studentId: string,page:number) {
+  getStudentCourses(studentId: string, page:number) {
     this.studentService.getStudentCourses(studentId, page).subscribe(res => {
       this.courses = res.results;
       res.results.map((course) => this.courseService.getCurrentStep(course.id, Number(studentId)).subscribe(current1 => {
@@ -224,45 +224,54 @@ export class StudentProfileComponent implements OnInit {
     pdfDocGenerator.download('certificate.pdf');
   }
     async flattenForm(studentName: string, courseName: string, studentId : number,courseId : number) {
-      const formUrl = '../../../assets/images/certif.pdf';
-      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
+      try {
+        const formUrl = '../../../assets/images/certif.pdf';
+        const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
 
-      const pdfDoc = await PDFDocument.load(formPdfBytes);
-      const pages = pdfDoc.getPages();
-      const firstPage = pages[0]; // Assuming the student certification is on the first page
-      this.courseService.getCourseCertification(courseId, studentId).subscribe(async certif => {
+        const pdfDoc = await PDFDocument.load(formPdfBytes);
+        const pages = pdfDoc.getPages();
+        const firstPage = pages[0]; // Assuming the student certification is on the first page
+        this.courseService.getCourseCertification(courseId, studentId).subscribe(async certif => {
+          const pageWidth = firstPage.getSize().width;
+          const fontSize = 50;
+          const text = studentName;
+          const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
+          const textWidth = font.widthOfTextAtSize(text, fontSize);
+          const centerX = (pageWidth - textWidth) / 2;
+          // Add student-specific data
+          firstPage.drawText(studentName, {
+            x: centerX,
+            y: 270,
+            size: 50,
+            font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+            color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+          });
+          firstPage.drawText(courseName, {
+            x: 240,
+            y: 170,
+            size: 24,
+            font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+            color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+          });
+          firstPage.drawText('DATE OF COMPLETION:' + certif.time, {
+            x: 500,
+            y: 90,
+            size: 17,
+            font: await pdfDoc.embedFont(StandardFonts.Helvetica),
+            color: rgb(0, 0, 0), // black color
+          });
+          console.log(firstPage)
 
-        // Add student-specific data
-        firstPage.drawText(studentName, {
-          x: 270,
-          y: 270,
-          size: 56,
-          font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
-          color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+          const pdfBytes = await pdfDoc.save();
+          const pdfBlob = new Blob([pdfBytes], {type: 'application/pdf'});
+          const downloadLink = document.createElement('a');
+          downloadLink.href = URL.createObjectURL(pdfBlob);
+          downloadLink.download = 'certificate.pdf';
+          downloadLink.click();
         });
-        firstPage.drawText(courseName, {
-          x: 240,
-          y: 170,
-          size: 24,
-          font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
-          color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
-        });
-        firstPage.drawText('DATE OF COMPLETION:' + certif.time, {
-          x: 500,
-          y: 90,
-          size: 17,
-          font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-          color: rgb(0, 0, 0), // black color
-        });
-
-        const pdfBytes = await pdfDoc.save();
-        const pdfBlob = new Blob([pdfBytes], {type: 'application/pdf'});
-
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(pdfBlob);
-        downloadLink.download = 'certificate.pdf';
-        downloadLink.click();
-      });
+      } catch (error) {
+        console.error('Error generating certificate:', error);
+      }
   }
 }

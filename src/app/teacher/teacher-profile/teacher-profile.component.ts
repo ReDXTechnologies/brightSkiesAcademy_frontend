@@ -11,11 +11,14 @@ import {StudentService} from "../../core/service/student.service";
 import {ReviewService} from "../../core/service/review.service";
 import {Router} from "@angular/router";
 import {Review} from "../../core/models/review";
+import {CourseService} from "../../core/service/course.service";
+import {PDFDocument, rgb, StandardFonts} from "pdf-lib";
 @Component({
   selector: 'app-profile',
   templateUrl: './teacher-profile.component.html',
   styleUrls: ['./teacher-profile.component.scss'],
 })
+
 export class TeacherProfileComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({url: 'upload_url'});
   public hasBaseDropZoneOver: boolean = false;
@@ -30,7 +33,9 @@ export class TeacherProfileComponent implements OnInit {
   secondmanager : string
   role: any
   userId : number;
-  courses: Course[]
+  courses: Course[];
+  academyCourseCompleted = [];
+  academyCourseProgress = [];
   reviews: Review[];
   teacher: Teacher;
   currentPage = 1;
@@ -44,6 +49,7 @@ export class TeacherProfileComponent implements OnInit {
               private authService: AuthService,
               private reviewService: ReviewService,
               private router: Router,
+              private courseService: CourseService,
               private studentService: StudentService,
               private adminService: AdminService) {
     this.role = this.authService.currentUserValue.role[0];
@@ -89,11 +95,18 @@ export class TeacherProfileComponent implements OnInit {
   }
 
 
-  getStudentCourses(studentId: string,page:number) {
-    this.studentService.getStudentCourses(studentId,page).subscribe(res => {
+  getStudentCourses(studentId: string, page:number) {
+    this.studentService.getStudentCourses(studentId, page).subscribe(res => {
       this.courses = res.results;
-      this.totalPages= Math.ceil(res.count/4)
-    })
+      res.results.map((course) => this.courseService.getCurrentStep(course.id, Number(studentId)).subscribe(current1 => {
+        const progress = Math.floor(current1.progress);
+        this.academyCourseProgress.push({...course, progress});
+        if (progress === 100){
+          this.academyCourseCompleted.push({...course, progress});
+        }
+      }));
+      this.totalPages = Math.ceil(res.count/4);
+    });
   }
   initForm() {
     this.teacherForm = this.formBuilder.group({
@@ -221,5 +234,53 @@ export class TeacherProfileComponent implements OnInit {
       }
     );
   }
+  async flattenForm(studentName: string, courseName: string, studentId : number,courseId : number) {
+    const formUrl = '../../../assets/images/certif.pdf';
+    console.log(formUrl)
+    const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
 
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0]; // Assuming the student certification is on the first page
+    this.courseService.getCourseCertification(courseId, studentId).subscribe(async certif => {
+
+      const pageWidth = firstPage.getSize().width;
+      const fontSize = 50;
+      const text = studentName;
+      const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+      const textWidth = font.widthOfTextAtSize(text, fontSize);
+      const centerX = (pageWidth - textWidth) / 2;
+      // Add student-specific data
+      firstPage.drawText(studentName, {
+        x: centerX,
+        y: 270,
+        size: 50,
+        font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+        color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+      });
+      firstPage.drawText(courseName, {
+        x: 240,
+        y: 170,
+        size: 24,
+        font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
+        color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
+      });
+      firstPage.drawText('DATE OF COMPLETION:' + certif.time, {
+        x: 500,
+        y: 90,
+        size: 17,
+        font: await pdfDoc.embedFont(StandardFonts.Helvetica),
+        color: rgb(0, 0, 0), // black color
+      });
+
+      const pdfBytes = await pdfDoc.save();
+      const pdfBlob = new Blob([pdfBytes], {type: 'application/pdf'});
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(pdfBlob);
+      downloadLink.download = 'certificate.pdf';
+      downloadLink.click();
+    });
+  }
 }

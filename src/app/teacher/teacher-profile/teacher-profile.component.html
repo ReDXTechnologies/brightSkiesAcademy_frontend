@@ -38,7 +38,25 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr *ngFor="let course1 of academyCourseCompleted"  style="cursor: pointer">
+                  <td class="table-img">
+                    <img src="{{course1.image}}" alt="">
+                  </td>
+                  <td>
+                    <div class="media-title"><span> {{course1.title}}
+                    </span></div>
+                  </td>
+                  <td>
+                    <button
+                      class="ml-0.5"
+                      mat-icon-button
+                      (click)="flattenForm(teacher?.user?.firstName + ' ' + teacher?.user?.lastName, course1.title,teacher?.user?.id,course1.id)">
+                      <i class="far fa-file-pdf" ></i>
+                    </button>
 
+
+                  </td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -112,7 +130,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let course of courses" (click)="viewDetails(course)" style="cursor: pointer">
+                        <tr *ngFor="let course of academyCourseProgress" (click)="viewDetails(course)" style="cursor: pointer">
                           <td class="table-img">
                             <img src="{{course.image}}" alt="">
                           </td>
@@ -121,7 +139,8 @@
                     </span></div>
                           </td>
                           <td>
-                            <div class="badge badge-solid-red">in progress</div>
+                            <div class="badge badge-solid-red"  *ngIf="course.progress<100">In Progress {{course.progress}}%</div>
+                            <div class="badge badge-solid-green"  *ngIf="course.progress==100">Completed</div>
                           </td>
                         </tr>
                         <!--                        <tr>-->
