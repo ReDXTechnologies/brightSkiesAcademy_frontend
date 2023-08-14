@@ -38,6 +38,18 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: '/teacher/dashboard',
+    title: 'MENUITEMS.STUDENT.LIST.DASHBOARD',
+    iconType: 'material-icons-two-tone',
+    icon: 'space_dashboard',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    role: ['Student_Teacher', 'Teacher'],
+    submenu: [],
+  },
+  {
     path: '/student/student-profile',
     title: 'Profile',
     iconType: 'material-icons-two-tone',
