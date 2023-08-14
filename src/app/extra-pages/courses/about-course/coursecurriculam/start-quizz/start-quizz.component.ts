@@ -34,7 +34,6 @@ export class StartQuizzComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private el: ElementRef,
     private courseService: CourseService,
-
     private fb: UntypedFormBuilder,
   ) {}
   @Input() quizz: any;
@@ -113,7 +112,7 @@ export class StartQuizzComponent implements OnInit {
         }
       } else {
         if (option.is_correct) {
-          allCorrect = false;
+          allCorrect = true;
         }
       }
     }
@@ -136,7 +135,8 @@ export class StartQuizzComponent implements OnInit {
 
     this.selectedOptions = question.options.filter(option => option.selected);
 
-    if (allCorrect && !question.verified) {
+    if (!question.verified) {
+      console.log(this.points)
       question.verified = true;
       this.points++;
       this.correctAnswer++;
@@ -169,7 +169,9 @@ export class StartQuizzComponent implements OnInit {
     this.selectedOptions = [];
     this.currentQuestion = 0;
     this.points = 0;
-
+    this.inCorrectAnswer = 0;
+    this.correctAnswer = 0;
+    console.log(this.inCorrectAnswer)
     for (const question of this.questionList) {
       for (const option of question.options) {
         option.selected = false;
@@ -196,10 +198,14 @@ export class StartQuizzComponent implements OnInit {
     this.score = ((this.points / this.questionList.length) * 100).toFixed(2);
     const body = { score: this.score };
     this.quizzScored.emit(this.score);
-
     this.courseService.addScoreInModule(this.courseId, this.quizz.id, this.moduleId, this.user, body).subscribe(res => {
       console.log(res);
     });
+    this.selectedOptions = [];
+    this.currentQuestion = 0;
+    this.points = 0;
+    this.inCorrectAnswer = 0;
+    this.correctAnswer = 0;
 
   }
   onSubmit() {

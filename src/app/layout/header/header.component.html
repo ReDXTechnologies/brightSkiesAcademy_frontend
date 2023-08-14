@@ -99,8 +99,8 @@
             <div class="noti-list">
               <div class="menu ">
                 <div class="user_dw_menu">
-                  <button mat-menu-item [routerLink]="userType === 'Student' ? '/student/student-profile' : (userType === 'Teacher' || userType === 'Student_Teacher') ? '/teacher/teacher-profile' : '/admin/departments/head-department-profile'">
-                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"> </app-feather-icons>Account
+                  <button mat-menu-item  *ngIf="userType != 'Super_Admin'" [routerLink]="userType === 'Student' ? '/student/student-profile' : (userType === 'Teacher' || userType === 'Student_Teacher') ? '/teacher/teacher-profile' : '/admin/departments/head-department-profile'">
+                    <app-feather-icons  [icon]="'user'" [class]="'user-menu-icons'"> </app-feather-icons>Account
                   </button>
 
                   <button mat-menu-item (click)="logout()">

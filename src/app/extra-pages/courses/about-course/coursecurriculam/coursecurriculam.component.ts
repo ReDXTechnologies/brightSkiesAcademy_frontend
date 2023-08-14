@@ -465,7 +465,19 @@ export class CoursecurriculamComponent implements OnInit {
       panelClass: colorName,
     });
   }
-
+  displayVideo(video: Video, index: number, module: any) {
+    this.currentVideo = video;
+    this.currentVideoIndex = index;
+    this.dialog.open(DisplayCurriculumVideosComponent, {
+      width: '70%',
+      data: {
+        videoUrl: video.video_file,
+        videos: module.videos,
+        currentIndex: index,
+        module: module
+      }
+    });
+  }
 
 
 

@@ -37,7 +37,12 @@
                  *ngIf="(is_enrolled || role ==='Super_Admin' || ( role ==='Teacher' &&  contributorTeachers.includes(user)) || ( role ==='Student_Teacher' && contributorTeachers.includes(user))) || course.status==='pending'"
                  >
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                <div class="course-curriculum-info">
+                <div *ngIf="role ==='Super_Admin' || ( role ==='Teacher' &&  contributorTeachers.includes(user)) || ( role ==='Student_Teacher' && contributorTeachers.includes(user)) || course.status==='pending'" class="course-curriculum-info" (click)="displayVideo(video,j,module)">
+                  <i class="flaticon-youtube"></i>
+
+                  <h4>{{video.name}}</h4>
+                </div>
+                <div  class="course-curriculum-info" *ngIf="is_enrolled">
                   <i class="flaticon-youtube"></i>
 
                   <h4>{{video.name}}</h4>
@@ -54,7 +59,7 @@
             <div class="accordion-body"
                  *ngIf="!is_enrolled && role !=='Super_Admin' && !contributorTeachers.includes(user)&& course.status==='approved'">
               <div class="course-curriculum-content d-sm-flex justify-content-between align-items-center">
-                <div class="course-curriculum-info">
+                <div class="course-curriculum-info"  >
                   <i class="flaticon-youtube"></i>
 
                   <h4>{{video.name}}</h4>
@@ -80,6 +85,7 @@
                   <h4>Quiz : {{quizz.name}}</h4>
                 </div>
                 <div class="course-curriculum-meta" >
+                  <span (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
                   <div >
                     <ng-container *ngIf="getQuizPercentage(quizz.id) | async as percentage">
                       <h6 class="text-center">{{ percentage }}%</h6>
