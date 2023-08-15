@@ -62,8 +62,6 @@ export class TeacherProfileComponent implements OnInit {
     this.getStudentCourses(this.user_id,1);
     this.getTeacherDetails(this.user_id);
     this.getAllTeacherApprovedCourses(localStorage.getItem('id'),1)
-
-
   }
 
   onPageChanged(page: number) {

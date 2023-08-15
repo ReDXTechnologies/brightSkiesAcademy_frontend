@@ -1,64 +1,15 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
   ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexYAxis,
-  ApexPlotOptions,
-  ApexStroke,
-  ApexLegend,
-  ApexMarkers,
-  ApexGrid,
-  ApexTitleSubtitle,
-  ApexFill,
-  ApexResponsive,
-  ApexTheme,
-  ApexNonAxisChartSeries,
 } from 'ng-apexcharts';
 import {CourseService} from "../../../core/service/course.service";
 import {DepartmentService} from "../../../core/service/department.service";
-import {Department} from "../../../core/models/department";
 import {AdminService} from "../../../core/service/admin.service";
 import {combineLatest, forkJoin, Observable, of} from "rxjs";
 import {TeacherService} from "../../../core/service/teacher.service";
 import {Teacher} from "../../../core/models/teacher";
 import {catchError, map, switchMap} from "rxjs/operators";
-export type chartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  fill: ApexFill;
-  legend: ApexLegend;
-  markers: ApexMarkers;
-  grid: ApexGrid;
-  title: ApexTitleSubtitle;
-  colors: string[];
-  responsive: ApexResponsive[];
-  labels: any;
-  theme: ApexTheme;
-  series2: ApexNonAxisChartSeries;
-};
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  dataLabels: ApexDataLabels;
-  markers: ApexMarkers;
-  colors: string[];
-  yaxis: ApexYAxis;
-  grid: ApexGrid;
-  legend: ApexLegend;
-  tooltip: ApexTooltip;
-};
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -66,11 +17,6 @@ export type ChartOptions = {
 })
 export class MainComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent;
-  public areaChartOptions: Partial<chartOptions>;
-  public barChartOptions: Partial<chartOptions>;
-  public performanceRateChartOptions: Partial<chartOptions>;
-  public polarChartOptions: Partial<chartOptions>;
-  public lineChartOptions: Partial<ChartOptions>;
   public subDepartments$: Observable<any[]>;
   departments: any[] = [];
   subDepartments: any[] = [];
