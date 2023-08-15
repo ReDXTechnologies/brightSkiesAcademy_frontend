@@ -3,7 +3,145 @@
     <div class="block-header mt-5">
     </div>
     <!-- Widgets -->
-    <div class="row  align-items-center" >
+    <div class="row  align-items-center clearfix"*ngIf="role === 'Teacher'"  >
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+        <div class="card">
+          <div class="header">
+            <h2>Approved courses List</h2>
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item disabled>
+                <mat-icon>delete_outline</mat-icon>
+                <span>Delete</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>refresh</mat-icon>
+                <span>Refresh</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Free</th>
+                  <th>Total enrolled</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  *ngFor="let course of teacherApprovedCourses">
+                  <td class="course-meta-img">
+                    <img [src]="course.image"alt="">
+                  </td>
+                  <td>{{course.title}}</td>
+                  <td>{{course.level}}</td>
+                  <td>{{course.free}} </td>
+                  <td>{{course.total_enrolled}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="d-inline-flex mb-3">
+              <li class="p-2"><a (click)="next_previous('previous')" style="cursor:pointer;"><i class="fas fa-angle-left"></i></a></li>
+              <li class="p-2" *ngFor="let i of [].constructor(totalPages); let page = index" [ngClass]="{ 'active': page + 1 === currentPageStudent }">
+                <a (click)="onPageChanged(page + 1)" style="cursor: pointer">
+                  <span *ngIf="page + 1 < 10">0{{ page + 1 }}</span>
+                  <span *ngIf="page + 1 >= 10">{{ page + 1 }}</span>
+                </a>
+              </li>
+              <li class="p-2"><a (click)="next_previous('next')" style="cursor:pointer;"><i class="fas fa-angle-right"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="card card-statistic-2 ">
+          <div class="clearfix">
+            <div class="card-icon-only shadow-primary float-start">
+              <img src="assets/images/banner/img2.png" alt="">
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Total Courses</h5>
+              </div>
+              <div class="col-green">
+                <h3 class="font-weight-bold float-end mb-0">{{teacher?.nb_of_courses}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+        <div class="card">
+          <div class="header">
+            <h2>Pending courses List</h2>
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item disabled>
+                <mat-icon>delete_outline</mat-icon>
+                <span>Delete</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>refresh</mat-icon>
+                <span>Refresh</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Free</th>
+                  <th>Total enrolled</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  *ngFor="let course of pendingCourses">
+                  <td class="course-meta-img">
+                    <img [src]="course.image"alt="">
+                  </td>
+                  <td>{{course.title}}</td>
+                  <td>{{course.level}}</td>
+                  <td>{{course.free}} </td>
+                  <td>{{course.total_enrolled}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="card card-statistic-2 dash">
+          <div class="clearfix">
+            <div class="card-icon-only shadow-primary float-start">
+              <img src="assets/images/student.png" alt="" class="studImg">
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Total Students</h5>
+              </div>
+              <div class="col-green">
+                <h3 class="font-weight-bold float-end mb-0">{{teacher?.nb_of_students}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row  align-items-center clearfix" >
       <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12" >
         <div class="card g-5"  *ngIf="progress >0">
           <div class="body">
@@ -84,7 +222,7 @@
     </div>
     <!-- #END# Widgets -->
     <div class="row align-items-center">
-      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 " >
+      <div *ngIf="role == 'Student'" class="col-xl-8 col-lg-8 col-md-12 col-sm-12 " >
         <div class="card">
           <div class="header" >
             <h2>Time Spent On Learning</h2>

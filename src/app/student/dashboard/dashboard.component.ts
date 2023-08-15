@@ -2,22 +2,11 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {
   ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexYAxis,
-  ApexStroke,
-  ApexTooltip,
-  ApexDataLabels,
-  ApexPlotOptions,
-  ApexResponsive,
-  ApexLegend,
-  ApexFill,
 } from 'ng-apexcharts';
 import {Course} from "../../core/models/course";
 import {CourseService} from "../../core/service/course.service";
 import {TeacherService} from "../../core/service/teacher.service";
-import {Observable, of, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {StudentService} from "../../core/service/student.service";
 import {Teacher} from "../../core/models/teacher";
 import {ReviewService} from "../../core/service/review.service";
@@ -25,29 +14,8 @@ import {Review} from "../../core/models/review";
 import {ActivatedRoute, Router} from "@angular/router";
 import { ProgressBarMode } from '@angular/material/progress-bar';
 import {ThemePalette} from "@angular/material/core";
+import {AuthService} from "../../core/service/auth.service";
 
-export type barChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  responsive: ApexResponsive[];
-  xaxis: ApexXAxis;
-  legend: ApexLegend;
-  fill: ApexFill;
-};
-
-export type areaChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  colors: string[];
-};
 
 function transformDate(dateString: string): string {
   const date = new Date(dateString);
@@ -64,22 +32,25 @@ function transformDate(dateString: string): string {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.sass'],
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('chart') chart: ChartComponent;
-  public barChartOptions: Partial<barChartOptions>;
-  public areaChartOptions: Partial<areaChartOptions>;
+  role: any;
   courses: Course[];
+  pendingCourses: Course[] = [];
+  teacherApprovedCourses: Course[];
   reviews: Review[];
   academyCourseProgress = [];
+  currentPage = 1;
+  totalPages = 0;
+  returnedItems = 6;
   image: any;
   course: Course;
   RecomCourses: any;
   userId: number;
   user_id: string;
   teacher: Teacher;
-  totalPages = 0;
   progress = 0;
   name: string;
   showXAxis = true;
@@ -100,19 +71,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showLabels = true;
   public single = [];
   chartDataSubscription: Subscription;
-RecommandedCourses = []
+  RecommandedCourses = [];
   constructor(private courseService: CourseService,
               private studentService: StudentService,
               private reviewService: ReviewService,
               private router: Router,
               private route: ActivatedRoute,
-              private teacherService: TeacherService) {
+              private teacherService: TeacherService,
+              private authService: AuthService) {
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id);
+    this.role = this.authService.currentUserValue.role[0];
+    if (this.role === 'Teacher'){
+      this.getTeacherDetails(this.user_id);
+      this.teacherService.getPendingCourses(this.user_id).subscribe((res) => {
+        this.pendingCourses = res.results;
+      });
+      this.teacherService.getTeacherApprovedCourses(this.user_id, 1).subscribe(
+        (data) => {
+          this.teacherApprovedCourses = data.results;
+          this.totalPages = Math.ceil(data.count / 6);
+        },
+        (error) => {
+          console.log('Error getting approved courses:', error);
+        });
+    }
   }
-
-
-
   // Doughnut chart end
 
   ngOnInit() {
@@ -127,21 +111,23 @@ RecommandedCourses = []
       }
     });
     this.getStudentCourses(localStorage.getItem('id'),1);
-    this.chartDataSubscription = this.courseService.getCourseSteps(this.userId).subscribe((el1) => {
-      el1.forEach((el2) => {
-        const startDate = new Date(el2.time);
-        if (el2.endTimeCourse === '1900-01-01') {
-          this.endDate = new Date(Date.now());
-        }else{
-          this.endDate = new Date(el2.endTimeCourse);
-        }
-        const timeDifference = this.endDate.getTime() - startDate.getTime();
-        this.single.push({
-          name : el2.course.title,
-          value: Math.floor(timeDifference  / (1000 * 60 * 60 * 24)) ,
+    if (this.role === 'Student') {
+      this.chartDataSubscription = this.courseService.getCourseSteps(this.userId).subscribe((el1) => {
+        el1.forEach((el2) => {
+          const startDate = new Date(el2.time);
+          if (el2.endTimeCourse === '1900-01-01') {
+            this.endDate = new Date(Date.now());
+          } else {
+            this.endDate = new Date(el2.endTimeCourse);
+          }
+          const timeDifference = this.endDate.getTime() - startDate.getTime();
+          this.single.push({
+            name: el2.course.title,
+            value: Math.floor(timeDifference / (1000 * 60 * 60 * 24)),
+          });
         });
       });
-    });
+    }
     this.courseService.getRecommandedCourses(this.userId).subscribe((course) => {
       this.RecomCourses = course;
       this.RecomCourses.map((el2) => el2.creation_date = transformDate(el2.creation_date));
@@ -154,19 +140,41 @@ RecommandedCourses = []
     }
   }
   ngOnDestroy() {
-    // Unsubscribe to avoid memory leaks
-    this.chartDataSubscription.unsubscribe();
+    if (this.chartDataSubscription) {
+      this.chartDataSubscription.unsubscribe();
+    }
   }
-  transformDate(dateString: string): string {
-    const date = new Date(dateString);
-
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear() % 100;
-
-    const transformedDate = `${day} ${month} '${year}`;
-
-    return transformedDate;
+  next_previous(action: string) {
+    if (action === 'next') {
+      this.currentPage = Math.min(this.currentPage + 1, this.totalPages);
+      console.log(this.currentPage);
+    } else if (action === 'previous') {
+      this.currentPage = Math.max(this.currentPage - 1, 1);
+      console.log(this.currentPage);
+    }
+    this.teacherService.getTeacherApprovedCourses(this.user_id, this.currentPage).subscribe(
+      (data) => {
+        this.teacherApprovedCourses = data.results;
+      },
+      (error) => {
+        console.log('Error getting approved courses:', error);
+      });
+  }
+  onPageChanged(page: number) {
+    this.currentPage = page;
+    this.teacherService.getTeacherApprovedCourses(this.user_id, this.currentPage).subscribe(
+      (data) => {
+        this.teacherApprovedCourses = data.results;
+      },
+      (error) => {
+        console.log('Error getting approved courses:', error);
+      });
+  }
+  public getTeacherDetails(userId: string): void {
+    this.teacherService.getTeacherById(userId).subscribe(res => {
+      this.teacher = res;
+      console.log(this.teacher)
+    });
   }
   getStudentCourses(studentId: string, page:number) {
     this.studentService.getStudentCourses(studentId, page).subscribe(res => {
