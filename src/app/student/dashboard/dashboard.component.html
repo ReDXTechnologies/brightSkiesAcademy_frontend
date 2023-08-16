@@ -3,8 +3,105 @@
     <div class="block-header mt-5">
     </div>
     <!-- Widgets -->
-    <div class="row  align-items-center clearfix"*ngIf="role === 'Teacher'"  >
-      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+    <div class="row  align-items-center clearfix" >
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12" >
+        <div class="card g-5"  *ngIf="progress >0">
+          <div class="body">
+            <div class="row align-items-center">
+              <div class="col-md-4 mb-0">
+                <div class="eduman-course-thumb w-img">
+                  <img src="{{course?.image}}" alt="Course">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <h4>
+                  <div class="weight-600 pt-1" style="color:#243c84">Good Job, {{name}}. Keep Going!! </div>
+                </h4>
+                <p class="font-15 max-width-600">You task are {{progress}}% completed this week. Keep it up and improve your
+                  result. Progress is very good!!!</p>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="course-deteals-btn">
+                      <a (click)="viewDetails(course)" style="cursor: pointer"><span class="me-2">Resume Course</span>
+                        <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card g-5" *ngIf="progress == 0">
+          <div class="body">
+            <div class="row align-items-center">
+              <div class="col-md-12">
+                <h4>
+                  <div class="weight-600 pt-1" style="color:#243c84">Welcome, {{name}}! Let's Get Started!</div>
+                </h4>
+                <p class="font-15 max-width-600 mt-4">
+                  It looks like you haven't started any courses yet. Begin your learning journey by choosing a course
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="role === 'Teacher' || role === 'Student_Teacher'" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card card-statistic-2 ">
+          <div class="clearfix">
+            <div class="card-icon-only shadow-primary float-start">
+              <img src="assets/images/banner/img2.png" alt="">
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Total Courses</h5>
+              </div>
+              <div class="col-green">
+                <h3 class="font-weight-bold float-end mb-0">{{teacher?.nb_of_courses}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  *ngIf="role == 'Student'" class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Your Progress</h2>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover" *ngIf="this.academyCourseProgress.length>0">
+                <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Progress</th>
+                  <th>Duration</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let course of this.academyCourseProgress"  (click)="viewDetails1(course)" style="cursor: pointer">
+                  <td>
+                    <div class="media-title"><span> {{course.title}}
+                    </span></div>
+                  </td>
+                  <td>{{course.progress}}%<mat-progress-bar [mode]="getProgressBarMode(course.progress)" value="{{course.progress}}"   [color]=getProgressBarColor(course.progress)></mat-progress-bar>
+                    <div *ngIf="course.progress === 0" class="message">You haven't started yet.</div>
+                  </td>
+
+                  <td>{{course.workload}} Hours</td>
+                </tr>
+                </tbody>
+              </table>
+              <div *ngIf="this.academyCourseProgress.length === 0" class="message p-2 mb-2">You haven't started yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #END# Widgets -->
+    <div class="row  clearfix"*ngIf="role === 'Teacher'|| role === 'Student_Teacher'">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
             <h2>Approved courses List</h2>
@@ -30,7 +127,7 @@
                   <th>#</th>
                   <th>Title</th>
                   <th>Level</th>
-                  <th>Free</th>
+                  <th>Price</th>
                   <th>Total enrolled</th>
                 </tr>
                 </thead>
@@ -41,7 +138,7 @@
                   </td>
                   <td>{{course.title}}</td>
                   <td>{{course.level}}</td>
-                  <td>{{course.free}} </td>
+                  <td>{{course.price}} $</td>
                   <td>{{course.total_enrolled}}</td>
                 </tr>
                 </tbody>
@@ -57,131 +154,6 @@
               </li>
               <li class="p-2"><a (click)="next_previous('next')" style="cursor:pointer;"><i class="fas fa-angle-right"></i></a></li>
             </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-        <div class="card card-statistic-2 ">
-          <div class="clearfix">
-            <div class="card-icon-only shadow-primary float-start">
-              <img src="assets/images/banner/img2.png" alt="">
-            </div>
-            <div class="card-right">
-              <div>
-                <h5 class="float-end">Total Courses</h5>
-              </div>
-              <div class="col-green">
-                <h3 class="font-weight-bold float-end mb-0">{{teacher?.nb_of_courses}}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
-        <div class="card">
-          <div class="header">
-            <h2>Pending courses List</h2>
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item disabled>
-                <mat-icon>delete_outline</mat-icon>
-                <span>Delete</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon>refresh</mat-icon>
-                <span>Refresh</span>
-              </button>
-            </mat-menu>
-          </div>
-          <div class="tableBody">
-            <div class="table-responsive">
-              <table class="table table-hover ">
-                <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Level</th>
-                  <th>Free</th>
-                  <th>Total enrolled</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr  *ngFor="let course of pendingCourses">
-                  <td class="course-meta-img">
-                    <img [src]="course.image"alt="">
-                  </td>
-                  <td>{{course.title}}</td>
-                  <td>{{course.level}}</td>
-                  <td>{{course.free}} </td>
-                  <td>{{course.total_enrolled}}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-12">
-        <div class="card card-statistic-2 dash">
-          <div class="clearfix">
-            <div class="card-icon-only shadow-primary float-start">
-              <img src="assets/images/student.png" alt="" class="studImg">
-            </div>
-            <div class="card-right">
-              <div>
-                <h5 class="float-end">Total Students</h5>
-              </div>
-              <div class="col-green">
-                <h3 class="font-weight-bold float-end mb-0">{{teacher?.nb_of_students}}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row  align-items-center clearfix" >
-      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12" >
-        <div class="card g-5"  *ngIf="progress >0">
-          <div class="body">
-            <div class="row align-items-center">
-              <div class="col-md-4 mb-0">
-                <div class="eduman-course-thumb w-img">
-                  <img src="{{course?.image}}" alt="Course">
-                </div>
-              </div>
-              <div class="col-md-8">
-                <h4>
-                  <div class="weight-600 pt-1" style="color:#243c84">Good Job, {{name}}. Keep Going!! </div>
-                </h4>
-                <p class="font-15 max-width-600">You task are {{progress}}% completed this week. Keep it up and improve your
-                  result. Progress is very good!!!</p>
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="course-deteals-btn">
-                      <a (click)="viewDetails(course)" style="cursor: pointer"><span class="me-2">Resume Course</span>
-                        <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card g-5" *ngIf="progress == 0">
-          <div class="body">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <h4>
-                  <div class="weight-600 pt-1" style="color:#243c84">Welcome, {{name}}! Let's Get Started!</div>
-                </h4>
-                <p class="font-15 max-width-600 mt-4">
-                  It looks like you haven't started any courses yet. Begin your learning journey by choosing a course
-                </p>
-
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -219,10 +191,85 @@
           </div>
         </div>
       </div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Pending courses List</h2>
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item disabled>
+                <mat-icon>delete_outline</mat-icon>
+                <span>Delete</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>refresh</mat-icon>
+                <span>Refresh</span>
+              </button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Price</th>
+                  <th>Total enrolled</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  *ngFor="let course of pendingCourses">
+                  <td class="course-meta-img">
+                    <img [src]="course.image"alt="">
+                  </td>
+                  <td>{{course.title}}</td>
+                  <td>{{course.level}}</td>
+                  <td>{{course.price}} $</td>
+                  <td>{{course.total_enrolled}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              Recommanded Classes
+            </h2>
+          </div>
+          <div class="card-body">
+            <ng-scrollbar style="height: 335px" visibility="hover">
+              <ul class="list-unstyled  user-progress list-unstyled-border list-unstyled-noborder" *ngIf="this.RecommandedCourses.length>0">
+
+                <li class="lecture-list  "  *ngFor="let course of this.RecommandedCourses" (click)="viewDetails1(course)" style="cursor: pointer">
+
+                  <div class="col-9 set-flex">
+                    <div class="media-title font-16">{{course.title}}</div>
+                  </div>
+                  <div class="col-3 set-flex  ms-auto">
+                    <div class="media-title font-16">{{course.creation_date}}</div>
+                  </div>
+
+                </li>
+              </ul>
+              <p class="font-15 max-width-600 mt-4"  *ngIf="this.RecommandedCourses.length === 0">
+                There is no recommanded courses yet. Begin your learning journey by choosing a course
+              </p>
+            </ng-scrollbar>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- #END# Widgets -->
-    <div class="row align-items-center">
-      <div *ngIf="role == 'Student'" class="col-xl-8 col-lg-8 col-md-12 col-sm-12 " >
+
+    <div class="row align-items-center" *ngIf="role == 'Student'">
+      <div  class="col-xl-8 col-lg-8 col-md-12 col-sm-12 " >
         <div class="card">
           <div class="header" >
             <h2>Time Spent On Learning</h2>
