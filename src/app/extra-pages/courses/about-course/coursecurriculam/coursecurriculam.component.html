@@ -85,7 +85,7 @@
                   <h4>Quiz : {{quizz.name}}</h4>
                 </div>
                 <div class="course-curriculum-meta" >
-                  <span (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
+                  <span *ngIf="role === 'Super_Admin'" (click)="startQuizz(courseId,module.id,quizz.name,quizz)"><i class="fas fa-play quizz"></i></span>
                   <div >
                     <ng-container *ngIf="getQuizPercentage(quizz.id) | async as percentage">
                       <h6 class="text-center">{{ percentage }}%</h6>

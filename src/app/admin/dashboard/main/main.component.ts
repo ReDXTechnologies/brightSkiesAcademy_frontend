@@ -74,8 +74,6 @@ export class MainComponent implements OnInit {
           ...el1,
           user: userDetailsArray[index],
         }));
-
-        // Log the students
         this.totalPagesStudent = Math.ceil(this.students.length / this.itemsPerPage);
         this.studentsDisplay = this.getPaginatedStudents();
       });

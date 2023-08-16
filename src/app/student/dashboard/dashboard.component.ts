@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.user_id = localStorage.getItem('id');
     this.userId = parseInt(this.user_id);
     this.role = this.authService.currentUserValue.role[0];
-    if (this.role === 'Teacher'){
+    if (this.role === 'Teacher' || this.role === 'Student_Teacher'){
       this.getTeacherDetails(this.user_id);
       this.teacherService.getPendingCourses(this.user_id).subscribe((res) => {
         this.pendingCourses = res.results;

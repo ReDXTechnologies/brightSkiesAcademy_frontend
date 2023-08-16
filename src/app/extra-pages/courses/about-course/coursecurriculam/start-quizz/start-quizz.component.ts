@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnInit,
+  OnInit, Optional,
   Output,
   ViewChild
 } from '@angular/core';
@@ -35,6 +35,7 @@ export class StartQuizzComponent implements OnInit {
     private el: ElementRef,
     private courseService: CourseService,
     private fb: UntypedFormBuilder,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
   @Input() quizz: any;
   @Input() courseId: number;
@@ -75,7 +76,11 @@ export class StartQuizzComponent implements OnInit {
   }
 
   getAllQuestions() {
-    this.questionList = this.quizz.questions;
+    if (!this.data){
+      this.questionList = this.quizz.questions;
+    } else {
+      this.questionList = this.data.quizz.questions;
+    }
   }
   nextQuestion() {
     if (this.currentQuestion < this.questionList.length - 1){
@@ -103,6 +108,8 @@ export class StartQuizzComponent implements OnInit {
 
   verify(question: any) {
     const correctOptions = question.options.filter(option => option.is_correct);
+    const selectedCorrectOptions = question.options.filter(option => option.selected && option.is_correct);
+
     let allCorrect = true;
 
     for (const option of question.options) {
@@ -132,21 +139,23 @@ export class StartQuizzComponent implements OnInit {
         option.selectedClass += ' wrong';
       }
     }
-
-    this.selectedOptions = question.options.filter(option => option.selected);
-
+    console.log(question)
     if (!question.verified) {
-      console.log(this.points)
       question.verified = true;
-      this.points++;
-      this.correctAnswer++;
-    }else{
+      if (selectedCorrectOptions.length === correctOptions.length && correctOptions.length === this.selectedOptions.length) {
+        this.points++;
+        this.correctAnswer++;
+      } else {
+        this.inCorrectAnswer++;
+      }
+    } else {
       this.inCorrectAnswer++;
     }
     console.log("verify", this.selectedOptions);
 
     this.changeDetectorRef.detectChanges();
   }
+
 
 
   // resetOptions() {
@@ -173,9 +182,9 @@ export class StartQuizzComponent implements OnInit {
     this.correctAnswer = 0;
     console.log(this.inCorrectAnswer)
     for (const question of this.questionList) {
+      question.verified = false;
       for (const option of question.options) {
         option.selected = false;
-        option.verified = false;
         option.selectedClass = '';
       }
     }
@@ -204,9 +213,6 @@ export class StartQuizzComponent implements OnInit {
     this.selectedOptions = [];
     this.currentQuestion = 0;
     this.points = 0;
-    this.inCorrectAnswer = 0;
-    this.correctAnswer = 0;
-
   }
   onSubmit() {
     this.loadingAdd = true;

@@ -145,7 +145,7 @@ import { DepartmentDetailsComponent } from './departments/department-details/dep
     ],
   exports: [
     AddQuizzComponent,
-    StartQuizzComponent
+    StartQuizzComponent,
   ]
 })
 export class ExtraPagesModule {}
