@@ -32,6 +32,7 @@ export class AllStudentsComponent
     'gender',
     'mobile_phone',
     'email',
+    'skills',
     'speciality',
     'actions',
   ];
@@ -198,6 +199,15 @@ export class AllStudentsComponent
       console.log(this.currentPage)
     }
       this.exampleDatabase.getAllStudents(this.currentPage)
+  }
+  onSearch(firstName: string, lastName: string, specialty: string, skills: string, certificate: string) {
+     this.studentService.getFilteredStudentsGrid(certificate, firstName, lastName, specialty, skills).subscribe((res) => {
+      console.log(res);
+       this.exampleDatabase.dataChange.next(res);
+       this.dataSource.totalItems = res.count
+       this.dataSource.count = Math.ceil(res.length/8)
+
+    });
   }
 }
 export class ExampleDataSource extends DataSource<Student> {

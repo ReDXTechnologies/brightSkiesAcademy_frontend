@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import { Student } from '../models/student';
 import {environment} from "../../../environments/environment";
@@ -41,6 +41,28 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
         console.log(error.name + ' ' + error.message);
       }
     );
+  }
+  getFilteredStudentsGrid(certificate: any, firstName: string, lastName: string, specialty: string, skills: string): Observable<any> {
+    let params = new HttpParams();
+    const url = `${this.apiUrl}/filtered_students/?specialty=${specialty}&firstName=${firstName}&lastName=${lastName}&certificate=${certificate}&skills=${skills}`;
+
+    if (specialty) {
+      params = params.set('specialty', specialty);
+    }
+    if (firstName) {
+      params = params.set('firstName', firstName);
+    }
+    if (lastName) {
+      params = params.set('lastName', lastName);
+    }
+    if (certificate) {
+      params = params.set('certificate', certificate);
+    }
+    if (skills) {
+      params = params.set('skills', skills);
+    }
+
+    return this.http.get<any>(url, { params });
   }
 
   enrollStudent(courseId: number, studentId: string): Observable<any> {

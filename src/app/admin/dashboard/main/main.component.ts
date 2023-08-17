@@ -9,6 +9,7 @@ import {combineLatest, forkJoin, Observable, of} from "rxjs";
 import {TeacherService} from "../../../core/service/teacher.service";
 import {Teacher} from "../../../core/models/teacher";
 import {catchError, map, switchMap} from "rxjs/operators";
+import {AuthService} from "../../../core/service/auth.service";
 
 @Component({
   selector: 'app-main',
@@ -31,6 +32,7 @@ export class MainComponent implements OnInit {
   percentage: number;
   total_courses: number;
   students: any;
+  role: any;
   studentsDisplay: any;
   breadscrums = [
     {
@@ -42,7 +44,9 @@ export class MainComponent implements OnInit {
   constructor(private courseService: CourseService,
               private departmentService: DepartmentService,
               private adminService: AdminService,
-              private teacherService: TeacherService,) {
+              private teacherService: TeacherService,
+              private authService: AuthService) {
+    this.role = this.authService.currentUserValue.role[0];
     this.courseService.getCourseStats().subscribe((res) => {
       this.percentage = res.percentage_difference;
       this.total_courses = res.total_courses;
@@ -50,19 +54,10 @@ export class MainComponent implements OnInit {
     this.departmentService.getSuperDepartments().subscribe((res) => {
       this.departments = res;
     });
-    this.teacherService.getFilteredTeachersGrid("", "", "")
-      .subscribe(response => {
-        this.teachers = response.results;
-        console.log(this.teachers);
-        this.totalPages = Math.ceil(response.count / this.returnedItems);
-      });
     this.teacherService.getTeachers(this.currentPage).subscribe((res) => {
-      console.log(res);
       this.teachers = res.results;
+      this.totalPages = Math.ceil(res.count / this.returnedItems);
     });
-
-
-
     this.courseService.getCourseCompletion().subscribe((res) => {
       // Create an array of observables to fetch user details for each student
       const userObservables = res.map((el1) => this.adminService.getUser(el1.user));
