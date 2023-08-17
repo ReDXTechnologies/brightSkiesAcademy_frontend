@@ -177,9 +177,9 @@
               <form [formGroup]="studentForm">
                 <div class="mb-16 mt-16 p-5">
                   <label>Upload profile photo</label>
-                  <app-file-upload fileType="upload image"
+                  <app-upload-picture fileType="upload image"
                                    [loading]="loading"
-                                   [onClickFunction]="updateProfilePicture.bind(this, student?.user?.id)" (change)="onImageSelected($event)" formControlName="image"></app-file-upload>
+                                   [onClickFunction]="updateProfilePicture.bind(this, student?.user?.id)" (change)="onImageSelected($event)" formControlName="image"></app-upload-picture>
                 </div>
               </form>
 

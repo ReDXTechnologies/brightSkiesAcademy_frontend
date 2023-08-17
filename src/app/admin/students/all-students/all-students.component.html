@@ -18,21 +18,9 @@
                       <div class="materialTableHeader pb-3">
                         <div class="row">
                           <div class="col-8">
-                            <ul class="header-buttons-left ms-0">
-                              <li class="tbl-title">
+                            <ul class="header-buttons-left ms-0" >
+                              <li class="tbl-title py-3">
                                 <h2>All Students</h2>
-                              </li>
-<!--                              <li class="tbl-search-box">-->
-<!--                                <label for="search-input"><i class="material-icons search-icon">search</i></label>-->
-<!--                                <input placeholder="Search" type="text" #filter class="browser-default search-field"-->
-<!--                                  aria-label="Search box">-->
-<!--                              </li>-->
-                              <li class="tbl-header-btn">
-                                <div class="m-l-10" matTooltip="REFRESH">
-                                  <button mat-mini-fab color="primary" (click)="refresh()">
-                                    <mat-icon class="col-white">refresh</mat-icon>
-                                  </button>
-                                </div>
                               </li>
                               <li class="tbl-header-btn">
                                 <div class="m-l-10" [hidden]=!selection.hasValue() matTooltip="DELETE">
@@ -68,6 +56,42 @@
                                   <img src="assets/images/icons/txt.png" alt="" (click)="exporter.exportTable('txt')" />
                                 </div>
                               </li>
+                            </ul>
+                          </div>
+                          <div class="my-2">
+                            <ul class="header-buttons-left ms-0" >
+                            <li class="tbl-search-box">
+                              <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                              <input placeholder="Search FirstName" type="text" #filter class="browser-default search-field"
+                                     aria-label="Search box" (keyup)="onSearch($event.target.value,'','','', '')">
+                            </li>
+                            <li class="tbl-search-box">
+                              <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                              <input placeholder="Search LastName" type="text" #filter class="browser-default search-field"
+                                     aria-label="Search box" (keyup)="onSearch('',$event.target.value,'','', '')">
+                            </li>
+                            <li class="tbl-search-box">
+                              <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                              <input placeholder="Search Skills" type="text" #filter class="browser-default search-field"
+                                     aria-label="Search box" (keyup)="onSearch('','','',$event.target.value, '')">
+                            </li>
+                            <li class="tbl-search-box">
+                              <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                              <input placeholder="Search Specialty" type="text" #filter class="browser-default search-field"
+                                     aria-label="Search box" (keyup)="onSearch('','',$event.target.value,'', '')">
+                            </li>
+                            <li class="tbl-search-box">
+                              <label for="search-input"><i class="material-icons search-icon">search </i></label>
+                              <input placeholder="Search Certificate" type="text" #filter class="browser-default search-field"
+                                     aria-label="Search box" (keyup)="onSearch('','','','', $event.target.value)">
+                            </li>
+                            <li class="tbl-header-btn">
+                              <div class="m-l-10" matTooltip="REFRESH">
+                                <button mat-mini-fab color="primary" (click)="refresh()">
+                                  <mat-icon class="col-white">refresh</mat-icon>
+                                </button>
+                              </div>
+                            </li>
                             </ul>
                           </div>
                         </div>
@@ -110,6 +134,12 @@
                           <mat-header-cell *matHeaderCellDef mat-sort-header>last Name
                           </mat-header-cell>
                           <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.user.lastName}}
+                          </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="skills">
+                          <mat-header-cell *matHeaderCellDef mat-sort-header>Skills
+                          </mat-header-cell>
+                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.skills}}
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="speciality">

@@ -67,7 +67,7 @@
       <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <div class="card">
           <div class="header">
-            <h2>Student List</h2>
+            <h2>Courses Enrolled In List</h2>
             <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
               <mat-icon>more_vert</mat-icon>
             </button>
@@ -92,11 +92,11 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Student Name</th>
+                  <th>User Name</th>
+                  <th>Role</th>
                   <th>Total Courses</th>
                   <th>Completed Courses</th>
-                  <th>gender</th>
-                  <th>Mobile Phone</th>
+                  <th>Certifications</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,14 +105,27 @@
                     <img [src]="student.user.image ? student.user.image : 'assets/images/user/profile.jpg'"alt="">
                   </td>
                   <td>{{student.user.firstName}} {{student.user.lastName}}</td>
+                  <td>
+                    <div *ngIf="student.user.is_student && !student.user.is_teacher">
+                              <span class="badge badge-solid-pink">
+                                Student</span>
+                    </div>
+                    <div *ngIf="student.user.is_teacher">
+                              <span class="badge badge-solid-cyan">
+                                Teacher</span>
+                    </div>
+                    <div *ngIf="student.user.is_head_of_sub_dep">
+                              <span class="badge badge-solid-red">
+                                head_of_sub_department</span>
+                    </div>
+                    <div *ngIf="student.user.is_head_of_super_dep">
+                              <span class="badge badge-solid-purple">
+                                head_of_super_department</span>
+                    </div>
+                  </td>
                   <td>{{student.total_courses}}</td>
                   <td>{{student.completion_percentage}}% </td>
-                  <td>
-                    <div *ngIf="student.user.gender === 'female'" class="badge col-red">{{student.user.gender}}</div>
-                    <div *ngIf="student.user.gender === 'male'" class="badge col-green">{{student.user.gender}}</div>
-                  </td>
-                  <td>{{student.user.mobile_phone}}
-                  </td>
+                  <td>{{student.certifications}}</td>
                 </tr>
                 </tbody>
               </table>

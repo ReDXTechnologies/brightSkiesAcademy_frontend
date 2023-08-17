@@ -13,6 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {EditRoadmapComponent} from "./edit/edit-roadmap/edit-roadmap.component";
 import {Department} from "../../core/models/department";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {ConfirmationDialogComponent} from "./confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -171,14 +172,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
   deleteRoadmap(title: string) {
-    this.courseService.deleteRoadmap(title).subscribe(res => {
-      this.showNotification(
-        'snackbar-danger',
-        'Roadmap deleted Successfully...!!!',
-        'center',
-        'center'
-      );
-      window.location.reload();
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '500px',
+      data: {
+        title: 'Delete Roadmap',
+        message: `Are you sure you want to delete the roadmap '${title}'?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.courseService.deleteRoadmap(title).subscribe(res => {
+          this.showNotification(
+            'snackbar-danger',
+            'Roadmap deleted Successfully...!!!',
+            'center',
+            'center'
+          );
+          window.location.reload();
+        });
+      }
     });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
