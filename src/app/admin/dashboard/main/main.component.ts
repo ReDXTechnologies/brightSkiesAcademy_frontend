@@ -5,7 +5,7 @@ import {
 import {CourseService} from "../../../core/service/course.service";
 import {DepartmentService} from "../../../core/service/department.service";
 import {AdminService} from "../../../core/service/admin.service";
-import {combineLatest, forkJoin, Observable, of} from "rxjs";
+import {combineLatest, forkJoin, Observable, of, tap} from "rxjs";
 import {TeacherService} from "../../../core/service/teacher.service";
 import {Teacher} from "../../../core/models/teacher";
 import {catchError, map, switchMap} from "rxjs/operators";
@@ -19,7 +19,10 @@ import {AuthService} from "../../../core/service/auth.service";
 export class MainComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent;
   public subDepartments$: Observable<any[]>;
+  public courses$: Observable<any[]>;
+  public subDepartmentsAndCourses$: Observable<any[]>;
   departments: any[] = [];
+  courses: any[] = [];
   subDepartments: any[] = [];
   teachers: Teacher[] = [];
   currentPage = 1;
@@ -30,9 +33,11 @@ export class MainComponent implements OnInit {
   itemsPerPage: number = 6;
   totalPagesStudent = 0;
   percentage: number;
-  total_courses: number;
+  total_courses= 0;
   students: any;
   role: any;
+  user_id: string;
+  userId: number;
   studentsDisplay: any;
   breadscrums = [
     {
@@ -46,18 +51,11 @@ export class MainComponent implements OnInit {
               private adminService: AdminService,
               private teacherService: TeacherService,
               private authService: AuthService) {
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id)
     this.role = this.authService.currentUserValue.role[0];
-    this.courseService.getCourseStats().subscribe((res) => {
-      this.percentage = res.percentage_difference;
-      this.total_courses = res.total_courses;
-    });
-    this.departmentService.getSuperDepartments().subscribe((res) => {
-      this.departments = res;
-    });
-    this.teacherService.getTeachers(this.currentPage).subscribe((res) => {
-      this.teachers = res.results;
-      this.totalPages = Math.ceil(res.count / this.returnedItems);
-    });
+
+    // common service for heads and admin
     this.courseService.getCourseCompletion().subscribe((res) => {
       // Create an array of observables to fetch user details for each student
       const userObservables = res.map((el1) => this.adminService.getUser(el1.user));
@@ -73,29 +71,108 @@ export class MainComponent implements OnInit {
         this.studentsDisplay = this.getPaginatedStudents();
       });
     });
-  }
 
-  ngOnInit() {
-    this.subDepartments$ = this.departmentService.getSubDepartmentsPerPage(this.currentPageSub).pipe(
-      switchMap((res) => {
-        const subDepartmentObservables: Observable<any>[] = res.results.map((subDep) => {
-          const coursesObservable = this.courseService.getFilteredCourses([subDep.name], '', '', '', '', '');
-          const teachersObservable = this.teacherService.getSubDepTeachers(subDep.id);
-
-          return combineLatest([coursesObservable, teachersObservable]).pipe(
-            catchError(() => of([])), // Handle errors gracefully by returning an empty array
-            map(([courses, teachers]) => ({
-              ...subDep,
-              coursesCount: courses.length,
-              teachersCount: teachers.length
-            }))
-          );
+    if (this.role === 'Super_Admin') {
+      this.courseService.getCourseStats().subscribe((res) => {
+        this.percentage = res.percentage_difference;
+        this.total_courses = res.total_courses;
+      });
+      this.departmentService.getSuperDepartments().subscribe((res) => {
+        this.departments = res;
+        this.loadChartData();
+      });
+      this.teacherService.getTeachers(this.currentPage).subscribe((res) => {
+        this.teachers = res.results;
+        this.totalPages = Math.ceil(res.count / this.returnedItems);
+      });
+    }
+    if (this.role === 'head_super_department') {
+      this.departmentService.getSuperDepByUserId(this.userId).subscribe((res) => {
+        this.departments = res;
+        this.loadChartData();
+        this.teacherService.getSuperDepTeachersperPage(res[0].id, 1).subscribe((res2) => {
+            this.teachers = res2.results;
+            this.totalPages = Math.ceil(res2.count / this.returnedItems);
         });
+      });
+    }
+    if (this.role === 'head_sub_department') {
+      this.departmentService.getSubDepByUserId(this.user_id).subscribe((res) => {
+        this.departments = res;
+        this.teacherService.getSubDepTeachersperPage(res[0].id,1).subscribe((res2) => {
+          this.teachers = res2.results;
+          this.totalPages = Math.ceil(res2.count / this.returnedItems);
+        });
+      });
+    }
+  }
+  ngOnInit() {
+    if ( this.role === 'Super_Admin') {
+      this.subDepartments$ = this.departmentService.getSubDepartmentsPerPage(this.currentPageSub).pipe(
+        switchMap((res) => {
+          const subDepartmentObservables: Observable<any>[] = res.results.map((subDep) => {
+            const coursesObservable = this.courseService.getFilteredCourses([subDep.name], '', '', '', '', '');
+            const teachersObservable = this.teacherService.getSubDepTeachers(subDep.id);
 
-        return combineLatest(subDepartmentObservables);
-      })
-    );
-    this.loadChartData();
+            return combineLatest([coursesObservable, teachersObservable]).pipe(
+              catchError(() => of([])), // Handle errors gracefully by returning an empty array
+              map(([courses, teachers]) => ({
+                ...subDep,
+                coursesCount: courses.length,
+                teachersCount: teachers[0]
+              }))
+            );
+          });
+          return combineLatest(subDepartmentObservables);
+        })
+      );
+    }else if (this.role === 'head_super_department'){
+      this.departmentService.getSuperDepByUserId(this.userId).subscribe((res1) => {
+      this.subDepartments$ = this.departmentService.getSubDepartmentsBySuperDepId(res1[0].id).pipe(
+        switchMap((res) => {
+          const subDepartmentObservables: Observable<any>[] = res.map((subDep) => {
+            const coursesObservable = this.courseService.getFilteredCourses([subDep.name],
+              '', '', '', '', '');
+            this.courseService.getFilteredCourses([subDep.name],
+              '', '', '', '', '').subscribe((result) => {
+                this.total_courses += result.length;
+            });
+            const teachersObservable = this.teacherService.getSubDepTeachers(subDep.id);
+            return combineLatest([coursesObservable, teachersObservable]).pipe(
+              catchError(() => of([])), // Handle errors gracefully by returning an empty array
+              map(([courses, teachers]) => ({
+                ...subDep,
+                coursesCount: courses.length,
+                teachersCount: teachers[0]
+              }))
+            );
+          });
+          return combineLatest(subDepartmentObservables);
+        })
+        );
+      });
+    }else if (this.role === 'head_sub_department'){
+      this.subDepartments$ = this.departmentService.getSubDepByUserId(this.user_id);
+
+      this.courses$ = this.subDepartments$.pipe(
+        switchMap((subDepartments) => {
+          this.total_courses = 0; // Reset total_courses before processing
+
+          // Extract the names of sub-departments
+          const subDepartmentNames = subDepartments.map((subDep) => subDep.name);
+
+          return this.courseService.getFilteredCourses(subDepartmentNames,
+            '', '', '', '', '').pipe(
+            tap((result) => {
+              this.total_courses += result.length;
+            })
+          );
+        })
+      );
+
+// Combining subDepartments$ and courses$ into a single observable
+      this.subDepartmentsAndCourses$ = combineLatest([this.subDepartments$, this.courses$]);
+    }
   }
   next_previous(action: string) {
     if (action === 'next') {
@@ -138,9 +215,7 @@ export class MainComponent implements OnInit {
     return this.students.slice(startIndex, endIndex);
   }
   loadChartData(): void {
-    this.departmentService.getSuperDepartments().subscribe((departments) => {
-      this.departments = departments;
-
+    console.log(this.departments);
       // Loop through departments to fetch sub-department data
       this.departments.forEach((department) => {
         this.departmentService.getSubDepartmentsPerPage(this.currentPageSub).subscribe((subDepartments) => {
@@ -180,7 +255,6 @@ export class MainComponent implements OnInit {
           department.chartOptions = chartOptions; // Store chart options in the department object
         });
       });
-    });
   }
 
   generateColors(numColors: number): string[] {

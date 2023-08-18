@@ -169,7 +169,7 @@ export class HeadDepProfileComponent implements OnInit {
           this.manager = value[0].super_department_head_of_super_department_firstName
             + ' '+value[0].super_department_head_of_super_department_lastName
           console.log(this.superDep)
-          this.teacherService.getSubDepTeachers(value[0].id).subscribe(res=>this.subDep[0].subDepNbTeachers=res.length)
+          this.teacherService.getSubDepTeachers(value[0].id).subscribe(res=>this.subDep[0].subDepNbTeachers =res[0])
         }
       })
     }
