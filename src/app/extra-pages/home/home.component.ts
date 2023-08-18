@@ -207,7 +207,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(course)
     course.courses.forEach((id) => idTab.push(id));
     const dialogRef = this.dialog.open(EditRoadmapComponent, {
-      width: '70%',
+      width: '40%',
       data: {
         coursesId: idTab,
         name: course.title,
