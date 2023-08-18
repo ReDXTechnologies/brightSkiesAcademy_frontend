@@ -8,7 +8,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { ComponentsModule } from './../../shared/components/components.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {MatOptionModule} from "@angular/material/core";
 
@@ -25,7 +24,6 @@ import {MatOptionModule} from "@angular/material/core";
     NgApexchartsModule,
     MatButtonModule,
     MatMenuModule,
-    ComponentsModule,
     SharedModule,
     MatOptionModule,
   ],

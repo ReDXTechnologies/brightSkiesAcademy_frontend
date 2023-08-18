@@ -6,7 +6,7 @@ import {PaginationComponent} from "./pagination/pagination.component";
 import { UploadPictureComponent } from './upload-picture/upload-picture.component';
 
 @NgModule({
-  declarations: [FileUploadComponent, BreadcrumbComponent,PaginationComponent, UploadPictureComponent],
+  declarations: [FileUploadComponent, BreadcrumbComponent, PaginationComponent, UploadPictureComponent],
   imports: [SharedModule],
   exports: [FileUploadComponent, BreadcrumbComponent, PaginationComponent, UploadPictureComponent],
 })
