@@ -8,18 +8,9 @@ import { FuseConfirmationConfig } from 'src/@fuse/services/confirmation/confirma
 @Component({
     selector     : 'fuse-confirmation-dialog',
     templateUrl  : './dialog.component.html',
-    styles       : [
-        `
-            .fuse-confirmation-dialog-panel {
-                .mat-mdc-dialog-container {
-                    .mat-mdc-dialog-surface {
-                        padding: 0 !important;
-                    }
-                }
-            }
-        `,
-    ],
-    encapsulation: ViewEncapsulation.None,
+  styles: [],
+
+  encapsulation: ViewEncapsulation.None,
     standalone   : true,
     imports      : [NgIf, MatButtonModule, MatDialogModule, MatIconModule, NgClass],
 })
