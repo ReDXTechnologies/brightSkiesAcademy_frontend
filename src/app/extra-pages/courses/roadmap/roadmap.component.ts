@@ -111,7 +111,7 @@ export class RoadmapComponent implements OnInit {
     if (event.target.checked) {
       course.checked = true;
       this.selectedCourses.push(course);
-      console.log(this.selectedCourses)
+      //console.log(this.selectedCourses)
     } else {
       const index = this.selectedCourses.findIndex((selectedCourse) => selectedCourse.id === course.id);
       if (index > -1) {

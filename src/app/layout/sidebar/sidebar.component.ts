@@ -40,7 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private adminService: AdminService,
     private router: Router,
   ) {
-    console.log(localStorage.getItem('id'))
+    //console.log(localStorage.getItem('id'))
 
     const body = this.elementRef.nativeElement.closest('body');
     this.routerObj = this.router.events.subscribe((event) => {
@@ -110,7 +110,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   getUser(id: string) {
     this.adminService.getUser(id).subscribe((user: any) => {
       this.user = user;
-      console.log(user);
+      //console.log(user);
       this.userFullName = user.firstName + " " + user.lastName;
       this.userImg = user.image;
     });

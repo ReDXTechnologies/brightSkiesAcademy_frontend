@@ -94,14 +94,15 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
   }
 
   reject(row,i) {
-    this.isLoadingReject = true;
-    this.loadingIndexReject = i;
+
     this.id = row.user.id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: row,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
+        this.isLoadingReject = true;
+        this.loadingIndexReject = i;
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.user.id === this.id
         );
@@ -126,14 +127,15 @@ export class PendingAccountsComponent   extends UnsubscribeOnDestroyAdapter
   affect(teacher: Teacher,i): void {
 
     const dialogRef = this.dialog.open(SelectDepartmentComponent, {
-      width: '350px',
+      // width: '350px',
       data: {payload: teacher.user.firstName+' '+teacher.user.lastName},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.isLoadingApprove=true
-      this.loadingIndexApprove=i
+
       if (result) {
+        this.isLoadingApprove=true
+        this.loadingIndexApprove=i
         this.teacherService.approveTeacherAccount(teacher.user.id, result.data.id).subscribe(res => {
           if(res){
             this.isLoadingApprove = false

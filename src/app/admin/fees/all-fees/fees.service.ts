@@ -28,7 +28,7 @@ export class FeesService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -54,10 +54,10 @@ export class FeesService extends UnsubscribeOnDestroyAdapter {
   );*/
   }
   deleteFees(id: number): void {
-    console.log(id);
+    //console.log(id);
 
     /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
+      //console.log(id);
       },
       (err: HttpErrorResponse) => {
          // error code here

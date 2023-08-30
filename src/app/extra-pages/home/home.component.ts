@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     price += course1.price;
                   });
                   this.departmentService.getSubDepartmentsByCourseId(id).subscribe((res) => {
-                    console.log(res);
+                    //console.log(res);
                   });
                   // Use a new observable to get the subdepartments by course ID
                   const subDepartments$ = this.departmentService.getSubDepartmentsByCourseId(id);

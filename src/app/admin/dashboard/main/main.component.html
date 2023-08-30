@@ -156,6 +156,31 @@
           </div>
         </div>
       </div>
+<!--      <div class="col-12 col-md-9 col-lg-6">-->
+<!--        <div class="card card-statistic-2 dash">-->
+<!--          <div class="row">-->
+<!--            <div class="col-12 col-sm-4 d-flex justify-content-center align-items-center">-->
+<!--              <div class="card-icon-only shadow-primary">-->
+<!--                <img src="assets/images/banner/img4.png" alt="" class="img-fluid">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-12 col-sm-8">-->
+<!--              <div class="card-right" *ngFor="let department of departments;">-->
+<!--                <div class="row">-->
+<!--                  <div class="col-6 col-sm-12 d-flex align-items-center">-->
+<!--                    <h5 class="mb-0 d-block d-sm-none">Department:</h5>-->
+<!--                    <h5 class="flex-grow-1 mb-0">{{department.name}}</h5>-->
+<!--                  </div>-->
+<!--                  <div class="col-6 col-sm-12 col-green py-2 py-sm-5">-->
+<!--                    <h3 class="font-weight-bold text-end mb-0">${{department.budget}}</h3>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
       <div class="col-lg-3 col-md-3 col-sm-12">
         <div class="card card-statistic-2 dash">
           <div class="clearfix">
@@ -376,10 +401,9 @@
                 <tbody>
                 <tr *ngFor="let sub of subDepartments$ | async">
                   <td>
-                    <div class="badge badge-solid-green" *ngIf="sub.super_department_name === 'HPC'">{{sub.name}}</div>
-                    <div class="badge badge-solid-blue" *ngIf="sub.super_department_name === 'devops'">{{sub.name}}</div>
-                    <div class="badge badge-solid-pink" *ngIf="sub.super_department_name === 'Automative'">{{sub.name}}</div>
-                    <div class="badge badge-solid-amber" *ngIf="sub.super_department_name === 'AI'">{{sub.name}}</div>
+                    <div class="badge badge-solid-blue" >{{sub.name}}</div>
+<!--                    <div class="badge badge-solid-pink" *ngIf="sub.super_department_name === 'Automative'">{{sub.name}}</div>-->
+<!--                    <div class="badge badge-solid-amber" *ngIf="sub.super_department_name === 'AI'">{{sub.name}}</div>-->
 
                   </td>
                   <td>

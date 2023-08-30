@@ -139,7 +139,7 @@
                         <ng-container matColumnDef="skills">
                           <mat-header-cell *matHeaderCellDef mat-sort-header>Skills
                           </mat-header-cell>
-                          <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.skills}}
+                          <mat-cell class="ell" *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"> {{row.skills}}
                           </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="speciality">

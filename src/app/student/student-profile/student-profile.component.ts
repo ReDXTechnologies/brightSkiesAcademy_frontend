@@ -72,10 +72,10 @@ export class StudentProfileComponent implements OnInit {
   next_previous(action: string) {
     if (action === 'next') {
       this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     }
     this.getStudentCourses(localStorage.getItem('id'),this.currentPage);
   }
@@ -110,7 +110,7 @@ export class StudentProfileComponent implements OnInit {
   getStudentDetails(studentId: string) {
     this.studentService.getStudent(studentId).subscribe(student => {
       this.student = student;
-      console.log(student.user.email)
+      //console.log(student.user.email)
       this.studentForm.patchValue({
         firstName: this.student.user.firstName,
         lastName: this.student.user.lastName,
@@ -132,7 +132,7 @@ export class StudentProfileComponent implements OnInit {
           this.academyCourseCompleted.push({...course, progress});
         }
       }));
-      console.log(this.academyCourseProgress);
+      //console.log(this.academyCourseProgress);
       this.totalPages= Math.ceil(res.count/4)
     });
   }
@@ -143,7 +143,7 @@ export class StudentProfileComponent implements OnInit {
     formData.append('image', this.selectedImage);
 
     this.adminService.updateProfilePicture(userId, formData).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.loading = true
       window.location.reload()
 

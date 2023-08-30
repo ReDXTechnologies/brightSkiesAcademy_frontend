@@ -57,7 +57,7 @@ export class InstructorpromainComponent implements OnInit {
           this.calculatePages()
         },
         (error) => {
-          console.log('Error getting approved courses:', error);
+          //console.log('Error getting approved courses:', error);
         })
       }
   calculatePages() {

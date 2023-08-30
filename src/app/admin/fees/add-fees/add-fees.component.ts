@@ -31,6 +31,6 @@ export class AddFeesComponent {
     });
   }
   onSubmit() {
-    console.log('Form Value', this.feesForm.value);
+    //console.log('Form Value', this.feesForm.value);
   }
 }

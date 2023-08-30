@@ -35,7 +35,7 @@ export class DepartmentDetailsComponent implements OnInit{
       if (params.departmentId) {
         const departmentId = JSON.parse(params.departmentId);
         this.departmentService.getSuperdepById(departmentId).subscribe((superDep) => {
-            console.log(superDep);
+            //console.log(superDep);
           });
       }
     });

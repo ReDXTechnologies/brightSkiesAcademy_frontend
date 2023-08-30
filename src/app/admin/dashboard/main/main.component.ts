@@ -110,6 +110,7 @@ export class MainComponent implements OnInit {
     if ( this.role === 'Super_Admin') {
       this.subDepartments$ = this.departmentService.getSubDepartmentsPerPage(this.currentPageSub).pipe(
         switchMap((res) => {
+          //console.log(res);
           const subDepartmentObservables: Observable<any>[] = res.results.map((subDep) => {
             const coursesObservable = this.courseService.getFilteredCourses([subDep.name], '', '', '', '', '');
             const teachersObservable = this.teacherService.getSubDepTeachers(subDep.id);
@@ -177,22 +178,22 @@ export class MainComponent implements OnInit {
   next_previous(action: string) {
     if (action === 'next') {
       this.currentPage = Math.min(this.currentPage + 1, this.totalPages);
-      console.log(this.currentPage);
+      //console.log(this.currentPage);
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage);
+      //console.log(this.currentPage);
     }
     this.teacherService.getTeachers(this.currentPage).subscribe((res) => {
-      console.log(res);
+      //console.log(res);
       this.teachers = res.results;
     });
   }
   onPageChanged(page: number) {
     this.currentPage = page;
     this.teacherService.getTeachers(this.currentPage).subscribe((res) => {
-      console.log(res);
+      //console.log(res);
       this.teachers = res.results;
-      console.log(this.teachers);
+      //console.log(this.teachers);
     });
   }
   onPageChangedStudent(pageNumber: number): void {
@@ -215,7 +216,7 @@ export class MainComponent implements OnInit {
     return this.students.slice(startIndex, endIndex);
   }
   loadChartData(): void {
-    console.log(this.departments);
+    //console.log(this.departments);
       // Loop through departments to fetch sub-department data
       this.departments.forEach((department) => {
         this.departmentService.getSubDepartmentsPerPage(this.currentPageSub).subscribe((subDepartments) => {

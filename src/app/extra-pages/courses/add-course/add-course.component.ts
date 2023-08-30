@@ -107,7 +107,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   // taskClick(video: Video, nav: MatSidenav) {
-  //   console.log(video)
+  //   //console.log(video)
   //   this.isNewEvent = false;
   //   this.createVideo(video)
   //   nav.open()
@@ -134,7 +134,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   add_video(moduleIndex: number, index: number): void {
-    console.log((this.modules.at(moduleIndex).get('videos') as FormArray).value)
+    //console.log((this.modules.at(moduleIndex).get('videos') as FormArray).value)
     const videos = (this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray;
     console.log('unitially', videos.value)
     const video = ((this.courseForm.get('modules') as FormArray).at(moduleIndex).get('videos') as FormArray).at(index);

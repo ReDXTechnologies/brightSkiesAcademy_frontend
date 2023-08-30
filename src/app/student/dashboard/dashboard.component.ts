@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.totalPages = Math.ceil(data.count / 6);
         },
         (error) => {
-          console.log('Error getting approved courses:', error);
+          //console.log('Error getting approved courses:', error);
         });
     }
   }
@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.RecomCourses.map((el2) => el2.creation_date = transformDate(el2.creation_date));
       this.RecomCourses.map((el1) => this.RecommandedCourses.push(el1));
     });
-    console.log(this.RecommandedCourses);
+    //console.log(this.RecommandedCourses);
     const teacherJson = this.route.snapshot.queryParamMap.get('teacher');
     if (teacherJson) {
       this.teacher = JSON.parse(teacherJson);
@@ -147,17 +147,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   next_previous(action: string) {
     if (action === 'next') {
       this.currentPage = Math.min(this.currentPage + 1, this.totalPages);
-      console.log(this.currentPage);
+      //console.log(this.currentPage);
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage);
+      //console.log(this.currentPage);
     }
     this.teacherService.getTeacherApprovedCourses(this.user_id, this.currentPage).subscribe(
       (data) => {
         this.teacherApprovedCourses = data.results;
       },
       (error) => {
-        console.log('Error getting approved courses:', error);
+        //console.log('Error getting approved courses:', error);
       });
   }
   onPageChanged(page: number) {
@@ -167,13 +167,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.teacherApprovedCourses = data.results;
       },
       (error) => {
-        console.log('Error getting approved courses:', error);
+        //console.log('Error getting approved courses:', error);
       });
   }
   public getTeacherDetails(userId: string): void {
     this.teacherService.getTeacherById(userId).subscribe(res => {
       this.teacher = res;
-      console.log(this.teacher)
+      //console.log(this.teacher)
     });
   }
   getStudentCourses(studentId: string, page:number) {

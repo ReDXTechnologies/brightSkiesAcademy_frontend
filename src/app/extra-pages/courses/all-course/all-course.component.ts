@@ -152,7 +152,7 @@ export class AllCourseComponent implements OnInit {
   }
 
   onWorkloadClick(workload: string) {
-    console.log(workload)
+    //console.log(workload)
     if (this.workload === workload) {
       this.workload = '';
       this.enableAllWorkloadsCheckboxes();
@@ -189,7 +189,7 @@ export class AllCourseComponent implements OnInit {
 
 
   onLevelClick(level: string) {
-    console.log(level)
+    //console.log(level)
     if (this.level === level) {
       this.level = '';
       this.enableAllLevelsCheckboxes();
@@ -223,12 +223,12 @@ export class AllCourseComponent implements OnInit {
   }
 
   enableWorkloadCheckbox(workload: string) {
-    console.log('rrrr', workload)
+    //console.log('rrrr', workload)
     document.getElementById(`${workload}`).removeAttribute('disabled');
   }
 
   disableWorkloadheckbox(workload: string) {
-    console.log(workload)
+    //console.log(workload)
     document.getElementById(`${workload}`).setAttribute('disabled', 'disabled');
   }
 
@@ -263,7 +263,7 @@ export class AllCourseComponent implements OnInit {
   }
 
   onPriceClick(price: string) {
-    console.log(price)
+    //console.log(price)
     if (this.price === price) {
       this.level = '';
       this.enableAllLevelsCheckboxes();
@@ -286,7 +286,7 @@ export class AllCourseComponent implements OnInit {
   }
 
   disablePriceCheckbox(price: string) {
-    console.log(price)
+    //console.log(price)
     document.getElementById(`e-${price}`).setAttribute('disabled', 'disabled');
   }
 

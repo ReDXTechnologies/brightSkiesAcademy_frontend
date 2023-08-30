@@ -141,7 +141,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
 
   rejectCourse(course_id:number,emailText:string){
     const url = `${this.baseUrl}/courses/${course_id}/reject`;
-    console.log(url)
+    //console.log(url)
     return this.httpClient.post(url,emailText);
   }
   getCourseById(course_id:number): Observable<Course>{
@@ -302,7 +302,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -315,7 +315,7 @@ export class CourseService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }

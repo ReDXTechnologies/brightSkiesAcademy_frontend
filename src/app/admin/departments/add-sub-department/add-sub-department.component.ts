@@ -70,14 +70,14 @@ export class AddSubDepartmentComponent implements OnInit{
       this.departmentService.getSuperDepByUserId(this.user_id).subscribe(value => {
         if (!!value) {
           this.superDep = value;
-          console.log(this.superDep)
+          //console.log(this.superDep)
         }
       })
     }else{
       this.departmentService.getSuperDepartments().subscribe(value => {
         if (!!value) {
           this.superDep = value;
-          console.log(this.superDep)
+          //console.log(this.superDep)
         }
       });
     }
@@ -105,7 +105,7 @@ export class AddSubDepartmentComponent implements OnInit{
     this.departmentService.getNewlyCreatedHeadsOfSubDepartments().subscribe(value => {
       if (!!value) {
         this.HeadSubDepartments = value;
-        console.log(this.HeadSubDepartments)
+        //console.log(this.HeadSubDepartments)
       }
     });
   }
@@ -145,7 +145,7 @@ export class AddSubDepartmentComponent implements OnInit{
 
     }
     this.departmentService.createSubDepartment(data,this.departmentForm.value.head_of_department,this.departmentForm.value.super_department).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       if(res ==='Super department does not have enough budget'){
         this.loading = false;
         this.showNotification(

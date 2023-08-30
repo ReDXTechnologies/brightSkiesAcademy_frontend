@@ -54,7 +54,7 @@ export class SettingsComponent implements OnInit {
       this.formGroup.value.password,
       this.formGroup.value.new_password,
     ).subscribe(res => {
-      console.log(res)
+      //console.log(res)
 
       this.showNotification(
         'snackbar-success',

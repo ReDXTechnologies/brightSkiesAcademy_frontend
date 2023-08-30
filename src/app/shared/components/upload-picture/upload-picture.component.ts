@@ -24,11 +24,11 @@ export class UploadPictureComponent implements ControlValueAccessor {
 
   @HostListener('change', ['$event.target.files']) emitFiles(event: FileList) {
     const file = event && event.item(0);
-    console.log('tttttttttttt',file)
+    //console.log('tttttttttttt',file)
 
     this.onChange(file);
     this.file = file;
-    console.log('tttttttttttt',this.file.name)
+    //console.log('tttttttttttt',this.file.name)
   }
 
   constructor(private host: ElementRef<HTMLInputElement>) {}

@@ -73,7 +73,7 @@ export class HeadDepProfileComponent implements OnInit {
     })
   }
   viewDetails(course: Course) {
-    console.log('****',course)
+    //console.log('****',course)
     const teacher_id = course.teachers[0];
     this.teacherService.getTeacherById(teacher_id).subscribe(
       (teacher: Teacher) => {
@@ -135,10 +135,10 @@ export class HeadDepProfileComponent implements OnInit {
   next_previous(action: string) {
     if (action === 'next') {
       this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     }
     this.getStudentCourses(this.user_id,this.currentPage);
   }
@@ -150,7 +150,7 @@ export class HeadDepProfileComponent implements OnInit {
       this.departmentService.getSuperDepByUserId(this.user_id).subscribe(value => {
         if (!!value) {
           this.superDep = value;
-          console.log(this.superDep)
+          //console.log(this.superDep)
           this.teacherService.getSuperDepTeachers(value[0]?.id).subscribe(res=>{this.teachers_super_dep = res})
           this.departmentService.getSubDepartmentsBySuperDepId(value[0]?.id).subscribe(value => {
             if (!!value) {
@@ -164,11 +164,11 @@ export class HeadDepProfileComponent implements OnInit {
     else if (this.role === 'head_sub_department') {
       this.departmentService.getSubDepByUserId(this.user_id).subscribe(value => {
         if (!!value) {
-          console.log(value)
+          //console.log(value)
           this.subDep = value;
           this.manager = value[0].super_department_head_of_super_department_firstName
             + ' '+value[0].super_department_head_of_super_department_lastName
-          console.log(this.superDep)
+          //console.log(this.superDep)
           this.teacherService.getSubDepTeachers(value[0].id).subscribe(res=>this.subDep[0].subDepNbTeachers =res[0])
         }
       })
@@ -180,7 +180,7 @@ export class HeadDepProfileComponent implements OnInit {
     formData.append('image', this.selectedImage);
 
     this.adminService.updateProfilePicture(userId,formData).subscribe(res=>{
-      console.log(res)
+      //console.log(res)
       this.loading = true
       window.location.reload()
 

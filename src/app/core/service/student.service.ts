@@ -29,16 +29,16 @@ export class StudentService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.apiUrl}/students?page=${page}`;
     this.subs.sink = this.http.get<any>(url).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data.results);
         this.countChange.next(Math.ceil(data.count/10));
-        console.log(Math.ceil(data.count/10))
+        //console.log(Math.ceil(data.count/10))
         this.totalItems.next(data.count);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }

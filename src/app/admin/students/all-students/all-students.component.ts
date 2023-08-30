@@ -76,7 +76,7 @@ export class AllStudentsComponent
       },
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
+      //console.log(result)
       if (result ) {
         this.studentService.updateStudent(row.user.id, result)
           .subscribe((res) => {

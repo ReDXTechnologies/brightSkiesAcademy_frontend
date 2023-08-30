@@ -104,28 +104,28 @@
                     </ng-container>
                     <ng-container matColumnDef="name">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Department Name</mat-header-cell>
-                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      <mat-cell *matCellDef="let row" >
                         {{row.name}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="head_of_department">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Head Of Department
                       </mat-header-cell>
-                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      <mat-cell *matCellDef="let row" >
                         {{row.head_of_super_department.firstName}} {{row.head_of_super_department.lastName}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="email">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      <mat-cell *matCellDef="let row">
                         {{row.email}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="budget">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Budget</mat-header-cell>
-                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      <mat-cell *matCellDef="let row" >
                         {{row.budget}} $</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="department_start_date">
                       <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
-                      <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                      <mat-cell *matCellDef="let row">
                         {{row.department_start_date}}</mat-cell>
                     </ng-container>
 
@@ -149,7 +149,7 @@
 
                     <mat-header-row *matHeaderRowDef="SuperDepDisplayedColumns"></mat-header-row>
                     <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-                    <mat-row *matRowDef="let row; columns: SuperDepDisplayedColumns;" (click)="editSuperDep(row)"
+                    <mat-row *matRowDef="let row; columns: SuperDepDisplayedColumns;"
                              [style.cursor]="'pointer'" matRipple>
                     </mat-row>
                   </mat-table>
@@ -324,8 +324,7 @@
 
                     <mat-header-row *matHeaderRowDef="SubDepDisplayedColumns"></mat-header-row>
                     <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
-                    <mat-row *matRowDef="let row; columns: SubDepDisplayedColumns;" (click)="editSubDep(row)"
-                             [style.cursor]="'pointer'" matRipple>
+                    <mat-row *matRowDef="let row; columns: SubDepDisplayedColumns;" matRipple>
                     </mat-row>
                   </mat-table>
                   <!--              actions-->

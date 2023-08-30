@@ -207,7 +207,7 @@
                             <!--                <li><a href="#"><span>02</span></a></li>-->
                             <li *ngFor="let i of [].constructor(dataSource.count); let page = index " [ngClass]="{ 'active': page === (currentPage-1 ) }">
                               <a (click)="onPageChanged(page+1)" style="cursor: pointer">
-                                <span *ngIf="(page+1)<10">0{{ page+1}}</span>
+                                <span *ngIf="(page+1)<10">0{{ page+1}} </span>
                                 <span *ngIf="(page+1)>=10">{{ page+1 }}</span>
                               </a>
                             </li>

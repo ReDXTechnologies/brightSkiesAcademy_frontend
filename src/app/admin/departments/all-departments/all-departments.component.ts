@@ -73,7 +73,7 @@ export class AllDepartmentsComponent
     if (this.role === 'Super_Admin') {
       this.SuperDepDisplayedColumns.push('actions');
     }
-    console.log(this.SuperDepDisplayedColumns)
+    //console.log(this.SuperDepDisplayedColumns)
 
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -113,6 +113,7 @@ export class AllDepartmentsComponent
       },
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if(result){
         this.showNotification(
           'snackbar-success',
           'Super department edited successfully',
@@ -120,7 +121,9 @@ export class AllDepartmentsComponent
           'center'
         );
 
-      this.superDeploadData();
+        this.superDeploadData();
+      }
+
 
     });
 
@@ -136,6 +139,7 @@ export class AllDepartmentsComponent
       },
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if(result){
         this.subDeploadData();
         this.refreshTable();
         this.showNotification(
@@ -144,6 +148,8 @@ export class AllDepartmentsComponent
           'bottom',
           'center'
         );
+      }
+
 
     });
   }
@@ -200,7 +206,7 @@ export class AllDepartmentsComponent
       const index: number = this.superDepartments.renderedData.findIndex(
         (d) => d === item
       );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      // //console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
       this.selection = new SelectionModel<Department>(true, []);
@@ -272,7 +278,7 @@ export class AllDepartmentsComponent
       const index: number = this.subDepartments.renderedData.findIndex(
         (d) => d === item
       );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      // //console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
       this.selection = new SelectionModel<Department>(true, []);

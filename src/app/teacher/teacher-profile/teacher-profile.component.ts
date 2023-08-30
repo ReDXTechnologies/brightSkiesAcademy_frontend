@@ -71,10 +71,10 @@ export class TeacherProfileComponent implements OnInit {
   next_previous(action: string) {
     if (action === 'next') {
       this.currentPage = Math.min(this.currentPage + 1, this.courses.length);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     }
     this.getStudentCourses(localStorage.getItem('id'),this.currentPage);
   }
@@ -119,13 +119,13 @@ export class TeacherProfileComponent implements OnInit {
   getAllTeacherApprovedCourses(teacherId: string,page:number) {
     this.teacherService.getTeacherApprovedCourses(teacherId, page).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.teacherApprovedCourses = data.results;
         this.MyCoursesTotalPages= Math.ceil(data.count/6)
 
       },
       (error) => {
-        console.log('Error getting approved courses:', error);
+        //console.log('Error getting approved courses:', error);
       }
     );
   }

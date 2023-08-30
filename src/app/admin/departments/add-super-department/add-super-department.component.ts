@@ -73,7 +73,7 @@ export class AddSuperDepartmentComponent implements OnInit{
     this.departmentService.getNewlyCreatedHeadsOfSuperDepartments().subscribe(value => {
       if (!!value) {
         this.HeadSuperDepartments = value;
-        console.log(this.HeadSuperDepartments)
+        //console.log(this.HeadSuperDepartments)
       }
     });
   }
@@ -111,9 +111,9 @@ export class AddSuperDepartmentComponent implements OnInit{
       "budget": this.departmentForm.value.budget,
       "department_start_date": this.datePipe.transform(this.departmentForm.value.department_start_date, 'yyyy-MM-dd')
     }
-    console.log("*****************",this.departmentForm.value.head_of_department)
+    //console.log("*****************",this.departmentForm.value.head_of_department)
     this.departmentService.createSuperDepartment(data,this.departmentForm.value.head_of_department).subscribe(res => {
-      console.log(res)
+      //console.log(res)
       this.showNotification(
         'snackbar-success',
         'department added successfully !',

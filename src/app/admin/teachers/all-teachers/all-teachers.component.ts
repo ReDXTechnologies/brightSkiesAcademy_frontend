@@ -76,7 +76,7 @@ export class AllTeachersComponent
 
     this.loadData();
 
-
+    //console.log(this.dataSource);
   }
 
   refresh() {
@@ -96,7 +96,7 @@ export class AllTeachersComponent
       if (result) {
         this.teachersService.updateTeacher(row.user.id, result.updateObject, result.department)
           .subscribe((res) => {
-            console.log(res)
+            //console.log(res)
             const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
               (x) => x.user.id === this.id
             );
@@ -172,7 +172,7 @@ export class AllTeachersComponent
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
       );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      // //console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
       this.selection = new SelectionModel<Teacher>(true, []);
@@ -185,7 +185,7 @@ export class AllTeachersComponent
     );
   }
   getRange(num: number): number[] {
-    console.log(Math.ceil(num/this.returnedItems))
+    //console.log(Math.ceil(num/this.returnedItems))
     return Array(num).fill(0).map((_, i) => i + 1);
   }
 
@@ -253,11 +253,10 @@ export class AllTeachersComponent
   }
   next_previous(action: string) {
     if (action === 'next') {
-      this.currentPage = Math.min(this.currentPage + 1, this.dataSource.count);
-      console.log(this.currentPage)
+      this.currentPage = this.currentPage + 1;
     } else if (action === 'previous') {
       this.currentPage = Math.max(this.currentPage - 1, 1);
-      console.log(this.currentPage)
+      //console.log(this.currentPage)
     }
       if (this.role === 'Super_Admin') {
         this.exampleDatabase.getTeachersperPage(this.currentPage).subscribe(data=>{
@@ -279,17 +278,17 @@ export class AllTeachersComponent
       }
   }
   onSearchFirstName(query: string) {
-    console.log(query)
+    //console.log(query)
     this.firstName = query;
     this.getFilteredTeachers()
   }
   onSearchLastName(query: string) {
-    console.log(query)
+    //console.log(query)
     this.lastName = query;
     this.getFilteredTeachers()
   }
   onSearchDepartment(query: string) {
-    console.log(query)
+    //console.log(query)
     this.departmentName = query;
     this.getFilteredTeachers()
   }
@@ -299,11 +298,11 @@ export class AllTeachersComponent
         this.exampleDatabase.dataChange.next(res.results);
         this.dataSource.totalItems = res.count
         this.dataSource.count = Math.ceil(res.count/8)
-        console.log("************************",this.dataSource.count)
+        //console.log("************************",this.dataSource.count)
       })
     }
     else if (this.role === 'head_super_department') {
-      console.log('here')
+      //console.log('here')
       this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
         this.teachersService.getSuperDepFilteredTeachersGrid(res,this.firstName, this.lastName, this.departmentName).subscribe(res=>{
           this.exampleDatabase.dataChange.next(res.results);
@@ -373,7 +372,7 @@ export class ExampleDataSource extends DataSource<Teacher> {
       this.exampleDatabase.getAllTeacherss(1);
     }
     else if (this.role === 'head_super_department') {
-      console.log('here')
+      //console.log('here')
       this.exampleDatabase.getSuperDepId(this.userId).subscribe(res=>{
         this.exampleDatabase.getSuperDepartmentTeachers(res,1);
 

@@ -130,25 +130,25 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
   getSuperDepartmentTeachers(superDepartmentId: any,page:number):void  {
-    console.log('here')
+    //console.log('here')
     const url = `${this.baseUrl}/super_department/${superDepartmentId}/teachers?page=${page}`;
     let params = new HttpParams();
     params.set('page',page);
     this.subs.sink = this.httpClient.get<any>(url).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data.results);
         this.countChange.next(Math.ceil(data.count/8));
         this.totalItems.next(data.count);      },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -163,7 +163,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -176,7 +176,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -184,13 +184,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/students/pending-teacher-requests`;
     this.httpClient.get<any>(url).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -203,7 +203,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -216,7 +216,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -263,7 +263,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
 
   getPendingCourses(teacher_id: string): Observable<any>{
     const url = `${this.baseUrl}/teacher/${teacher_id}/pending-courses`;
-    console.log(url)
+    //console.log(url)
     return this.httpClient.get<any>(url);
   }
 
@@ -309,13 +309,13 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/users/pending-course-enrollement-requests`;
     this.httpClient.get<any>(url).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -328,7 +328,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
       },
       (error: HttpErrorResponse) => {
         this.isTblLoading = false;
-        console.log(error.name + ' ' + error.message);
+        //console.log(error.name + ' ' + error.message);
       }
     );
   }
@@ -336,7 +336,7 @@ export class TeacherService extends UnsubscribeOnDestroyAdapter {
     const url = `${this.baseUrl}/sub_department/${subDepartmentId}/premuimCourseEnrollementRequests`;
     this.subs.sink = this.httpClient.get<any[]>(url).subscribe(
       (data) => {
-        console.log(data)
+        //console.log(data)
         this.isTblLoading = false;
         this.dataChange.next(data);
       },
