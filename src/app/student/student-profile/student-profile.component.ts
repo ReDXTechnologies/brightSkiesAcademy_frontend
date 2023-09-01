@@ -235,10 +235,14 @@ export class StudentProfileComponent implements OnInit {
           const pageWidth = firstPage.getSize().width;
           const fontSize = 50;
           const text = studentName;
+          const text1 = courseName;
           const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
           const textWidth = font.widthOfTextAtSize(text, fontSize);
           const centerX = (pageWidth - textWidth) / 2;
+
+          const textWidth1 = font.widthOfTextAtSize(text1, fontSize);
+          const centerX1 = (pageWidth - textWidth1) / 2;
           // Add student-specific data
           firstPage.drawText(studentName, {
             x: centerX,
@@ -248,7 +252,7 @@ export class StudentProfileComponent implements OnInit {
             color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
           });
           firstPage.drawText(courseName, {
-            x: centerX,
+            x: centerX1,
             y: 170,
             size: 24,
             font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
