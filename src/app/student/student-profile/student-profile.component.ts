@@ -248,7 +248,7 @@ export class StudentProfileComponent implements OnInit {
             color: rgb(48 / 255, 74 / 255, 142 / 255), // black color
           });
           firstPage.drawText(courseName, {
-            x: 240,
+            x: centerX,
             y: 170,
             size: 24,
             font: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
