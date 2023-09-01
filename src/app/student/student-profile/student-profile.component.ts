@@ -244,6 +244,7 @@ export class StudentProfileComponent implements OnInit {
 
           const textWidth1 = font.widthOfTextAtSize(text1, 24);
           const centerX1 = (pageWidth - textWidth1) / 2;
+
           // Add student-specific data
           firstPage.drawText(studentName, {
             x: centerX,
