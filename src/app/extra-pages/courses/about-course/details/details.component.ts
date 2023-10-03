@@ -94,9 +94,9 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
       this.teacher_id = params.teacher;
       this.courseService.getCourseById(params.courseId).subscribe(course => {
         this.course1 = course;
-        console.log("bor passed by : ");
-        console.log(this.teacher_id);
-        console.log(this.course1);
+        // console.log("bor passed by : ");
+        // console.log(this.teacher_id);
+        // console.log(this.course1);
         // Get the categories
         this.categories = categories;
 
@@ -243,6 +243,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy {
    * Go to next step
    */
   goToNextStep(): void {
+    console.log("goToNextStep");
 
     // Return if we already on the last step
     if (this.currentStep === this.course.totalSteps - 1 ) {
