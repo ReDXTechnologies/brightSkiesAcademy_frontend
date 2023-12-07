@@ -22,8 +22,12 @@
   </div>
 
   <div class="course-curriculum-meta col-xl-1 col-lg-1 col-md-1 col-sm-1">
-    <span *ngIf="!isLoading"><i class="fas fa-play"></i></span>
-    <span *ngIf="isLoading"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
+    <span *ngIf="!isLoading && !instanceUrl"><i class="fas fa-play"></i></span>
+    <span *ngIf="isLoading && !instanceUrl"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 12px"></p></span>
+    <a *ngIf="instanceUrl" href="{{ instanceUrl }}" target="_blank" class="session-launch-icon">
+      <i class="fas fa-rocket"></i> <!-- Replace fa-rocket with your chosen icon -->
+    </a>
+
     <div class="course-category" *ngIf="(role==='Teacher'|| role==='Student_Teacher' || (role==='head_sub_department' && teacher_id == user))">
       <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
     </div>
@@ -46,10 +50,13 @@
   </div>
 
   <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
-    <a class="play-button" (click)="startSession(course.id,lab.id)">
+    <a *ngIf="!instanceUrl " class="play-button" (click)="startSession(course.id,lab.id)">
       <span *ngIf="!isLoadingStart"><i class="fas fa-play"></i></span>
       <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p
         style="font-size: 10px"></p></span>
+    </a>
+    <a *ngIf="instanceUrl" href="{{ instanceUrl }}" target="_blank" class="session-launch-icon">
+      <i class="fas fa-rocket"></i> <!-- Replace fa-rocket with your chosen icon -->
     </a>
 
     <a class="play-button" (click)="createCustomAmi(course.id,lab.id)">
@@ -75,18 +82,23 @@
   </div>
 
   <div class="course-curriculum-meta col-xl-2 col-lg-2 col-md-2 col-sm-2">
-    <a class="play-button" *ngIf="role==='Super_Admin'||
+    <a class="play-button" *ngIf="!instanceUrl && (role==='Super_Admin' ||
                      (role==='Student'&& is_enrolled)
                      || (role==='Student_Teacher'&& this.user == teacher_id && !is_enrolled)
                      || (role==='head_sub_department' && is_enrolled)
                      || (role==='head_super_department' &&is_enrolled)
                      || (role==='Teacher'&& is_enrolled)
                      || (role==='Student_Teacher'&& is_enrolled)
-                     ||(role==='Teacher'&& this.user == teacher_id && !is_enrolled)" (click)="startSession(course.id,lab.id)">
-      <span *ngIf="!isLoadingStart"><i class="fas fa-play teacherplay"></i></span>
+                     || (role==='Teacher'&& this.user == teacher_id && !is_enrolled))"
+       (click)="startSession(course.id, lab.id)">
 
+      <span *ngIf="!isLoadingStart"><i class="fas fa-play teacherplay"></i></span>
       <span *ngIf="isLoadingStart"><i class="fas fa-spinner fa-spin "></i> <p style="font-size: 10px"> </p></span>
     </a>
+    <a *ngIf="instanceUrl" href="{{ instanceUrl }}" target="_blank" class="session-launch-icon">
+      <i class="fas fa-rocket"></i> <!-- Replace fa-rocket with your chosen icon -->
+    </a>
+
     <div class="course-category" *ngIf="((role==='Teacher'&&user==teacher_id)|| (role==='Student_Teacher'&&user==teacher_id) )">
       <button class="play-button" (click)="editLab(courseId,module.id,module.name,lab.id,lab)"><i class="fas fa-edit lab"></i></button>
     </div>
