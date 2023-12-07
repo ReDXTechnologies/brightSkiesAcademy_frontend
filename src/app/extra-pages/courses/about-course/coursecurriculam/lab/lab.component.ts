@@ -19,6 +19,7 @@ import {DeleteVideoLabDialogComponent} from "../edit/delete/delete.component";
   styleUrls: ['./lab.component.scss']
 })
 export class LabComponent implements OnInit{
+  instanceUrl: any;
   constructor(public dialog: MatDialog, private authService: AuthService,
               private adminService: AdminService,
               private spinner: NgxSpinnerService,
@@ -64,15 +65,18 @@ export class LabComponent implements OnInit{
         console.log(response)
         this.isLoadingStart = false;
         this.spinner.hide();
-        window.open(response.instance_url, '_blank');
+        this.instanceUrl = response.instance_url;
+        // window.open(response.instance_url, '_blank');
       });
     } else {
       this.studentService.launchSession(this.user, courseId, lab_id).subscribe(response => {
         console.log(response)
 
         this.isLoadingStart = false;
+
+        this.instanceUrl = response.instance_url;
         this.spinner.hide();
-        window.open(response.instance_url, '_blank');
+        // window.open(response.instance_url, '_blank');
       });
     }
   }

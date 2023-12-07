@@ -38,11 +38,11 @@ export class EditCourseModuleComponent implements OnInit {
   }
 
   onImageSelected(event) {
-    this.selectedImage = <File>event.target.files[0];
+    this.selectedImage = (event.target.files[0] as File);
   }
 
   onSlidesSelected(event) {
-    this.selectedSlides = <File>event.target.files[0];
+    this.selectedSlides = (event.target.files[0] as File);
   }
 
   formControl = new UntypedFormControl('', [
@@ -100,6 +100,7 @@ export class EditCourseModuleComponent implements OnInit {
     formData.append('course_id ', this.courseForm.get('course_id').value);
     if (this.selectedSlides) {
       formData.append('slides', this.selectedSlides, this.selectedSlides.name);
+      console.log(this.selectedSlides);
     }
     if (this.selectedImage) {
       formData.append('image', this.selectedImage);
@@ -113,6 +114,7 @@ export class EditCourseModuleComponent implements OnInit {
     const data = {
       formData
     };
+    console.log(data);
 
     // Inside a method in FormComponent that updates teacher data
 
