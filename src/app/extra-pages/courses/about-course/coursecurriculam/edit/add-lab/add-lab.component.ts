@@ -58,6 +58,7 @@ export class AddLabComponent implements OnInit {
 
   createLabForm(): UntypedFormGroup {
     if(this.data.editLab){
+      console.log(this.data.lab.is_hosted_on_aws)
       return this.fb.group({
         title: [this.data.lab.title],
         description: [this.data.lab.description],
@@ -67,8 +68,10 @@ export class AddLabComponent implements OnInit {
         labFiles: [this.data.lab.labFiles],
         packages_requirements: [this.data.lab.packages_requirements],
         libraries_requirements: [this.data.lab.libraries_requirements],
-        hosting_platform: [this.data.lab.is_hosted_on_aws],
+        hosting_platform: this.data.lab.is_hosted_on_aws  ? 'true' : 'false',
       });
+
+
     }else{
       return this.fb.group({
         title: [''],

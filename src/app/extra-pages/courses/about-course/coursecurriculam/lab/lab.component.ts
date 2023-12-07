@@ -29,6 +29,7 @@ export class LabComponent implements OnInit{
 
   ) {
     this.role = this.authService.currentUserValue.role[0];
+
   }
   @Input() lab: any;
   @Input() courseId: number;
@@ -39,11 +40,19 @@ export class LabComponent implements OnInit{
   isLoading = false;
   isLoadingStart = false;
   is_enrolled = false;
+  contributorTeachers: number[] = [];
   role: any;
   sessionsRemainingMap = new Map<string, Observable<string>>();
+  user_id: string;
+  userId: number;
 
   ngOnInit(): void {
+    this.user_id = localStorage.getItem('id');
+    this.userId = parseInt(this.user_id);
     this.checkEnrollement();
+    this.courseService.getCourseById(this.courseId).subscribe(course => {
+      this.course = course;
+      this.contributorTeachers = this.course.teachers; });
   }
   startSession(courseId: number, lab_id: number) {
     console.log(lab_id);
@@ -131,7 +140,7 @@ export class LabComponent implements OnInit{
           'center',
           'center'
         );
-        // window.location.reload()
+        window.location.reload()
       }
     });
 

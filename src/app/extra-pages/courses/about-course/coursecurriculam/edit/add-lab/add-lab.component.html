@@ -63,8 +63,8 @@
             <div class="col-12 mb-3 ml-20">
               <h4>Select the hosting platform:</h4>
               <mat-radio-group formControlName="hosting_platform" *ngIf="data.editLab">
-                <mat-radio-button value="false" [checked]="!data.lab.is_hosted_on_aws">Hands-on lab on local machine</mat-radio-button>
-                <mat-radio-button value="true" class="ml-30" [checked]="data.lab.is_hosted_on_aws">Hosted on AWS</mat-radio-button>
+                <mat-radio-button value="false" >Hands-on lab on local machine</mat-radio-button>
+                <mat-radio-button value="true" class="ml-30" >Hosted on AWS</mat-radio-button>
               </mat-radio-group>
               <mat-radio-group formControlName="hosting_platform" *ngIf="!data.editLab">
                 <mat-radio-button value="false" >Hands-on lab on local machine</mat-radio-button>

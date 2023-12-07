@@ -344,6 +344,13 @@
                                       <input matInput formControlName="nb_sessions" >
                                     </mat-form-field>
                                   </div>
+                                  <div class="col-12 mb-3 ml-20">
+                                    <h4>Select category of the lab:</h4>
+                                    <mat-radio-group formControlName="lab_category">
+                                      <mat-radio-button value="cpu">CPU</mat-radio-button>
+                                      <mat-radio-button value="gpu" class="ml-30">GPU</mat-radio-button>
+                                    </mat-radio-group>
+                                  </div>
                                 </div>
 
                                 <div class="mt-5" *ngIf="getLabsControls(i).length === k + 1">

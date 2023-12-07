@@ -59,7 +59,7 @@ export class EditCourseModuleComponent implements OnInit {
   }
 
   createContactForm(): UntypedFormGroup {
-    console.log(this.course)
+    console.log(this.course.free)
     return this.fb.group({
       title: this.course.title,
       specialty: this.course.speciality,
@@ -70,8 +70,8 @@ export class EditCourseModuleComponent implements OnInit {
       requirements: this.course.requirements,
       price: this.course.price,
       level: this.course.level,
-      plan: this.course.free ? 'free' : 'paid',
-      certified: this.course.certificate ? 'yes' : 'no',
+      plan: this.course.free ? 'free' : 'premium',
+      certified: this.course.certificate ? 'true' : 'false',
       workload: this.course.workload,
       slides: this.course.labFiles,
       image: this.course.image,

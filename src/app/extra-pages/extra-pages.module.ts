@@ -69,6 +69,7 @@ import { AddContributorsComponent } from './courses/about-course/LabCourse/add/a
 import { EditRoadmapComponent } from './home/edit/edit-roadmap/edit-roadmap.component';
 import { DepartmentDetailsComponent } from './departments/department-details/department-details.component';
 import { ConfirmationDialogComponent } from './home/confirmation-dialog/confirmation-dialog.component';
+import { ShowContributorComponent } from './courses/about-course/LabCourse/add/show-contributor/show-contributor.component';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { ConfirmationDialogComponent } from './home/confirmation-dialog/confirma
       AddContributorsComponent,
       EditRoadmapComponent,
       DepartmentDetailsComponent,
-      ConfirmationDialogComponent
+      ConfirmationDialogComponent,
+      ShowContributorComponent
     ],
     imports: [
         CommonModule,

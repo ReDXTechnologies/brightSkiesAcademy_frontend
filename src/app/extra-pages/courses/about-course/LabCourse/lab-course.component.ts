@@ -16,6 +16,8 @@ import {Course} from "../../../../core/models/course";
 import {AddNewModule} from "./edit/add-new-module/add-new-module.component";
 import {AddContributorsComponent} from "./add/add-contributors/add-contributors.component";
 import {DepartmentService} from "../../../../core/service/department.service";
+import {forkJoin} from "rxjs";
+import {ShowContributorComponent} from "./add/show-contributor/show-contributor.component";
 @Injectable()
 @Component({
   selector: 'app-about-course',
@@ -43,9 +45,26 @@ export class LabCourseComponent implements OnInit {
       this.courseService.getCourseById(params.courseId).subscribe(course => {
           this.course = course;
           this.contributorTeachers = this.course.teachers;
-          console.log(this.course.what_you_will_learn)
+
+        const requests = this.contributorTeachers.map(id => this.teacherService.getTeacherById(id));
+
+        forkJoin(requests).subscribe(
+          responses => {
+            // All HTTP requests are completed at this point
+            this.contributorTeachersList = responses;
+            this.firstFourTeachers = this.contributorTeachersList.slice(0, 3); // Get the first four teachers
+            console.log(this.contributorTeachersList);
+            console.log(this.firstFourTeachers);
+          },
+          error => {
+            // Handle error
+            console.error('Error occurred:', error);
+          }
+        );
+
+
+        console.log(this.course)
           this.lines = this.course.what_you_will_learn.split(`-`).filter((line) => line.trim().length > 0);
-          console.log(this.lines);
         }
       );
     });
@@ -64,10 +83,12 @@ export class LabCourseComponent implements OnInit {
   progress: number;
   teachers: Teacher[] = [];
   contributorTeachers: number[] = [];
+  contributorTeachersList: readonly unknown[] = [];
   lines: string[] = [];
-
+  firstFourTeachers: unknown[];
   protected readonly parseInt = parseInt;
   protected readonly Number = Number;
+  additionalTeachersVisible: boolean = false;
 
   writeReview() {
     if (this.writeReviewActive == false) {
@@ -90,7 +111,6 @@ export class LabCourseComponent implements OnInit {
     if (reviewsJson) {
       this.reviews = JSON.parse(reviewsJson);
     }
-
     this.courseService.getCurrentStep(this.courseId, this.userId).subscribe(current => {
       this.progress = Math.floor(current.progress);
     });
@@ -193,6 +213,22 @@ export class LabCourseComponent implements OnInit {
    }
     });
   }
+  showContrib() {
+
+
+
+        const dialogRef = this.dialog.open(ShowContributorComponent, {
+          width: '50%',
+          data: {
+            teachers: this.contributorTeachersList.slice(3),
+            course: this.course,
+            action: 'add',
+          },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          this.teachers = [];
+        });
+  }
   viewDetails(course: Course) {
     this.courseService.getCurrentStep(course.id, this.userId).subscribe(current => {
     if (current.current_step === 0) {
@@ -217,5 +253,9 @@ export class LabCourseComponent implements OnInit {
         this.is_enrolled = true;
       }
     });
+  }
+
+  showMoreTeachers() {
+    this.additionalTeachersVisible = !this.additionalTeachersVisible;
   }
 }

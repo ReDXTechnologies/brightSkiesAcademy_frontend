@@ -30,16 +30,24 @@
           </div>
           <div class="course-detelis-meta">
             <div class="course-meta-wrapper border-line-meta">
-              <div class="course-meta-img">
-                <img [src]="teacher.user.image ? teacher.user.image : 'assets/images/user/profile.jpg'" alt="">
-
+              <!-- Container for teacher images -->
+              <div *ngFor="let teacher1 of firstFourTeachers" class="course-meta-img">
+                <img [src]="teacher1.user.image || 'assets/images/user/profile.jpg'" alt="">
               </div>
-              <div class="course-meta-text">
-                <span>Created by</span>
-                <h6><a >{{teacher.user.firstName}} {{teacher.user.lastName}}</a>
-                </h6>
+              <div class="additional-teachers" *ngIf="additionalTeachersVisible">
+                <div *ngFor="let teacher of contributorTeachersList.slice(3)" class="course-meta-img">
+                  <img [src]="teacher.user.image || 'assets/images/user/profile.jpg'" alt="">
+                </div>
+              </div>
+              <!-- Plus sign for additional teachers -->
+              <div *ngIf="contributorTeachersList.length > 3" class="course-meta-img plus-sign " (mouseenter)="showContrib()" >
+                <i class=" fas fa-plus"></i>
               </div>
             </div>
+
+            <!-- Container for the additional teachers that are not initially visible -->
+
+
             <div class="course-Enroll border-line-meta">
               <p>Total enrolled</p>
               <span>{{course?.total_enrolled}}</span>
@@ -119,7 +127,7 @@
           </div>
           <!--          <app-courseinstructor></app-courseinstructor>-->
           <!--          <app-studentfeedback></app-studentfeedback>-->
-          <app-courseinstructor [teacher]="teacher"></app-courseinstructor>
+          <app-courseinstructor *ngFor="let teacher1 of contributorTeachersList" [teacher]="teacher1"></app-courseinstructor>
 <!--          <ng-container *ngIf="course.status !== 'pending'">-->
 <!--            <app-coursereview [reviews]="reviews"></app-coursereview>-->
 <!--          </ng-container>-->
